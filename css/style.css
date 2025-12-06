@@ -460,7 +460,7 @@ header nav {
 .top-rank-number {
     font-family: 'Helvetica 93 Black Extended', sans-serif;
     /* Increased size to 6rem to balance with circle */
-    font-size: 6rem; 
+    font-size: 4rem; 
     font-weight: 900;
     font-style: normal;
     line-height: 0.8; 
