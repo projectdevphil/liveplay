@@ -434,7 +434,7 @@ header nav {
 }
 
 .top-rank-number {
-    font-size: 5rem;
+    font-size: 3rem;
     font-weight: 800;
     font-style: italic; 
     line-height: 1;
@@ -444,7 +444,7 @@ header nav {
     background-clip: text;
     color: transparent;
     font-family: 'BR Sonoma', sans-serif;
-    margin-bottom: -5px; 
+    margin-bottom: -2px; 
     margin-right: -25px;
     z-index: 5; 
     position: relative;
@@ -495,8 +495,8 @@ header nav {
     flex-shrink: 0;
 }
 .skeleton-rank-number {
-    width: 30px;
-    height: 60px;
+    width: 20px;
+    height: 40px;
     background-color: #2a2a2a;
     border-radius: 4px;
     animation: skeleton-pulse 1.5s infinite ease-in-out;
