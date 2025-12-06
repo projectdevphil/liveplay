@@ -403,15 +403,15 @@ header nav {
 .top-watch-header {
     font-size: 1rem;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .top-watch-list {
     display: flex;
-    gap: 30px;
+    gap: 27px;
     overflow-x: auto;
-    padding-top: 13px; 
-    padding-bottom: 13px;
+    padding-top: 10px; 
+    padding-bottom: 10px;
     padding-left: 10px;
     -ms-overflow-style: none;
     scrollbar-width: none;
