@@ -390,6 +390,8 @@ header nav {
     overflow: hidden;
 }
 
+/* --- UPDATED TOP WATCH SECTION --- */
+
 .top-watch-section {
     padding: 0 20px;
     margin-top: 30px;
@@ -408,11 +410,11 @@ header nav {
     display: flex;
     gap: 30px;
     overflow-x: auto;
-    padding-top: 13px; 
-    padding-bottom: 13px;
+    padding-top: 15px; 
+    padding-bottom: 15px;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    align-items: center;
+    align-items: center; 
 }
 
 .top-watch-list::-webkit-scrollbar {
@@ -421,8 +423,10 @@ header nav {
 
 .top-watch-item {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-end; 
+    
     gap: 0; 
+    
     flex-shrink: 0;
     cursor: pointer;
     position: relative;
@@ -441,10 +445,11 @@ header nav {
     color: transparent;
     font-family: 'BR Sonoma', sans-serif;
     margin-bottom: -5px; 
-    margin-right: -25px; 
-    z-index: 0; 
+    margin-right: -25px;
+    z-index: 5; 
     position: relative;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.8); /* Dark stroke to separate from image */
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.8); /* Shadow for legibility */
 }
 
 .top-watch-logo-container {
@@ -455,12 +460,13 @@ header nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid rgba(255,255,255,0.1); /* Slight border */
+    border: 2px solid rgba(255,255,255,0.1); 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5); /* Standard Shadow */
+    
     overflow: hidden;
     position: relative;
     padding: 8px; 
-    z-index: 2; 
-    transition: box-shadow 0.5s ease, border-color 0.5s ease;
+    z-index: 1; 
 }
 
 .top-watch-logo {
