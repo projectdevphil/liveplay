@@ -1,0 +1,7 @@
+@font-face {
+    font-family: "Helvetica 93 Black Extended";
+    src: url('/assets/fonts/helvetica-black-ext.woff2') format('woff2'); 
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
