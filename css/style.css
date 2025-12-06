@@ -489,11 +489,11 @@ header nav {
 
 .top-watch-skeleton-container {
     display: flex;
-    gap: 30px;
+    gap: 27px;
     overflow-x: hidden;
-    margin-bottom: 20px;
-    padding-top: 20px; 
-    padding-bottom: 20px;
+    margin-bottom: 10px;
+    padding-top: 10px; 
+    padding-bottom: 10px;
     padding-left: 10px;
     align-items: center; 
 }
