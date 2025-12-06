@@ -408,11 +408,11 @@ header nav {
     display: flex;
     gap: 30px;
     overflow-x: auto;
-    padding-top: 15px; 
-    padding-bottom: 15px;
+    padding-top: 13px; 
+    padding-bottom: 13px;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    align-items: flex-end; 
+    align-items: center;
 }
 
 .top-watch-list::-webkit-scrollbar {
@@ -421,10 +421,12 @@ header nav {
 
 .top-watch-item {
     display: flex;
-    align-items: flex-end; 
-    gap: -7px;
+    align-items: flex-end;
+    gap: 0; 
     flex-shrink: 0;
     cursor: pointer;
+    position: relative;
+    padding-right: 10px; 
 }
 
 .top-rank-number {
@@ -432,17 +434,17 @@ header nav {
     font-weight: 800;
     font-style: italic; 
     line-height: 1;
-    background: linear-gradient(to bottom, #ffffff 40%, #444444 100%);
+    background: linear-gradient(to bottom, #ffffff 40%, #555555 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent;
     font-family: 'BR Sonoma', sans-serif;
     margin-bottom: -5px; 
-    min-width: 30px;
-    text-align: right;
-    padding-right: 5px; 
-    margin-right: -2px; 
+    margin-right: -25px; 
+    z-index: 0; 
+    position: relative;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
 }
 
 .top-watch-logo-container {
@@ -453,11 +455,12 @@ header nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.1); /* Slight border */
     overflow: hidden;
     position: relative;
     padding: 8px; 
+    z-index: 2; 
+    transition: box-shadow 0.5s ease, border-color 0.5s ease;
 }
 
 .top-watch-logo {
@@ -466,6 +469,9 @@ header nav {
     object-fit: contain; 
     filter: none; 
     opacity: 1;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .top-watch-skeleton-container {
@@ -476,14 +482,12 @@ header nav {
     padding-top: 20px; 
     align-items: flex-end;
 }
-
 .skeleton-item {
     display: flex;
     align-items: flex-end;
     gap: 0px;
     flex-shrink: 0;
 }
-
 .skeleton-rank-number {
     width: 30px;
     height: 60px;
@@ -491,14 +495,15 @@ header nav {
     border-radius: 4px;
     animation: skeleton-pulse 1.5s infinite ease-in-out;
     transform: skew(-10deg);
+    margin-right: -10px;
 }
-
 .skeleton-card {
     width: 75px;
     height: 75px;
     background-color: var(--card-background);
     border-radius: 50%;
     animation: skeleton-pulse 1.5s infinite ease-in-out;
+    z-index: 2;
 }
 
 
