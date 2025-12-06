@@ -361,28 +361,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    function applyDominantColorGlow(imageUrl, container) {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.src = imageUrl;
-        
-        img.onload = function() {
-            try {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = 1; 
-                canvas.height = 1;
-                
-                ctx.drawImage(img, 0, 0, 1, 1);
-                const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-                
-                container.style.boxShadow = `0 4px 20px rgba(${r}, ${g}, ${b}, 0.6)`;
-                container.style.borderColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
-            } catch (e) {
-            }
-        };
-    }
-
     async function trackChannelView(channel) {
         try {
             const slug = createSlug(channel.name);
@@ -412,6 +390,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             topWatchList.style.display = 'flex';
+
             topWatchList.innerHTML = '';
 
             topSlugs.forEach((slug, index) => {
@@ -425,16 +404,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     item.innerHTML = `
                         <div class="top-rank-number">${index + 1}</div>
-                        <div class="top-watch-logo-container" id="top-logo-${slug}">
+                        <div class="top-watch-logo-container">
                             <img src="${logo}" class="top-watch-logo" alt="${channel.name}">
                         </div>
                     `;
                     topWatchList.appendChild(item);
-
-                    const container = item.querySelector(`#top-logo-${slug}`);
-                    if(container) {
-                        applyDominantColorGlow(logo, container);
-                    }
                 }
             });
 
