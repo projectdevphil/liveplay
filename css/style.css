@@ -1,3 +1,4 @@
+@import url('https://db.onlinewebfonts.com/c/7ccc732353a266bee0d99b75cf08e134?family=Helvetica+93+Black+Extended');
 @import url('/assets/fonts/br-sonoma.css');
 
 :root {
@@ -390,8 +391,6 @@ header nav {
     overflow: hidden;
 }
 
-/* --- UPDATED TOP WATCH SECTION --- */
-
 .top-watch-section {
     padding: 0 20px;
     margin-top: 30px;
@@ -424,32 +423,28 @@ header nav {
 .top-watch-item {
     display: flex;
     align-items: flex-end; 
-    
     gap: 0; 
-    
     flex-shrink: 0;
     cursor: pointer;
     position: relative;
-    padding-right: 10px; 
+    padding-right: 6px; 
 }
 
 .top-rank-number {
-    font-size: 3rem;
-    font-weight: 800;
-    font-style: italic; 
+    font-family: 'Helvetica 93 Black Extended', sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    font-style: normal;
     line-height: 1;
-    background: linear-gradient(to bottom, #ffffff 40%, #555555 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-    font-family: 'BR Sonoma', sans-serif;
-    margin-bottom: -2px; 
+    margin-bottom: -8px; 
     margin-right: -25px;
-    z-index: 5; 
+    z-index: 1;
     position: relative;
-    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.8); /* Dark stroke to separate from image */
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.8); /* Shadow for legibility */
+    background: none;
+    color: transparent;
+    -webkit-text-fill-color: transparent; 
+    -webkit-text-stroke: 2px #ffffff; 
+    filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.9));
 }
 
 .top-watch-logo-container {
@@ -461,20 +456,19 @@ header nav {
     align-items: center;
     justify-content: center;
     border: 2px solid rgba(255,255,255,0.1); 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5); /* Standard Shadow */
-    
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     overflow: hidden;
     position: relative;
     padding: 8px; 
-    z-index: 1; 
+    z-index: 5; 
 }
 
 .top-watch-logo {
-    width: 68%;
-    height: 43%;
+    width: 90%;
+    height: 50%;
     object-fit: contain; 
     filter: none; 
-    opacity: 1;
+    opacity: 1; 
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
@@ -495,12 +489,11 @@ header nav {
     flex-shrink: 0;
 }
 .skeleton-rank-number {
-    width: 20px;
-    height: 40px;
+    width: 30px;
+    height: 60px;
     background-color: #2a2a2a;
     border-radius: 4px;
     animation: skeleton-pulse 1.5s infinite ease-in-out;
-    transform: skew(-10deg);
     margin-right: -10px;
 }
 .skeleton-card {
