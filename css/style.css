@@ -23,7 +23,7 @@ body {
     padding-top: 60px;
     scrollbar-width: none;
     user-select: none;
-    overscroll-behavior-y: none; /* Prevents bounce effect */
+    overscroll-behavior-y: none;
 }
 
 body.no-scroll {
@@ -48,8 +48,6 @@ button {
     cursor: pointer;
     padding: 0;
 }
-
-/* ================= HEADER ================= */
 
 header {
     align-items: center;
@@ -111,8 +109,6 @@ header nav {
     background: rgba(255,255,255,0.1);
 }
 
-/* ================= SEARCH ================= */
-
 .search-container {
     display: flex;
     align-items: center;
@@ -145,8 +141,6 @@ header nav {
     opacity: 1;
     margin-right: 5px;
 }
-
-/* ================= FLOATING MENU ================= */
 
 .floating-menu {
     backdrop-filter: blur(20px);
@@ -449,6 +443,7 @@ header nav {
     font-size: 4.5rem; 
     font-weight: 900;
     font-style: normal;
+    letter-spacing: -1px;
     line-height: 0.8; 
     margin-right: -20px;
     margin-bottom: 0;
