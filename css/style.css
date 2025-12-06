@@ -408,7 +408,7 @@ header nav {
     display: flex;
     gap: 30px;
     overflow-x: auto;
-    padding-top: 20px; 
+    padding-top: 15px; 
     padding-bottom: 15px;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -422,7 +422,7 @@ header nav {
 .top-watch-item {
     display: flex;
     align-items: flex-end; 
-    gap: 0px;
+    gap: -4px;
     flex-shrink: 0;
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -436,14 +436,12 @@ header nav {
     font-size: 5rem;
     font-weight: 800;
     font-style: italic; 
-    line-height: 1; 
-    
+    line-height: 1;
     background: linear-gradient(to bottom, #ffffff 40%, #444444 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent;
-    
     font-family: 'BR Sonoma', sans-serif;
     margin-bottom: -5px; 
     min-width: 30px;
@@ -468,10 +466,10 @@ header nav {
 }
 
 .top-watch-logo {
-    width: 60%;
-    height: 35%;
+    width: 66%;
+    height: 42%;
     object-fit: contain; 
-    filter: grayscale(100%); 
+    filter: none; 
     opacity: 1;
 }
 
