@@ -422,14 +422,9 @@ header nav {
 .top-watch-item {
     display: flex;
     align-items: flex-end; 
-    gap: -4px;
+    gap: -7px;
     flex-shrink: 0;
     cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.top-watch-item:hover {
-    transform: scale(1.05);
 }
 
 .top-rank-number {
@@ -466,8 +461,8 @@ header nav {
 }
 
 .top-watch-logo {
-    width: 66%;
-    height: 42%;
+    width: 68%;
+    height: 43%;
     object-fit: contain; 
     filter: none; 
     opacity: 1;
