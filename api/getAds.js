@@ -30,6 +30,10 @@ export default function handler(req, res) {
         {
             videoUrl: '/assets/ads/120620250006.mp4',
             linkUrl: 'https://www.hbomax.com/shows/heated-rivalry/50cd4e99-04ee-427b-a3b4-da721ed05d9c'
+        },
+        {
+            videoUrl: '/assets/ads/120720250007.mp4',
+            linkUrl: 'https://www.hbomax.com/bundle/viu'
         }
     ];
 
