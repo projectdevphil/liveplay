@@ -444,7 +444,7 @@ header nav {
     font-size: 4.5rem; 
     font-weight: 900;
     font-style: normal;
-    letter-spacing: -3px;
+    letter-spacing: -5px;
     line-height: 0.8; 
     margin-right: -20px;
     margin-bottom: 0;
@@ -481,7 +481,7 @@ header nav {
     width: 90%;
     height: 50%;
     object-fit: contain; 
-    filter: none; 
+    filter: grayscale(100%); 
     opacity: 1; 
     pointer-events: none;
     user-select: none;
