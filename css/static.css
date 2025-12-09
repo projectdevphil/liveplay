@@ -168,6 +168,22 @@ details[open] summary .dropdown-arrow {
     to { opacity: 1; transform: translateY(0); }
 }
 
+details.compact-dropdown {
+    margin-bottom: 8px;
+}
+
+details.compact-dropdown summary {
+    padding: 12px 15px;
+}
+
+details.compact-dropdown summary h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-color);
+}
+
 hr {
     border: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
