@@ -21,7 +21,8 @@ export default function handler(req, res) {
         },
         {
             videoUrl: '/assets/ads/112820250004.mp4',
-            linkUrl: 'https://dito.ph/'
+            linkUrl: 'https://dito.ph/',
+            access: 'PH'
         },
         {
             videoUrl: '/assets/ads/120220250005.mp4',
@@ -29,11 +30,13 @@ export default function handler(req, res) {
         },
         {
             videoUrl: '/assets/ads/120620250006.mp4',
-            linkUrl: 'https://www.hbomax.com/shows/heated-rivalry/50cd4e99-04ee-427b-a3b4-da721ed05d9c'
+            linkUrl: 'https://www.hbomax.com/shows/heated-rivalry/50cd4e99-04ee-427b-a3b4-da721ed05d9c',
+            access: 'US'
         },
         {
             videoUrl: '/assets/ads/120720250007.mp4',
-            linkUrl: 'https://www.hbomax.com/bundle/viu'
+            linkUrl: 'https://www.hbomax.com/bundle/viu',
+            access: 'SEA'
         }
     ];
 
