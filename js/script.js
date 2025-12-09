@@ -390,11 +390,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             topWatchList.style.display = 'flex';
-
             topWatchList.innerHTML = '';
 
-            topSlugs.forEach((slug, index) => {
+            let rankCounter = 1;
+
+            for (const slug of topSlugs) {
+                if (rankCounter > 10) break;
+
                 const channel = allStreams.find(s => createSlug(s.name) === slug);
+                
                 if (channel) {
                     const item = document.createElement('div');
                     item.className = 'top-watch-item';
@@ -403,14 +407,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const logo = channel.logo || '/assets/favicon.svg';
                     
                     item.innerHTML = `
-                        <div class="top-rank-number">${index + 1}</div>
+                        <div class="top-rank-number">${rankCounter}</div>
                         <div class="top-watch-logo-container">
                             <img src="${logo}" class="top-watch-logo" alt="${channel.name}">
                         </div>
                     `;
                     topWatchList.appendChild(item);
+                    rankCounter++;
                 }
-            });
+            }
+
+            if (rankCounter === 1) {
+                topWatchSection.style.display = 'none';
+            }
 
         } catch (e) {
             console.error("Failed to load top channels:", e);
