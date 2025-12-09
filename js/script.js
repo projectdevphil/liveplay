@@ -500,7 +500,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(publicStreamInfo.name)}`);
-            if (res.status === 400 || res.status === 404) throw new Error("Channel data not found.");
+            
+            if (res.status === 404 || res.status === 403) {
+                window.location.href = '/404.html';
+                return;
+            }
+
+            if (!res.ok) throw new Error("Channel data not found.");
             const secureData = await res.json();
 
             if (!player) {
@@ -679,6 +685,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (foundChannel) {
             openPlayer(foundChannel);
             hasPlayedLink = true;
+        } else {
+             window.location.href = '/404.html';
         }
     }
 
