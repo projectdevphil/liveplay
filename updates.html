@@ -17,7 +17,6 @@
 </head>
 <body>
     <div class="static-page-container">
-        
         <header class="static-header">
             <a href="/home" class="back-button" aria-label="Back to Litestream">
                 <span class="material-symbols-rounded">arrow_back</span>
@@ -51,7 +50,7 @@
                         <a href="/home?channel=vevo-pop" class="channel-logo-link">
                             <span class="material-symbols-rounded play-icon">sensors</span> VEVO POP
                         </a>
-                        <a href="/home?channel=mtv-live-us" class="channel-logo-link">
+                        <a href="/home?channel=mtv-live-(us)" class="channel-logo-link">
                             <span class="material-symbols-rounded play-icon">sensors</span> MTV LIVE (US)
                         </a>
                     </div>
@@ -82,41 +81,41 @@
                     <div class="version-block" style="margin-top: 15px;">
                         <h3 style="margin-bottom: 10px;">Version 1.0.6 <span class="advisory-tag" style="background-color: #28a745; margin-left: 8px;">CURRENT</span></h3>
                         <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
-                            <li style="margin-bottom: 8px;"><strong>UI Optimization:</strong> Enhanced animations and transitions within the Featured Slider to ensure a smoother user interface experience.</li>
-                            <li style="margin-bottom: 8px;"><strong>New Feature:</strong> Launched the <strong>Top 10 Live TV Channels</strong> ranking system. This real-time feature aggregates viewership data to highlight the most popular channels globally.</li>
-                            <li style="margin-bottom: 8px;"><strong>Documentation:</strong> Incorporated a comprehensive <strong>Version Details</strong> log within this Updates section.</li>
+                            <li style="margin-bottom: 8px;"><strong>UI Optimization:</strong> We have significantly refined the visual dynamics of the Featured Slider, implementing advanced transition logic to ensure a seamless and fluid user interface experience.</li>
+                            <li style="margin-bottom: 8px;"><strong>New Feature:</strong> Introduced the **Top 10 Live TV Channels** ranking system. Powered by Redis (an extension of Vercel), this real-time feature aggregates global viewership data to dynamically display the most popular channels across all connected devices.</li>
+                            <li style="margin-bottom: 8px;"><strong>Documentation:</strong> Incorporated a comprehensive **Version Details** log within this Updates section to provide transparency regarding platform development.</li>
                         </ul>
                     </div>
 
                     <div style="opacity: 0.85;">
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.5</h4>
-                            <p style="font-size: 0.95rem;">Integrated a real-time <strong>Stream Status</strong> monitor. The "Live" indicator will automatically turn red to visually alert users if a stream is offline.</p>
+                            <p style="font-size: 0.95rem;">Integrated a real-time <strong>Stream Status</strong> monitor. The "Live" sensor utilizes active health-checking to automatically turn the indicator red, visually alerting users immediately if a specific stream source is offline or experiencing downtime.</p>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.4</h4>
-                            <p style="font-size: 0.95rem;">Deployed an <strong>Updates</strong> tab within the menu for channel advisories, system notifications, and platform status.</p>
+                            <p style="font-size: 0.95rem;">Deployed a centralized <strong>Updates</strong> tab within the main navigation menu. This hub provides users with critical information, including channel advisories, system notifications, and overall platform status reports.</p>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.3</h4>
-                            <p style="font-size: 0.95rem;">Introduced the <strong>SpeedUp</strong> module, enabling users to perform network diagnostics (latency/ping, upload, and download speeds).</p>
+                            <p style="font-size: 0.95rem;">Incorporated a direct shortcut to <strong>SpeedUp</strong>, a dedicated network diagnostic sister platform developed by <strong>Project Dev</strong>. This integration allows users to seamlessly access tools for testing latency (ping), upload bandwidth, and download speeds without leaving the ecosystem.</p>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.2</h4>
-                            <p style="font-size: 0.95rem;">Added a <strong>Stream Tester</strong> utility. Users can validate stream links (HLS, MPD with keys) or upload and execute playlist files.</p>
+                            <p style="font-size: 0.95rem;">Added a gateway to the <strong>Stream Tester</strong>, a specialized sister platform utility created by <strong>Project Dev</strong>. This feature enables advanced users and developers to validate external stream links (supporting HLS and MPD with DRM keys) or upload and execute playlist configurations directly.</p>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.1</h4>
-                            <p style="font-size: 0.95rem;">Implemented pre-roll advertisement functionality allowing ads to display prior to channel playback.</p>
+                            <p style="font-size: 0.95rem;">Implemented a monetization framework featuring pre-roll advertisement functionality, allowing short promotional content to display prior to the initialization of the live channel stream.</p>
                         </div>
 
                         <div class="version-block" style="border:none;">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.0 (Initial Release)</h4>
-                            <p style="font-size: 0.95rem;">Core launch features including channel and genre search, featured slides, and navigation system.</p>
+                            <p style="font-size: 0.95rem;">Official platform launch introducing core capabilities from Project Dev. Features include comprehensive channel and genre search engines, curated featured slides, and a streamlined navigation architecture for live content viewing.</p>
                         </div>
                     </div>
                 </div>
@@ -152,7 +151,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
             const protectAll = document.querySelectorAll('a, button, img, .channel-logo-link, .news-btn, .combined-status-box');
             protectAll.forEach(el => {
                 el.addEventListener('contextmenu', (e) => { 
