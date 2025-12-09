@@ -1,4 +1,14 @@
 export default function handler(req, res) {
+    const { channel } = req.query;
+
+    if (!channel) {
+        return res.status(404).send('Not Found');
+    }
+
+    const country = req.headers['x-vercel-ip-country'] || 'XX';
+    const isPH = country === 'PH';
+    const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
+
     const channels = [
         // General
         { name: 'Kapamilya Channel', logo: 'https://static.wikia.nocookie.net/abscbn/images/7/74/Kapamilya_Channel_3D_Logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd', clearKey: { 'bd17afb5dc9648a39be79ee3634dd4b8': '3ecf305d54a7729299b93a3d69c02ea5' }, group: 'General', access: 'PH' },
@@ -91,6 +101,7 @@ export default function handler(req, res) {
         //{ name: 'Golf Channel', logo: 'https://m.media-amazon.com/images/G/01/digital/video/merch/subs/benefit-id/g-l/golfchannelfr/logos/channels-logo-white._CB567741584_.png', manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/1003/default_ott.mpd', clearKey: { '705bab5e645b6d7c95588b29520f8110': '28639bcfb5cbee8ff9ca398fcf5bfcd0' }, group: 'Sports' },
         { name: 'NFL Network', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/National_Football_League_logo.svg/873px-National_Football_League_logo.svg.png', manifestUri: 'https://ac-009.live.p7s1video.net/e0e064c8/t_004/ran-nflnetwork-de-hd/cenc-default.mpd', clearKey: { 'b26a662a10074eb0756404c8e90e765a': '76e376bd25f92bed939435d982f92d3f' }, group: 'Sports' },    
         { name: 'NBA TV Philippines', logo: 'https://static.wikia.nocookie.net/logopedia/images/0/0c/NBA_TV_Philippines_White.svg', manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cgnl_nba/default/index.mpd', clearKey: { 'c5e51f41ceac48709d0bdcd9c13a4d88': '20b91609967e472c27040716ef6a8b9a' }, group: 'Sports' },
+        { name: 'NBA TV', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d2/NBA_TV.svg/300px-NBA_TV.svg.png', manifestUri: 'https://ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/2jbycgm3g3/out/v1/066dd9325648468c9ecdc8b272370931/cenc.mpd', clearKey: { '84077d18bcf234a42de3745be106a87f': 'aee3069c062ec8ee6bfdd32985f287ef' }, group: 'Sports', access: 'Non-PH' },
         //{ name: 'NBC Sports', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/NBC_Sports_2023.svg/1200px-NBC_Sports_2023.svg.png', manifestUri: 'https://fsly.stream.peacocktv.com/Content/CMAF_CTR-4s/Live/channel(vc122ycnuy)/master.mpd', clearKey: { '0020d88a6713159839743f655c5da7de': 'ba9f34226301f69a4f0f13f65a1f92ec' }, group: 'Sports' },
         { name: 'Premier Football', logo: '/assets/premier_football_logo.png', manifestUri: 'https://amg19223-amg19223c5-amgplt0351.playout.now3.amagi.tv/playlist/amg19223-amg19223c5-amgplt0351/playlist.m3u8', group: 'Sports' },
         //{ name: 'Premier League', logo: 'https://www.premierleague.com/resources/v1.29.18/i/svg-files/elements/pl-logo-dark.svg', manifestUri: 'https://fsly.stream.peacocktv.com/Content/CMAF_CTR-4s/Live/channel(vc1021n07j)/master.mpd', clearKey: { '002046c9a49b9ab1cdb6616bec5d26c3': 'd2f92f6b7edc9a1a05d393ba0c20ef9e' }, group: 'Sports' },
@@ -164,15 +175,22 @@ export default function handler(req, res) {
         { name: 'PBB Catch-Up Episode', logo: 'https://static.wikia.nocookie.net/bigbrother/images/d/dc/PBBCOLLAB2_EYE.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2032648/event2/manifest.mpd', clearKey: { '1331c900677b4219a18938d0430ee7ee': '0ffce86c99f7051b3ec63e09c6ce9aad' }, group: 'Reality' }
     ];
 
-    const { channel } = req.query;
-
-    if (!channel) {
-        return res.status(400).send('Thank you, but nothing here!');
-    }
-
     const foundChannel = channels.find(c => c.name.toLowerCase() === channel.toLowerCase());
 
     if (foundChannel) {
+        let isAllowed = true;
+        
+        if (foundChannel.access) {
+            if (foundChannel.access === 'PH' && !isPH) isAllowed = false;
+            else if (foundChannel.access === 'Non-PH' && isPH) isAllowed = false;
+            else if (foundChannel.access === 'US' && country !== 'US') isAllowed = false;
+            else if (foundChannel.access === 'SEA' && !SEA_COUNTRIES.includes(country)) isAllowed = false;
+        }
+
+        if (!isAllowed) {
+            return res.status(404).json({ error: "Channel Not Found" });
+        }
+
         let type = 'mpd';
         if (foundChannel.manifestUri.includes('.m3u8')) {
             type = 'm3u8';
@@ -190,6 +208,6 @@ export default function handler(req, res) {
             type: type
         });
     } else {
-        res.status(404).send('Channel Not Found');
+        res.status(404).json({ error: "Channel Not Found" });
     }
 }
