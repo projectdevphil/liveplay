@@ -6,6 +6,10 @@ export default function handler(req, res) {
         return res.status(403).json({ error: "Access Denied" });
     }
 
+    const country = req.headers['x-vercel-ip-country'] || 'XX';
+    const isPH = country === 'PH';
+    const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
+
     const adPlaylist = [
         {
             videoUrl: '/assets/ads/112620250001.mp4',
@@ -40,5 +44,22 @@ export default function handler(req, res) {
         }
     ];
 
-    res.status(200).json(adPlaylist);
+    const filteredAds = adPlaylist.filter(ad => {
+        if (!ad.access) return true;
+        
+        switch (ad.access) {
+            case 'PH':
+                return isPH;
+            case 'Non-PH':
+                return !isPH;
+            case 'US':
+                return country === 'US';
+            case 'SEA':
+                return SEA_COUNTRIES.includes(country);
+            default:
+                return true;
+        }
+    });
+
+    res.status(200).json(filteredAds);
 }
