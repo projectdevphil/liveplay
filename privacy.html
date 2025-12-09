@@ -27,27 +27,44 @@
         <main class="content-card">
             <section>
                 <h2>1. Information Collection</h2>
-                <p>Litestream prioritizes your privacy. We do not require you to create an account, and we do not collect personal identification information (PII) such as names, email addresses, or phone numbers.</p>
+                <p>Litestream is committed to protecting your privacy. We operate on a strict no-log policy regarding user identity. We <strong>do not</strong> require user registration, and we do not collect personal identification information (PII) such as names, email addresses, or phone numbers.</p>
 
                 <hr>
 
-                <h3>2. Log Data</h3>
-                <p>Like most websites, we may collect non-personal information that your browser sends whenever you visit our Service. This may include your device type, browser version, and time of visit, which is used solely for analytics to improve site performance.</p>
+                <h2>2. Advertisements</h2>
+                <p>We may use third-party advertising companies to serve ads when you visit our website (e.g., pre-roll ads). These companies may use cookies or similar technologies to provide relevant advertisements based on your visits. These cookies do not contain personal information.</p>
 
                 <hr>
 
-                <h3>3. Cookies and Local Storage</h3>
-                <p>We may use Local Storage to save your preferences (such as theme settings or volume levels). These are stored on your device and are not sent to our servers.</p>
+                <h2>3. Aggregate Data & Top 10 Ranking</h2>
+                <p>To generate the <strong>Top 10 Live TV Channels</strong> list, we utilize aggregated usage data (view counts). This data is processed anonymously via Redis (Vercel) to rank channels by popularity. No individual user activity is tracked or stored in a manner that can identify you personally.</p>
 
                 <hr>
 
-                <h3>4. Third-Party Links</h3>
-                <p>Our service contains links to external sites (streams) that are not operated by us. If you click on a third-party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.</p>
+                <h2>4. Usage Data & Analytics</h2>
+                <p>Like most modern websites, we may collect non-personal technical data that your browser sends automatically. This may include:</p>
+                <ul>
+                    <li>Device type (Mobile, Desktop, Tablet)</li>
+                    <li>Browser version</li>
+                    <li>Time and date of visit</li>
+                </ul>
+                <p>This data is used solely for system optimization and debugging purposes.</p>
 
                 <hr>
 
-                <h3>5. Changes to This Policy</h3>
-                <p>We may update our Privacy Policy from time to time. Thus, we advise you to review this page periodically for any changes.</p>
+                <h2>5. Local Storage & Preferences</h2>
+                <p>We use local storage technologies to enhance your experience (e.g., saving your "Most Watched" preferences or theme settings). This data is stored entirely on your specific device and is not transmitted to our backend servers.</p>
+
+                <hr>
+
+                <h2>6. Third-Party Links & Sister Platforms</h2>
+                <p>Our service provides links to external streams and sister platforms (such as <strong>SpeedUp</strong> and <strong>Stream Tester</strong> by Project Dev). Please be aware that these sites operate independently.</p>
+                <p>If you click on a third-party link, you will be directed to that site. We strongly advise you to review the Privacy Policy of every site you visit, as we have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
+
+                <hr>
+
+                <h2>7. Changes to This Policy</h2>
+                <p>We may update our Privacy Policy periodically to reflect changes in our service or legal requirements. We advise you to review this page periodically for any changes. Changes are effective immediately after they are posted on this page.</p>
             </section>
         </main>
     </div>
@@ -61,7 +78,9 @@
 
             const header = document.querySelector(".static-header");
             window.addEventListener("scroll", () => {
-                header.classList.toggle("scrolled", window.scrollY > 10);
+                if(header) {
+                    header.classList.toggle("scrolled", window.scrollY > 10);
+                }
             });
         });
     </script>
