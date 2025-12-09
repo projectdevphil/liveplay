@@ -25,6 +25,7 @@
         </header>
 
         <main class="content-card">
+            
             <section>
                 <h2>About Litestream</h2>
                 <p>Litestream is a free IPTV streaming service dedicated to providing Filipinos accessible entertainment, news, and media from anywhere in the world. We aim to bridge the gap between viewers and content by aggregating publicly available live TV channels into one simple, user-friendly interface.</p>
@@ -41,7 +42,7 @@
             
             <hr>
 
-            <section class="text-center">
+            <section>
                 <h2>Follow Us</h2>
                 <p>Stay connected and follow the project's progress on our primary platforms. We actively share updates and engage with the community on both GitHub and PHCorner.</p>
                 <div class="social-icon-links">
@@ -56,13 +57,13 @@
 
             <hr>
 
-            <section class="developer-section">
+            <section>
                 <h2>Support the Project</h2>
                 <p>Litestream is a passion project maintained entirely in my spare time. While donations are never required to use the service, any contribution is deeply appreciated.</p>
                 <p>Your support goes directly toward platform improvements, server maintenance, and helping sustain the developer's daily needs. If you would like to donate, please use the QR code below.</p>
                 
                 <div class="donate-container">
-                    <img src="/assets/donation.png" alt="Donation QR Code" class="donate-qr">
+                    <img src="/assets/donate.png" alt="Donation QR Code" class="donate-qr">
                     
                     <div class="scan-instruction">
                         <span>Scan with</span>
@@ -97,7 +98,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const protectedElements = document.querySelectorAll('.back-button, .social-icon-links a, .donate-container, .developer-section a, img');
+            const protectedElements = document.querySelectorAll('.back-button, .social-icon-links a, .developer-section a, img, .donate-container');
             protectedElements.forEach(el => {
                 el.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
             });
