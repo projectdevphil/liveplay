@@ -354,6 +354,68 @@ hr {
     display: block;
 }
 
+.qr-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 20px;
+    box-sizing: border-box;
+    cursor: zoom-out;
+}
+
+.qr-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-qr-img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.qr-modal.active .modal-qr-img {
+    transform: scale(1);
+}
+
+.modal-scan-instruction {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.modal-scan-instruction .gcash-logo-svg {
+    height: 24px;
+    width: auto;
+}
+
+.close-hint {
+    position: absolute;
+    bottom: 40px;
+    color: #666;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 .developer-section {
     display: flex;
     flex-direction: column;
