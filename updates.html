@@ -17,6 +17,7 @@
 </head>
 <body>
     <div class="static-page-container">
+        
         <header class="static-header">
             <a href="/home" class="back-button" aria-label="Back to Litestream">
                 <span class="material-symbols-rounded">arrow_back</span>
@@ -26,40 +27,100 @@
 
         <main class="content-card">
             
-            <section>
-                <h2>Channel Advisory <span class="advisory-tag">IMPORTANT</span></h2>
-                <span class="update-date">Posted: December 2, 2025</span>
+            <details>
+                <summary>
+                    <h2>Channel Advisory <span class="advisory-tag">IMPORTANT</span></h2>
+                    <span class="material-symbols-rounded dropdown-arrow">expand_more</span>
+                </summary>
                 
-                <h3>MTV Live Cessation of Broadcast</h3>
-                <p><strong>MTV Live</strong> channel will permanently cease all broadcast transmission worldwide (excluding the U.S. feed) effective <strong>January 1, 2026</strong>.</p>
-                
-                <p>The final day of programming for MTV Live will be <strong>Tuesday, December 31, 2025</strong>. Following the closure, the channel will be removed from the channel list starting on January 1, 2026.</p>
-                
-                <hr>
-                
-                <p>You can continue to watch other great music programming on these channels:</p>
-                <div class="channel-logos">
-                    <a href="/home?channel=myx" class="channel-logo-link">
-                        <span class="material-symbols-rounded play-icon">sensors</span> MYX
-                    </a>
-                    <a href="/home?channel=vevo-pop" class="channel-logo-link">
-                        <span class="material-symbols-rounded play-icon">sensors</span> VEVO POP
-                    </a>
-                    <a href="/home?channel=mtv-live-(us)" class="channel-logo-link">
-                        <span class="material-symbols-rounded play-icon">sensors</span> MTV LIVE (US)
-                    </a>
-                </div>
+                <div class="details-content">
+                    <span class="update-date" style="display:block; margin-top:10px;">Posted: December 2, 2025</span>
+                    
+                    <h3>MTV Live Cessation of Broadcast</h3>
+                    <p><strong>MTV Live</strong> channel will permanently cease all broadcast transmission worldwide (excluding the U.S. feed) effective <strong>January 1, 2026</strong>.</p>
+                    
+                    <p>The final day of programming for MTV Live will be <strong>Tuesday, December 31, 2025</strong>. Following the closure, the channel will be removed from the channel list starting on January 1, 2026.</p>
+                    
+                    <hr>
+                    
+                    <p>You can continue to watch other great music programming on these channels:</p>
+                    <div class="channel-logos">
+                        <a href="/home?channel=myx" class="channel-logo-link">
+                            <span class="material-symbols-rounded play-icon">sensors</span> MYX
+                        </a>
+                        <a href="/home?channel=vevo-pop" class="channel-logo-link">
+                            <span class="material-symbols-rounded play-icon">sensors</span> VEVO POP
+                        </a>
+                        <a href="/home?channel=mtv-live-us" class="channel-logo-link">
+                            <span class="material-symbols-rounded play-icon">sensors</span> MTV LIVE (US)
+                        </a>
+                    </div>
 
-                <div class="news-links-container">
-                    <span class="news-links-title">Read more from official sources:</span>
-                    <a href="https://www.bbc.com/news/articles/cdr612yz8p0o" target="_blank" rel="noopener noreferrer" class="news-btn">
-                        <span class="material-symbols-rounded news-icon">public</span> BBC News
-                    </a>
-                    <a href="https://entertainment.inquirer.net/633513/mtv-to-shut-down-some-of-its-music-channels-after-40-years/amp" target="_blank" rel="noopener noreferrer" class="news-btn">
-                        <span class="material-symbols-rounded news-icon">public</span> Inquirer.net
-                    </a>
+                    <div class="news-links-container">
+                        <span class="news-links-title">Read more from official sources:</span>
+                        <a href="https://www.bbc.com/news/articles/cdr612yz8p0o" target="_blank" rel="noopener noreferrer" class="news-btn">
+                            <span class="material-symbols-rounded news-icon">public</span> BBC News
+                        </a>
+                        <a href="https://entertainment.inquirer.net/633513/mtv-to-shut-down-some-of-its-music-channels-after-40-years/amp" target="_blank" rel="noopener noreferrer" class="news-btn">
+                            <span class="material-symbols-rounded news-icon">public</span> Inquirer.net
+                        </a>
+                    </div>
                 </div>
-            </section>
+            </details>
+
+            <hr>
+
+            <details>
+                <summary>
+                    <h2>Version Details</h2>
+                    <span class="material-symbols-rounded dropdown-arrow">expand_more</span>
+                </summary>
+
+                <div class="details-content">
+                    <span class="update-date" style="display:block; margin-top:10px;">Latest Build: v1.0.6</span>
+
+                    <div class="version-block" style="margin-top: 15px;">
+                        <h3 style="margin-bottom: 10px;">Version 1.0.6 <span class="advisory-tag" style="background-color: #28a745; margin-left: 8px;">CURRENT</span></h3>
+                        <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
+                            <li style="margin-bottom: 8px;"><strong>UI Optimization:</strong> Enhanced animations and transitions within the Featured Slider to ensure a smoother user interface experience.</li>
+                            <li style="margin-bottom: 8px;"><strong>New Feature:</strong> Launched the <strong>Top 10 Live TV Channels</strong> ranking system. This real-time feature aggregates viewership data to highlight the most popular channels globally.</li>
+                            <li style="margin-bottom: 8px;"><strong>Documentation:</strong> Incorporated a comprehensive <strong>Version Details</strong> log within this Updates section.</li>
+                        </ul>
+                    </div>
+
+                    <div style="opacity: 0.85;">
+                        <div class="version-block">
+                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.5</h4>
+                            <p style="font-size: 0.95rem;">Integrated a real-time <strong>Stream Status</strong> monitor. The "Live" indicator will automatically turn red to visually alert users if a stream is offline.</p>
+                        </div>
+
+                        <div class="version-block">
+                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.4</h4>
+                            <p style="font-size: 0.95rem;">Deployed an <strong>Updates</strong> tab within the menu for channel advisories, system notifications, and platform status.</p>
+                        </div>
+
+                        <div class="version-block">
+                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.3</h4>
+                            <p style="font-size: 0.95rem;">Introduced the <strong>SpeedUp</strong> module, enabling users to perform network diagnostics (latency/ping, upload, and download speeds).</p>
+                        </div>
+
+                        <div class="version-block">
+                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.2</h4>
+                            <p style="font-size: 0.95rem;">Added a <strong>Stream Tester</strong> utility. Users can validate stream links (HLS, MPD with keys) or upload and execute playlist files.</p>
+                        </div>
+
+                        <div class="version-block">
+                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.1</h4>
+                            <p style="font-size: 0.95rem;">Implemented pre-roll advertisement functionality allowing ads to display prior to channel playback.</p>
+                        </div>
+
+                        <div class="version-block" style="border:none;">
+                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.0 (Initial Release)</h4>
+                            <p style="font-size: 0.95rem;">Core launch features including channel and genre search, featured slides, and navigation system.</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
 
             <hr>
 
@@ -133,3 +194,4 @@
         });
     </script>
 </body>
+</html>
