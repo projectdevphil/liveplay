@@ -6,6 +6,11 @@ export default function handler(req, res) {
         return res.status(403).json({ error: "Access Denied" });
     }
 
+    const country = req.headers['x-vercel-ip-country'] || 'XX';
+    const isPH = country === 'PH';
+
+    const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
+
     const slidesData = [
         {
             title: "FPJ's Batang Quiapo",
@@ -57,5 +62,30 @@ export default function handler(req, res) {
         }
     ];
 
-    res.status(200).json(slidesData);
+    const filteredSlides = slidesData.filter(slide => {
+        if (!slide.access) return true;
+        if (slide.access === 'PH' && isPH) return true;
+        if (slide.access === 'Non-PH' && !isPH) return true;
+        if (slide.access === 'US' && country === 'US') return true;
+        if (slide.access === 'SEA' && SEA_COUNTRIES.includes(country)) return true;
+        return false;
+    }).map(slide => {
+        let finalDescription = slide.description;
+        
+        if (isPH && slide.ph_description) {
+            finalDescription = slide.ph_description;
+        } else if (!isPH && slide.nonph_description) {
+            finalDescription = slide.nonph_description;
+        }
+
+        return {
+            ...slide,
+            description: finalDescription,
+            ph_description: undefined,
+            nonph_description: undefined, 
+            access: undefined
+        };
+    });
+
+    res.status(200).json(filteredSlides);
 }
