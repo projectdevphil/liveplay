@@ -662,6 +662,12 @@ header nav {
     object-fit: fill;
 }
 
+.video-player-container:fullscreen {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: 100%;
+}
+
 .shaka-video-container,
 .shaka-settings-menu,
 .shaka-overflow-menu {
