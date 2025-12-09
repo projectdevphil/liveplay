@@ -296,8 +296,8 @@ hr {
 .social-icon-links {
     display: flex;
     gap: 20px;
-    justify-content: center;
-    margin-top: 25px;
+    justify-content: flex-start;
+    margin-top: 20px;
 }
 
 .social-icon-links a {
