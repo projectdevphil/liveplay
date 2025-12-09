@@ -654,7 +654,12 @@ header nav {
     width: 100%;
     position: relative;
     overflow: hidden;
-    object-fit: fill;
+}
+
+.video-player-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .shaka-video-container,
