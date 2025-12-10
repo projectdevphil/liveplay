@@ -54,7 +54,7 @@ export default function handler(req, res) {
         },
         {
             title: "NBA TV Philippines",
-            //description: "<strong>Sports</strong>",
+            description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv-philippines",
@@ -62,7 +62,7 @@ export default function handler(req, res) {
         },
         {
             title: "NBA TV",
-            //description: "<strong>Sports</strong>",
+            description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv",
