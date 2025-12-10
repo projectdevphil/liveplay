@@ -14,7 +14,7 @@ export default function handler(req, res) {
     const slidesData = [
         {
             title: "SEA Games:<br>Thailand 2025",
-            ph_description: "TV5, RPTV, and One Sports (Catch-Up TV)<br>Pilipinas Live Channels (Livestream)",
+            ph_description: "<strong>Catch-Up TV</strong>: TV5, RPTV, and One Sports<br><strong>Livestream</strong>: Pilipinas Live Channels",
             image: "/assets/poster/seagames_thailand_2025_poster.png",
             badge: "Watch Now • Event • Sports",
             link: null,
