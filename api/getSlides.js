@@ -16,7 +16,7 @@ export default function handler(req, res) {
             title: "SEA Games:<br>Thailand 2025",
             ph_description: "TV5, RPTV, One Sports, and<br>Pilipinas Live Channels",
             nonph_description: "<strong>on TFC</strong>",
-            image: "/assets/poster/sea_games_thailand_2025_poster.png",
+            image: "/assets/poster/seagames_thailand_2025_poster.png",
             badge: "Watch Now",
             link: null,
             access: 'PH'
