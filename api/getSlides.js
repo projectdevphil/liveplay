@@ -13,6 +13,15 @@ export default function handler(req, res) {
 
     const slidesData = [
         {
+            title: "SEA Games:<br>Thailand 2025",
+            ph_description: "TV5, RPTV, One Sports, and<br>Pilipinas Live Channels",
+            nonph_description: "<strong>on TFC</strong>",
+            image: "/assets/poster/sea_games_thailand_2025_poster.png",
+            badge: "Watch Now",
+            link: null,
+            access: 'PH'
+        },
+        {
             title: "FPJ's Batang Quiapo",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, A2Z and TV5",
             nonph_description: "<strong>on TFC</strong>",
