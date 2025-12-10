@@ -14,10 +14,9 @@ export default function handler(req, res) {
     const slidesData = [
         {
             title: "SEA Games:<br>Thailand 2025",
-            ph_description: "TV5, RPTV, One Sports, and<br>Pilipinas Live Channels",
-            nonph_description: "<strong>on TFC</strong>",
+            ph_description: "TV5, RPTV, and One Sports (Catch-Up TV)<br>Pilipinas Live Channels (Livestream)",
             image: "/assets/poster/seagames_thailand_2025_poster.png",
-            badge: "Watch Now",
+            badge: "Watch Now • Event • Sports",
             link: null,
             access: 'PH'
         },
@@ -55,17 +54,17 @@ export default function handler(req, res) {
         },
         {
             title: "NBA TV Philippines",
-            description: "<strong>Sports</strong>",
+            //description: "<strong>Sports</strong>",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
-            badge: "Watch Now",
+            badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv-philippines",
             access: "PH"
         },
         {
             title: "NBA TV",
-            description: "<strong>Sports</strong>",
+            //description: "<strong>Sports</strong>",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
-            badge: "Watch Now",
+            badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv",
             access: "Non-PH"
         }
