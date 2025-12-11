@@ -637,7 +637,7 @@ a, img, button,
 #speedValue {
     font-family: 'BR Sonoma', sans-serif;
     font-size: 4.5rem;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1;
     color: #fff;
     font-variant-numeric: tabular-nums;
@@ -703,14 +703,13 @@ a, img, button,
     font-size: 0.65rem; 
     color: #666; 
     text-transform: uppercase; 
-    font-weight: 700; 
     margin-bottom: 5px;
 }
 
 .note-val {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #eee;
-    line-height: 1.4;
+    line-height: 1.3;
     font-weight: 400;
 }
 
