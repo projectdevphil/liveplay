@@ -745,7 +745,15 @@ a, img, button,
 }
 
 .bw-logos { display: flex; align-items: center; gap: 12px; }
-.logo-img { height: 16px; width: auto; filter: grayscale(100%) brightness(2); }
+.logo-img { 
+    height: 16px; 
+    width: auto; 
+    filter: grayscale(100%) brightness(2);
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
 
 .network-dropdown {
     position: fixed;
