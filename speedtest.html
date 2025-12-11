@@ -116,9 +116,9 @@
             }
         }
 
-        fetch('https://ipapi.co/json/').then(r=>r.json()).then(d => {
+        fetch('https://ipinfo.io/json').then(r=>r.json()).then(d => {
             document.getElementById('ipTxt').innerText = d.ip || 'Unavailable';
-            document.getElementById('locTxt').innerText = `${d.city}, ${d.country_code}`;
+            document.getElementById('locTxt').innerText = `${d.city}, ${d.country}`;
             document.getElementById('ispTxt').innerText = d.org || 'Unknown';
         }).catch(()=>{});
 
