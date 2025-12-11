@@ -735,19 +735,13 @@ a, img, button,
 .start-btn:disabled { background-color: #333; color: #555; cursor: default; box-shadow: none; }
 
 .footer-simple {
-    position: fixed;
-    bottom: 25px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    opacity: 0.5;
+    margin-top: 50px;
+    opacity: 0.4;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
     width: 100%;
-    z-index: 100;
-    pointer-events: none;
 }
 
 .bw-logos { display: flex; align-items: center; gap: 12px; }
