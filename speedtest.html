@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Speed Test - Litestream</title>
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="shortcut icon" href="/assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Litestream" />
+    <link rel="manifest" href="/assets/site.webmanifest" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/test.css">
+</head>
+<body>
+
+    <header class="static-header">
+        <a href="/home" class="back-button" style="margin-left: 20px;" aria-label="Back">
+            <span class="material-symbols-rounded">arrow_back</span>
+        </a>
+        
+        <h1>Speed Test</h1>
+        
+        <div class="info-btn-wrapper">
+            <button class="info-btn" onclick="toggleDropdown()">
+                <span class="material-symbols-rounded" style="font-size: 20px;">public</span>
+            </button>
+        </div>
+    </header>
+
+    <div id="netDropdown" class="network-dropdown">
+        <div class="net-item">
+            <span class="net-label">IP Address</span>
+            <span class="net-value" id="ipTxt">...</span>
+        </div>
+        <div class="net-item">
+            <span class="net-label">Location</span>
+            <span class="net-value" id="locTxt">Detecting...</span>
+        </div>
+        <div class="net-item">
+            <span class="net-label">Provider</span>
+            <span class="net-value" id="ispTxt">Unknown</span>
+        </div>
+    </div>
+
+    <div class="speed-wrapper">
+        <div class="status-label" id="statusText">Ready</div>
+        
+        <div class="speed-number-box">
+            <span id="speedValue">0</span>
+            <span class="speed-unit">Mbps</span>
+        </div>
+
+        <button id="runBtn" class="start-btn" onclick="startTest()">Start Speed Test</button>
+
+        <footer class="bw-footer">
+            <span class="bw-powered">Powered By</span>
+            <div class="bw-logos">
+                <img src="/assets/project_dev_logo_(white).svg" alt="Project Dev" class="logo-img" onerror="this.style.display='none'">
+                
+                <span class="divider">/</span>
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="logo-img">
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const header = document.querySelector(".static-header");
+        window.addEventListener("scroll", () => {
+            header.classList.toggle("scrolled", window.scrollY > 10);
+        });
+
+        function toggleDropdown() {
+            const drop = document.getElementById('netDropdown');
+            const isActive = drop.classList.contains('active');
+            
+            if (isActive) {
+                drop.classList.remove('active');
+            } else {
+                drop.classList.add('active');
+                setTimeout(() => document.addEventListener('click', closeOutside), 10);
+            }
+        }
+
+        function closeOutside(e) {
+            const drop = document.getElementById('netDropdown');
+            const btn = document.querySelector('.info-btn');
+            
+            if (!drop.contains(e.target) && !btn.contains(e.target)) {
+                drop.classList.remove('active');
+                document.removeEventListener('click', closeOutside);
+            }
+        }
+
+        async function getNetworkInfo() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                document.getElementById('ipTxt').innerText = data.ip || 'Unavailable';
+                document.getElementById('locTxt').innerText = `${data.city}, ${data.country_code}`;
+                document.getElementById('ispTxt').innerText = data.org || 'Unknown';
+            } catch (e) {
+                document.getElementById('ipTxt').innerText = "Unavailable";
+                document.getElementById('locTxt').innerText = "Unknown";
+            }
+        }
+        getNetworkInfo();
+
+        let eventSource = null;
+
+        function startTest() {
+            const btn = document.getElementById('runBtn');
+            const val = document.getElementById('speedValue');
+            const status = document.getElementById('statusText');
+
+            btn.disabled = true;
+            status.innerText = "Connecting...";
+            val.innerText = "0";
+
+            if (eventSource) eventSource.close();
+
+            eventSource = new EventSource('/api/test');
+
+            eventSource.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+
+                if (data.error) {
+                    status.innerText = "Connection Failed";
+                    btn.disabled = false;
+                    eventSource.close();
+                    return;
+                }
+
+                if (data.progress === 'running') {
+                    status.innerText = "Measuring...";
+                    val.innerText = data.speed;
+                }
+
+                if (data.progress === 'done') {
+                    status.innerText = "Completed";
+                    val.innerText = data.speed;
+                    btn.innerText = "Test Again";
+                    btn.disabled = false;
+                    eventSource.close();
+                }
+            };
+
+            eventSource.onerror = () => {
+                if (status.innerText !== "Completed") {
+                   status.innerText = "Connection Lost";
+                }
+                btn.disabled = false;
+                eventSource.close();
+            };
+        }
+    </script>
+</body>
+</html>
