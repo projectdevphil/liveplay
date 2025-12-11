@@ -1,6 +1,11 @@
 const https = require('https');
 
 export default async function handler(req, res) {
+    if (req.query.verify !== 'true') {
+        res.status(200).send("Thank you, but nothing here!");
+        return;
+    }
+
     const FAST_TOKEN = 'YXNkZmFzZGxmbnNkYWZoYXNkZmhrYWxm'; 
     const API_URL = `https://api.fast.com/netflix/speedtest/v2?https=true&token=${FAST_TOKEN}&urlCount=5`;
 
