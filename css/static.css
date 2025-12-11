@@ -650,7 +650,7 @@ a, img, button,
 
 .status-label {
     font-size: 0.7rem;
-    font-weight: 400;
+    font-weight: 300;
     color: #aaa;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -700,7 +700,7 @@ a, img, button,
     font-size: 0.6rem; 
     color: #666; 
     text-transform: uppercase; 
-    margin-bottom: 5px;
+    margin-bottom: 5.5px;
 }
 
 .note-val {
