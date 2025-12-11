@@ -31,8 +31,8 @@ body.no-scroll {
 .static-header.scrolled {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    background: var(--glass-bg);
-    border-bottom: var(--glass-border);
+    background: var(--glass-bg, rgba(25, 25, 25, 0.8));
+    border-bottom: var(--glass-border, 1px solid rgba(255, 255, 255, 0.1));
 }
 
 .static-header h1 {
@@ -41,16 +41,14 @@ body.no-scroll {
     font-weight: 700;
     margin: 0;
     text-align: center;
-    color: var(--text-color);
-    color: #fff;
+    color: var(--text-color, #fff);
 }
 
 .back-button {
     align-items: center;
     background: transparent;
     border-radius: 50%;
-    color: var(--text-color);
-    color: #fff;
+    color: var(--text-color, #fff);
     cursor: pointer;
     display: flex;
     height: 40px;
@@ -88,25 +86,21 @@ body.no-scroll {
 }
 
 .content-card {
-    background-color: var(--card-background);
-    background-color: #1a1a1a;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: var(--card-background, #1a1a1a);
+    border-radius: 15px; 
+    border: 1px solid rgba(255, 255, 255, 0.05); 
     padding: 25px;
     margin-top: 10px; 
     margin-bottom: 20px;
-    text-align: center;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: left; 
+    display: block; 
 }
 
 .content-card h2 {
     align-items: center;
-    color: var(--text-color);
+    color: var(--text-color, #fff);
     display: flex;
     font-size: 1.1rem;
     font-weight: 700;
@@ -117,11 +111,11 @@ body.no-scroll {
 
 .content-card h2 .material-symbols-rounded {
     font-size: 1.3rem;
-    color: var(--theme-color);
+    color: var(--theme-color, #fff);
 }
 
 .content-card h3 {
-    color: var(--theme-color);
+    color: var(--theme-color, #fff);
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 10px;
@@ -130,14 +124,14 @@ body.no-scroll {
 
 .content-card p, 
 .content-card li {
-    color: var(--text-secondary);
+    color: var(--text-secondary, #ccc);
     font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 15px;
 }
 
 .content-card a {
-    color: var(--theme-color);
+    color: var(--theme-color, #fff);
     font-weight: 600;
     text-decoration: none;
 }
@@ -191,7 +185,7 @@ details[open] summary .dropdown-arrow {
     padding: 0 15px 15px 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     animation: slideDown 0.3s ease-out forwards;
-    text-align: left:
+    text-align: left;
 }
 
 .version-block {
@@ -222,7 +216,7 @@ details.compact-dropdown summary h3 {
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.4;
-    color: var(--text-color);
+    color: var(--text-color, #fff);
 }
 
 hr {
@@ -244,8 +238,8 @@ hr {
 }
 
 .advisory-tag {
-    background-color: var(--theme-color);
-    color: var(--card-background);
+    background-color: var(--theme-color, #666);
+    color: var(--card-background, #000);
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 0.75rem;
@@ -261,7 +255,7 @@ hr {
     margin-top: 15px;
     margin-bottom: 25px;
     align-items: center;
-    justify-content: center; /* Centered for consistency */
+    justify-content: center;
 }
 
 .channel-logo-link {
@@ -366,8 +360,6 @@ hr {
     filter: grayscale(100%);
     pointer-events: none;
 }
-
-/* --- DONATE & MODALS --- */
 
 .donate-container {
     margin-top: 20px;
@@ -567,7 +559,7 @@ hr {
 }
 
 .tip-highlight {
-    color: var(--text-color);
+    color: var(--text-color, #fff);
     font-weight: 600;
 }
 
@@ -597,7 +589,7 @@ a, img, button,
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
+    margin: 20px auto;
 }
 
 .gauge-spinner {
@@ -645,7 +637,7 @@ a, img, button,
 #speedValue {
     font-family: 'BR Sonoma', sans-serif;
     font-size: 4.5rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1;
     color: #fff;
     font-variant-numeric: tabular-nums;
@@ -667,6 +659,8 @@ a, img, button,
     letter-spacing: 2px;
     margin-bottom: 5px;
     min-height: 15px;
+    text-align: center;
+    width: 100%;
 }
 
 .metrics-grid {
@@ -701,7 +695,7 @@ a, img, button,
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    text-align: center; 
     box-sizing: border-box;
 }
 
@@ -735,6 +729,9 @@ a, img, button,
     letter-spacing: 1px;
     transition: transform 0.2s, box-shadow 0.2s;
     margin-top: 5px;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .start-btn:active { transform: scale(0.98); }
@@ -748,6 +745,7 @@ a, img, button,
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    width: 100%;
 }
 
 .bw-logos { display: flex; align-items: center; gap: 12px; }
@@ -768,6 +766,7 @@ a, img, button,
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 2000;
     box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    text-align: left;
 }
 .network-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
 .net-item { margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
