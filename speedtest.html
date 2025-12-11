@@ -18,7 +18,6 @@
 </head>
 <body>
 
-    <!-- Header (Aligned with About Us) -->
     <header class="static-header">
         <a href="/home" class="back-button" aria-label="Back">
             <span class="material-symbols-rounded">arrow_back</span>
@@ -29,7 +28,6 @@
         </button>
     </header>
 
-    <!-- Info Dropdown -->
     <div id="netDropdown" class="network-dropdown">
         <div class="net-item">
             <div class="net-label">IP Address</div>
@@ -37,7 +35,7 @@
         </div>
         <div class="net-item">
             <div class="net-label">Location</div>
-            <div class="net-value" id="locTxt">Scanning...</div>
+            <div class="net-value" id="locTxt">Detecting...</div>
         </div>
         <div class="net-item">
             <div class="net-label">ISP</div>
@@ -45,53 +43,44 @@
         </div>
     </div>
 
-    <!-- Main Container (Boxed Layout) -->
     <div class="static-page-container">
-        
         <main class="content-card">
             
-            <div class="status-label" id="statusText">Ready to start</div>
+            <div class="status-label" id="statusText">Ready</div>
 
-            <!-- Circular Animation -->
-            <div class="circle-container">
-                <svg class="progress-ring" width="280" height="280">
-                    <!-- Background Circle -->
-                    <circle class="progress-ring__bg" stroke="#333" stroke-width="8" fill="transparent" r="120" cx="140" cy="140"/>
-                    <!-- Animated Progress Circle -->
-                    <circle class="progress-ring__circle" id="progressCircle" stroke="#ffffff" stroke-width="8" fill="transparent" r="120" cx="140" cy="140" stroke-dasharray="753.98" stroke-dashoffset="753.98"/>
-                </svg>
+            <div class="gauge-wrapper">
+                <div class="gauge-spinner" id="spinner"></div>
+                <div class="gauge-core" id="core"></div>
                 
-                <div class="speed-inner-display">
+                <div class="speed-text-group">
                     <span id="speedValue">0</span>
                     <span class="speed-unit">Mbps</span>
                 </div>
             </div>
 
-            <!-- Detailed Metrics Grid -->
             <div class="metrics-grid">
                 <div class="metric-box">
                     <span class="metric-label">Ping</span>
                     <span class="metric-val" id="pingVal">-</span>
                 </div>
                 <div class="metric-box">
-                    <span class="metric-label">Download</span>
+                    <span class="metric-label">Down</span>
                     <span class="metric-val" id="downVal">-</span>
                 </div>
                 <div class="metric-box">
-                    <span class="metric-label">Upload</span>
+                    <span class="metric-label">Up</span>
                     <span class="metric-val" id="upVal">-</span>
                 </div>
                 <div class="metric-box">
                     <span class="metric-label">Score</span>
-                    <span class="metric-val rating-badge" id="scoreVal">-</span>
+                    <span class="metric-val" id="scoreVal">-</span>
                 </div>
             </div>
 
-            <button id="runBtn" class="start-btn" onclick="runFullTest()">Start Test</button>
+            <button id="runBtn" class="start-btn" onclick="runRealSpeedTest()">Start Test</button>
 
-            <!-- Footer -->
             <div class="footer-simple">
-                <span style="font-size: 0.65rem; text-transform: uppercase;">Powered By</span>
+                <span style="font-size: 0.6rem; text-transform: uppercase;">Powered By</span>
                 <div class="bw-logos">
                     <img src="/assets/project_dev_logo_(white).svg" alt="Project Dev" class="logo-img" onerror="this.style.display='none'">
                     <span style="color:#444">/</span>
@@ -103,13 +92,11 @@
     </div>
 
     <script>
-        // --- 1. Header Scroll Logic ---
         const header = document.querySelector(".static-header");
         window.addEventListener("scroll", () => {
             header.classList.toggle("scrolled", window.scrollY > 10);
         });
 
-        // --- 2. Dropdown Logic ---
         function toggleDropdown() {
             const drop = document.getElementById('netDropdown');
             if(drop.classList.contains('active')) {
@@ -119,6 +106,7 @@
                 setTimeout(() => document.addEventListener('click', closeOutside), 10);
             }
         }
+
         function closeOutside(e) {
             const drop = document.getElementById('netDropdown');
             const btn = document.querySelector('.info-btn');
@@ -128,113 +116,85 @@
             }
         }
 
-        // --- 3. IP Info ---
-        fetch('https://ipapi.co/json/').then(r=>r.json()).then(data => {
-            document.getElementById('ipTxt').innerText = data.ip || 'Unavailable';
-            document.getElementById('locTxt').innerText = `${data.city}, ${data.country_code}`;
-            document.getElementById('ispTxt').innerText = data.org || 'Unknown';
-        }).catch(e=>{});
+        fetch('https://ipapi.co/json/').then(r=>r.json()).then(d => {
+            document.getElementById('ipTxt').innerText = d.ip || 'Unavailable';
+            document.getElementById('locTxt').innerText = `${d.city}, ${d.country_code}`;
+            document.getElementById('ispTxt').innerText = d.org || 'Unknown';
+        }).catch(()=>{});
 
-        // --- 4. Circular Progress Logic ---
-        const circle = document.getElementById('progressCircle');
-        const radius = circle.r.baseVal.value;
-        const circumference = radius * 2 * Math.PI;
-        
-        circle.style.strokeDasharray = `${circumference} ${circumference}`;
-        circle.style.strokeDashoffset = circumference;
-
-        function setProgress(percent) {
-            const offset = circumference - (percent / 100) * circumference;
-            circle.style.strokeDashoffset = offset;
-        }
-
-        // --- 5. TEST LOGIC ---
-        let eventSource = null;
-
-        async function runFullTest() {
+        async function runRealSpeedTest() {
             const btn = document.getElementById('runBtn');
             const status = document.getElementById('statusText');
             const mainVal = document.getElementById('speedValue');
-            const circleEl = document.getElementById('progressCircle');
+            const spinner = document.getElementById('spinner');
+            const core = document.getElementById('core');
             
-            // Metrics
             const pingEl = document.getElementById('pingVal');
             const downEl = document.getElementById('downVal');
             const upEl = document.getElementById('upVal');
             const scoreEl = document.getElementById('scoreVal');
 
-            // Reset
             btn.disabled = true;
             mainVal.innerText = "0";
             pingEl.innerText = "-";
             downEl.innerText = "-";
             upEl.innerText = "-";
             scoreEl.innerText = "-";
-            setProgress(0);
             
-            // --- Phase 1: Ping (Latency) ---
             status.innerText = "Checking Latency...";
             const startPing = Date.now();
             try {
-                // Fetch a tiny file to measure round-trip
                 await fetch('/assets/favicon.ico', { cache: 'no-store' });
                 const pingTime = Date.now() - startPing;
                 pingEl.innerText = pingTime + " ms";
             } catch (e) {
-                pingEl.innerText = "20 ms"; // Fallback
+                pingEl.innerText = "N/A";
             }
 
-            // --- Phase 2: Download (Real) ---
             status.innerText = "Testing Download...";
-            circleEl.classList.add('testing-pulse'); // Add glowing pulse
-            
-            let finalDownloadSpeed = 0;
+            spinner.classList.add('active');
+            core.classList.add('active');
 
-            await new Promise((resolve) => {
-                eventSource = new EventSource('/api/test');
+            let loadedBytes = 0;
+            let startTime = Date.now();
+            let finalSpeed = 0;
+
+            try {
+                const response = await fetch('/api/test');
+                const reader = response.body.getReader();
                 
-                eventSource.onmessage = (e) => {
-                    const data = JSON.parse(e.data);
+                let lastUpdate = Date.now();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    loadedBytes += value.length;
+                    const now = Date.now();
                     
-                    if(data.error) {
-                        status.innerText = "Error";
-                        resolve(); 
-                        return;
-                    }
-
-                    if(data.speed) {
-                        mainVal.innerText = data.speed;
-                        downEl.innerText = data.speed;
+                    if (now - lastUpdate > 150) {
+                        const durationInSeconds = (now - startTime) / 1000;
+                        const bitsLoaded = loadedBytes * 8;
+                        const mbps = (bitsLoaded / durationInSeconds) / 1000000;
                         
-                        // Visual effect: fill circle based on speed cap (e.g., 100mbps = full)
-                        let visualPercent = Math.min((data.speed / 100) * 100, 100); 
-                        setProgress(visualPercent);
-                        finalDownloadSpeed = parseFloat(data.speed);
+                        mainVal.innerText = mbps.toFixed(2);
+                        downEl.innerText = mbps.toFixed(2);
+                        lastUpdate = now;
+                        finalSpeed = mbps;
                     }
+                }
+            } catch (err) {
+                status.innerText = "Connection Error";
+            }
 
-                    if(data.progress === 'done') {
-                        eventSource.close();
-                        resolve();
-                    }
-                };
-                
-                eventSource.onerror = () => { eventSource.close(); resolve(); };
-            });
-
-            // --- Phase 3: Upload (Simulation) ---
-            // Note: Since Vercel proxies don't support heavy upload testing easily,
-            // we simulate the upload phase to give the user the full experience.
             status.innerText = "Testing Upload...";
-            setProgress(0); // Reset circle for upload
             
             let simUpload = 0;
-            // Upload is usually 10-50% of download for residential lines, or 1:1 for fiber.
-            // We'll simulate a random factor between 0.3 and 0.8 of download speed.
-            const targetUpload = Math.max(1, (finalDownloadSpeed * (0.3 + Math.random() * 0.5))).toFixed(2);
+            const targetUpload = Math.max(1, (finalSpeed * 0.3)).toFixed(2);
             
             await new Promise((resolve) => {
                 let interval = setInterval(() => {
-                    simUpload += (targetUpload / 20); // Increment
+                    simUpload += (targetUpload / 15);
                     if(simUpload >= targetUpload) {
                         simUpload = targetUpload;
                         clearInterval(interval);
@@ -242,23 +202,19 @@
                     }
                     mainVal.innerText = parseFloat(simUpload).toFixed(2);
                     upEl.innerText = parseFloat(simUpload).toFixed(2);
-                    
-                    let visualPercent = Math.min((simUpload / 100) * 100, 100);
-                    setProgress(visualPercent);
-                }, 100); // 100ms * 20 steps = 2 seconds approx
+                }, 100);
             });
 
-            // --- Phase 4: Scoring ---
             status.innerText = "Test Complete";
-            circleEl.classList.remove('testing-pulse');
-            setProgress(100); // Full circle for done
-
-            // Calculate Score
+            spinner.classList.remove('active');
+            core.classList.remove('active');
+            
             let score = 0;
-            if(finalDownloadSpeed > 100) score = 98;
-            else if(finalDownloadSpeed > 50) score = 85;
-            else if(finalDownloadSpeed > 20) score = 70;
-            else if(finalDownloadSpeed > 5) score = 50;
+            let finalDl = parseFloat(downEl.innerText);
+            if(finalDl > 100) score = 99;
+            else if(finalDl > 50) score = 88;
+            else if(finalDl > 20) score = 75;
+            else if(finalDl > 5) score = 50;
             else score = 20;
 
             scoreEl.innerText = score + "%";
