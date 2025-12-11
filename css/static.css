@@ -649,8 +649,7 @@ a, img, button,
 }
 
 .status-label {
-    font-size: 0.7rem;
-    font-weight: 300;
+    font-size: 0.75rem;
     color: #aaa;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -658,6 +657,7 @@ a, img, button,
     min-height: 15px;
     text-align: center;
     width: 100%;
+    font-weight: 400;
 }
 
 .metrics-grid {
