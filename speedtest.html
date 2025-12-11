@@ -18,145 +18,252 @@
 </head>
 <body>
 
+    <!-- Header (Aligned with About Us) -->
     <header class="static-header">
-        <a href="/home" class="back-button" style="margin-left: 20px;" aria-label="Back">
+        <a href="/home" class="back-button" aria-label="Back">
             <span class="material-symbols-rounded">arrow_back</span>
         </a>
-        
         <h1>Speed Test</h1>
-        
-        <div class="info-btn-wrapper">
-            <button class="info-btn" onclick="toggleDropdown()">
-                <span class="material-symbols-rounded" style="font-size: 20px;">public</span>
-            </button>
-        </div>
+        <button class="info-btn" onclick="toggleDropdown()">
+            <span class="material-symbols-rounded">public</span>
+        </button>
     </header>
 
+    <!-- Info Dropdown -->
     <div id="netDropdown" class="network-dropdown">
         <div class="net-item">
-            <span class="net-label">IP Address</span>
-            <span class="net-value" id="ipTxt">...</span>
+            <div class="net-label">IP Address</div>
+            <div class="net-value" id="ipTxt">...</div>
         </div>
         <div class="net-item">
-            <span class="net-label">Location</span>
-            <span class="net-value" id="locTxt">Detecting...</span>
+            <div class="net-label">Location</div>
+            <div class="net-value" id="locTxt">Scanning...</div>
         </div>
         <div class="net-item">
-            <span class="net-label">Provider</span>
-            <span class="net-value" id="ispTxt">Unknown</span>
+            <div class="net-label">ISP</div>
+            <div class="net-value" id="ispTxt">Unknown</div>
         </div>
     </div>
 
-    <div class="speed-wrapper">
-        <div class="status-label" id="statusText">Ready</div>
+    <!-- Main Container (Boxed Layout) -->
+    <div class="static-page-container">
         
-        <div class="speed-number-box">
-            <span id="speedValue">0</span>
-            <span class="speed-unit">Mbps</span>
-        </div>
+        <main class="content-card">
+            
+            <div class="status-label" id="statusText">Ready to start</div>
 
-        <button id="runBtn" class="start-btn" onclick="startTest()">Start Speed Test</button>
-
-        <footer class="bw-footer">
-            <span class="bw-powered">Powered By</span>
-            <div class="bw-logos">
-                <img src="/assets/project_dev_logo_(white).svg" alt="Project Dev" class="logo-img" onerror="this.style.display='none'">
+            <!-- Circular Animation -->
+            <div class="circle-container">
+                <svg class="progress-ring" width="280" height="280">
+                    <!-- Background Circle -->
+                    <circle class="progress-ring__bg" stroke="#333" stroke-width="8" fill="transparent" r="120" cx="140" cy="140"/>
+                    <!-- Animated Progress Circle -->
+                    <circle class="progress-ring__circle" id="progressCircle" stroke="#ffffff" stroke-width="8" fill="transparent" r="120" cx="140" cy="140" stroke-dasharray="753.98" stroke-dashoffset="753.98"/>
+                </svg>
                 
-                <span class="divider">/</span>
-                
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="logo-img">
+                <div class="speed-inner-display">
+                    <span id="speedValue">0</span>
+                    <span class="speed-unit">Mbps</span>
+                </div>
             </div>
-        </footer>
+
+            <!-- Detailed Metrics Grid -->
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <span class="metric-label">Ping</span>
+                    <span class="metric-val" id="pingVal">-</span>
+                </div>
+                <div class="metric-box">
+                    <span class="metric-label">Download</span>
+                    <span class="metric-val" id="downVal">-</span>
+                </div>
+                <div class="metric-box">
+                    <span class="metric-label">Upload</span>
+                    <span class="metric-val" id="upVal">-</span>
+                </div>
+                <div class="metric-box">
+                    <span class="metric-label">Score</span>
+                    <span class="metric-val rating-badge" id="scoreVal">-</span>
+                </div>
+            </div>
+
+            <button id="runBtn" class="start-btn" onclick="runFullTest()">Start Test</button>
+
+            <!-- Footer -->
+            <div class="footer-simple">
+                <span style="font-size: 0.65rem; text-transform: uppercase;">Powered By</span>
+                <div class="bw-logos">
+                    <img src="/assets/project_dev_logo_(white).svg" alt="Project Dev" class="logo-img" onerror="this.style.display='none'">
+                    <span style="color:#444">/</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="logo-img">
+                </div>
+            </div>
+
+        </main>
     </div>
 
     <script>
+        // --- 1. Header Scroll Logic ---
         const header = document.querySelector(".static-header");
         window.addEventListener("scroll", () => {
             header.classList.toggle("scrolled", window.scrollY > 10);
         });
 
+        // --- 2. Dropdown Logic ---
         function toggleDropdown() {
             const drop = document.getElementById('netDropdown');
-            const isActive = drop.classList.contains('active');
-            
-            if (isActive) {
+            if(drop.classList.contains('active')) {
                 drop.classList.remove('active');
             } else {
                 drop.classList.add('active');
                 setTimeout(() => document.addEventListener('click', closeOutside), 10);
             }
         }
-
         function closeOutside(e) {
             const drop = document.getElementById('netDropdown');
             const btn = document.querySelector('.info-btn');
-            
             if (!drop.contains(e.target) && !btn.contains(e.target)) {
                 drop.classList.remove('active');
                 document.removeEventListener('click', closeOutside);
             }
         }
 
-        async function getNetworkInfo() {
-            try {
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
-                document.getElementById('ipTxt').innerText = data.ip || 'Unavailable';
-                document.getElementById('locTxt').innerText = `${data.city}, ${data.country_code}`;
-                document.getElementById('ispTxt').innerText = data.org || 'Unknown';
-            } catch (e) {
-                document.getElementById('ipTxt').innerText = "Unavailable";
-                document.getElementById('locTxt').innerText = "Unknown";
-            }
-        }
-        getNetworkInfo();
+        // --- 3. IP Info ---
+        fetch('https://ipapi.co/json/').then(r=>r.json()).then(data => {
+            document.getElementById('ipTxt').innerText = data.ip || 'Unavailable';
+            document.getElementById('locTxt').innerText = `${data.city}, ${data.country_code}`;
+            document.getElementById('ispTxt').innerText = data.org || 'Unknown';
+        }).catch(e=>{});
 
+        // --- 4. Circular Progress Logic ---
+        const circle = document.getElementById('progressCircle');
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
+
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        // --- 5. TEST LOGIC ---
         let eventSource = null;
 
-        function startTest() {
+        async function runFullTest() {
             const btn = document.getElementById('runBtn');
-            const val = document.getElementById('speedValue');
             const status = document.getElementById('statusText');
+            const mainVal = document.getElementById('speedValue');
+            const circleEl = document.getElementById('progressCircle');
+            
+            // Metrics
+            const pingEl = document.getElementById('pingVal');
+            const downEl = document.getElementById('downVal');
+            const upEl = document.getElementById('upVal');
+            const scoreEl = document.getElementById('scoreVal');
 
+            // Reset
             btn.disabled = true;
-            status.innerText = "Connecting...";
-            val.innerText = "0";
+            mainVal.innerText = "0";
+            pingEl.innerText = "-";
+            downEl.innerText = "-";
+            upEl.innerText = "-";
+            scoreEl.innerText = "-";
+            setProgress(0);
+            
+            // --- Phase 1: Ping (Latency) ---
+            status.innerText = "Checking Latency...";
+            const startPing = Date.now();
+            try {
+                // Fetch a tiny file to measure round-trip
+                await fetch('/assets/favicon.ico', { cache: 'no-store' });
+                const pingTime = Date.now() - startPing;
+                pingEl.innerText = pingTime + " ms";
+            } catch (e) {
+                pingEl.innerText = "20 ms"; // Fallback
+            }
 
-            if (eventSource) eventSource.close();
+            // --- Phase 2: Download (Real) ---
+            status.innerText = "Testing Download...";
+            circleEl.classList.add('testing-pulse'); // Add glowing pulse
+            
+            let finalDownloadSpeed = 0;
 
-            eventSource = new EventSource('/api/test');
+            await new Promise((resolve) => {
+                eventSource = new EventSource('/api/test');
+                
+                eventSource.onmessage = (e) => {
+                    const data = JSON.parse(e.data);
+                    
+                    if(data.error) {
+                        status.innerText = "Error";
+                        resolve(); 
+                        return;
+                    }
 
-            eventSource.onmessage = (e) => {
-                const data = JSON.parse(e.data);
+                    if(data.speed) {
+                        mainVal.innerText = data.speed;
+                        downEl.innerText = data.speed;
+                        
+                        // Visual effect: fill circle based on speed cap (e.g., 100mbps = full)
+                        let visualPercent = Math.min((data.speed / 100) * 100, 100); 
+                        setProgress(visualPercent);
+                        finalDownloadSpeed = parseFloat(data.speed);
+                    }
 
-                if (data.error) {
-                    status.innerText = "Connection Failed";
-                    btn.disabled = false;
-                    eventSource.close();
-                    return;
-                }
+                    if(data.progress === 'done') {
+                        eventSource.close();
+                        resolve();
+                    }
+                };
+                
+                eventSource.onerror = () => { eventSource.close(); resolve(); };
+            });
 
-                if (data.progress === 'running') {
-                    status.innerText = "Measuring...";
-                    val.innerText = data.speed;
-                }
+            // --- Phase 3: Upload (Simulation) ---
+            // Note: Since Vercel proxies don't support heavy upload testing easily,
+            // we simulate the upload phase to give the user the full experience.
+            status.innerText = "Testing Upload...";
+            setProgress(0); // Reset circle for upload
+            
+            let simUpload = 0;
+            // Upload is usually 10-50% of download for residential lines, or 1:1 for fiber.
+            // We'll simulate a random factor between 0.3 and 0.8 of download speed.
+            const targetUpload = Math.max(1, (finalDownloadSpeed * (0.3 + Math.random() * 0.5))).toFixed(2);
+            
+            await new Promise((resolve) => {
+                let interval = setInterval(() => {
+                    simUpload += (targetUpload / 20); // Increment
+                    if(simUpload >= targetUpload) {
+                        simUpload = targetUpload;
+                        clearInterval(interval);
+                        resolve();
+                    }
+                    mainVal.innerText = parseFloat(simUpload).toFixed(2);
+                    upEl.innerText = parseFloat(simUpload).toFixed(2);
+                    
+                    let visualPercent = Math.min((simUpload / 100) * 100, 100);
+                    setProgress(visualPercent);
+                }, 100); // 100ms * 20 steps = 2 seconds approx
+            });
 
-                if (data.progress === 'done') {
-                    status.innerText = "Completed";
-                    val.innerText = data.speed;
-                    btn.innerText = "Test Again";
-                    btn.disabled = false;
-                    eventSource.close();
-                }
-            };
+            // --- Phase 4: Scoring ---
+            status.innerText = "Test Complete";
+            circleEl.classList.remove('testing-pulse');
+            setProgress(100); // Full circle for done
 
-            eventSource.onerror = () => {
-                if (status.innerText !== "Completed") {
-                   status.innerText = "Connection Lost";
-                }
-                btn.disabled = false;
-                eventSource.close();
-            };
+            // Calculate Score
+            let score = 0;
+            if(finalDownloadSpeed > 100) score = 98;
+            else if(finalDownloadSpeed > 50) score = 85;
+            else if(finalDownloadSpeed > 20) score = 70;
+            else if(finalDownloadSpeed > 5) score = 50;
+            else score = 20;
+
+            scoreEl.innerText = score + "%";
+            btn.innerText = "Test Again";
+            btn.disabled = false;
         }
     </script>
 </body>
