@@ -13,6 +13,13 @@ export default function handler(req, res) {
 
     const slidesData = [
         {
+            title: "Coming Soon",
+            description: "New name, same interface.<br><strong>litestream</strong> rebrand to <strong>liveplay</strong>.",
+            image: "/assets/poster/rebranding_poster.png",
+            badge: "Coming this Christmas",
+            link: null,
+        },
+        {
             title: "SEA Games:<br>Thailand 2025",
             ph_description: "<strong>Catch-Up TV</strong>: TV5, RPTV, and One Sports<br><strong>Livestream</strong>: Pilipinas Live Channels",
             image: "/assets/poster/seagames_thailand_2025_poster.png",
