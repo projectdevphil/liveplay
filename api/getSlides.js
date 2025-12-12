@@ -17,7 +17,7 @@ export default function handler(req, res) {
             description: "New name, same interface.<br><strong>litestream</strong> rebrands to <strong>liveplay</strong>.",
             image: "/assets/poster/rebranding_poster.png",
             badge: "Coming this Christmas",
-            link: null,
+            link: "https://liveplay.vercel.app/home",
         },
         {
             title: "SEA Games:<br>Thailand 2025",
