@@ -544,6 +544,7 @@ header nav {
 .channel-list {
     background-color: var(--card-background);
     border-radius: var(--border-radius);
+    border: var(--glass-border);
     display: flex;
     flex-direction: column;
     margin-top: 15px;
