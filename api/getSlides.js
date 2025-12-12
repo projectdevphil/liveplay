@@ -14,7 +14,7 @@ export default function handler(req, res) {
     const slidesData = [
         {
             title: "Coming Soon",
-            description: "New name, same interface.<br><strong>litestream</strong> rebrand to <strong>liveplay</strong>.",
+            description: "New name, same interface.<br><strong>litestream</strong> rebrands to <strong>liveplay</strong>.",
             image: "/assets/poster/rebranding_poster.png",
             badge: "Coming this Christmas",
             link: null,
