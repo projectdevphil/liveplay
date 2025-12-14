@@ -12,13 +12,13 @@ export default function handler(req, res) {
     const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
 
     const slidesData = [
-        {
-            title: "Coming Soon",
-            description: "New name, same interface.<br><strong>litestream</strong> rebrands to <strong>liveplay</strong>.",
-            image: "/assets/poster/rebranding_poster.png",
-            badge: "Coming this Christmas",
-            link: "https://liveplay.vercel.app/home",
-        },
+        //{
+            //title: "Coming Soon",
+            //description: "New name, same interface.<br><strong>litestream</strong> rebrands to <strong>liveplay</strong>.",
+            //image: "/assets/poster/rebranding_poster.png",
+            //badge: "Coming this Christmas",
+            //link: "https://liveplay.vercel.app/home",
+        //},
         {
             title: "SEA Games:<br>Thailand 2025",
             ph_description: "<strong>Catch-Up TV</strong>: TV5, RPTV, and One Sports<br><strong>Livestream</strong>: Pilipinas Live Channels",
