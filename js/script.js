@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const CHANNELS_PER_PAGE = 40;
     const BASE_URL_PATH = '/home';
-    const POSTER_MOBILE = '/assets/poster/mobile.png';
-    const POSTER_DESKTOP = '/assets/poster/desktop.png';
+    const POSTER_MOBILE = '/assets/poster/mobile_v2.png';
+    const POSTER_DESKTOP = '/assets/poster/desktop_v2.png';
 
     const header = document.querySelector("header");
     const menuBtn = document.getElementById("menu-btn");
@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const newUrl = `${BASE_URL_PATH}?channel=${currentActiveChannelSlug}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
-        document.title = `${publicStreamInfo.name} - Litestream`;
+        document.title = `${publicStreamInfo.name} - Liveplay`;
 
         await playVideoAd(videoElement, playerWrapper, player, ui, (text, color) => {
              if(mainPlayerStatus) {
