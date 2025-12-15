@@ -652,7 +652,7 @@ header nav {
     background-color: #000;
     border-radius: var(--border-radius);
     margin: 0 auto;
-    max-width: 960px;
+    /**max-width: 960px;*/
     width: 100%;
     position: relative;
     overflow: hidden;
