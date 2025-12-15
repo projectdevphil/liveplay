@@ -89,7 +89,7 @@
         z-index: 11;
         padding: 15px 0;
         margin-top: auto;
-        margin-bottom: 20px;
+        margin-bottom: 0;
         flex-shrink: 0;
     }
 
