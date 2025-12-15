@@ -1,8 +1,4 @@
 @media (min-width: 1024px) {
-    /**html {
-        scrollbar-gutter: stable;
-    }*/
-
     body {
         padding-top: 60px;
         overflow: hidden;
@@ -14,7 +10,7 @@
     }
 
     main {
-        padding: 10px 0 0 0;
+        padding: 10px 20px 0 20px;
         height: calc(100vh - 60px);
         overflow: hidden;
         width: 100%;
@@ -29,9 +25,9 @@
         height: 100%;
     }
 
-    header {
+    /**header {
         padding: 0 10px 0 20px;
-    }
+    }*/
 
     #player-view {
         display: flex;
@@ -118,7 +114,7 @@
         height: 100%;
         overflow-y: auto !important;
         overflow-x: hidden;
-        padding: 0 20px 50px 10px;
+        padding: 0 0 50px 10px;
         position: relative;
         z-index: 5;
         scrollbar-width: thin;
