@@ -30,13 +30,14 @@
     }
 
     #player-view {
-        display: block;
+        display: flex;
+        flex-direction: column;
         position: relative;
         justify-content: flex-start;
         background: transparent;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-        padding: 0 20px 20px 20px;
+        padding: 0 20px 0 20px;
         height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
@@ -88,9 +89,11 @@
         max-width: none;
         width: 100%;
         box-sizing: border-box;
-        margin-top: 0;
-        padding: 15px 0;
         z-index: 11;
+        padding: 15px 0;
+        margin-top: auto;   /* Pushes content to the bottom */
+        margin-bottom: 20px; /* Adds the space below the info */
+        flex-shrink: 0;     /* Prevents the info from shrinking/squashing */
     }
 
     .live-indicator {
