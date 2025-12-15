@@ -30,7 +30,7 @@
     }
 
     header {
-        padding: 0 10px 0 0;
+        padding: 0 10px 0 10px;
     }
 
     #player-view {
@@ -84,7 +84,7 @@
         z-index: 11;
         padding: 15px 0;
         margin-top: auto;
-        margin-bottom: 20;
+        margin-bottom: 20px;
         flex-shrink: 0;
     }
 
