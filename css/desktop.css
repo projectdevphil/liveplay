@@ -3,10 +3,14 @@
         padding-top: 60px;
         overflow: hidden;
         height: 100vh;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
 
     body::-webkit-scrollbar {
         display: none;
+        width: 0;
+        height: 0;
     }
 
     main {
@@ -33,7 +37,7 @@
         background: transparent;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-        padding: 0 0 0 10px;
+        padding: 0;
         height: 100%;
         overflow: hidden;
         z-index: 10;
@@ -68,23 +72,6 @@
         max-height: 100%; 
         background: transparent;
     }
-
-    .video-player-container:fullscreen,
-    .video-player-container:-webkit-full-screen,
-    .video-player-container:-moz-full-screen,
-    #video-player:fullscreen,
-    #video-player:-webkit-full-screen,
-    #video-player:-moz-full-screen {
-        width: 100vw !important;
-        height: 100vh !important;
-        max-width: none !important;
-        max-height: none !important;
-        aspect-ratio: unset !important;
-        border-radius: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        background: #000 !important;
-    }    
     
     .player-info {
         max-width: none;
@@ -113,13 +100,14 @@
         padding: 0 0 50px 0;
         position: relative;
         z-index: 5;
+        -webkit-overflow-scrolling: touch; 
         scrollbar-width: thin;
         scrollbar-color: #404040 transparent;
     }
 
     .content-container::-webkit-scrollbar {
         display: block;
-        width: 2px;
+        width: 4px;
     }
 
     .content-container::-webkit-scrollbar-track {
@@ -136,10 +124,11 @@
     }
 
     .top-watch-list {
-        scrollbar-width: thin;
-        scrollbar-color: #404040 transparent;
         padding-bottom: 15px;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: #404040 transparent;
     }
 
     .top-watch-list::-webkit-scrollbar {
