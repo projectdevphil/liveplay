@@ -120,7 +120,7 @@
 
     .content-container::-webkit-scrollbar {
         display: block;
-        width: 6px;
+        width: 2px;
     }
 
     .content-container::-webkit-scrollbar-track {
