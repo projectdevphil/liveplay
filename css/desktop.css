@@ -30,7 +30,7 @@
     }
 
     header {
-        padding: 0 10px 0 10px;
+        padding: 0 10px 0 20px;
     }
 
     #player-view {
@@ -104,11 +104,26 @@
         padding: 0 0 50px 10px;
         position: relative;
         z-index: 5;
-        scrollbar-width: none;
+        scrollbar-width: thin;
+        scrollbar-color: #404040 transparent;
     }
 
     .content-container::-webkit-scrollbar {
-        display: none;
+        display: block;
+        width: 6px;
+    }
+
+    .content-container::-webkit-scrollbar-track {
+        background: transparent; 
+    }
+
+    .content-container::-webkit-scrollbar-thumb {
+        background-color: #404040;
+        border-radius: 10px;
+    }
+    
+    .content-container::-webkit-scrollbar-thumb:hover {
+        background-color: #606060;
     }
 
     .top-watch-list {
