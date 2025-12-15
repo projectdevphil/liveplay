@@ -21,7 +21,7 @@ export default function handler(req, res) {
         //},
         {
             title: "SEA Games:<br>Thailand 2025",
-            ph_description: "<strong>Catch-Up TV</strong>: TV5, RPTV, and One Sports<br><strong>Livestream</strong>: Pilipinas Live Channels and MediaCorp SEA Games Channels",
+            ph_description: "<strong>Catch-Up TV</strong>: TV5, RPTV, and One Sports<br><strong>Livestream</strong>: Pilipinas Live Channels and<br>MediaCorp SEA Games Channels",
             image: "/assets/poster/seagames_thailand_2025_poster_v2.png",
             badge: "Watch Now • Event • Sports",
             link: null,
