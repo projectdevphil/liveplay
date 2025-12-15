@@ -76,6 +76,23 @@
         max-height: 100%; 
         background: transparent;
     }
+
+    .video-player-container:fullscreen,
+    .video-player-container:-webkit-full-screen,
+    .video-player-container:-moz-full-screen,
+    #video-player:fullscreen,
+    #video-player:-webkit-full-screen,
+    #video-player:-moz-full-screen {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: none !important;
+        max-height: none !important;
+        aspect-ratio: unset !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #000 !important;
+    }    
     
     .player-info {
         max-width: none;
