@@ -12,7 +12,8 @@ export default function handler(req, res) {
 
     const adPlaylist = [
         {
-            videoUrl: '/assets/ads/112620250001.mp4',
+            //videoUrl: '/assets/ads/112620250001.mp4',
+            videoUrl: 'https://vs-prodamdfandango.akamaized.net/out/v1/9e21ac13e637402bb92e5a0b0103bfcf/24179244572d48768920647994272718/55cfc6748196457d965dfd98aa2d46b8/index.m3u8',
             linkUrl: 'https://www.netflix.com/ph-en/title/81427990?preventIntent=true'
         },
         {
@@ -33,7 +34,8 @@ export default function handler(req, res) {
             //linkUrl: '/home/updates'
         //},
         {
-            videoUrl: '/assets/ads/120620250006.mp4',
+            //videoUrl: '/assets/ads/120620250006.mp4',
+            videoUrl: 'https://vs-prodamdfandango.akamaized.net/out/v1/f743a3d65dfa458b986431035c6197ec/24179244572d48768920647994272718/55cfc6748196457d965dfd98aa2d46b8/index.m3u8',
             linkUrl: 'https://www.hbomax.com/shows/heated-rivalry/50cd4e99-04ee-427b-a3b4-da721ed05d9c',
             access: 'US'
         },
