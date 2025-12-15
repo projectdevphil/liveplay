@@ -33,7 +33,7 @@
         background: transparent;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-        padding: 0;
+        padding: 0 0 0 10px;
         height: 100%;
         overflow: hidden;
         z-index: 10;
