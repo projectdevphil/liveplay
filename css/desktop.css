@@ -22,7 +22,7 @@
 
     .main-container {
         display: grid;
-        grid-template-columns: 1fr 400px;
+        grid-template-columns: 2fr 1fr;
         gap: 0;
         align-items: start;
         position: relative;
