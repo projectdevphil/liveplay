@@ -11,6 +11,7 @@ export default function handler(req, res) {
 
     const channels = [
         // General
+        { name: 'Love Joy Hope (ABS-CBN CSID 2025)', logo: 'https://resources.tidal.com/images/5ea2b62e/3555/4cc4/a446/0023a3ad39db/1280x1280.jpg', manifestUri: 'https://iwant-video.akamaized.net/abscbnchristmasstationsid2025/92c31981-db85-4398-8b74-88d870bb0536/manifest.mpd', clearKey: { '664d4714d0124f7ea8d69b487cf243e0': 'b84e0065a763e578ecd8878a2c59d12b' }, group: 'Music' },        
         { name: 'Kapamilya Channel', logo: 'https://static.wikia.nocookie.net/abscbn/images/7/74/Kapamilya_Channel_3D_Logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd', clearKey: { 'bd17afb5dc9648a39be79ee3634dd4b8': '3ecf305d54a7729299b93a3d69c02ea5' }, group: 'General', access: 'PH' },
         { name: 'GMA7', logo: 'https://static.wikia.nocookie.net/logopedia/images/a/aa/GMA_Network_2024_logo.png', manifestUri: 'https://converse.nathcreqtives.com/1093/manifest.mpd', clearKey: { '31363231383438333031323033393138': '38694e34324d543478316b7455753437' }, group: 'General', access: 'PH' },
         { name: 'TV5', logo: 'https://static.wikia.nocookie.net/tv5network/images/9/95/TV5_HD_2024.svg', manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/tv5_hd/default1/index.mpd', clearKey: { '2615129ef2c846a9bbd43a641c7303ef': '07c7f996b1734ea288641a68e1cfdc4d' }, group: 'General', access: 'PH' },
@@ -167,8 +168,8 @@ export default function handler(req, res) {
 
         // Music
         { name: 'MYX', logo: 'https://assets-myxglobal.abs-cbn.com/wp-content/uploads/2022/07/MYX_New_Logo_Web1.png', manifestUri: 'https://d24xfhmhdb6r0q.cloudfront.net/out/v1/e897a7b6414a46019818ee9f2c081c4f/index.mpd', clearKey: { 'f40a52a3ac9b4702bdd5b735d910fd2f': '5ce1bc7f06b494c276252b4d13c90e51' }, group: 'Music' },
-        { name: 'MTV Live', logo: 'https://static.wikia.nocookie.net/logopedia/images/7/7f/MTV_Live_2021.svg', manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/5014/default_ott.mpd', clearKey: { '3ac2542a4f7be746633db07647451710': '22f964a6d6927ccdba482e775cdff190' }, group: 'Music' },
-        //{ name: 'MTV Live', logo: 'https://static.wikia.nocookie.net/logopedia/images/7/7f/MTV_Live_2021.svg', manifestUri: 'https://nog-live1-ott.izzigo.tv/4/out/u/dash/MTVLIVEHD/default.mpd', clearKey: { 'acc4581a25ef0cd76f8fd7d826bb2d06': 'bc006e72e9aab57aca8ae75a83e8f20e' }, group: 'Music' },
+        //{ name: 'MTV Live', logo: 'https://static.wikia.nocookie.net/logopedia/images/7/7f/MTV_Live_2021.svg', manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/5014/default_ott.mpd', clearKey: { '3ac2542a4f7be746633db07647451710': '22f964a6d6927ccdba482e775cdff190' }, group: 'Music' },
+        { name: 'MTV Live', logo: 'https://static.wikia.nocookie.net/logopedia/images/7/7f/MTV_Live_2021.svg', manifestUri: 'https://nog-live1-ott.izzigo.tv/4/out/u/dash/MTVLIVEHD/default.mpd', clearKey: { 'acc4581a25ef0cd76f8fd7d826bb2d06': 'bc006e72e9aab57aca8ae75a83e8f20e' }, group: 'Music' },
         { name: 'Vevo Pop', logo: '/assets/vevopop_logo.svg', manifestUri: 'https://amg00056-amg00056c6-rakuten-uk-3235.playouts.now.amagi.tv/playlist.m3u8', group: 'Music' },    
         { name: 'MTV Live (US)', logo: 'https://static.wikia.nocookie.net/logopedia/images/5/58/MTV_Live_%28orange%29.svg', manifestUri: 'https://fl1.moveonjoy.com/MTV_LIVE/manifest.mpd', group: 'Music' },
 
