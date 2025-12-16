@@ -485,6 +485,10 @@ header nav {
     box-sizing: border-box;
 }
 
+.top-watch-logo-container:hover {
+    background-color: #282828;
+}
+
 .top-watch-logo {
     width: 90%;
     height: 50%;
@@ -600,7 +604,7 @@ header nav {
 .channel-name {
     font-size: 0.85rem;
     font-weight: 500;
-    width: 75%;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
