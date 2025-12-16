@@ -589,7 +589,7 @@ header nav {
     width: 40px;
     background: transparent;
     border: var(--glass-border);
-    border-radius: 10px;
+    border-radius: 5.5px;
     padding: 2px;
 }
 
@@ -714,11 +714,12 @@ header nav {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    width: 80%;
+    width: 100%;
 }
 
 .player-info-left h3 {
     font-size: 1.1rem;
+    width: 80%;
     margin: 0;
 }
 
@@ -776,7 +777,7 @@ header nav {
 .minimized-logo {
     background: transparent;
     filter: none;
-    border-radius: 10px;
+    border-radius: 6.5px;
     height: 50px;
     pointer-events: none;
     object-fit: contain;
