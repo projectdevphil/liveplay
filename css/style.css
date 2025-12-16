@@ -373,6 +373,7 @@ header nav {
 .skeleton-slider-box {
     aspect-ratio: 16 / 9;
     background-color: var(--card-background);
+    border: var(--glass-border);
     border-radius: var(--border-radius);
     width: 100%;
     animation: skeleton-pulse 1.5s infinite ease-in-out;
@@ -412,7 +413,7 @@ header nav {
 
 .top-watch-list {
     display: flex;
-    gap: 27px;
+    gap: 23px;
     overflow-x: auto;
     padding-top: 10px; 
     padding-bottom: 10px;
@@ -443,13 +444,13 @@ header nav {
 }
 
 .top-rank-number {
-    font-family: 'Helvetica 93 Black Extended', sans-serif;
+    /**font-family: 'Helvetica 93 Black Extended', sans-serif;*/
     font-size: 4.5rem; 
     font-weight: 900;
     font-style: normal;
     letter-spacing: -2.5px;
     line-height: 0.8; 
-    margin-right: -20px;
+    margin-right: -18px;
     margin-bottom: 0;
     z-index: 1;
     position: relative;
