@@ -220,7 +220,6 @@ header nav {
     z-index: 1;
     transition: opacity 0.5s ease 1s;
     border-radius: var(--border-radius);
-    border: var(--glass-border);
     --slide-bg: url('');
 }
 
