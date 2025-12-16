@@ -433,11 +433,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (shaka.Player.isBrowserSupported()) {
             player = new shaka.Player(videoElement);
             try {
-                ui = new shaka.ui.Overlay(player, playerWrapper, videoElement);
-                ui.configure({ addSeekBar: false });
+               ui = new shaka.ui.Overlay(player, playerWrapper, videoElement);
+               ui.configure({ 
+                  addSeekBar: true 
+               }); 
             } catch (e) {
-                console.warn(e);
-                videoElement.controls = true;
+               console.warn(e);
+               videoElement.controls = true;
             }
 
             player.addEventListener('error', (event) => {
