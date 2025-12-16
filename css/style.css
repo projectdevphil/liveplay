@@ -330,6 +330,8 @@ header nav {
     position: absolute;
     right: 20px;
     z-index: 10;
+    border: var(--glass-border);
+    border-radius: 50%;
 }
 
 .slider-nav .dot {
