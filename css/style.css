@@ -721,6 +721,9 @@ header nav {
     font-size: 1.1rem;
     width: 80%;
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .player-info-left p {
@@ -789,7 +792,7 @@ header nav {
 .minimized-info h4 {
     font-size: 0.85rem;
     font-weight: 700;
-    width: 70%
+    width: 70%;
     margin: 0;
     margin-bottom: 3px;
     overflow: hidden;
