@@ -37,12 +37,13 @@ export default function handler(req, res) {
             //videoUrl: '/assets/ads/120620250006.mp4',
             videoUrl: 'https://vs-prodamdfandango.akamaized.net/out/v1/f743a3d65dfa458b986431035c6197ec/24179244572d48768920647994272718/55cfc6748196457d965dfd98aa2d46b8/index.m3u8',
             linkUrl: 'https://www.hbomax.com/shows/heated-rivalry/50cd4e99-04ee-427b-a3b4-da721ed05d9c',
-            access: 'US'
+            access: 'PH'
         },
         {
-            videoUrl: '/assets/ads/120720250007.mp4',
+            //videoUrl: '/assets/ads/120720250007.mp4',
+            videoUrl: 'https://clips-media-cf.warnermediacdn.com/beam/clips/2025-12/2101736-1e96250519234647ab86cf9523069ecb/cmaf/master_cl_de.m3u8',
             linkUrl: 'https://www.hbomax.com/bundle/viu',
-            access: 'SEA'
+            access: 'PH'
         }
     ];
 
