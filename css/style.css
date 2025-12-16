@@ -661,6 +661,7 @@ header nav {
     aspect-ratio: 16 / 9;
     background-color: #000;
     border-radius: var(--border-radius);
+    border: var(--glass-border);
     margin: 0 auto;
     /**max-width: 960px;*/
     width: 100%;
