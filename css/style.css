@@ -720,7 +720,7 @@ header nav {
 .player-info-left h3 {
     font-size: 1.1rem;
     width: 100%;
-    margin: 0;
+    margin-right: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -793,7 +793,7 @@ header nav {
     font-size: 0.85rem;
     font-weight: 700;
     width: 100%;
-    margin: 0;
+    margin-left: 5px;
     margin-bottom: 3px;
     overflow: hidden;
     text-overflow: ellipsis;
