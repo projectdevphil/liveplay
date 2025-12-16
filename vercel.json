@@ -6,7 +6,6 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/home/about", "destination": "/about-us.html" },
-    { "source": "/home/dmca", "destination": "/dmca.html" },
     { "source": "/home/faq", "destination": "/faq.html" },
     { "source": "/home/privacy", "destination": "/privacy.html" },
     { "source": "/home/speed", "destination": "/speed-test.html" },
