@@ -73,6 +73,7 @@
 
 .back-button:hover, .info-btn:hover {
     background: rgba(255, 255, 255, 0.1);
+    border: var(--glass-border);
 }
 
 .gauge-wrapper {
