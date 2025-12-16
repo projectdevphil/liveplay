@@ -596,6 +596,7 @@ header nav {
 .channel-name {
     font-size: 0.85rem;
     font-weight: 500;
+    width: 75%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
