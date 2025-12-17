@@ -199,7 +199,7 @@
         
         .tv-slide-wipe-wrapper {
             position: absolute; inset: 0;
-            clip-path: inset(0 0 0 100%);
+            clip-path: inset(0 0 0 0 round var(--border-radius));
             transition: clip-path 0.1s ease 1s;
         }
         .tv-slide-content {
@@ -221,7 +221,7 @@
 
         .tv-slide.active { opacity: 1; z-index: 1; transition: opacity 0.2s ease; }
         .tv-slide.active .tv-slide-wipe-wrapper {
-            clip-path: inset(0 0 0 0);
+            clip-path: inset(0 0 0 0 round var(--border-radius));
             transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1);
         }
         .tv-slide.active .tv-slide-content {
