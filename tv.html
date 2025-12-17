@@ -156,8 +156,13 @@
         .list-item img {
             width: 32px; height: 32px;
             object-fit: contain;
-            border-radius: 6px;
+            pointer-events: none;
+            background: var(--focus-text);
+            border: var(--glass-border);
+            border-radius: 5.5px;
+            padding: 2px;
         }
+        
         .list-item span {
             font-weight: 500;
             font-size: 0.95rem;
@@ -201,7 +206,7 @@
             transition: all 0.5s ease;
         }
         .tv-slide-content h2 { font-size: 1.0rem; font-weight: 700; margin: 0 50px 2px 0;}
-        .tv-slide-content p { color: var(--text-secondary); font-size: 0.6rem; line-height: 1; margin: 0 0 6px 0; }
+        .tv-slide-content p { color: var(--text-secondary); font-size: 0.6rem; line-height: 1.3; margin: 0 0 6px 0; }
         .tv-slide-badge {
             background: var(--theme-color); color: black;
             font-size: 0.4rem; font-weight: 700; padding: 3px;
@@ -229,7 +234,7 @@
             width: 7px; height: 7px; background: rgba(255,255,255,0.4);
             border-radius: 50%; transition: all 0.3s;
         }
-        .dot.active { width: 20px; rgba(255, 255, 255, 0.2) border-radius: 20px; }
+        .dot.active { width: 20px; rgba(255, 255, 255, 0.2) border-radius: 10px; }
 
         .dot.active::after {
             content: '';
@@ -238,7 +243,7 @@
             left: 0;
             height: 100%;
             background-color: var(--theme-color);
-            border-radius: 20px;
+            border-radius: 10px;
             width: 0%;
             animation: dotProgress var(--slide-timer, 5000ms) linear forwards;
         }
