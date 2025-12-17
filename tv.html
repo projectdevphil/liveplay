@@ -111,7 +111,7 @@
         .section-header {
             text-align: left;
             text-transform: uppercase;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: #888;
             font-weight: 700;
             margin: 25px 0 15px 0;
@@ -157,18 +157,20 @@
             width: 32px; height: 32px;
             object-fit: contain;
             pointer-events: none;
-            background: var(--focus-text);
-            border: var(--glass-border);
+            background: var(--glass-heavy);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: var(--border-color);
             border-radius: 5.5px;
             padding: 2px;
         }
         
         .list-item span {
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
-        .item-icon { font-size: 20px; color: #aaa; }
+        .item-icon { font-size: 22px; color: #aaa; }
         
         /* Focus State */
         .focusable.focused {
@@ -234,7 +236,7 @@
             width: 7px; height: 7px; background: rgba(255,255,255,0.4);
             border-radius: 50%; transition: all 0.3s;
         }
-        .dot.active { width: 20px; rgba(255, 255, 255, 0.2) border-radius: 10px; }
+        .dot.active { width: 20px; rgba(255, 255, 255, 0.2); border-radius: 20px; }
 
         .dot.active::after {
             content: '';
@@ -243,7 +245,7 @@
             left: 0;
             height: 100%;
             background-color: var(--theme-color);
-            border-radius: 10px;
+            border-radius: 20px;
             width: 0%;
             animation: dotProgress var(--slide-timer, 5000ms) linear forwards;
         }
