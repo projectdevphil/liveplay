@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Liveplay TV</title>
     <meta name="theme-color" content="#000000">
-    
-    <!-- Reuse assets/fonts from main site structure -->
-    <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
-    <link rel="shortcut icon" href="/assets/favicon.ico" />
     
     <!-- Fonts and Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -18,26 +14,22 @@
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/shaka-player.ui.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/controls.min.css" rel="stylesheet">
     
-    <!-- Main Style Dependency (if you have shared vars) -->
     <link rel="stylesheet" href="/css/style.css">
 
     <style>
         /* --- TV INTERFACE STYLES --- */
 
         :root {
-            --focus-color: #ffffff;
             --focus-bg: #ffffff;
             --focus-text: #000000;
             --glass-heavy: rgba(15, 15, 15, 0.95);
-            --glass-medium: rgba(30, 30, 30, 0.8);
-            --highlight: rgba(255, 255, 255, 0.15);
             --theme-color: #ffffff;
         }
 
         body {
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevent body scroll, we use internal scrolling */
+            overflow: hidden;
             background: #000;
             cursor: default; 
             font-family: 'BR Sonoma', sans-serif;
@@ -67,45 +59,27 @@
             background: var(--glass-heavy);
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 10px 0 50px rgba(0,0,0,0.8);
             color: white;
         }
 
-        .fullscreen-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: 9000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s;
-        }
-
-        .fullscreen-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Channel Info Bar (Top) */
+        /* --- INFO BAR (BOTTOM LEFT) --- */
         .channel-info-bar {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 140px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+            height: 200px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0) 100%);
             z-index: 10;
-            padding: 30px 40px;
+            padding: 40px;
             box-sizing: border-box;
             display: flex;
-            align-items: center;
-            transform: translateY(-100%);
+            align-items: flex-end;
+            transform: translateY(100%);
             opacity: 0;
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s;
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s;
             pointer-events: none;
         }
 
@@ -121,18 +95,19 @@
         }
 
         #info-logo {
-            height: 70px;
-            width: 70px;
+            height: 80px;
+            width: 80px;
             object-fit: contain;
             background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 5px;
+            border-radius: 15px;
+            padding: 10px;
             border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .text-details h1 {
-            font-size: 2.2rem;
-            margin: 0;
+            font-size: 2.5rem;
+            margin: 0 0 5px 0;
             font-weight: 800;
             text-shadow: 0 2px 10px rgba(0,0,0,0.8);
             letter-spacing: -0.5px;
@@ -142,8 +117,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 8px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #ccc;
             font-weight: 500;
         }
@@ -151,32 +125,31 @@
         .live-tag {
             background: #ff0000;
             color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 5px;
             letter-spacing: 0.5px;
-            box-shadow: 0 2px 5px rgba(255,0,0,0.3);
         }
 
         .divider { color: rgba(255,255,255,0.3); }
 
-        /* Left Guide Overlay */
+        /* --- LEFT GUIDE OVERLAY --- */
         #guide-overlay {
             position: fixed;
-            top: 20px;
-            bottom: 20px;
-            left: 20px;
-            width: 380px;
-            border-radius: 20px;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 420px;
             z-index: 100;
-            transform: translateX(-120%);
+            transform: translateX(-100%);
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
             display: flex;
             flex-direction: column;
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
 
         #guide-overlay.active {
@@ -184,334 +157,307 @@
         }
 
         .guide-header {
-            padding: 25px;
+            padding: 30px;
             border-bottom: 1px solid rgba(255,255,255,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(0,0,0,0.2);
         }
 
-        .guide-logo {
-            height: 28px;
-        }
-
-        #clock-display {
-            font-size: 0.9rem;
-            color: #888;
-            font-variant-numeric: tabular-nums;
-            font-weight: 600;
-        }
+        .guide-logo { height: 32px; }
+        #clock-display { font-size: 1rem; color: #888; font-weight: 600; font-variant-numeric: tabular-nums; }
 
         .guide-scroll-area {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 25px;
             scrollbar-width: none;
         }
-
         .guide-scroll-area::-webkit-scrollbar { display: none; }
 
-        .guide-section {
-            margin-bottom: 35px;
-        }
-
-        .guide-section h3 {
-            margin: 0 0 15px 0;
-            font-size: 0.75rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-            padding-left: 5px;
-        }
-
-        /* TV Button/Item Styles */
-        .tv-btn, .channel-item, .setting-item, .qr-item {
-            display: flex;
-            align-items: center;
+        /* --- SLIDER (Main Site Port) --- */
+        .tv-slider-container {
+            margin-bottom: 30px;
+            position: relative;
             width: 100%;
-            padding: 14px 18px;
-            border-radius: 12px;
-            border: 2px solid transparent;
-            background: rgba(255,255,255,0.03);
-            color: #eee;
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-sizing: border-box;
-            cursor: pointer;
-            gap: 15px;
-            position: relative;
+            aspect-ratio: 16 / 9;
         }
 
-        .tv-btn .material-symbols-rounded { font-size: 22px; color: #aaa; }
-
-        /* FOCUS STATE (Crucial for TV) */
-        .focusable.focused {
-            background: var(--focus-bg);
-            color: var(--focus-text);
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            border-color: var(--focus-bg);
-            z-index: 2;
-        }
-
-        .focusable.focused .material-symbols-rounded {
-            color: var(--focus-text);
-        }
-
-        .channel-item img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-            border-radius: 4px;
-        }
-
-        /* Featured Slider in Menu */
-        .tv-slider {
-            height: 180px;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
         .tv-slide {
+            display: block;
+            height: 100%;
+            width: 100%;
             position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
+            top: 0; left: 0;
             opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-        .tv-slide.active { opacity: 1; }
-        .tv-slide-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-shadow: 0 1px 2px black;
+            z-index: 1;
+            border-radius: 15px;
+            transition: opacity 0.5s ease 1s;
         }
 
-        /* Horizontal List (Top 10) */
-        .horizontal-list {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding: 10px 5px 20px 5px; /* Bottom padding for hover scale */
-            scrollbar-width: none;
+        .tv-slide-bg {
+            height: 100%; width: 100%;
+            object-fit: cover;
+            position: absolute;
+            border-radius: 15px;
         }
-        .top10-item {
-            flex: 0 0 85px;
-            height: 85px;
+
+        .tv-slide-wipe-wrapper {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            clip-path: inset(0 0 0 100% round 15px);
+            transition: clip-path 0.1s ease 1s;
+        }
+
+        .tv-slide-overlay {
+            background: radial-gradient(circle at top right, transparent 35%, black 100%);
+            position: absolute; inset: 0;
+            border-radius: 15px;
+        }
+
+        .tv-slide-content {
+            position: absolute;
+            bottom: 20px; left: 20px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .tv-slide h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 0 0 5px 0;
+            text-shadow: 0 2px 4px black;
+            line-height: 1.1;
+        }
+
+        .tv-slide p {
+            font-size: 0.8rem;
+            color: #ddd;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+
+        .tv-slide-badge {
+            background-color: var(--theme-color);
+            color: #000;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 3px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Active Slide Animation */
+        .tv-slide.active { opacity: 1; z-index: 5; transition: opacity 0.2s ease; }
+        .tv-slide.active .tv-slide-wipe-wrapper {
+            clip-path: inset(0 0 0 0 round 15px);
+            transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .tv-slide.active .tv-slide-content {
+            opacity: 1; transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 15px; right: 15px;
+            display: flex; gap: 5px;
+            z-index: 10;
+        }
+        .dot {
+            width: 6px; height: 6px;
+            background: rgba(255,255,255,0.4);
             border-radius: 50%;
-            background: #1a1a1a;
-            border: 2px solid rgba(255,255,255,0.1);
-            position: relative;
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s;
+        }
+        .dot.active {
+            width: 18px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        /* --- CHANNEL LIST --- */
+        .channel-list-container {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+
+        .channel-row {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: background 0.2s, transform 0.2s;
+            cursor: pointer;
         }
-        .top10-item img { 
-            width: 65%; 
-            height: 65%; 
-            object-fit: contain; 
-            pointer-events: none; 
-        }
-        .top10-item.focused {
-            border-color: white;
-            background: white;
-            transform: scale(1.15);
-            z-index: 2;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        .rank-badge {
-            position: absolute;
-            top: 0; right: 0;
-            background: var(--theme-color);
-            color: black;
-            font-weight: 800;
-            font-size: 0.75rem;
-            width: 24px; height: 24px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 0 0 0 12px;
-        }
+        .channel-row:last-child { border-bottom: none; }
 
-        /* Right Settings Overlay */
+        .channel-row-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .channel-row-left img {
+            width: 36px; height: 36px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+        .channel-row-left span {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .channel-sensor {
+            color: var(--theme-color);
+            opacity: 0.7;
+            font-size: 20px;
+        }
+        .channel-sensor.offline { color: #ff3b30; }
+
+        /* Focus State */
+        .focusable.focused {
+            background: var(--focus-bg) !important;
+            color: var(--focus-text) !important;
+            transform: scale(1.02);
+            z-index: 5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-color: transparent;
+        }
+        .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
+        .focusable.focused p { color: #333; }
+
+        /* --- SETTINGS & CONTROLS --- */
+        
+        /* Right Panel */
         .right-panel {
             position: fixed;
             top: 20px; bottom: 20px; right: 20px;
-            width: 320px;
+            width: 340px;
             border-radius: 20px;
             z-index: 100;
             transform: translateX(120%);
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
             padding: 25px;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .right-panel.active { transform: translateX(0); }
-        .right-panel h2 { margin-top: 0; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;}
-        .settings-group h3 { font-size: 0.8rem; color: #888; text-transform: uppercase; margin-bottom: 10px; margin-top: 20px; }
+        .right-panel h2 { margin-top: 0; font-size: 1.3rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        
+        .settings-group h3 { 
+            font-size: 0.8rem; color: #888; 
+            text-transform: uppercase; margin-bottom: 10px; margin-top: 25px; 
+            padding-left: 5px;
+        }
 
-        /* QR Overlay */
-        .qr-container {
-            width: 700px;
-            padding: 50px;
-            border-radius: 30px;
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 40px;
-            align-items: start;
-        }
-        .qr-container h2 { grid-column: 1 / -1; margin-top: 0; font-size: 2rem; margin-bottom: 10px; }
-        .qr-box {
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        #qr-image { width: 100%; display: block; image-rendering: pixelated;}
-        .qr-text h3 { margin: 0 0 10px 0; font-size: 1.5rem; }
-        .qr-text p { margin: 0; color: #aaa; line-height: 1.5; }
-        .qr-menu-list {
-            margin-top: 20px;
+        .setting-item {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.05);
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 350px;
-            overflow-y: auto;
-            padding: 5px;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
         }
-        .hint {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 30px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+        .setting-item .material-symbols-rounded { font-size: 20px; }
+
+        /* Player Controls Overlay (Skip/Live) */
+        .controls-overlay {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%) translateY(200%);
+            display: flex;
+            gap: 20px;
+            z-index: 90;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: rgba(20,20,20,0.8);
+            backdrop-filter: blur(20px);
+            padding: 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .controls-overlay.active {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .control-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 50px;
+            padding: 10px 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+        }
+        .control-btn .material-symbols-rounded { font-size: 24px; }
+        
+        .control-btn.focused {
+            background: white;
+            color: black;
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
         }
 
         /* Virtual Remote */
         .virtual-remote-container {
             position: fixed;
-            bottom: 40px;
-            right: 40px;
+            bottom: 40px; right: 40px;
             z-index: 500;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0.4;
+            opacity: 0.3;
             transition: opacity 0.3s;
         }
         .virtual-remote-container:hover { opacity: 1; }
-
         .d-pad {
-            position: relative;
-            width: 160px;
-            height: 160px;
+            position: relative; width: 140px; height: 140px;
             background: rgba(30, 30, 30, 0.6);
             border-radius: 50%;
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
         .d-btn {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: transparent;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.1s;
-            border: none;
-            outline: none;
+            position: absolute; width: 45px; height: 45px;
+            border-radius: 50%; background: transparent; color: white;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; border: none; outline: none;
         }
-        .d-btn .material-symbols-rounded { font-size: 32px; }
         .d-btn:active { background: rgba(255,255,255,0.2); }
-
         .d-btn.up { top: 5px; left: 50%; transform: translateX(-50%); }
         .d-btn.down { bottom: 5px; left: 50%; transform: translateX(-50%); }
         .d-btn.left { left: 5px; top: 50%; transform: translateY(-50%); }
         .d-btn.right { right: 5px; top: 50%; transform: translateY(-50%); }
         .d-btn.center { 
-            top: 50%; left: 50%; 
-            transform: translate(-50%, -50%); 
-            background: rgba(255,255,255,0.1);
-            width: 60px; height: 60px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            background: rgba(255,255,255,0.1); width: 50px; height: 50px;
         }
 
-        .remote-hint {
-            margin-top: 15px;
-            font-size: 0.75rem;
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            text-shadow: 0 2px 4px black;
-        }
-
-        /* Loader */
+        /* Loading */
         .loader-overlay {
-            position: fixed;
-            inset: 0;
-            background: black;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s;
-            pointer-events: none;
+            position: fixed; inset: 0; background: black; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s; pointer-events: none;
         }
         .loader-overlay.hidden { opacity: 0; }
         .spinner {
-            width: 60px; height: 60px;
-            border: 5px solid rgba(255,255,255,0.1);
-            border-top: 5px solid white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            width: 50px; height: 50px;
+            border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid white;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Ad Overlay Styles */
-        .ad-content {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            background: black;
-        }
-        .ad-controls {
-            position: absolute;
-            bottom: 50px;
-            right: 50px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        .ad-timer {
-            background: rgba(0,0,0,0.7);
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.1);
-            font-size: 1.2rem;
-        }
     </style>
 </head>
 <body>
@@ -521,7 +467,7 @@
         <video id="video" autoplay playsinline></video>
     </div>
 
-    <!-- Channel Info Overlay (Top Pull/Push Animation) -->
+    <!-- Info Bar (Bottom Left) -->
     <div id="channel-info-bar" class="channel-info-bar">
         <div class="info-content">
             <img id="info-logo" src="" alt="Channel Logo">
@@ -538,556 +484,421 @@
         </div>
     </div>
 
-    <!-- Left Side: Main Guide/Menu -->
+    <!-- Left Guide -->
     <div id="guide-overlay" class="glass-panel">
         <div class="guide-header">
             <img src="/assets/liveplay_logo_(white).png" alt="Liveplay" class="guide-logo">
             <div id="clock-display">12:00 PM</div>
         </div>
-
-        <div class="guide-scroll-area" id="guide-scroll-area">
+        <div class="guide-scroll-area">
+            <div class="tv-slider-container" id="tv-slider">
+                <!-- Slides Injected Here -->
+            </div>
             
-            <!-- Featured Slider Area -->
-            <div class="guide-section" id="section-featured">
-                <div id="tv-slider" class="tv-slider">
-                    <!-- Slides injected via JS -->
-                </div>
-            </div>
-
-            <!-- Top 10 Section -->
-            <div class="guide-section">
-                <h3>Top 10 Live</h3>
-                <div class="horizontal-list" id="top-10-list">
-                    <!-- Items injected via JS -->
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="guide-section">
-                <h3>Menu</h3>
-                <button class="tv-btn focusable" id="btn-search" data-action="search">
-                    <span class="material-symbols-rounded">search</span> Search Channels
-                </button>
-                <button class="tv-btn focusable" id="btn-menu" data-action="menu">
-                    <span class="material-symbols-rounded">apps</span> App Menu & QR
-                </button>
-            </div>
-
-            <!-- All Channels List -->
-            <div class="guide-section">
-                <h3>All Channels</h3>
-                <div class="vertical-list" id="all-channels-list">
-                    <!-- Channels injected via JS -->
-                </div>
+            <div class="channel-list-container" id="channel-list">
+                <!-- Channel Rows Injected Here -->
             </div>
         </div>
     </div>
 
-    <!-- Right Side: Settings Overlay -->
+    <!-- Right Settings Overlay -->
     <div id="settings-overlay" class="glass-panel right-panel">
-        <h2>Stream Settings</h2>
+        <h2>Settings</h2>
+        
         <div class="settings-group">
-            <h3>Video Quality</h3>
+            <h3>Quality</h3>
             <div class="vertical-list" id="quality-list"></div>
         </div>
-        <!-- Placeholders for future features -->
+
+        <div class="settings-group" id="audio-group">
+            <h3>Audio</h3>
+            <div class="vertical-list" id="audio-list"></div>
+        </div>
+
+        <div class="settings-group" id="caption-group">
+            <h3>Captions</h3>
+            <div class="vertical-list" id="caption-list"></div>
+        </div>
+
         <div class="settings-group">
-            <h3>Audio Track</h3>
-            <div class="vertical-list" id="audio-list">
-                 <div class="setting-item">Default</div>
-            </div>
-        </div>
-        <div class="settings-group">
-            <h3>Playback Speed</h3>
-            <div class="vertical-list" id="speed-list">
-                <div class="setting-item">Normal</div>
-            </div>
+            <h3>Speed</h3>
+            <div class="vertical-list" id="speed-list"></div>
         </div>
     </div>
 
-    <!-- Menu / QR Overlay -->
-    <div id="qr-overlay" class="fullscreen-overlay">
-        <div class="qr-container glass-panel">
-            <h2>Scan to Visit</h2>
-            <div class="qr-content">
-                <div class="qr-box">
-                    <img id="qr-image" src="" alt="QR Code">
-                </div>
-            </div>
-            <div class="qr-text-side">
-                <div class="qr-text">
-                    <h3 id="qr-title">Select an Option</h3>
-                    <p id="qr-desc">Use the remote to select a page below. Scan the code with your phone.</p>
-                </div>
-                <div class="qr-menu-list" id="qr-menu-list">
-                    <!-- Menu items injected JS -->
-                </div>
-            </div>
-            <div class="hint">Press LEFT or BACK to close</div>
-        </div>
+    <!-- Player Controls (Skip/Live) -->
+    <div id="controls-overlay" class="controls-overlay">
+        <button id="btn-skip-back" class="control-btn focusable">
+            <span class="material-symbols-rounded">replay_10</span> Skip -10s
+        </button>
+        <button id="btn-go-live" class="control-btn focusable">
+            <span class="material-symbols-rounded">forward_10</span> Live
+        </button>
     </div>
 
-    <!-- Ad Overlay -->
-    <div id="ad-overlay" class="fullscreen-overlay" style="display: none;">
-        <div class="ad-content">
-            <video id="ad-video" style="width:100%; height:100%; object-fit:contain;"></video>
-            <div class="ad-controls">
-                <div class="ad-timer">Ad • <span id="ad-time-left">0:00</span></div>
-                <button id="ad-skip-btn" class="tv-btn focusable" style="width: auto; background: white; color: black;">
-                    Skip Ad <span class="material-symbols-rounded" style="color: black;">skip_next</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Loading Spinner -->
+    <!-- Loader -->
     <div id="tv-loader" class="loader-overlay">
         <div class="spinner"></div>
     </div>
 
-    <!-- Virtual Remote Control -->
+    <!-- Remote -->
     <div class="virtual-remote-container">
         <div class="d-pad">
-            <button class="d-btn up" id="remote-up" title="Channel Up / Up"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
-            <button class="d-btn left" id="remote-left" title="Guide / Left"><span class="material-symbols-rounded">keyboard_arrow_left</span></button>
-            <button class="d-btn center" id="remote-ok" title="Select"><span class="material-symbols-rounded">circle</span></button>
-            <button class="d-btn right" id="remote-right" title="Settings / Right"><span class="material-symbols-rounded">keyboard_arrow_right</span></button>
-            <button class="d-btn down" id="remote-down" title="Channel Down / Down"><span class="material-symbols-rounded">keyboard_arrow_down</span></button>
+            <button class="d-btn up" id="remote-up"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+            <button class="d-btn left" id="remote-left"><span class="material-symbols-rounded">keyboard_arrow_left</span></button>
+            <button class="d-btn center" id="remote-ok"><span class="material-symbols-rounded">circle</span></button>
+            <button class="d-btn right" id="remote-right"><span class="material-symbols-rounded">keyboard_arrow_right</span></button>
+            <button class="d-btn down" id="remote-down"><span class="material-symbols-rounded">keyboard_arrow_down</span></button>
         </div>
-        <div class="remote-hint">Virtual Remote</div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             
-            // --- Constants & Config ---
+            // --- Config ---
             const API_GET_CHANNELS = '/api/getChannels';
             const API_GET_DATA = '/api/getData';
             const API_GET_SLIDES = '/api/getSlides';
-            const API_GET_ADS = '/api/getAds';
-            const API_INCREMENT_VIEW = '/api/incrementView'; 
-            const API_GET_TOP = '/api/getTopChannels';
-
-            // State
+            
+            // --- State ---
             let allChannels = [];
             let currentChannelIndex = 0;
-            let currentScope = 'player'; // 'player', 'guide', 'settings', 'qr', 'ad'
+            // Scopes: 'player', 'guide', 'settings', 'controls'
+            let currentScope = 'player'; 
             let focusIndex = 0;
-            let focusList = []; // The current array of DOM elements that are focusable
+            let focusList = [];
             let player = null;
             let infoTimeout = null;
+            let slideInterval = null;
 
-            // DOM Elements
-            const video = document.getElementById('video');
-            const guideOverlay = document.getElementById('guide-overlay');
-            const settingsOverlay = document.getElementById('settings-overlay');
-            const qrOverlay = document.getElementById('qr-overlay');
-            const infoBar = document.getElementById('channel-info-bar');
-            const loader = document.getElementById('tv-loader');
-            
-            const elements = {
+            // --- Elements ---
+            const els = {
+                video: document.getElementById('video'),
+                guide: document.getElementById('guide-overlay'),
+                settings: document.getElementById('settings-overlay'),
+                controls: document.getElementById('controls-overlay'),
+                info: document.getElementById('channel-info-bar'),
+                slider: document.getElementById('tv-slider'),
+                channelList: document.getElementById('channel-list'),
+                loader: document.getElementById('tv-loader'),
+                
+                // Info
                 name: document.getElementById('info-name'),
                 logo: document.getElementById('info-logo'),
                 group: document.getElementById('info-group'),
                 time: document.getElementById('info-time'),
-                channelsList: document.getElementById('all-channels-list'),
-                topList: document.getElementById('top-10-list'),
-                slider: document.getElementById('tv-slider'),
-                qrList: document.getElementById('qr-menu-list'),
-                qrImg: document.getElementById('qr-image'),
-                qrTitle: document.getElementById('qr-title')
+                
+                // Settings Lists
+                qualityList: document.getElementById('quality-list'),
+                audioList: document.getElementById('audio-list'),
+                captionList: document.getElementById('caption-list'),
+                speedList: document.getElementById('speed-list')
             };
 
-            // --- Initialization ---
-
+            // --- Clock ---
             function updateTime() {
                 const now = new Date();
-                const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                document.getElementById('clock-display').textContent = timeStr;
-                elements.time.textContent = timeStr;
+                const str = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                document.getElementById('clock-display').textContent = str;
+                els.time.textContent = str;
             }
             setInterval(updateTime, 1000);
             updateTime();
 
+            // --- Init ---
             async function init() {
-                // Init Shaka
                 shaka.polyfill.installAll();
-                if (shaka.Player.isBrowserSupported()) {
-                    player = new shaka.Player(video);
+                if(shaka.Player.isBrowserSupported()) {
+                    player = new shaka.Player(els.video);
                     player.configure({ drm: { servers: {}, clearKeys: {} } });
-                    player.addEventListener('error', onError);
-                } else {
-                    console.error('Browser not supported!');
-                    alert("This browser does not support Shaka Player");
+                    player.addEventListener('error', e => console.error(e));
                 }
 
-                // Fetch Data
                 try {
-                    const [channels, slides, top] = await Promise.all([
+                    const [channels, slides] = await Promise.all([
                         fetch(API_GET_CHANNELS).then(r => r.json()),
-                        fetch(API_GET_SLIDES).then(r => r.json()).catch(() => []),
-                        fetch(API_GET_TOP).then(r => r.json()).catch(() => [])
+                        fetch(API_GET_SLIDES).then(r => r.json()).catch(() => [])
                     ]);
                     
                     allChannels = Array.isArray(channels) ? channels : [];
-                    renderGuide(allChannels, slides, top);
-                    renderQRMenu();
+                    renderGuide(allChannels, slides);
                     
-                    loader.classList.add('hidden');
-                    
-                    // Start with first channel if available
-                    if(allChannels.length > 0) {
-                        playChannel(0);
-                    }
-                } catch (e) {
-                    console.error("Init failed", e);
-                    loader.classList.add('hidden');
-                }
+                    els.loader.classList.add('hidden');
+                    if(allChannels.length) playChannel(0);
+
+                } catch(e) { console.error(e); els.loader.classList.add('hidden'); }
             }
 
             // --- Rendering ---
-
+            
             function createSlug(name) {
-                if(!name) return '';
-                return name.toLowerCase().trim().replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');
+                return name ? name.toLowerCase().trim().replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-') : '';
             }
 
-            function renderGuide(channels, slides, topSlugs) {
+            function renderGuide(channels, slides) {
                 // Render Slider
+                els.slider.innerHTML = '';
                 if(slides && slides.length) {
+                    const dotsCont = document.createElement('div');
+                    dotsCont.className = 'slider-dots';
+                    
                     slides.forEach((s, i) => {
-                        const div = document.createElement('div');
-                        div.className = `tv-slide ${i===0?'active':''}`;
-                        div.style.backgroundImage = `url('${s.image}')`;
-                        div.innerHTML = `<div class="tv-slide-caption">${s.title}</div>`;
-                        elements.slider.appendChild(div);
+                        const slide = document.createElement('div');
+                        slide.className = `tv-slide ${i===0?'active':''}`;
+                        slide.innerHTML = `
+                            <div class="tv-slide-wipe-wrapper">
+                                <img src="${s.image}" class="tv-slide-bg">
+                                <div class="tv-slide-overlay"></div>
+                                <div class="tv-slide-content">
+                                    <h2>${s.title}</h2>
+                                    <p>${s.description}</p>
+                                    <div class="tv-slide-badge">${s.badge}</div>
+                                </div>
+                            </div>
+                        `;
+                        els.slider.appendChild(slide);
+                        
+                        const dot = document.createElement('button');
+                        dot.className = `dot ${i===0?'active':''}`;
+                        dotsCont.appendChild(dot);
                     });
-                    // Auto rotate slider
-                    let slideIdx = 0;
-                    const slideEls = elements.slider.querySelectorAll('.tv-slide');
-                    if(slideEls.length > 1) {
-                        setInterval(() => {
-                            slideEls[slideIdx].classList.remove('active');
-                            slideIdx = (slideIdx + 1) % slideEls.length;
-                            slideEls[slideIdx].classList.add('active');
-                        }, 6000);
+                    els.slider.appendChild(dotsCont);
+
+                    // Slider Interval
+                    let currentSlide = 0;
+                    const allSlides = els.slider.querySelectorAll('.tv-slide');
+                    const allDots = els.slider.querySelectorAll('.dot');
+                    
+                    if(allSlides.length > 1) {
+                        slideInterval = setInterval(() => {
+                            allSlides[currentSlide].classList.remove('active');
+                            allDots[currentSlide].classList.remove('active');
+                            currentSlide = (currentSlide + 1) % allSlides.length;
+                            allSlides[currentSlide].classList.add('active');
+                            allDots[currentSlide].classList.add('active');
+                        }, 5000);
                     }
                 }
 
-                // Render Top 10
-                elements.topList.innerHTML = '';
-                let rank = 1;
-                if(Array.isArray(topSlugs)) {
-                    topSlugs.forEach(slug => {
-                        const ch = channels.find(c => createSlug(c.name) === slug);
-                        if(ch && rank <= 10) {
-                            const div = document.createElement('div');
-                            div.className = 'top10-item focusable';
-                            // Store index relative to main list
-                            const realIndex = channels.indexOf(ch);
-                            div.dataset.index = realIndex;
-                            div.innerHTML = `
-                                <div class="rank-badge">${rank++}</div>
-                                <img src="${ch.logo}" onerror="this.style.opacity=0">
-                            `;
-                            div.onclick = () => { playChannel(realIndex); toggleGuide(false); };
-                            elements.topList.appendChild(div);
-                        }
-                    });
-                }
-
-                // Render All Channels
-                elements.channelsList.innerHTML = '';
-                channels.forEach((ch, index) => {
-                    const btn = document.createElement('div');
-                    btn.className = 'channel-item focusable';
-                    btn.dataset.index = index;
+                // Render Channel List
+                els.channelList.innerHTML = '';
+                channels.forEach((ch, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'channel-row focusable';
+                    row.dataset.index = idx;
                     const logo = ch.logo || '/assets/favicon.svg';
-                    btn.innerHTML = `
-                        <img src="${logo}" onerror="this.style.opacity=0">
-                        <span>${ch.name}</span>
+                    // Offline logic check (basic)
+                    const isOffline = ch.status === 'offline';
+                    
+                    row.innerHTML = `
+                        <div class="channel-row-left">
+                            <img src="${logo}" onerror="this.style.opacity=0">
+                            <span>${ch.name}</span>
+                        </div>
+                        <span class="material-symbols-rounded channel-sensor ${isOffline ? 'offline' : ''}">sensors</span>
                     `;
-                    btn.onclick = () => { playChannel(index); toggleGuide(false); };
-                    elements.channelsList.appendChild(btn);
+                    row.onclick = () => { playChannel(idx); toggleGuide(false); };
+                    els.channelList.appendChild(row);
                 });
             }
 
-            const menuItems = [
-                { name: "Updates", url: "https://liveplay.vercel.app/home/updates" },
-                { name: "Stream Tester", url: "https://projectdevphil.github.io/stream-tester" },
-                { name: "Speed Test", url: "https://liveplay.vercel.app/home/speed" },
-                { name: "About Us", url: "https://liveplay.vercel.app/home/about" },
-                { name: "Privacy Policy", url: "https://liveplay.vercel.app/home/privacy" },
-                { name: "Terms of Service", url: "https://liveplay.vercel.app/home/terms" }
-            ];
-
-            function renderQRMenu() {
-                elements.qrList.innerHTML = '';
-                menuItems.forEach((item, i) => {
-                    const div = document.createElement('div');
-                    div.className = 'qr-item focusable';
-                    div.innerHTML = `<span class="material-symbols-rounded">qr_code_2</span> ${item.name}`;
-                    div.dataset.url = item.url;
-                    // Trigger QR update on focus or click
-                    div.onmouseenter = () => showQR(item); 
-                    div.onclick = () => showQR(item); // For touch/mouse
-                    elements.qrList.appendChild(div);
-                });
-                // Initialize first QR
-                if(menuItems.length > 0) showQR(menuItems[0]);
+            function getResIcon(height) {
+                if(!height) return 'auto_awesome';
+                if(height >= 2160) return '4k';
+                if(height >= 720) return 'hd';
+                return 'sd'; // 540, 360, 270, etc.
             }
 
-            function showQR(item) {
-                elements.qrTitle.textContent = item.name;
-                // Generate QR using public API
-                elements.qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent(item.url)}`;
-            }
-
-            // --- Player Logic ---
-
-            async function playChannel(index) {
-                if(index < 0 || index >= allChannels.length) return;
-                currentChannelIndex = index;
-                const channel = allChannels[index];
-
-                showChannelInfo(channel);
-
-                // Reset Player
-                video.pause();
-                video.removeAttribute('src'); 
+            function renderSettings() {
+                // Quality
+                const tracks = player.getVariantTracks();
+                const qList = els.qualityList;
+                qList.innerHTML = '';
                 
-                // --- Ad Logic ---
-                // 30% chance to play ad
-                const shouldPlayAd = Math.random() < 0.3; 
-                if (shouldPlayAd) {
-                     await playAd();
+                // Add Auto
+                const autoBtn = createSettingBtn('hdr_auto', 'Auto', () => {
+                    player.configure({ abr: { enabled: true } });
+                    toggleSettings(false);
+                });
+                qList.appendChild(autoBtn);
+
+                // Group unique heights
+                const unique = [...new Set(tracks.map(t => t.height))].sort((a,b) => b-a);
+                unique.forEach(h => {
+                    if(!h) return;
+                    const icon = getResIcon(h);
+                    const btn = createSettingBtn(icon, `${h}p`, () => {
+                        player.configure({ abr: { enabled: false } });
+                        const target = tracks.find(t => t.height === h);
+                        player.selectVariantTrack(target, true);
+                        toggleSettings(false);
+                    });
+                    qList.appendChild(btn);
+                });
+
+                // Audio
+                const audios = player.getAudioLanguagesAndRoles();
+                const aList = els.audioList;
+                aList.innerHTML = '';
+                if(audios.length > 0) {
+                    audios.forEach(a => {
+                        const label = a.language + (a.role ? ` (${a.role})` : '');
+                        aList.appendChild(createSettingBtn('audiotrack', label.toUpperCase(), () => {
+                            player.selectAudioLanguage(a.language, a.role);
+                            toggleSettings(false);
+                        }));
+                    });
+                } else {
+                    aList.appendChild(createSettingBtn('audiotrack', 'Default', null));
                 }
+
+                // Captions
+                const subs = player.getTextTracks().filter(t => t.kind === 'subtitle' || t.kind === 'caption');
+                const cList = els.captionList;
+                cList.innerHTML = '';
+                if(subs.length > 0) {
+                    document.getElementById('caption-group').style.display = 'block';
+                    // Off
+                    cList.appendChild(createSettingBtn('subtitles_off', 'Off', () => {
+                        player.setTextTrackVisibility(false);
+                        toggleSettings(false);
+                    }));
+                    // Tracks
+                    subs.forEach(t => {
+                        const label = t.label || t.language || 'Unknown';
+                        cList.appendChild(createSettingBtn('subtitles', label, () => {
+                            player.selectTextTrack(t);
+                            player.setTextTrackVisibility(true);
+                            toggleSettings(false);
+                        }));
+                    });
+                } else {
+                    document.getElementById('caption-group').style.display = 'none';
+                }
+
+                // Speed
+                const sList = els.speedList;
+                sList.innerHTML = '';
+                [0.5, 1, 1.25, 1.5, 2].forEach(rate => {
+                    sList.appendChild(createSettingBtn('speed', `${rate}x`, () => {
+                        els.video.playbackRate = rate;
+                        toggleSettings(false);
+                    }));
+                });
+
+                // Set Focus
+                focusList = Array.from(els.settings.querySelectorAll('.focusable'));
+                focusIndex = 0;
+                updateFocus();
+            }
+
+            function createSettingBtn(icon, text, onClick) {
+                const div = document.createElement('div');
+                div.className = 'setting-item focusable';
+                div.innerHTML = `<span class="material-symbols-rounded">${icon}</span> ${text}`;
+                if(onClick) div.onclick = onClick;
+                return div;
+            }
+
+            // --- Player Actions ---
+
+            async function playChannel(idx) {
+                if(idx < 0 || idx >= allChannels.length) return;
+                currentChannelIndex = idx;
+                const ch = allChannels[idx];
+                
+                // Show Info
+                els.name.textContent = ch.name;
+                els.group.textContent = ch.group || 'Live TV';
+                els.logo.src = ch.logo || '/assets/favicon.svg';
+                els.info.classList.add('visible');
+                clearTimeout(infoTimeout);
+                infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 5000);
+
+                // Load Video
+                els.video.pause();
+                els.video.removeAttribute('src');
 
                 try {
-                    // Check if player container is active
-                    const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(channel.name)}`);
-                    
-                    if(!res.ok) throw new Error("Channel Offline or Restricted");
+                    const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(ch.name)}`);
+                    if(!res.ok) throw new Error("Offline");
                     const data = await res.json();
-
-                    // DRM Config
+                    
                     const config = { drm: { servers: {}, clearKeys: {} } };
-                    if (data.ClearKey && data.ClearKey.k1 && data.ClearKey.k2) {
+                    if(data.ClearKey?.k1 && data.ClearKey?.k2) {
                         config.drm.clearKeys[data.ClearKey.k1] = data.ClearKey.k2;
                     }
                     player.configure(config);
-
                     await player.load(data.manifestUri);
-                    video.play().catch(e => console.log("Autoplay blocked", e));
-                } catch (e) {
-                    console.error("Stream Error", e);
-                    elements.name.textContent = "Stream Offline";
-                    // Could add a retry or error icon here
+                    els.video.play().catch(e=>console.log("Autoplay blocked"));
+                } catch(e) {
+                    els.name.textContent = "Stream Offline";
                 }
             }
 
-            function showChannelInfo(channel) {
-                elements.name.textContent = channel.name;
-                elements.group.textContent = channel.group || 'Live TV';
-                elements.logo.src = channel.logo || '/assets/favicon.svg';
-                
-                infoBar.classList.add('visible');
-                clearTimeout(infoTimeout);
-                
-                // Hide after 4 seconds
-                infoTimeout = setTimeout(() => {
-                    infoBar.classList.remove('visible');
-                }, 4000);
+            function skipBack() {
+                if(els.video) els.video.currentTime -= 10;
             }
 
-            // --- Ad System ---
-            async function playAd() {
-                try {
-                    // Fetch ads list
-                    const ads = await fetch(API_GET_ADS).then(r => r.json()).catch(() => null);
-                    if(!ads || !Array.isArray(ads) || ads.length === 0) return;
-                    
-                    const ad = ads[Math.floor(Math.random() * ads.length)];
-                    
-                    // Switch Scope
-                    const prevScope = currentScope;
-                    currentScope = 'ad';
-                    
-                    const adOverlay = document.getElementById('ad-overlay');
-                    const adVid = document.getElementById('ad-video');
-                    const skipBtn = document.getElementById('ad-skip-btn');
-                    const timeDisplay = document.getElementById('ad-time-left');
-
-                    adOverlay.style.display = 'flex';
-                    // Need small delay for opacity transition
-                    setTimeout(() => adOverlay.classList.add('active'), 10);
-                    
-                    adVid.src = ad.videoUrl;
-                    
-                    // Reset Skip Button
-                    skipBtn.style.opacity = '0.5';
-                    skipBtn.classList.remove('focusable'); 
-                    skipBtn.disabled = true;
-                    
-                    return new Promise(resolve => {
-                        const promiseResolver = resolve;
-                        
-                        adVid.play().catch(() => {
-                            endAd(); // If ad fails to play, skip
-                        });
-                        
-                        let timeLeft = 10; // Forced watch time
-                        const timer = setInterval(() => {
-                            timeLeft--;
-                            timeDisplay.textContent = `${timeLeft}s`;
-                            if(timeLeft <= 0) {
-                                clearInterval(timer);
-                                timeDisplay.textContent = "Skip";
-                                skipBtn.style.opacity = '1';
-                                skipBtn.classList.add('focusable');
-                                skipBtn.disabled = false;
-                                
-                                // Auto focus skip button
-                                focusList = [skipBtn];
-                                focusIndex = 0;
-                                updateFocus();
-                            }
-                        }, 1000);
-
-                        function endAd() {
-                            clearInterval(timer);
-                            adVid.pause();
-                            adOverlay.classList.remove('active');
-                            setTimeout(() => adOverlay.style.display = 'none', 300);
-                            currentScope = prevScope;
-                            
-                            // Restore focus to previous context
-                            if(currentScope === 'guide') {
-                                focusList = Array.from(guideOverlay.querySelectorAll('.focusable'));
-                            } 
-                            resolve();
-                        }
-
-                        skipBtn.onclick = (e) => { 
-                            if(e) e.stopPropagation(); 
-                            endAd(); 
-                        };
-                        adVid.onended = endAd;
-                        adVid.onerror = endAd;
-                    });
-
-                } catch(e) { console.log("Ad System Error", e); }
+            function goLive() {
+                if(player && player.isLive()) player.goToLive();
+                else if (els.video) els.video.currentTime = els.video.duration;
             }
 
-
-            // --- Navigation System (The "Brain") ---
+            // --- Navigation Logic ---
 
             function toggleGuide(show) {
                 if(show) {
-                    guideOverlay.classList.add('active');
+                    els.guide.classList.add('active');
                     currentScope = 'guide';
-                    // Build Focus List
-                    focusList = Array.from(guideOverlay.querySelectorAll('.focusable'));
-                    
-                    // Try to focus current channel if visible
-                    const currentBtn = Array.from(elements.channelsList.children).find(el => el.dataset.index == currentChannelIndex);
-                    if(currentBtn) {
-                        focusIndex = focusList.indexOf(currentBtn);
-                    } else {
-                        focusIndex = 0;
-                    }
+                    focusList = Array.from(els.guide.querySelectorAll('.focusable'));
+                    // Attempt to focus current channel
+                    const curr = Array.from(els.channelList.children).find(el => el.dataset.index == currentChannelIndex);
+                    focusIndex = curr ? focusList.indexOf(curr) : 0;
                     updateFocus();
                 } else {
-                    guideOverlay.classList.remove('active');
+                    els.guide.classList.remove('active');
                     currentScope = 'player';
                 }
             }
 
             function toggleSettings(show) {
                 if(show) {
-                    settingsOverlay.classList.add('active');
+                    els.settings.classList.add('active');
                     currentScope = 'settings';
                     renderSettings();
                 } else {
-                    settingsOverlay.classList.remove('active');
+                    els.settings.classList.remove('active');
                     currentScope = 'player';
                 }
             }
 
-            function toggleQR(show) {
+            function toggleControls(show) {
                 if(show) {
-                    qrOverlay.classList.add('active');
-                    currentScope = 'qr';
-                    focusList = Array.from(qrOverlay.querySelectorAll('.focusable'));
-                    focusIndex = 0;
+                    els.controls.classList.add('active');
+                    currentScope = 'controls';
+                    focusList = Array.from(els.controls.querySelectorAll('.focusable'));
+                    focusIndex = 1; // Default to Live button usually
                     updateFocus();
-                    // Initial load
-                    if(menuItems.length > 0) showQR(menuItems[0]);
                 } else {
-                    qrOverlay.classList.remove('active');
-                    currentScope = 'guide'; // Return to guide
-                    focusList = Array.from(guideOverlay.querySelectorAll('.focusable'));
-                    updateFocus();
+                    els.controls.classList.remove('active');
+                    // We don't set currentScope here because this is usually called to exit to player
                 }
             }
 
-            function renderSettings() {
-                const tracks = player.getVariantTracks();
-                const list = document.getElementById('quality-list');
-                list.innerHTML = '';
-                
-                // Group by height/res
-                const unique = [...new Set(tracks.map(t => t.height))].sort((a,b) => b-a);
-                
-                // Add Auto Option
-                const autoDiv = document.createElement('div');
-                autoDiv.className = 'setting-item focusable';
-                autoDiv.innerHTML = '<span class="material-symbols-rounded">hdr_auto</span> Auto';
-                autoDiv.onclick = () => { 
-                    player.configure({ abr: { enabled: true } }); 
-                    toggleSettings(false); 
-                };
-                list.appendChild(autoDiv);
-
-                unique.forEach(h => {
-                    if(!h) return;
-                    const div = document.createElement('div');
-                    div.className = 'setting-item focusable';
-                    div.innerHTML = `<span class="material-symbols-rounded">hd</span> ${h}p`;
-                    div.onclick = () => { 
-                        player.configure({ abr: { enabled: false } });
-                        const track = tracks.find(t => t.height === h);
-                        player.selectVariantTrack(track, true);
-                        toggleSettings(false);
-                    };
-                    list.appendChild(div);
-                });
-
-                focusList = Array.from(settingsOverlay.querySelectorAll('.focusable'));
-                focusIndex = 0;
-                updateFocus();
-            }
-
             function updateFocus() {
-                // Remove existing focus
                 document.querySelectorAll('.focused').forEach(el => el.classList.remove('focused'));
-                
                 if(focusList[focusIndex]) {
                     const el = focusList[focusIndex];
                     el.classList.add('focused');
-                    
-                    // Special logic for QR to update image on hover/focus
-                    if(currentScope === 'qr' && el.dataset.url) {
-                        const item = menuItems.find(i => i.url === el.dataset.url);
-                        if(item) showQR(item);
-                    }
-
                     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
 
             function handleInput(key) {
-                if (currentScope === 'player') {
+                
+                // 1. PLAYER SCOPE
+                if(currentScope === 'player') {
                     switch(key) {
                         case 'ArrowUp': 
                             playChannel((currentChannelIndex - 1 + allChannels.length) % allChannels.length);
@@ -1102,11 +913,15 @@
                             toggleSettings(true);
                             break;
                         case 'Enter':
-                            showChannelInfo(allChannels[currentChannelIndex]);
+                            els.info.classList.add('visible');
+                            clearTimeout(infoTimeout);
+                            infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000);
                             break;
                     }
-                } 
-                else if (currentScope === 'guide' || currentScope === 'settings' || currentScope === 'qr') {
+                }
+                
+                // 2. GUIDE / SETTINGS SCOPE
+                else if(currentScope === 'guide' || currentScope === 'settings') {
                     switch(key) {
                         case 'ArrowUp':
                             focusIndex = Math.max(0, focusIndex - 1);
@@ -1117,44 +932,91 @@
                             updateFocus();
                             break;
                         case 'ArrowRight':
-                            if (currentScope === 'guide') toggleGuide(false);
+                            if(currentScope === 'guide') toggleGuide(false);
                             break;
                         case 'ArrowLeft':
-                            if (currentScope === 'settings') toggleSettings(false);
-                            if (currentScope === 'qr') toggleQR(false);
-                            break;
-                        case 'Enter':
-                            if(focusList[focusIndex]) {
-                                // Specific ID checks
-                                if(focusList[focusIndex].id === 'btn-menu') {
-                                    toggleQR(true);
-                                } else if(focusList[focusIndex].id === 'btn-search') {
-                                    // Implementation for search focus (simplified)
-                                    alert("Search functionality is available on the main website.");
-                                } else {
-                                    focusList[focusIndex].click();
-                                }
+                            // Special Logic: Settings -> Left = Controls
+                            if(currentScope === 'settings') {
+                                // Don't close settings visual, just change focus scope
+                                toggleControls(true); 
+                                // Settings overlay remains visible per visual requirement? 
+                                // Usually better to hide it so controls are clear
+                                els.settings.classList.remove('active'); 
                             }
                             break;
-                        case 'Back': 
+                        case 'Enter':
+                            if(focusList[focusIndex]) focusList[focusIndex].click();
+                            break;
+                        case 'Back':
                         case 'Escape':
                             if(currentScope === 'guide') toggleGuide(false);
                             if(currentScope === 'settings') toggleSettings(false);
-                            if(currentScope === 'qr') toggleQR(false);
                             break;
                     }
                 }
-                else if (currentScope === 'ad') {
+
+                // 3. CONTROLS SCOPE (The intermediate layer)
+                else if(currentScope === 'controls') {
+                    switch(key) {
+                        case 'ArrowRight':
+                            // Go back to settings
+                            toggleControls(false);
+                            toggleSettings(true);
+                            break;
+                        case 'ArrowLeft':
+                            // Second Left Tap -> Exit everything
+                            toggleControls(false);
+                            currentScope = 'player';
+                            break;
+                        case 'ArrowUp': // Allow lateral movement in controls too if they are arranged horizontally
+                        case 'ArrowDown':
+                            // If buttons are vertical, use up/down. If horizontal (as styled), use Left/Right
+                            // Since styled with flex row:
+                            break;
+                    }
+                    // Controls are horizontal in CSS, so lets override Left/Right for focus movement
+                    // But we have the specific "Exit" logic on Left. 
+                    // Let's make "Left" move focus if index > 0, else Exit.
+                    
+                    if(currentScope === 'controls' && (key === 'ArrowLeft' || key === 'ArrowRight')) {
+                         if(key === 'ArrowLeft') {
+                             if(focusIndex > 0) {
+                                 focusIndex--;
+                                 updateFocus();
+                             } else {
+                                 // Exit
+                                 toggleControls(false);
+                                 currentScope = 'player';
+                             }
+                         }
+                         if(key === 'ArrowRight') {
+                             if(focusIndex < focusList.length - 1) {
+                                 focusIndex++;
+                                 updateFocus();
+                             } else {
+                                 // Go back to settings
+                                 toggleControls(false);
+                                 toggleSettings(true);
+                             }
+                         }
+                    }
+
                     if(key === 'Enter') {
-                        const btn = document.getElementById('ad-skip-btn');
-                        if(btn && !btn.disabled && btn.classList.contains('focusable')) btn.click();
+                        if(focusList[focusIndex]) {
+                            const id = focusList[focusIndex].id;
+                            if(id === 'btn-skip-back') skipBack();
+                            if(id === 'btn-go-live') goLive();
+                        }
+                    }
+                    if(key === 'Back' || key === 'Escape') {
+                        toggleControls(false);
+                        currentScope = 'player';
                     }
                 }
             }
 
-            // --- Input Listeners ---
-
-            document.addEventListener('keydown', (e) => {
+            // --- Events ---
+            document.addEventListener('keydown', e => {
                 let key = e.key;
                 if(key === 'Escape') key = 'Back';
                 if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter','Back'].includes(key)) {
@@ -1163,35 +1025,20 @@
                 }
             });
 
-            // Virtual Remote Binding
-            const mapBtn = (id, key) => {
-                const btn = document.getElementById(id);
-                if(btn) {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        // Visual feedback
-                        const originalColor = btn.style.backgroundColor;
-                        btn.style.backgroundColor = 'rgba(255,255,255,0.4)';
-                        setTimeout(() => btn.style.backgroundColor = originalColor, 150);
-                        handleInput(key);
-                    });
-                }
-            };
-
-            mapBtn('remote-up', 'ArrowUp');
-            mapBtn('remote-down', 'ArrowDown');
-            mapBtn('remote-left', 'ArrowLeft');
-            mapBtn('remote-right', 'ArrowRight');
-            mapBtn('remote-ok', 'Enter');
-
-            function onError(e) {
-                console.error('Shaka Error', e);
-            }
+            // Virtual Remote
+            ['up','down','left','right','ok'].forEach(k => {
+                const btn = document.getElementById('remote-'+k);
+                if(btn) btn.onclick = (e) => {
+                    e.preventDefault();
+                    let key = 'Enter';
+                    if(k !== 'ok') key = 'Arrow' + k.charAt(0).toUpperCase() + k.slice(1);
+                    handleInput(key);
+                };
+            });
 
             // Start
             init();
-
         });
     </script>
 </body>
-    </html>
+</html>
