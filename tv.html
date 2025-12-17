@@ -24,6 +24,8 @@
             --focus-text: #000000;
             --glass-heavy: rgba(15, 15, 15, 0.95);
             --theme-color: #ffffff;
+            --container-bg: rgba(255,255,255,0.05);
+            --border-color: rgba(255,255,255,0.1);
         }
 
         body {
@@ -40,393 +42,250 @@
         /* Fullscreen Player */
         #tv-player-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            background: #000;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 1; background: #000;
         }
+        video { width: 100%; height: 100%; object-fit: contain; }
 
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        /* Common Overlay Styles */
+        /* Common Panel Styles (Left & Right) */
         .glass-panel {
             background: var(--glass-heavy);
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
-            border-right: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 10px 0 50px rgba(0,0,0,0.8);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
             color: white;
-        }
-
-        /* --- INFO BAR (BOTTOM LEFT) --- */
-        .channel-info-bar {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0) 100%);
-            z-index: 10;
-            padding: 40px;
+            top: 20px; bottom: 20px;
+            width: 380px;
+            border-radius: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
             box-sizing: border-box;
-            display: flex;
-            align-items: flex-end;
-            transform: translateY(100%);
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s;
-            pointer-events: none;
         }
 
-        .channel-info-bar.visible {
-            transform: translateY(0);
-            opacity: 1;
+        /* Scrollbar Hiding */
+        .scrollable-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
         }
-
-        .info-content {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        #info-logo {
-            height: 80px;
-            width: 80px;
-            object-fit: contain;
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-
-        .text-details h1 {
-            font-size: 2.5rem;
-            margin: 0 0 5px 0;
-            font-weight: 800;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-            letter-spacing: -0.5px;
-        }
-
-        .meta-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.1rem;
-            color: #ccc;
-            font-weight: 500;
-        }
-
-        .live-tag {
-            background: #ff0000;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            letter-spacing: 0.5px;
-        }
-
-        .divider { color: rgba(255,255,255,0.3); }
+        .scrollable-content::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 
         /* --- LEFT GUIDE OVERLAY --- */
         #guide-overlay {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            width: 420px;
-            z-index: 100;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid rgba(255,255,255,0.1);
+            left: 20px;
+            transform: translateX(-120%);
         }
-
-        #guide-overlay.active {
-            transform: translateX(0);
-        }
+        #guide-overlay.active { transform: translateX(0); }
 
         .guide-header {
-            padding: 30px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 25px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0,0,0,0.2);
+            flex-shrink: 0;
         }
+        .guide-logo { height: 28px; }
+        #clock-display { font-size: 0.9rem; color: #888; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-        .guide-logo { height: 32px; }
-        #clock-display { font-size: 1rem; color: #888; font-weight: 600; font-variant-numeric: tabular-nums; }
+        /* --- RIGHT SETTINGS OVERLAY --- */
+        #settings-overlay {
+            right: 20px;
+            transform: translateX(120%);
+        }
+        #settings-overlay.active { transform: translateX(0); }
 
-        .guide-scroll-area {
-            flex: 1;
-            overflow-y: auto;
+        .settings-header {
             padding: 25px;
-            scrollbar-width: none;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
-        .guide-scroll-area::-webkit-scrollbar { display: none; }
+        .settings-header h2 { margin: 0; font-size: 1.2rem; }
 
-        /* --- SLIDER (Main Site Port) --- */
+        /* --- GROUPED LIST STYLES (Used for Channels & Settings) --- */
+        
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: #888;
+            font-weight: 700;
+            margin: 25px 0 15px 0;
+        }
+
+        .settings-title {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: #888;
+            font-weight: 700;
+            margin: 25px 0 10px 10px;
+        }
+
+        /* The Container Box */
+        .list-group-container {
+            background: var(--container-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* The Items inside */
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .list-item:last-child { border-bottom: none; }
+
+        .list-item-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .list-item img {
+            width: 32px; height: 32px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+        .list-item span {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .item-icon { font-size: 20px; color: #aaa; }
+        
+        /* Focus State */
+        .focusable.focused {
+            background: var(--focus-bg);
+            color: var(--focus-text);
+            z-index: 2;
+        }
+        .focusable.focused .item-icon { color: var(--focus-text); }
+        .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
+        
+        /* --- SLIDER --- */
         .tv-slider-container {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             position: relative;
             width: 100%;
             aspect-ratio: 16 / 9;
-        }
-
-        .tv-slide {
-            display: block;
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            opacity: 0;
-            z-index: 1;
-            border-radius: 15px;
-            transition: opacity 0.5s ease 1s;
-        }
-
-        .tv-slide-bg {
-            height: 100%; width: 100%;
-            object-fit: cover;
-            position: absolute;
-            border-radius: 15px;
-        }
-
-        .tv-slide-wipe-wrapper {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
             border-radius: 15px;
             overflow: hidden;
-            clip-path: inset(0 0 0 100% round 15px);
+            border: 1px solid var(--border-color);
+        }
+        .tv-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.5s ease 1s;
+        }
+        .tv-slide-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+        
+        .tv-slide-wipe-wrapper {
+            position: absolute; inset: 0;
+            clip-path: inset(0 0 0 100%);
             transition: clip-path 0.1s ease 1s;
         }
-
-        .tv-slide-overlay {
-            background: radial-gradient(circle at top right, transparent 35%, black 100%);
-            position: absolute; inset: 0;
-            border-radius: 15px;
-        }
-
         .tv-slide-content {
-            position: absolute;
-            bottom: 20px; left: 20px;
-            z-index: 2;
-            opacity: 0;
-            transform: translateY(20px);
+            position: absolute; bottom: 20px; left: 20px; right: 20px;
+            z-index: 2; opacity: 0; transform: translateY(20px);
             transition: all 0.5s ease;
         }
-
-        .tv-slide h2 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin: 0 0 5px 0;
-            text-shadow: 0 2px 4px black;
-            line-height: 1.1;
-        }
-
-        .tv-slide p {
-            font-size: 0.8rem;
-            color: #ddd;
-            margin: 0 0 8px 0;
-            line-height: 1.3;
-        }
-
+        .tv-slide-content h2 { margin: 0 0 5px 0; font-size: 1.2rem; text-shadow: 0 2px 5px black;}
+        .tv-slide-content p { margin: 0 0 8px 0; font-size: 0.7rem; color: #ddd; }
         .tv-slide-badge {
-            background-color: var(--theme-color);
-            color: #000;
-            font-size: 0.6rem;
-            font-weight: 700;
-            padding: 3px 6px;
-            border-radius: 4px;
-            display: inline-block;
+            background: var(--theme-color); color: black;
+            font-size: 0.6rem; font-weight: 700; padding: 2px 6px;
+            border-radius: 4px; display: inline-block;
+        }
+        .tv-slide-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, black 0%, transparent 80%);
         }
 
-        /* Active Slide Animation */
-        .tv-slide.active { opacity: 1; z-index: 5; transition: opacity 0.2s ease; }
+        .tv-slide.active { opacity: 1; z-index: 1; transition: opacity 0.2s ease; }
         .tv-slide.active .tv-slide-wipe-wrapper {
-            clip-path: inset(0 0 0 0 round 15px);
+            clip-path: inset(0 0 0 0);
             transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1);
         }
         .tv-slide.active .tv-slide-content {
             opacity: 1; transform: translateY(0);
             transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s;
         }
-
         .slider-dots {
-            position: absolute;
-            bottom: 15px; right: 15px;
-            display: flex; gap: 5px;
-            z-index: 10;
+            position: absolute; bottom: 10px; right: 15px;
+            display: flex; gap: 4px; z-index: 5;
         }
         .dot {
-            width: 6px; height: 6px;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            transition: all 0.3s;
+            width: 6px; height: 6px; background: rgba(255,255,255,0.4);
+            border-radius: 50%; transition: all 0.3s;
         }
-        .dot.active {
-            width: 18px;
-            background: white;
-            border-radius: 10px;
-        }
+        .dot.active { width: 16px; background: white; border-radius: 10px; }
 
-        /* --- CHANNEL LIST --- */
-        .channel-list-container {
-            background: rgba(255,255,255,0.03);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            overflow: hidden;
+        /* --- INFO BAR --- */
+        .channel-info-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 180px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0) 100%);
+            z-index: 10; padding: 40px; box-sizing: border-box;
+            display: flex; align-items: flex-end;
+            transform: translateY(100%); opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s;
+            pointer-events: none;
         }
-
-        .channel-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            transition: background 0.2s, transform 0.2s;
-            cursor: pointer;
+        .channel-info-bar.visible { transform: translateY(0); opacity: 1; }
+        .info-content { display: flex; align-items: center; gap: 20px; }
+        #info-logo {
+            height: 70px; width: 70px; object-fit: contain;
+            background: rgba(255,255,255,0.05); border-radius: 12px; padding: 8px;
+            border: 1px solid var(--border-color);
         }
-        .channel-row:last-child { border-bottom: none; }
-
-        .channel-row-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .text-details h1 { font-size: 2.2rem; margin: 0 0 5px 0; font-weight: 800; }
+        .meta-row { display: flex; align-items: center; gap: 10px; font-size: 1rem; color: #ccc; }
+        .live-tag {
+            background: #ff0000; color: white; padding: 2px 8px;
+            border-radius: 4px; font-size: 0.75rem; font-weight: 800;
+            display: flex; align-items: center; gap: 4px;
         }
-        .channel-row-left img {
-            width: 36px; height: 36px;
-            object-fit: contain;
-            border-radius: 6px;
-        }
-        .channel-row-left span {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        
-        .channel-sensor {
-            color: var(--theme-color);
-            opacity: 0.7;
-            font-size: 20px;
-        }
+        .channel-sensor { color: var(--theme-color); opacity: 0.7; font-size: 18px; }
         .channel-sensor.offline { color: #ff3b30; }
 
-        /* Focus State */
-        .focusable.focused {
-            background: var(--focus-bg) !important;
-            color: var(--focus-text) !important;
-            transform: scale(1.02);
-            z-index: 5;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            border-color: transparent;
+        /* --- LOADER --- */
+        .loader-overlay {
+            position: fixed; inset: 0; background: black; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s; pointer-events: none;
         }
-        .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
-        .focusable.focused p { color: #333; }
-
-        /* --- SETTINGS & CONTROLS --- */
-        
-        /* Right Panel */
-        .right-panel {
-            position: fixed;
-            top: 20px; bottom: 20px; right: 20px;
-            width: 340px;
-            border-radius: 20px;
-            z-index: 100;
-            transform: translateX(120%);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            padding: 25px;
-            overflow-y: auto;
-            border: 1px solid rgba(255,255,255,0.1);
+        .loader-overlay.hidden { opacity: 0; }
+        .spinner {
+            width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.1);
+            border-top: 4px solid white; border-radius: 50%; animation: spin 0.8s linear infinite;
         }
-        .right-panel.active { transform: translateX(0); }
-        .right-panel h2 { margin-top: 0; font-size: 1.3rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-        
-        .settings-group h3 { 
-            font-size: 0.8rem; color: #888; 
-            text-transform: uppercase; margin-bottom: 10px; margin-top: 25px; 
-            padding-left: 5px;
-        }
-
-        .setting-item {
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            background: rgba(255,255,255,0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 500;
-        }
-        .setting-item .material-symbols-rounded { font-size: 20px; }
-
-        /* Player Controls Overlay (Skip/Live) */
-        .controls-overlay {
-            position: fixed;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%) translateY(200%);
-            display: flex;
-            gap: 20px;
-            z-index: 90;
-            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            background: rgba(20,20,20,0.8);
-            backdrop-filter: blur(20px);
-            padding: 15px;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-        .controls-overlay.active {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .control-btn {
-            background: transparent;
-            color: white;
-            border: 2px solid transparent;
-            border-radius: 50px;
-            padding: 10px 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: inherit;
-        }
-        .control-btn .material-symbols-rounded { font-size: 24px; }
-        
-        .control-btn.focused {
-            background: white;
-            color: black;
-            box-shadow: 0 0 20px rgba(255,255,255,0.4);
-        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* Virtual Remote */
         .virtual-remote-container {
-            position: fixed;
-            bottom: 40px; right: 40px;
-            z-index: 500;
-            opacity: 0.3;
-            transition: opacity 0.3s;
+            position: fixed; bottom: 40px; right: 40px; z-index: 500;
+            opacity: 0.3; transition: opacity 0.3s;
         }
         .virtual-remote-container:hover { opacity: 1; }
         .d-pad {
             position: relative; width: 140px; height: 140px;
-            background: rgba(30, 30, 30, 0.6);
-            border-radius: 50%;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(30, 30, 30, 0.6); border-radius: 50%;
+            backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15);
         }
         .d-btn {
             position: absolute; width: 45px; height: 45px;
@@ -443,31 +302,15 @@
             top: 50%; left: 50%; transform: translate(-50%, -50%); 
             background: rgba(255,255,255,0.1); width: 50px; height: 50px;
         }
-
-        /* Loading */
-        .loader-overlay {
-            position: fixed; inset: 0; background: black; z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.5s; pointer-events: none;
-        }
-        .loader-overlay.hidden { opacity: 0; }
-        .spinner {
-            width: 50px; height: 50px;
-            border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid white;
-            border-radius: 50%; animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
     </style>
 </head>
 <body>
 
-    <!-- Video Container -->
     <div id="tv-player-container">
         <video id="video" autoplay playsinline></video>
     </div>
 
-    <!-- Info Bar (Bottom Left) -->
+    <!-- Info Bar -->
     <div id="channel-info-bar" class="channel-info-bar">
         <div class="info-content">
             <img id="info-logo" src="" alt="Channel Logo">
@@ -475,9 +318,9 @@
                 <h1 id="info-name">Loading...</h1>
                 <div class="meta-row">
                     <span id="info-group">TV</span>
-                    <span class="divider">•</span>
+                    <span>•</span>
                     <div class="live-tag"><span class="material-symbols-rounded" style="font-size: 16px;">sensors</span> LIVE</div>
-                    <span class="divider">•</span>
+                    <span>•</span>
                     <span id="info-time">00:00</span>
                 </div>
             </div>
@@ -490,50 +333,41 @@
             <img src="/assets/liveplay_logo_(white).png" alt="Liveplay" class="guide-logo">
             <div id="clock-display">12:00 PM</div>
         </div>
-        <div class="guide-scroll-area">
-            <div class="tv-slider-container" id="tv-slider">
-                <!-- Slides Injected Here -->
-            </div>
+        <div class="scrollable-content">
+            <div class="tv-slider-container" id="tv-slider"></div>
             
-            <div class="channel-list-container" id="channel-list">
-                <!-- Channel Rows Injected Here -->
+            <h3 class="section-header">All Channels</h3>
+            
+            <div class="list-group-container" id="channel-list">
+                <!-- Channels injected here -->
             </div>
         </div>
     </div>
 
-    <!-- Right Settings Overlay -->
+    <!-- Right Settings -->
     <div id="settings-overlay" class="glass-panel right-panel">
-        <h2>Settings</h2>
-        
-        <div class="settings-group">
-            <h3>Quality</h3>
-            <div class="vertical-list" id="quality-list"></div>
+        <div class="settings-header">
+            <h2>Stream Settings</h2>
         </div>
+        <div class="scrollable-content">
+            
+            <div class="settings-title">Video Quality</div>
+            <div class="list-group-container" id="quality-list"></div>
 
-        <div class="settings-group" id="audio-group">
-            <h3>Audio</h3>
-            <div class="vertical-list" id="audio-list"></div>
+            <div id="audio-group-wrapper" style="display:none;">
+                <div class="settings-title">Audio Track</div>
+                <div class="list-group-container" id="audio-list"></div>
+            </div>
+
+            <div id="caption-group-wrapper" style="display:none;">
+                <div class="settings-title">Captions</div>
+                <div class="list-group-container" id="caption-list"></div>
+            </div>
+
+            <div class="settings-title">Playback Speed</div>
+            <div class="list-group-container" id="speed-list"></div>
+
         </div>
-
-        <div class="settings-group" id="caption-group">
-            <h3>Captions</h3>
-            <div class="vertical-list" id="caption-list"></div>
-        </div>
-
-        <div class="settings-group">
-            <h3>Speed</h3>
-            <div class="vertical-list" id="speed-list"></div>
-        </div>
-    </div>
-
-    <!-- Player Controls (Skip/Live) -->
-    <div id="controls-overlay" class="controls-overlay">
-        <button id="btn-skip-back" class="control-btn focusable">
-            <span class="material-symbols-rounded">replay_10</span> Skip -10s
-        </button>
-        <button id="btn-go-live" class="control-btn focusable">
-            <span class="material-symbols-rounded">forward_10</span> Live
-        </button>
     </div>
 
     <!-- Loader -->
@@ -563,8 +397,7 @@
             // --- State ---
             let allChannels = [];
             let currentChannelIndex = 0;
-            // Scopes: 'player', 'guide', 'settings', 'controls'
-            let currentScope = 'player'; 
+            let currentScope = 'player'; // 'player', 'guide', 'settings'
             let focusIndex = 0;
             let focusList = [];
             let player = null;
@@ -576,7 +409,6 @@
                 video: document.getElementById('video'),
                 guide: document.getElementById('guide-overlay'),
                 settings: document.getElementById('settings-overlay'),
-                controls: document.getElementById('controls-overlay'),
                 info: document.getElementById('channel-info-bar'),
                 slider: document.getElementById('tv-slider'),
                 channelList: document.getElementById('channel-list'),
@@ -592,7 +424,11 @@
                 qualityList: document.getElementById('quality-list'),
                 audioList: document.getElementById('audio-list'),
                 captionList: document.getElementById('caption-list'),
-                speedList: document.getElementById('speed-list')
+                speedList: document.getElementById('speed-list'),
+                
+                // Setting Wrappers
+                audioWrapper: document.getElementById('audio-group-wrapper'),
+                captionWrapper: document.getElementById('caption-group-wrapper')
             };
 
             // --- Clock ---
@@ -630,11 +466,6 @@
             }
 
             // --- Rendering ---
-            
-            function createSlug(name) {
-                return name ? name.toLowerCase().trim().replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-') : '';
-            }
-
             function renderGuide(channels, slides) {
                 // Render Slider
                 els.slider.innerHTML = '';
@@ -664,11 +495,10 @@
                     });
                     els.slider.appendChild(dotsCont);
 
-                    // Slider Interval
+                    // Slider Loop
                     let currentSlide = 0;
                     const allSlides = els.slider.querySelectorAll('.tv-slide');
                     const allDots = els.slider.querySelectorAll('.dot');
-                    
                     if(allSlides.length > 1) {
                         slideInterval = setInterval(() => {
                             allSlides[currentSlide].classList.remove('active');
@@ -678,20 +508,21 @@
                             allDots[currentSlide].classList.add('active');
                         }, 5000);
                     }
+                } else {
+                    els.slider.style.display = 'none';
                 }
 
                 // Render Channel List
                 els.channelList.innerHTML = '';
                 channels.forEach((ch, idx) => {
                     const row = document.createElement('div');
-                    row.className = 'channel-row focusable';
+                    row.className = 'list-item focusable';
                     row.dataset.index = idx;
                     const logo = ch.logo || '/assets/favicon.svg';
-                    // Offline logic check (basic)
                     const isOffline = ch.status === 'offline';
                     
                     row.innerHTML = `
-                        <div class="channel-row-left">
+                        <div class="list-item-left">
                             <img src="${logo}" onerror="this.style.opacity=0">
                             <span>${ch.name}</span>
                         </div>
@@ -706,7 +537,20 @@
                 if(!height) return 'auto_awesome';
                 if(height >= 2160) return '4k';
                 if(height >= 720) return 'hd';
-                return 'sd'; // 540, 360, 270, etc.
+                return 'sd';
+            }
+
+            function createSettingBtn(icon, text, onClick) {
+                const div = document.createElement('div');
+                div.className = 'list-item focusable';
+                div.innerHTML = `
+                    <div class="list-item-left">
+                        <span class="material-symbols-rounded item-icon">${icon}</span>
+                        <span>${text}</span>
+                    </div>
+                `;
+                if(onClick) div.onclick = onClick;
+                return div;
             }
 
             function renderSettings() {
@@ -715,107 +559,90 @@
                 const qList = els.qualityList;
                 qList.innerHTML = '';
                 
-                // Add Auto
-                const autoBtn = createSettingBtn('hdr_auto', 'Auto', () => {
+                // Auto
+                qList.appendChild(createSettingBtn('hdr_auto', 'Auto', () => {
                     player.configure({ abr: { enabled: true } });
                     toggleSettings(false);
-                });
-                qList.appendChild(autoBtn);
+                }));
 
-                // Group unique heights
+                // Resolutions
                 const unique = [...new Set(tracks.map(t => t.height))].sort((a,b) => b-a);
                 unique.forEach(h => {
                     if(!h) return;
-                    const icon = getResIcon(h);
-                    const btn = createSettingBtn(icon, `${h}p`, () => {
+                    qList.appendChild(createSettingBtn(getResIcon(h), `${h}p`, () => {
                         player.configure({ abr: { enabled: false } });
                         const target = tracks.find(t => t.height === h);
                         player.selectVariantTrack(target, true);
                         toggleSettings(false);
-                    });
-                    qList.appendChild(btn);
+                    }));
                 });
 
                 // Audio
                 const audios = player.getAudioLanguagesAndRoles();
-                const aList = els.audioList;
-                aList.innerHTML = '';
+                els.audioList.innerHTML = '';
                 if(audios.length > 0) {
+                    els.audioWrapper.style.display = 'block';
                     audios.forEach(a => {
-                        const label = a.language + (a.role ? ` (${a.role})` : '');
-                        aList.appendChild(createSettingBtn('audiotrack', label.toUpperCase(), () => {
+                        const label = (a.language + (a.role ? ` (${a.role})` : '')).toUpperCase();
+                        els.audioList.appendChild(createSettingBtn('audiotrack', label, () => {
                             player.selectAudioLanguage(a.language, a.role);
                             toggleSettings(false);
                         }));
                     });
                 } else {
-                    aList.appendChild(createSettingBtn('audiotrack', 'Default', null));
+                    els.audioWrapper.style.display = 'none';
                 }
 
                 // Captions
                 const subs = player.getTextTracks().filter(t => t.kind === 'subtitle' || t.kind === 'caption');
-                const cList = els.captionList;
-                cList.innerHTML = '';
+                els.captionList.innerHTML = '';
                 if(subs.length > 0) {
-                    document.getElementById('caption-group').style.display = 'block';
-                    // Off
-                    cList.appendChild(createSettingBtn('subtitles_off', 'Off', () => {
+                    els.captionWrapper.style.display = 'block';
+                    els.captionList.appendChild(createSettingBtn('subtitles_off', 'Off', () => {
                         player.setTextTrackVisibility(false);
                         toggleSettings(false);
                     }));
-                    // Tracks
                     subs.forEach(t => {
                         const label = t.label || t.language || 'Unknown';
-                        cList.appendChild(createSettingBtn('subtitles', label, () => {
+                        els.captionList.appendChild(createSettingBtn('subtitles', label, () => {
                             player.selectTextTrack(t);
                             player.setTextTrackVisibility(true);
                             toggleSettings(false);
                         }));
                     });
                 } else {
-                    document.getElementById('caption-group').style.display = 'none';
+                    els.captionWrapper.style.display = 'none';
                 }
 
                 // Speed
-                const sList = els.speedList;
-                sList.innerHTML = '';
+                els.speedList.innerHTML = '';
                 [0.5, 1, 1.25, 1.5, 2].forEach(rate => {
-                    sList.appendChild(createSettingBtn('speed', `${rate}x`, () => {
+                    els.speedList.appendChild(createSettingBtn('speed', `${rate}x`, () => {
                         els.video.playbackRate = rate;
                         toggleSettings(false);
                     }));
                 });
 
-                // Set Focus
                 focusList = Array.from(els.settings.querySelectorAll('.focusable'));
                 focusIndex = 0;
                 updateFocus();
             }
 
-            function createSettingBtn(icon, text, onClick) {
-                const div = document.createElement('div');
-                div.className = 'setting-item focusable';
-                div.innerHTML = `<span class="material-symbols-rounded">${icon}</span> ${text}`;
-                if(onClick) div.onclick = onClick;
-                return div;
-            }
-
-            // --- Player Actions ---
-
+            // --- Player ---
             async function playChannel(idx) {
                 if(idx < 0 || idx >= allChannels.length) return;
                 currentChannelIndex = idx;
                 const ch = allChannels[idx];
                 
-                // Show Info
                 els.name.textContent = ch.name;
                 els.group.textContent = ch.group || 'Live TV';
                 els.logo.src = ch.logo || '/assets/favicon.svg';
+                
+                // Show info briefly
                 els.info.classList.add('visible');
                 clearTimeout(infoTimeout);
                 infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 5000);
 
-                // Load Video
                 els.video.pause();
                 els.video.removeAttribute('src');
 
@@ -830,29 +657,19 @@
                     }
                     player.configure(config);
                     await player.load(data.manifestUri);
-                    els.video.play().catch(e=>console.log("Autoplay blocked"));
+                    els.video.play().catch(e=>{});
                 } catch(e) {
                     els.name.textContent = "Stream Offline";
                 }
             }
 
-            function skipBack() {
-                if(els.video) els.video.currentTime -= 10;
-            }
-
-            function goLive() {
-                if(player && player.isLive()) player.goToLive();
-                else if (els.video) els.video.currentTime = els.video.duration;
-            }
-
-            // --- Navigation Logic ---
-
+            // --- Navigation ---
             function toggleGuide(show) {
                 if(show) {
                     els.guide.classList.add('active');
                     currentScope = 'guide';
                     focusList = Array.from(els.guide.querySelectorAll('.focusable'));
-                    // Attempt to focus current channel
+                    // Focus current channel if possible
                     const curr = Array.from(els.channelList.children).find(el => el.dataset.index == currentChannelIndex);
                     focusIndex = curr ? focusList.indexOf(curr) : 0;
                     updateFocus();
@@ -873,19 +690,6 @@
                 }
             }
 
-            function toggleControls(show) {
-                if(show) {
-                    els.controls.classList.add('active');
-                    currentScope = 'controls';
-                    focusList = Array.from(els.controls.querySelectorAll('.focusable'));
-                    focusIndex = 1; // Default to Live button usually
-                    updateFocus();
-                } else {
-                    els.controls.classList.remove('active');
-                    // We don't set currentScope here because this is usually called to exit to player
-                }
-            }
-
             function updateFocus() {
                 document.querySelectorAll('.focused').forEach(el => el.classList.remove('focused'));
                 if(focusList[focusIndex]) {
@@ -896,8 +700,7 @@
             }
 
             function handleInput(key) {
-                
-                // 1. PLAYER SCOPE
+                // Player Scope
                 if(currentScope === 'player') {
                     switch(key) {
                         case 'ArrowUp': 
@@ -906,12 +709,8 @@
                         case 'ArrowDown':
                             playChannel((currentChannelIndex + 1) % allChannels.length);
                             break;
-                        case 'ArrowLeft':
-                            toggleGuide(true);
-                            break;
-                        case 'ArrowRight':
-                            toggleSettings(true);
-                            break;
+                        case 'ArrowLeft': toggleGuide(true); break;
+                        case 'ArrowRight': toggleSettings(true); break;
                         case 'Enter':
                             els.info.classList.add('visible');
                             clearTimeout(infoTimeout);
@@ -919,8 +718,7 @@
                             break;
                     }
                 }
-                
-                // 2. GUIDE / SETTINGS SCOPE
+                // Menus Scope
                 else if(currentScope === 'guide' || currentScope === 'settings') {
                     switch(key) {
                         case 'ArrowUp':
@@ -931,18 +729,11 @@
                             focusIndex = Math.min(focusList.length - 1, focusIndex + 1);
                             updateFocus();
                             break;
+                        case 'ArrowLeft':
+                            if(currentScope === 'settings') toggleSettings(false);
+                            break;
                         case 'ArrowRight':
                             if(currentScope === 'guide') toggleGuide(false);
-                            break;
-                        case 'ArrowLeft':
-                            // Special Logic: Settings -> Left = Controls
-                            if(currentScope === 'settings') {
-                                // Don't close settings visual, just change focus scope
-                                toggleControls(true); 
-                                // Settings overlay remains visible per visual requirement? 
-                                // Usually better to hide it so controls are clear
-                                els.settings.classList.remove('active'); 
-                            }
                             break;
                         case 'Enter':
                             if(focusList[focusIndex]) focusList[focusIndex].click();
@@ -954,68 +745,9 @@
                             break;
                     }
                 }
-
-                // 3. CONTROLS SCOPE (The intermediate layer)
-                else if(currentScope === 'controls') {
-                    switch(key) {
-                        case 'ArrowRight':
-                            // Go back to settings
-                            toggleControls(false);
-                            toggleSettings(true);
-                            break;
-                        case 'ArrowLeft':
-                            // Second Left Tap -> Exit everything
-                            toggleControls(false);
-                            currentScope = 'player';
-                            break;
-                        case 'ArrowUp': // Allow lateral movement in controls too if they are arranged horizontally
-                        case 'ArrowDown':
-                            // If buttons are vertical, use up/down. If horizontal (as styled), use Left/Right
-                            // Since styled with flex row:
-                            break;
-                    }
-                    // Controls are horizontal in CSS, so lets override Left/Right for focus movement
-                    // But we have the specific "Exit" logic on Left. 
-                    // Let's make "Left" move focus if index > 0, else Exit.
-                    
-                    if(currentScope === 'controls' && (key === 'ArrowLeft' || key === 'ArrowRight')) {
-                         if(key === 'ArrowLeft') {
-                             if(focusIndex > 0) {
-                                 focusIndex--;
-                                 updateFocus();
-                             } else {
-                                 // Exit
-                                 toggleControls(false);
-                                 currentScope = 'player';
-                             }
-                         }
-                         if(key === 'ArrowRight') {
-                             if(focusIndex < focusList.length - 1) {
-                                 focusIndex++;
-                                 updateFocus();
-                             } else {
-                                 // Go back to settings
-                                 toggleControls(false);
-                                 toggleSettings(true);
-                             }
-                         }
-                    }
-
-                    if(key === 'Enter') {
-                        if(focusList[focusIndex]) {
-                            const id = focusList[focusIndex].id;
-                            if(id === 'btn-skip-back') skipBack();
-                            if(id === 'btn-go-live') goLive();
-                        }
-                    }
-                    if(key === 'Back' || key === 'Escape') {
-                        toggleControls(false);
-                        currentScope = 'player';
-                    }
-                }
             }
 
-            // --- Events ---
+            // --- Event Listeners ---
             document.addEventListener('keydown', e => {
                 let key = e.key;
                 if(key === 'Escape') key = 'Back';
@@ -1025,7 +757,6 @@
                 }
             });
 
-            // Virtual Remote
             ['up','down','left','right','ok'].forEach(k => {
                 const btn = document.getElementById('remote-'+k);
                 if(btn) btn.onclick = (e) => {
@@ -1036,7 +767,6 @@
                 };
             });
 
-            // Start
             init();
         });
     </script>
