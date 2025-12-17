@@ -204,16 +204,16 @@
             z-index: 2; opacity: 0; transform: translateY(20px);
             transition: all 0.5s ease;
         }
-        .tv-slide-content h2 { margin: 0 0 5px 0; font-size: 1.2rem; text-shadow: 0 2px 5px black;}
-        .tv-slide-content p { margin: 0 0 8px 0; font-size: 0.7rem; color: #ddd; }
+        .tv-slide-content h2 { font-size: 1.0rem; font-weight: 700; margin: 0 50px 2px 0;}
+        .tv-slide-content p { color: var(--text-secondary); font-size: 0.5rem; line-height: 1.5; margin: 0 0 6px 0; }
         .tv-slide-badge {
             background: var(--theme-color); color: black;
-            font-size: 0.6rem; font-weight: 700; padding: 2px 6px;
+            font-size: 0.5rem; font-weight: 700; padding: 2px 6px;
             border-radius: 4px; display: inline-block;
         }
         .tv-slide-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to top, black 0%, transparent 80%);
+            background: radial-gradient(circle at top right, transparent 35%, black 100%);
         }
 
         .tv-slide.active { opacity: 1; z-index: 1; transition: opacity 0.2s ease; }
@@ -235,6 +235,23 @@
         }
         .dot.active { width: 16px; background: white; border-radius: 10px; }
 
+        .dot.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: var(--theme-color);
+            border-radius: 20px;
+            width: 0%;
+            animation: dotProgress var(--slide-timer, 5000ms) linear forwards;
+        }
+        
+        @keyframes dotProgress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }        
+        
         /* --- INFO BAR --- */
         .channel-info-bar {
             position: fixed; bottom: 0; left: 0; width: 100%;
