@@ -193,9 +193,9 @@
         }
         .tv-slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 0.5s ease 1s;
+            opacity: 0; transition: opacity 0.5s ease 1s; border-radius: var(--border-radius);
         }
-        .tv-slide-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+        .tv-slide-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; border-radius: var(--border-radius);}
         
         .tv-slide-wipe-wrapper {
             position: absolute; inset: 0;
@@ -207,11 +207,11 @@
             z-index: 2; opacity: 0; transform: translateY(20px);
             transition: all 0.5s ease;
         }
-        .tv-slide-content h2 { font-size: 1.0rem; font-weight: 700; margin: 0 50px 2px 0;}
-        .tv-slide-content p { color: var(--text-secondary); font-size: 0.6rem; line-height: 1.3; margin: 0 0 6px 0; }
+        .tv-slide-content h2 { font-size: 1.0rem; font-weight: 700; margin: 0 50px 4px 0;}
+        .tv-slide-content p { color: var(--text-secondary); font-size: 0.6rem; line-height: 1.3; margin: 0 0 3px 0; }
         .tv-slide-badge {
             background: var(--theme-color); color: black;
-            font-size: 0.4rem; font-weight: 700; padding: 3px;
+            font-size: 0.48rem; font-weight: 700; padding: 3px;
             border-radius: 4px; display: inline-block;
         }
         .tv-slide-overlay {
@@ -270,17 +270,18 @@
         .info-content { display: flex; align-items: center; gap: 20px; }
         #info-logo {
             height: 70px; width: 70px; object-fit: contain;
-            background: rgba(255,255,255,0.05); border-radius: 12px; padding: 8px;
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px); border-radius: 12px; padding: 8px;
             border: 1px solid var(--border-color);
         }
         .text-details h1 { font-size: 2.2rem; margin: 0 0 5px 0; font-weight: 800; }
         .meta-row { display: flex; align-items: center; gap: 10px; font-size: 1rem; color: #ccc; }
         .live-tag {
-            background: #ff0000; color: white; padding: 2px 8px;
+            background: #ffffff; color: #000000; padding: 2px 8px;
             border-radius: 4px; font-size: 0.75rem; font-weight: 800;
             display: flex; align-items: center; gap: 4px;
         }
-        .channel-sensor { color: var(--theme-color); opacity: 0.7; font-size: 18px; }
+        .channel-sensor { color: #000000 ; opacity: 0.7; font-size: 18px; }
         .channel-sensor.offline { color: #ff3b30; }
 
         /* --- LOADER --- */
