@@ -3,28 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Liveplay TV</title>
-    
+    <title>Liveplay for TV</title>
     <script>
         (function() {
             var ua = navigator.userAgent;
             var isTV = /SmartTV|Tizen|Web0S|BRAVIA|Kodi|Android TV|GoogleTV|AppleTV|CrKey|Roku|Viera|Philips|Toshiba|LG|Sony|Panasonic|Xbox|PlayStation|Hisense/i.test(ua);
             
             if (!isTV) {
-                window.location.href = '/tv';
+                window.location.href = '/home';
                 document.documentElement.innerHTML = '';
             }
         })();
     </script>
-
     <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
-    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/shaka-player.ui.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/controls.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
-
     <style>
         :root {
             --focus-bg: #ffffff;
