@@ -107,15 +107,11 @@
             flex-shrink: 0;
         }
         .settings-header h2 { margin: 0; font-size: 1.2rem; }
-
-        /* --- GROUPED LIST STYLES (Used for Channels & Settings) --- */
         
-        /* Section Header */
         .section-header {
-            text-align: center;
+            text-align: left;
             text-transform: uppercase;
             font-size: 0.75rem;
-            letter-spacing: 2px;
             color: #888;
             font-weight: 700;
             margin: 25px 0 15px 0;
@@ -227,13 +223,13 @@
         }
         .slider-dots {
             position: absolute; bottom: 10px; right: 15px;
-            display: flex; gap: 4px; z-index: 5; border: var(--glass-border); border-radius: 20px;
+            display: flex; gap: 4px; z-index: 5; padding: 5px; border: var(--glass-border); border-radius: 20px;
         }
         .dot {
-            width: 6px; height: 6px; background: rgba(255,255,255,0.4);
+            width: 7px; height: 7px; background: rgba(255,255,255,0.4);
             border-radius: 50%; transition: all 0.3s;
         }
-        .dot.active { width: 16px; rgba(255, 255, 255, 0.2) border-radius: 20px; }
+        .dot.active { width: 20px; rgba(255, 255, 255, 0.2) border-radius: 20px; }
 
         .dot.active::after {
             content: '';
