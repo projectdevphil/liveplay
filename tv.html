@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Liveplay TV</title>
+    
+    <script>
+        (function() {
+            var ua = navigator.userAgent;
+            var isTV = /SmartTV|Tizen|Web0S|BRAVIA|Kodi|Android TV|GoogleTV|AppleTV|CrKey|Roku|Viera|Philips|Toshiba|LG|Sony|Panasonic|Xbox|PlayStation|Hisense/i.test(ua);
+            
+            if (!isTV) {
+                window.location.href = '/tv';
+                document.documentElement.innerHTML = '';
+            }
+        })();
+    </script>
+
     <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     
-    <!-- Fonts and Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    
-    <!-- Shaka Player -->
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/shaka-player.ui.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/controls.min.css" rel="stylesheet">
-    
     <link rel="stylesheet" href="/css/style.css">
 
     <style>
-        /* --- TV INTERFACE STYLES --- */
-
         :root {
             --focus-bg: #ffffff;
             --focus-text: #000000;
@@ -39,7 +46,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Fullscreen Player */
         #tv-player-container {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -47,7 +53,6 @@
         }
         video { width: 100%; height: 100%; object-fit: contain; }
 
-        /* Common Panel Styles (Left & Right) */
         .glass-panel {
             background: var(--glass-heavy);
             backdrop-filter: blur(40px);
@@ -66,17 +71,15 @@
             box-sizing: border-box;
         }
 
-        /* Scrollbar Hiding */
         .scrollable-content {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
-        .scrollable-content::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+        .scrollable-content::-webkit-scrollbar { display: none; }
 
-        /* --- LEFT GUIDE OVERLAY --- */
         #guide-overlay {
             left: 20px;
             transform: translateX(-120%);
@@ -94,7 +97,6 @@
         .guide-logo { height: 28px; }
         #clock-display { font-size: 0.9rem; color: #888; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-        /* --- RIGHT SETTINGS OVERLAY --- */
         #settings-overlay {
             right: 20px;
             transform: translateX(120%);
@@ -125,7 +127,6 @@
             margin: 25px 0 10px 10px;
         }
 
-        /* The Container Box */
         .list-group-container {
             background: var(--container-bg);
             border-radius: 15px;
@@ -135,7 +136,6 @@
             flex-direction: column;
         }
 
-        /* The Items inside */
         .list-item {
             display: flex;
             align-items: center;
@@ -172,7 +172,6 @@
 
         .item-icon { font-size: 22px; color: #aaa; }
         
-        /* Focus State */
         .focusable.focused {
             background: var(--focus-bg);
             color: var(--focus-text);
@@ -181,7 +180,6 @@
         .focusable.focused .item-icon { color: var(--focus-text); }
         .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
         
-        /* --- SLIDER --- */
         .tv-slider-container {
             margin-bottom: 10px;
             position: relative;
@@ -255,7 +253,6 @@
             to { width: 100%; }
         }        
         
-        /* --- INFO BAR --- */
         .channel-info-bar {
             position: fixed; bottom: 0; left: 0; width: 100%;
             height: 180px;
@@ -284,7 +281,6 @@
         .channel-sensor { color: #fff ; opacity: 0.7; font-size: 22px; }
         .channel-sensor.offline { color: #ff3b30; }
 
-        /* --- LOADER --- */
         .loader-overlay {
             position: fixed; inset: 0; background: black; z-index: 9999;
             display: flex; justify-content: center; align-items: center;
@@ -297,7 +293,6 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Virtual Remote */
         .virtual-remote-container {
             position: fixed; bottom: 40px; right: 40px; z-index: 500;
             opacity: 0.3; transition: opacity 0.3s;
@@ -331,7 +326,6 @@
         <video id="video" autoplay playsinline></video>
     </div>
 
-    <!-- Info Bar -->
     <div id="channel-info-bar" class="channel-info-bar">
         <div class="info-content">
             <img id="info-logo" src="" alt="Channel Logo">
@@ -348,7 +342,6 @@
         </div>
     </div>
 
-    <!-- Left Guide -->
     <div id="guide-overlay" class="glass-panel">
         <div class="guide-header">
             <img src="/assets/liveplay_logo_(white).png" alt="Liveplay" class="guide-logo">
@@ -360,12 +353,10 @@
             <h3 class="section-header">All Channels</h3>
             
             <div class="list-group-container" id="channel-list">
-                <!-- Channels injected here -->
             </div>
         </div>
     </div>
 
-    <!-- Right Settings -->
     <div id="settings-overlay" class="glass-panel right-panel">
         <div class="settings-header">
             <h2>Stream Settings</h2>
@@ -391,12 +382,10 @@
         </div>
     </div>
 
-    <!-- Loader -->
     <div id="tv-loader" class="loader-overlay">
         <div class="spinner"></div>
     </div>
 
-    <!-- Remote -->
     <div class="virtual-remote-container">
         <div class="d-pad">
             <button class="d-btn up" id="remote-up"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
@@ -410,22 +399,19 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             
-            // --- Config ---
             const API_GET_CHANNELS = '/api/getChannels';
             const API_GET_DATA = '/api/getData';
             const API_GET_SLIDES = '/api/getSlides';
             
-            // --- State ---
             let allChannels = [];
             let currentChannelIndex = 0;
-            let currentScope = 'player'; // 'player', 'guide', 'settings'
+            let currentScope = 'player';
             let focusIndex = 0;
             let focusList = [];
             let player = null;
             let infoTimeout = null;
             let slideInterval = null;
 
-            // --- Elements ---
             const els = {
                 video: document.getElementById('video'),
                 guide: document.getElementById('guide-overlay'),
@@ -434,25 +420,18 @@
                 slider: document.getElementById('tv-slider'),
                 channelList: document.getElementById('channel-list'),
                 loader: document.getElementById('tv-loader'),
-                
-                // Info
                 name: document.getElementById('info-name'),
                 logo: document.getElementById('info-logo'),
                 group: document.getElementById('info-group'),
                 time: document.getElementById('info-time'),
-                
-                // Settings Lists
                 qualityList: document.getElementById('quality-list'),
                 audioList: document.getElementById('audio-list'),
                 captionList: document.getElementById('caption-list'),
                 speedList: document.getElementById('speed-list'),
-                
-                // Setting Wrappers
                 audioWrapper: document.getElementById('audio-group-wrapper'),
                 captionWrapper: document.getElementById('caption-group-wrapper')
             };
 
-            // --- Clock ---
             function updateTime() {
                 const now = new Date();
                 const str = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -462,7 +441,6 @@
             setInterval(updateTime, 1000);
             updateTime();
 
-            // --- Init ---
             async function init() {
                 shaka.polyfill.installAll();
                 if(shaka.Player.isBrowserSupported()) {
@@ -486,9 +464,7 @@
                 } catch(e) { console.error(e); els.loader.classList.add('hidden'); }
             }
 
-            // --- Rendering ---
             function renderGuide(channels, slides) {
-                // Render Slider
                 els.slider.innerHTML = '';
                 if(slides && slides.length) {
                     const dotsCont = document.createElement('div');
@@ -516,7 +492,6 @@
                     });
                     els.slider.appendChild(dotsCont);
 
-                    // Slider Loop
                     let currentSlide = 0;
                     const allSlides = els.slider.querySelectorAll('.tv-slide');
                     const allDots = els.slider.querySelectorAll('.dot');
@@ -533,7 +508,6 @@
                     els.slider.style.display = 'none';
                 }
 
-                // Render Channel List
                 els.channelList.innerHTML = '';
                 channels.forEach((ch, idx) => {
                     const row = document.createElement('div');
@@ -575,18 +549,15 @@
             }
 
             function renderSettings() {
-                // Quality
                 const tracks = player.getVariantTracks();
                 const qList = els.qualityList;
                 qList.innerHTML = '';
                 
-                // Auto
                 qList.appendChild(createSettingBtn('hdr_auto', 'Auto', () => {
                     player.configure({ abr: { enabled: true } });
                     toggleSettings(false);
                 }));
 
-                // Resolutions
                 const unique = [...new Set(tracks.map(t => t.height))].sort((a,b) => b-a);
                 unique.forEach(h => {
                     if(!h) return;
@@ -598,7 +569,6 @@
                     }));
                 });
 
-                // Audio
                 const audios = player.getAudioLanguagesAndRoles();
                 els.audioList.innerHTML = '';
                 if(audios.length > 0) {
@@ -614,7 +584,6 @@
                     els.audioWrapper.style.display = 'none';
                 }
 
-                // Captions
                 const subs = player.getTextTracks().filter(t => t.kind === 'subtitle' || t.kind === 'caption');
                 els.captionList.innerHTML = '';
                 if(subs.length > 0) {
@@ -635,7 +604,6 @@
                     els.captionWrapper.style.display = 'none';
                 }
 
-                // Speed
                 els.speedList.innerHTML = '';
                 [0.5, 1, 1.25, 1.5, 2].forEach(rate => {
                     els.speedList.appendChild(createSettingBtn('speed', `${rate}x`, () => {
@@ -649,7 +617,6 @@
                 updateFocus();
             }
 
-            // --- Player ---
             async function playChannel(idx) {
                 if(idx < 0 || idx >= allChannels.length) return;
                 currentChannelIndex = idx;
@@ -659,7 +626,6 @@
                 els.group.textContent = ch.group || 'Live TV';
                 els.logo.src = ch.logo || '/assets/favicon.svg';
                 
-                // Show info briefly
                 els.info.classList.add('visible');
                 clearTimeout(infoTimeout);
                 infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 5000);
@@ -684,13 +650,11 @@
                 }
             }
 
-            // --- Navigation ---
             function toggleGuide(show) {
                 if(show) {
                     els.guide.classList.add('active');
                     currentScope = 'guide';
                     focusList = Array.from(els.guide.querySelectorAll('.focusable'));
-                    // Focus current channel if possible
                     const curr = Array.from(els.channelList.children).find(el => el.dataset.index == currentChannelIndex);
                     focusIndex = curr ? focusList.indexOf(curr) : 0;
                     updateFocus();
@@ -721,7 +685,6 @@
             }
 
             function handleInput(key) {
-                // Player Scope
                 if(currentScope === 'player') {
                     switch(key) {
                         case 'ArrowUp': 
@@ -739,7 +702,6 @@
                             break;
                     }
                 }
-                // Menus Scope
                 else if(currentScope === 'guide' || currentScope === 'settings') {
                     switch(key) {
                         case 'ArrowUp':
@@ -768,7 +730,6 @@
                 }
             }
 
-            // --- Event Listeners ---
             document.addEventListener('keydown', e => {
                 let key = e.key;
                 if(key === 'Escape') key = 'Back';
