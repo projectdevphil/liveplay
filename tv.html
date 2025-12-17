@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Liveplay for TV</title>
+    <title>Liveplay TV</title>
     <script>
         (function() {
             var ua = navigator.userAgent;
@@ -11,7 +11,7 @@
             
             if (!isTV) {
                 //window.location.href = '/home';
-                //document.documentElement.innerHTML = '';
+                document.documentElement.innerHTML = '';
             }
         })();
     </script>
@@ -739,6 +739,11 @@
                 const btn = document.getElementById('remote-'+k);
                 if(btn) btn.onclick = (e) => {
                     e.preventDefault();
+                    
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {});
+                    }
+
                     let key = 'Enter';
                     if(k !== 'ok') key = 'Arrow' + k.charAt(0).toUpperCase() + k.slice(1);
                     handleInput(key);
