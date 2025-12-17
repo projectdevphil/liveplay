@@ -6,524 +6,310 @@
     <title>Liveplay TV</title>
     <meta name="theme-color" content="#000000">
     
-    <!-- Reuse assets/fonts from main site structure -->
     <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <link rel="shortcut icon" href="/assets/favicon.ico" />
     
-    <!-- Fonts and Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica:wght@900&display=swap" rel="stylesheet"> <!-- Fallback for heavy font -->
     
-    <!-- Shaka Player -->
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/shaka-player.ui.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/controls.min.css" rel="stylesheet">
     
-    <!-- Main Style Dependency (if you have shared vars) -->
-    <link rel="stylesheet" href="/css/style.css">
-
     <style>
-        /* --- TV INTERFACE STYLES --- */
-
+        /* --- CORE TV STYLES --- */
         :root {
-            --focus-color: #ffffff;
             --focus-bg: #ffffff;
             --focus-text: #000000;
             --glass-heavy: rgba(15, 15, 15, 0.95);
-            --glass-medium: rgba(30, 30, 30, 0.8);
-            --highlight: rgba(255, 255, 255, 0.15);
             --theme-color: #ffffff;
+            --card-bg: #1a1a1a;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Prevent body scroll, we use internal scrolling */
+            margin: 0; padding: 0;
+            overflow: hidden;
             background: #000;
-            cursor: default; 
-            font-family: 'Inter', 'BR Sonoma', sans-serif;
+            font-family: 'Inter', sans-serif;
             color: white;
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Hide Scrollbars Globally */
+        ::-webkit-scrollbar { display: none; }
+        * { scrollbar-width: none; -ms-overflow-style: none; }
+
         /* Fullscreen Player */
         #tv-player-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            background: #000;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 1; background: #000;
         }
+        video { width: 100%; height: 100%; object-fit: contain; }
 
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        /* Common Overlay Styles */
+        /* Common Overlay */
         .glass-panel {
             background: var(--glass-heavy);
             backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
             border: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 0 50px rgba(0,0,0,0.8);
             color: white;
         }
 
-        .fullscreen-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: 9000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s;
-        }
-
-        .fullscreen-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Channel Info Bar (Top) */
+        /* --- CHANNEL INFO (Bottom Left) --- */
         .channel-info-bar {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 140px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+            bottom: 0; left: 0; width: 100%; height: 160px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
             z-index: 10;
-            padding: 30px 40px;
+            padding: 30px 50px;
             box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            transform: translateY(-100%);
+            display: flex; align-items: flex-end;
+            transform: translateY(100%);
             opacity: 0;
             transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s;
             pointer-events: none;
         }
-
-        .channel-info-bar.visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .info-content {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
+        .channel-info-bar.visible { transform: translateY(0); opacity: 1; }
+        
+        .info-content { display: flex; align-items: flex-end; gap: 25px; margin-bottom: 20px; }
         #info-logo {
-            height: 70px;
-            width: 70px;
-            object-fit: contain;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 5px;
+            height: 80px; width: 80px; object-fit: contain;
+            background: rgba(255,255,255,0.05); border-radius: 12px; padding: 5px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-
         .text-details h1 {
-            font-size: 2.2rem;
-            margin: 0;
-            font-weight: 800;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-            letter-spacing: -0.5px;
+            font-size: 2.5rem; margin: 0; font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: -0.5px;
+            line-height: 1; margin-bottom: 8px;
         }
-
-        .meta-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 8px;
-            font-size: 1rem;
-            color: #ccc;
-            font-weight: 500;
-        }
-
+        .meta-row { display: flex; align-items: center; gap: 12px; font-size: 1rem; color: #ccc; font-weight: 500; }
         .live-tag {
-            background: #ff0000;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            letter-spacing: 0.5px;
+            background: #ff0000; color: white; padding: 3px 8px; border-radius: 4px;
+            font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; gap: 5px;
             box-shadow: 0 2px 5px rgba(255,0,0,0.3);
         }
-
         .divider { color: rgba(255,255,255,0.3); }
 
-        /* Left Guide Overlay */
+        /* --- GUIDE (Left) --- */
         #guide-overlay {
-            position: fixed;
-            top: 20px;
-            bottom: 20px;
-            left: 20px;
-            width: 380px;
-            border-radius: 20px;
-            z-index: 100;
+            position: fixed; top: 20px; bottom: 20px; left: 20px; width: 420px;
+            border-radius: 20px; z-index: 100;
             transform: translateX(-120%);
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
+        #guide-overlay.active { transform: translateX(0); }
+        .guide-header { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
+        .guide-logo { height: 28px; }
+        #clock-display { font-size: 0.9rem; color: #888; font-weight: 600; }
+        .guide-scroll-area { flex: 1; overflow-y: auto; padding: 20px; }
+        .guide-section { margin-bottom: 35px; }
+        .guide-section h3 { margin: 0 0 15px 0; font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; padding-left: 5px; }
 
-        #guide-overlay.active {
-            transform: translateX(0);
-        }
-
-        .guide-header {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .guide-logo {
-            height: 28px;
-        }
-
-        #clock-display {
-            font-size: 0.9rem;
-            color: #888;
-            font-variant-numeric: tabular-nums;
-            font-weight: 600;
-        }
-
-        .guide-scroll-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            scrollbar-width: none;
-        }
-
-        .guide-scroll-area::-webkit-scrollbar { display: none; }
-
-        .guide-section {
-            margin-bottom: 35px;
-        }
-
-        .guide-section h3 {
-            margin: 0 0 15px 0;
-            font-size: 0.75rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-            padding-left: 5px;
-        }
-
-        /* TV Button/Item Styles */
-        .tv-btn, .channel-item, .setting-item, .qr-item {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 12px;
-            border: 2px solid transparent;
-            background: rgba(255,255,255,0.03);
-            color: #eee;
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-sizing: border-box;
-            cursor: pointer;
-            gap: 15px;
-            position: relative;
-        }
-
-        .tv-btn .material-symbols-rounded { font-size: 22px; color: #aaa; }
-
-        /* FOCUS STATE (Crucial for TV) */
-        .focusable.focused {
-            background: var(--focus-bg);
-            color: var(--focus-text);
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            border-color: var(--focus-bg);
-            z-index: 2;
-        }
-
-        .focusable.focused .material-symbols-rounded {
-            color: var(--focus-text);
-        }
-
-        .channel-item img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-            border-radius: 4px;
-        }
-
-        /* Featured Slider in Menu */
+        /* --- SLIDER (Main Site Style) --- */
         .tv-slider {
-            height: 180px;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            aspect-ratio: 16 / 9; width: 100%; border-radius: 12px;
+            position: relative; overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .tv-slide {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 0.8s ease;
+        .slide {
+            position: absolute; inset: 0; opacity: 0; z-index: 1;
+            transition: opacity 0.5s ease 1s; border-radius: 12px;
+            --slide-bg: url('');
         }
-        .tv-slide.active { opacity: 1; }
-        .tv-slide-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-shadow: 0 1px 2px black;
+        .slide-wipe-wrapper {
+            position: absolute; inset: 0; border-radius: 12px; overflow: hidden;
+            clip-path: inset(0 0 0 100% round 12px);
+            transition: clip-path 0.1s ease 1s;
         }
+        .slide.active { opacity: 1; z-index: 5; transition: opacity 0.2s ease; }
+        .slide.active .slide-wipe-wrapper {
+            clip-path: inset(0 0 0 0 round 12px);
+            transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .slide-bg { width: 100%; height: 100%; object-fit: cover; }
+        .slide-content {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
+            background: linear-gradient(to top, black, transparent);
+            color: white; opacity: 0; transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .slide.active .slide-content { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
+        .slide-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 5px 0; }
+        .slide-badge { background: var(--theme-color); color: black; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 800; display: inline-block; }
+        
+        .slider-nav {
+            position: absolute; bottom: 10px; right: 10px; z-index: 10;
+            display: flex; gap: 5px;
+        }
+        .slider-dot {
+            width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5);
+            transition: width 0.3s;
+        }
+        .slider-dot.active { width: 16px; background: white; border-radius: 10px; }
 
-        /* Horizontal List (Top 10) */
-        .horizontal-list {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding: 10px 5px 20px 5px; /* Bottom padding for hover scale */
-            scrollbar-width: none;
+        /* --- TOP 10 (Real-time Style) --- */
+        .horizontal-list { display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px; align-items: center; }
+        .top-watch-item {
+            display: flex; align-items: center; flex-shrink: 0; position: relative; padding-right: 5px;
+            transition: transform 0.2s;
         }
-        .top10-item {
-            flex: 0 0 85px;
-            height: 85px;
-            border-radius: 50%;
-            background: #1a1a1a;
-            border: 2px solid rgba(255,255,255,0.1);
-            overflow: hidden;
-            position: relative;
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .top-rank-number {
+            font-family: 'Helvetica', sans-serif; font-size: 4rem; font-weight: 900;
+            line-height: 0.8; margin-right: -25px; z-index: 1; position: relative;
+            background: linear-gradient(180deg, #ffffff 15%, #6e6e6e 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.8));
         }
-        .top10-item img { 
-            width: 65%; 
-            height: 65%; 
-            object-fit: contain; 
-            pointer-events: none; 
-        }
-        .top10-item.focused {
-            border-color: white;
-            background: white;
-            transform: scale(1.15);
-            z-index: 2;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        .rank-badge {
-            position: absolute;
-            top: 0; right: 0;
-            background: var(--theme-color);
-            color: black;
-            font-weight: 800;
-            font-size: 0.75rem;
-            width: 24px; height: 24px;
+        .top-watch-logo-container {
+            width: 70px; height: 70px; background: var(--card-bg); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            border-radius: 0 0 0 12px;
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 2; padding: 8px; box-sizing: border-box;
         }
+        .top-watch-logo { width: 100%; height: 100%; object-fit: contain; }
+        .top-watch-item.focused { transform: scale(1.15); z-index: 5; }
+        .top-watch-item.focused .top-watch-logo-container { border-color: white; background: white; }
 
-        /* Right Settings Overlay */
+        /* --- CHANNEL LIST --- */
+        .channel-item {
+            display: flex; align-items: center; width: 100%; padding: 14px 18px;
+            border-radius: 12px; border: 2px solid transparent; background: rgba(255,255,255,0.03);
+            color: #eee; font-weight: 500; margin-bottom: 8px; transition: all 0.2s;
+            box-sizing: border-box; justify-content: space-between;
+        }
+        .channel-left { display: flex; align-items: center; gap: 15px; }
+        .channel-item img { width: 32px; height: 32px; object-fit: contain; }
+        .sensor-icon { color: var(--theme-color); font-size: 18px; }
+        
+        /* --- MENU BUTTONS & SEARCH --- */
+        .tv-btn {
+            display: flex; align-items: center; width: 100%; padding: 14px 18px;
+            border-radius: 12px; border: 2px solid transparent; background: rgba(255,255,255,0.03);
+            color: #eee; margin-bottom: 8px; gap: 15px; cursor: pointer;
+        }
+        .search-container-tv {
+            display: flex; align-items: center; width: 100%;
+            background: rgba(255,255,255,0.03); border-radius: 12px;
+            padding: 5px; border: 2px solid transparent; margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+        .search-container-tv.focused { background: white; border-color: white; }
+        .search-icon-btn { padding: 10px; color: #aaa; }
+        .search-container-tv.focused .search-icon-btn { color: black; }
+        #tv-search-input {
+            background: transparent; border: none; color: black;
+            font-family: inherit; font-size: 1rem; width: 0; opacity: 0;
+            transition: all 0.3s; outline: none;
+        }
+        .search-container-tv.active #tv-search-input { width: 100%; opacity: 1; padding-right: 10px; }
+
+        /* --- FOCUS STATE --- */
+        .focusable.focused {
+            background: var(--focus-bg); color: var(--focus-text);
+            transform: scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            border-color: var(--focus-bg); z-index: 2;
+        }
+        .focusable.focused .material-symbols-rounded, 
+        .focusable.focused .sensor-icon { color: var(--focus-text); }
+
+        /* --- SETTINGS (Right) --- */
         .right-panel {
-            position: fixed;
-            top: 20px; bottom: 20px; right: 20px;
-            width: 320px;
-            border-radius: 20px;
-            z-index: 100;
-            transform: translateX(120%);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            padding: 25px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
+            position: fixed; top: 20px; bottom: 20px; right: 20px; width: 320px;
+            border-radius: 20px; z-index: 100; padding: 25px;
+            transform: translateX(120%); transition: transform 0.4s;
+            display: flex; flex-direction: column;
         }
         .right-panel.active { transform: translateX(0); }
-        .right-panel h2 { margin-top: 0; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;}
-        .settings-group h3 { font-size: 0.8rem; color: #888; text-transform: uppercase; margin-bottom: 10px; margin-top: 20px; }
+        .right-panel h2 { margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .setting-item {
+            padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05);
+            margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+            border: 2px solid transparent;
+        }
+        .control-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .control-btn { flex: 1; text-align: center; justify-content: center; }
 
-        /* QR Overlay */
+        /* --- QR MENU --- */
         .qr-container {
-            width: 700px;
-            padding: 50px;
-            border-radius: 30px;
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 40px;
-            align-items: start;
+            width: 700px; padding: 50px; border-radius: 30px;
+            display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start;
         }
-        .qr-container h2 { grid-column: 1 / -1; margin-top: 0; font-size: 2rem; margin-bottom: 10px; }
-        .qr-box {
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        #qr-image { width: 100%; display: block; image-rendering: pixelated;}
-        .qr-text h3 { margin: 0 0 10px 0; font-size: 1.5rem; }
-        .qr-text p { margin: 0; color: #aaa; line-height: 1.5; }
         .qr-menu-list {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 350px;
-            overflow-y: auto;
-            padding: 5px;
+            margin-top: 20px; display: flex; flex-direction: column; gap: 10px;
+            padding: 10px 0; /* Add padding up/down */
         }
-        .hint {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 30px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+        #qr-image { width: 100%; display: block; image-rendering: pixelated; }
+
+        /* --- AD OVERLAY --- */
+        .fullscreen-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 9000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.3s;
+        }
+        .fullscreen-overlay.active { opacity: 1; visibility: visible; }
+        .ad-content { width: 100%; height: 100%; position: relative; background: black; }
+        .ad-timer-container {
+            position: absolute; bottom: 40px; left: 40px;
+            background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px 25px; border-radius: 50px;
+            display: flex; align-items: center; gap: 10px; font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .ad-hint {
+            position: absolute; bottom: 100px; width: 100%;
+            text-align: center; font-size: 1rem; color: rgba(255,255,255,0.7);
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 0 2px 4px black;
         }
 
-        /* Virtual Remote */
+        /* --- VIRTUAL REMOTE --- */
         .virtual-remote-container {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            z-index: 500;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0.4;
-            transition: opacity 0.3s;
+            position: fixed; bottom: 40px; right: 40px; z-index: 500;
+            display: flex; flex-direction: column; align-items: center;
+            opacity: 0.5; transition: opacity 0.3s;
         }
         .virtual-remote-container:hover { opacity: 1; }
-
         .d-pad {
-            position: relative;
-            width: 160px;
-            height: 160px;
-            background: rgba(30, 30, 30, 0.6);
-            border-radius: 50%;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.15);
+            position: relative; width: 160px; height: 160px;
+            background: rgba(30, 30, 30, 0.6); border-radius: 50%;
+            backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
         .d-btn {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: transparent;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.1s;
-            border: none;
-            outline: none;
+            position: absolute; width: 50px; height: 50px; border-radius: 50%;
+            background: transparent; color: white; display: flex; justify-content: center; align-items: center;
+            border: none; cursor: pointer;
         }
-        .d-btn .material-symbols-rounded { font-size: 32px; }
         .d-btn:active { background: rgba(255,255,255,0.2); }
-
         .d-btn.up { top: 5px; left: 50%; transform: translateX(-50%); }
         .d-btn.down { bottom: 5px; left: 50%; transform: translateX(-50%); }
         .d-btn.left { left: 5px; top: 50%; transform: translateY(-50%); }
         .d-btn.right { right: 5px; top: 50%; transform: translateY(-50%); }
-        .d-btn.center { 
-            top: 50%; left: 50%; 
-            transform: translate(-50%, -50%); 
-            background: rgba(255,255,255,0.1);
-            width: 60px; height: 60px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .remote-hint {
-            margin-top: 15px;
-            font-size: 0.75rem;
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            text-shadow: 0 2px 4px black;
-        }
+        .d-btn.center { top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.1); width: 60px; height: 60px; }
 
         /* Loader */
         .loader-overlay {
-            position: fixed;
-            inset: 0;
-            background: black;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s;
-            pointer-events: none;
+            position: fixed; inset: 0; background: black; z-index: 9999;
+            display: flex; justify-content: center; align-items: center; transition: opacity 0.5s; pointer-events: none;
         }
         .loader-overlay.hidden { opacity: 0; }
         .spinner {
-            width: 60px; height: 60px;
-            border: 5px solid rgba(255,255,255,0.1);
-            border-top: 5px solid white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.1);
+            border-top: 5px solid white; border-radius: 50%; animation: spin 0.8s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* Ad Overlay Styles */
-        .ad-content {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            background: black;
-        }
-        .ad-controls {
-            position: absolute;
-            bottom: 50px;
-            right: 50px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        .ad-timer {
-            background: rgba(0,0,0,0.7);
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.1);
-            font-size: 1.2rem;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Video Container -->
+    <!-- Video -->
     <div id="tv-player-container">
         <video id="video" autoplay playsinline></video>
     </div>
 
-    <!-- Channel Info Overlay (Top Pull/Push Animation) -->
+    <!-- Info Bar (Bottom) -->
     <div id="channel-info-bar" class="channel-info-bar">
         <div class="info-content">
             <img id="info-logo" src="" alt="Channel Logo">
@@ -540,145 +326,166 @@
         </div>
     </div>
 
-    <!-- Left Side: Main Guide/Menu -->
+    <!-- Guide Overlay -->
     <div id="guide-overlay" class="glass-panel">
         <div class="guide-header">
             <img src="/assets/liveplay_logo_(white).png" alt="Liveplay" class="guide-logo">
             <div id="clock-display">12:00 PM</div>
         </div>
 
-        <div class="guide-scroll-area" id="guide-scroll-area">
+        <div class="guide-scroll-area">
             
-            <!-- Featured Slider Area -->
-            <div class="guide-section" id="section-featured">
+            <!-- Featured Slider -->
+            <div class="guide-section">
                 <div id="tv-slider" class="tv-slider">
                     <!-- Slides injected via JS -->
                 </div>
+                <div id="slider-nav" class="slider-nav"></div>
             </div>
 
-            <!-- Top 10 Section -->
+            <!-- Top 10 -->
             <div class="guide-section">
-                <h3>Top 10 Live</h3>
-                <div class="horizontal-list" id="top-10-list">
-                    <!-- Items injected via JS -->
-                </div>
+                <h3>Top 10 Live TV Channels</h3>
+                <div class="horizontal-list" id="top-10-list"></div>
             </div>
 
-            <!-- Actions -->
+            <!-- Menu Actions -->
             <div class="guide-section">
                 <h3>Menu</h3>
-                <button class="tv-btn focusable" id="btn-search" data-action="search">
-                    <span class="material-symbols-rounded">search</span> Search Channels
-                </button>
-                <button class="tv-btn focusable" id="btn-menu" data-action="menu">
+                
+                <!-- Search -->
+                <div class="search-container-tv focusable" id="btn-search">
+                    <span class="material-symbols-rounded search-icon-btn">search</span>
+                    <input type="text" id="tv-search-input" placeholder="Search Channels..." readonly>
+                </div>
+
+                <div class="tv-btn focusable" id="btn-menu" data-action="menu">
                     <span class="material-symbols-rounded">apps</span> App Menu & QR
-                </button>
+                </div>
             </div>
 
-            <!-- All Channels List -->
+            <!-- Channel List -->
             <div class="guide-section">
                 <h3>All Channels</h3>
-                <div class="vertical-list" id="all-channels-list">
-                    <!-- Channels injected via JS -->
-                </div>
+                <div class="vertical-list" id="all-channels-list"></div>
             </div>
         </div>
     </div>
 
-    <!-- Right Side: Settings Overlay -->
+    <!-- Stream Settings (Right) -->
     <div id="settings-overlay" class="glass-panel right-panel">
         <h2>Stream Settings</h2>
+        
+        <div class="settings-group">
+            <h3>Playback Controls</h3>
+            <div class="control-row">
+                <div class="setting-item control-btn focusable" id="btn-skip-back">
+                    <span class="material-symbols-rounded">replay_10</span>
+                </div>
+                <div class="setting-item control-btn focusable" id="btn-skip-fwd">
+                    <span class="material-symbols-rounded">forward_10</span>
+                </div>
+            </div>
+        </div>
+
         <div class="settings-group">
             <h3>Video Quality</h3>
             <div class="vertical-list" id="quality-list"></div>
         </div>
-        <!-- Placeholders for future features -->
-        <div class="settings-group">
-            <h3>Audio Track</h3>
-            <div class="vertical-list" id="audio-list">
-                 <div class="setting-item">Default</div>
-            </div>
+        
+        <div class="settings-group" id="audio-group" style="display: none;">
+            <h3>Audio Tracks</h3>
+            <div class="vertical-list" id="audio-list"></div>
         </div>
+
+        <div class="settings-group" id="caption-group" style="display: none;">
+            <h3>Captions</h3>
+            <div class="vertical-list" id="caption-list"></div>
+        </div>
+
         <div class="settings-group">
             <h3>Playback Speed</h3>
             <div class="vertical-list" id="speed-list">
-                <div class="setting-item">Normal</div>
+                <div class="setting-item focusable" onclick="setSpeed(0.5)">0.5x</div>
+                <div class="setting-item focusable" onclick="setSpeed(1.0)">Normal</div>
+                <div class="setting-item focusable" onclick="setSpeed(1.5)">1.5x</div>
+                <div class="setting-item focusable" onclick="setSpeed(2.0)">2.0x</div>
             </div>
         </div>
     </div>
 
-    <!-- Menu / QR Overlay -->
+    <!-- QR Menu -->
     <div id="qr-overlay" class="fullscreen-overlay">
         <div class="qr-container glass-panel">
-            <h2>Scan to Visit</h2>
-            <div class="qr-content">
-                <div class="qr-box">
+            <div class="qr-left">
+                <h2>Scan to Visit</h2>
+                <div class="qr-box" style="background: white; padding: 15px; border-radius: 15px;">
                     <img id="qr-image" src="" alt="QR Code">
                 </div>
             </div>
-            <div class="qr-text-side">
+            <div class="qr-right">
                 <div class="qr-text">
-                    <h3 id="qr-title">Select an Option</h3>
-                    <p id="qr-desc">Use the remote to select a page below. Scan the code with your phone.</p>
+                    <h3 id="qr-title">Select Page</h3>
+                    <p style="color:#aaa;">Use the remote to select an option.</p>
                 </div>
-                <div class="qr-menu-list" id="qr-menu-list">
-                    <!-- Menu items injected JS -->
-                </div>
+                <div class="qr-menu-list" id="qr-menu-list"></div>
             </div>
-            <div class="hint">Press LEFT or BACK to close</div>
+            <div style="grid-column: 1/-1; text-align: center; color: #666; font-size: 0.8rem; margin-top: 20px;">
+                Press LEFT or BACK to close
+            </div>
         </div>
     </div>
 
     <!-- Ad Overlay -->
-    <div id="ad-overlay" class="fullscreen-overlay" style="display: none;">
+    <div id="ad-overlay" class="fullscreen-overlay" style="z-index: 9999;">
         <div class="ad-content">
             <video id="ad-video" style="width:100%; height:100%; object-fit:contain;"></video>
-            <div class="ad-controls">
-                <div class="ad-timer">Ad • <span id="ad-time-left">0:00</span></div>
-                <button id="ad-skip-btn" class="tv-btn focusable" style="width: auto; background: white; color: black;">
-                    Skip Ad <span class="material-symbols-rounded" style="color: black;">skip_next</span>
-                </button>
+            
+            <div class="ad-hint">To skip ad click the center button in the virtual remote</div>
+            
+            <div class="ad-timer-container">
+                Ad • <span id="ad-time-left">0:00</span>
             </div>
+            
+            <!-- Hidden button for logic -->
+            <button id="ad-skip-btn" style="display:none;"></button>
         </div>
     </div>
 
-    <!-- Loading Spinner -->
+    <!-- Loader -->
     <div id="tv-loader" class="loader-overlay">
         <div class="spinner"></div>
     </div>
 
-    <!-- Virtual Remote Control -->
+    <!-- Virtual Remote -->
     <div class="virtual-remote-container">
         <div class="d-pad">
-            <button class="d-btn up" id="remote-up" title="Channel Up / Up"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
-            <button class="d-btn left" id="remote-left" title="Guide / Left"><span class="material-symbols-rounded">keyboard_arrow_left</span></button>
-            <button class="d-btn center" id="remote-ok" title="Select"><span class="material-symbols-rounded">circle</span></button>
-            <button class="d-btn right" id="remote-right" title="Settings / Right"><span class="material-symbols-rounded">keyboard_arrow_right</span></button>
-            <button class="d-btn down" id="remote-down" title="Channel Down / Down"><span class="material-symbols-rounded">keyboard_arrow_down</span></button>
+            <button class="d-btn up" id="remote-up"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+            <button class="d-btn left" id="remote-left"><span class="material-symbols-rounded">keyboard_arrow_left</span></button>
+            <button class="d-btn center" id="remote-ok"><span class="material-symbols-rounded">circle</span></button>
+            <button class="d-btn right" id="remote-right"><span class="material-symbols-rounded">keyboard_arrow_right</span></button>
+            <button class="d-btn down" id="remote-down"><span class="material-symbols-rounded">keyboard_arrow_down</span></button>
         </div>
-        <div class="remote-hint">Virtual Remote</div>
+        <div style="margin-top: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Virtual Remote</div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            
-            // --- Constants & Config ---
             const API_GET_CHANNELS = '/api/getChannels';
             const API_GET_DATA = '/api/getData';
             const API_GET_SLIDES = '/api/getSlides';
             const API_GET_ADS = '/api/getAds';
             const API_GET_TOP = '/api/getTopChannels';
 
-            // State
             let allChannels = [];
             let currentChannelIndex = 0;
-            let currentScope = 'player'; // 'player', 'guide', 'settings', 'qr', 'ad'
+            let currentScope = 'player'; 
             let focusIndex = 0;
-            let focusList = []; // The current array of DOM elements that are focusable
+            let focusList = [];
             let player = null;
             let infoTimeout = null;
+            let isSearchActive = false;
 
-            // DOM Elements
             const video = document.getElementById('video');
             const guideOverlay = document.getElementById('guide-overlay');
             const settingsOverlay = document.getElementById('settings-overlay');
@@ -686,319 +493,301 @@
             const infoBar = document.getElementById('channel-info-bar');
             const loader = document.getElementById('tv-loader');
             
-            const elements = {
-                name: document.getElementById('info-name'),
-                logo: document.getElementById('info-logo'),
-                group: document.getElementById('info-group'),
-                time: document.getElementById('info-time'),
-                channelsList: document.getElementById('all-channels-list'),
-                topList: document.getElementById('top-10-list'),
-                slider: document.getElementById('tv-slider'),
-                qrList: document.getElementById('qr-menu-list'),
-                qrImg: document.getElementById('qr-image'),
-                qrTitle: document.getElementById('qr-title')
-            };
-
-            // --- Initialization ---
-
+            // Time Update
             function updateTime() {
                 const now = new Date();
-                const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                document.getElementById('clock-display').textContent = timeStr;
-                elements.time.textContent = timeStr;
+                const str = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                document.getElementById('clock-display').textContent = str;
+                document.getElementById('info-time').textContent = str;
             }
             setInterval(updateTime, 1000);
             updateTime();
 
             async function init() {
-                // Init Shaka
                 shaka.polyfill.installAll();
                 if (shaka.Player.isBrowserSupported()) {
                     player = new shaka.Player(video);
                     player.configure({ drm: { servers: {}, clearKeys: {} } });
-                    player.addEventListener('error', onError);
-                } else {
-                    console.error('Browser not supported!');
-                    alert("This browser does not support Shaka Player");
+                    player.addEventListener('error', console.error);
                 }
 
-                // Fetch Data
                 try {
                     const [channels, slides, top] = await Promise.all([
                         fetch(API_GET_CHANNELS).then(r => r.json()),
-                        fetch(API_GET_SLIDES).then(r => r.json()).catch(() => []),
-                        fetch(API_GET_TOP).then(r => r.json()).catch(() => [])
+                        fetch(API_GET_SLIDES).then(r => r.json()).catch(()=>[]),
+                        fetch(API_GET_TOP).then(r => r.json()).catch(()=>[])
                     ]);
                     
-                    allChannels = Array.isArray(channels) ? channels : [];
-                    renderGuide(allChannels, slides, top);
+                    allChannels = channels || [];
+                    renderSlider(slides);
+                    renderTop10(top, allChannels);
+                    renderChannels(allChannels);
                     renderQRMenu();
                     
                     loader.classList.add('hidden');
-                    
-                    // Start with first channel if available
-                    if(allChannels.length > 0) {
-                        playChannel(0);
-                    }
-                } catch (e) {
-                    console.error("Init failed", e);
-                    loader.classList.add('hidden');
-                }
+                    if(allChannels.length) playChannel(0);
+
+                } catch (e) { console.error(e); loader.classList.add('hidden'); }
             }
 
-            // --- Rendering ---
+            // --- RENDERERS ---
 
             function createSlug(name) {
-                if(!name) return '';
-                return name.toLowerCase().trim().replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');
+                return name ? name.toLowerCase().trim().replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-') : '';
             }
 
-            function renderGuide(channels, slides, topSlugs) {
-                // Render Slider
-                if(slides && slides.length) {
-                    slides.forEach((s, i) => {
-                        const div = document.createElement('div');
-                        div.className = `tv-slide ${i===0?'active':''}`;
-                        div.style.backgroundImage = `url('${s.image}')`;
-                        div.innerHTML = `<div class="tv-slide-caption">${s.title}</div>`;
-                        elements.slider.appendChild(div);
-                    });
-                    // Auto rotate slider
-                    let slideIdx = 0;
-                    const slideEls = elements.slider.querySelectorAll('.tv-slide');
-                    if(slideEls.length > 1) {
-                        setInterval(() => {
-                            slideEls[slideIdx].classList.remove('active');
-                            slideIdx = (slideIdx + 1) % slideEls.length;
-                            slideEls[slideIdx].classList.add('active');
-                        }, 6000);
-                    }
-                }
+            function renderSlider(slides) {
+                const container = document.getElementById('tv-slider');
+                const nav = document.getElementById('slider-nav');
+                if(!slides || !slides.length) return;
 
-                // Render Top 10
-                elements.topList.innerHTML = '';
+                slides.forEach((s, i) => {
+                    const slide = document.createElement('div');
+                    slide.className = `slide ${i===0?'active':''}`;
+                    slide.innerHTML = `
+                        <div class="slide-wipe-wrapper">
+                            <img src="${s.image}" class="slide-bg">
+                            <div class="slide-content">
+                                <h2 class="slide-title">${s.title}</h2>
+                                <div class="slide-badge">${s.badge || 'Featured'}</div>
+                            </div>
+                        </div>`;
+                    container.appendChild(slide);
+
+                    const dot = document.createElement('div');
+                    dot.className = `slider-dot ${i===0?'active':''}`;
+                    nav.appendChild(dot);
+                });
+
+                let idx = 0;
+                const els = container.querySelectorAll('.slide');
+                const dots = nav.querySelectorAll('.slider-dot');
+                
+                setInterval(() => {
+                    els[idx].classList.remove('active');
+                    dots[idx].classList.remove('active');
+                    idx = (idx + 1) % els.length;
+                    els[idx].classList.add('active');
+                    dots[idx].classList.add('active');
+                }, 5000);
+            }
+
+            function renderTop10(topSlugs, channels) {
+                const list = document.getElementById('top-10-list');
+                list.innerHTML = '';
                 let rank = 1;
-                if(Array.isArray(topSlugs)) {
-                    topSlugs.forEach(slug => {
-                        const ch = channels.find(c => createSlug(c.name) === slug);
-                        if(ch && rank <= 10) {
-                            const div = document.createElement('div');
-                            div.className = 'top10-item focusable';
-                            // Store index relative to main list
-                            const realIndex = channels.indexOf(ch);
-                            div.dataset.index = realIndex;
-                            div.innerHTML = `
-                                <div class="rank-badge">${rank++}</div>
-                                <img src="${ch.logo}" onerror="this.style.opacity=0">
-                            `;
-                            div.onclick = () => { playChannel(realIndex); toggleGuide(false); };
-                            elements.topList.appendChild(div);
-                        }
-                    });
-                }
+                
+                if(!Array.isArray(topSlugs)) return;
 
-                // Render All Channels
-                elements.channelsList.innerHTML = '';
+                topSlugs.forEach(slug => {
+                    const ch = channels.find(c => createSlug(c.name) === slug);
+                    if(ch && rank <= 10) {
+                        const div = document.createElement('div');
+                        div.className = 'top-watch-item focusable';
+                        div.dataset.index = channels.indexOf(ch);
+                        div.innerHTML = `
+                            <div class="top-rank-number">${rank++}</div>
+                            <div class="top-watch-logo-container">
+                                <img src="${ch.logo}" class="top-watch-logo">
+                            </div>`;
+                        div.onclick = () => { playChannel(channels.indexOf(ch)); toggleGuide(false); };
+                        list.appendChild(div);
+                    }
+                });
+            }
+
+            function renderChannels(channels) {
+                const list = document.getElementById('all-channels-list');
+                list.innerHTML = '';
                 channels.forEach((ch, index) => {
-                    const btn = document.createElement('div');
-                    btn.className = 'channel-item focusable';
-                    btn.dataset.index = index;
-                    const logo = ch.logo || '/assets/favicon.svg';
-                    btn.innerHTML = `
-                        <img src="${logo}" onerror="this.style.opacity=0">
-                        <span>${ch.name}</span>
+                    const div = document.createElement('div');
+                    div.className = 'channel-item focusable';
+                    div.dataset.index = index;
+                    div.innerHTML = `
+                        <div class="channel-left">
+                            <img src="${ch.logo || '/assets/favicon.svg'}" onerror="this.style.opacity=0">
+                            <span>${ch.name}</span>
+                        </div>
+                        <span class="material-symbols-rounded sensor-icon">sensors</span>
                     `;
-                    btn.onclick = () => { playChannel(index); toggleGuide(false); };
-                    elements.channelsList.appendChild(btn);
+                    div.onclick = () => { playChannel(index); toggleGuide(false); };
+                    list.appendChild(div);
                 });
             }
 
             const menuItems = [
-                { name: "Updates", url: "https://liveplay.vercel.app/home/updates" },
-                { name: "Stream Tester", url: "https://projectdevphil.github.io/stream-tester" },
-                { name: "Speed Test", url: "https://liveplay.vercel.app/home/speed" },
-                { name: "About Us", url: "https://liveplay.vercel.app/home/about" },
-                { name: "Terms of Service", url: "https://liveplay.vercel.app/home/terms" }
+                { name: "Updates", url: "https://liveplay.vercel.app/home/updates", icon: "notifications_active" },
+                { name: "Stream Tester", url: "https://projectdevphil.github.io/stream-tester", icon: "experiment" },
+                { name: "Speed Test", url: "https://liveplay.vercel.app/home/speed", icon: "speed" },
+                { name: "About Us", url: "https://liveplay.vercel.app/home/about", icon: "info" },
+                { name: "Terms", url: "https://liveplay.vercel.app/home/terms", icon: "gavel" }
             ];
 
             function renderQRMenu() {
-                elements.qrList.innerHTML = '';
-                menuItems.forEach((item, i) => {
+                const list = document.getElementById('qr-menu-list');
+                menuItems.forEach(item => {
                     const div = document.createElement('div');
-                    div.className = 'qr-item focusable';
-                    div.innerHTML = `<span class="material-symbols-rounded">qr_code_2</span> ${item.name}`;
+                    div.className = 'tv-btn focusable';
+                    div.innerHTML = `<span class="material-symbols-rounded">${item.icon}</span> ${item.name}`;
                     div.dataset.url = item.url;
-                    // Trigger QR update on focus or click
-                    div.onmouseenter = () => showQR(item); 
-                    div.onclick = () => showQR(item); // For touch/mouse
-                    elements.qrList.appendChild(div);
+                    div.onclick = () => showQR(item);
+                    div.onmouseenter = () => showQR(item);
+                    list.appendChild(div);
                 });
-                // Initialize first QR
-                if(menuItems.length > 0) showQR(menuItems[0]);
+                if(menuItems.length) showQR(menuItems[0]);
             }
 
             function showQR(item) {
-                elements.qrTitle.textContent = item.name;
-                // Generate QR using public API
-                elements.qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent(item.url)}`;
+                document.getElementById('qr-title').textContent = item.name;
+                document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent(item.url)}`;
             }
 
-            // --- Player Logic ---
+            // --- PLAYER LOGIC ---
 
             async function playChannel(index) {
-                if(index < 0 || index >= allChannels.length) return;
                 currentChannelIndex = index;
-                const channel = allChannels[index];
-
-                showChannelInfo(channel);
-
-                // Reset Player
-                video.pause();
-                video.removeAttribute('src'); 
+                const ch = allChannels[index];
                 
-                // --- Ad Logic ---
-                // 30% chance to play ad
-                const shouldPlayAd = Math.random() < 0.3; 
-                if (shouldPlayAd) {
-                     await playAd();
-                }
-
-                try {
-                    // Check if player container is active
-                    const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(channel.name)}`);
-                    
-                    if(!res.ok) throw new Error("Channel Offline or Restricted");
-                    const data = await res.json();
-
-                    // DRM Config
-                    const config = { drm: { servers: {}, clearKeys: {} } };
-                    if (data.ClearKey && data.ClearKey.k1 && data.ClearKey.k2) {
-                        config.drm.clearKeys[data.ClearKey.k1] = data.ClearKey.k2;
-                    }
-                    player.configure(config);
-
-                    await player.load(data.manifestUri);
-                    video.play().catch(e => console.log("Autoplay blocked", e));
-                } catch (e) {
-                    console.error("Stream Error", e);
-                    elements.name.textContent = "Stream Offline";
-                    // Could add a retry or error icon here
-                }
-            }
-
-            function showChannelInfo(channel) {
-                elements.name.textContent = channel.name;
-                elements.group.textContent = channel.group || 'Live TV';
-                elements.logo.src = channel.logo || '/assets/favicon.svg';
+                // Show Info
+                document.getElementById('info-name').textContent = ch.name;
+                document.getElementById('info-group').textContent = ch.group || 'TV';
+                document.getElementById('info-logo').src = ch.logo || '';
                 
                 infoBar.classList.add('visible');
                 clearTimeout(infoTimeout);
-                
-                // Hide after 4 seconds
-                infoTimeout = setTimeout(() => {
-                    infoBar.classList.remove('visible');
-                }, 4000);
+                infoTimeout = setTimeout(() => infoBar.classList.remove('visible'), 5000);
+
+                // Ads (30% chance)
+                video.pause();
+                video.removeAttribute('src');
+                if(Math.random() < 0.3) await playAd();
+
+                try {
+                    const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(ch.name)}`);
+                    if(!res.ok) throw new Error();
+                    const data = await res.json();
+                    
+                    const config = { drm: { servers: {}, clearKeys: {} } };
+                    if (data.ClearKey && data.ClearKey.k1) config.drm.clearKeys[data.ClearKey.k1] = data.ClearKey.k2;
+                    player.configure(config);
+                    
+                    await player.load(data.manifestUri);
+                    video.play();
+                } catch (e) { console.log('Stream error'); }
             }
 
-            // --- Ad System ---
+            // --- ADS ---
             async function playAd() {
                 try {
-                    // Fetch ads list
-                    const ads = await fetch(API_GET_ADS).then(r => r.json()).catch(() => null);
-                    if(!ads || !Array.isArray(ads) || ads.length === 0) return;
+                    const ads = await fetch(API_GET_ADS).then(r => r.json()).catch(()=>null);
+                    if(!ads || !ads.length) return;
                     
-                    const ad = ads[Math.floor(Math.random() * ads.length)];
-                    
-                    // Switch Scope
-                    const prevScope = currentScope;
-                    currentScope = 'ad';
-                    
-                    const adOverlay = document.getElementById('ad-overlay');
-                    const adVid = document.getElementById('ad-video');
-                    const skipBtn = document.getElementById('ad-skip-btn');
-                    const timeDisplay = document.getElementById('ad-time-left');
+                    const ad = ads[Math.floor(Math.random()*ads.length)];
+                    const overlay = document.getElementById('ad-overlay');
+                    const vid = document.getElementById('ad-video');
+                    const timerDisp = document.getElementById('ad-time-left');
+                    const skipBtn = document.getElementById('ad-skip-btn'); // Hidden logic btn
 
-                    adOverlay.style.display = 'flex';
-                    // Need small delay for opacity transition
-                    setTimeout(() => adOverlay.classList.add('active'), 10);
-                    
-                    adVid.src = ad.videoUrl;
-                    
-                    // Reset Skip Button
-                    skipBtn.style.opacity = '0.5';
-                    skipBtn.classList.remove('focusable'); 
-                    skipBtn.disabled = true;
+                    currentScope = 'ad';
+                    overlay.classList.add('active');
+                    vid.src = ad.videoUrl;
                     
                     return new Promise(resolve => {
-                        const promiseResolver = resolve;
-                        
-                        adVid.play().catch(() => {
-                            endAd(); // If ad fails to play, skip
-                        });
-                        
-                        let timeLeft = 10; // Forced watch time
+                        vid.play();
+                        let timeLeft = 15;
+                        let canSkip = false;
+
                         const timer = setInterval(() => {
                             timeLeft--;
-                            timeDisplay.textContent = `${timeLeft}s`;
+                            timerDisp.textContent = `0:${timeLeft < 10 ? '0'+timeLeft : timeLeft}`;
                             if(timeLeft <= 0) {
                                 clearInterval(timer);
-                                timeDisplay.textContent = "Skip";
-                                skipBtn.style.opacity = '1';
-                                skipBtn.classList.add('focusable');
-                                skipBtn.disabled = false;
-                                
-                                // Auto focus skip button
-                                focusList = [skipBtn];
-                                focusIndex = 0;
-                                updateFocus();
+                                timerDisp.textContent = "Skip Available";
+                                canSkip = true;
                             }
                         }, 1000);
 
-                        function endAd() {
+                        const end = () => {
                             clearInterval(timer);
-                            adVid.pause();
-                            adOverlay.classList.remove('active');
-                            setTimeout(() => adOverlay.style.display = 'none', 300);
-                            currentScope = prevScope;
-                            
-                            // Restore focus to previous context
-                            if(currentScope === 'guide') {
-                                focusList = Array.from(guideOverlay.querySelectorAll('.focusable'));
-                            } 
+                            vid.pause();
+                            overlay.classList.remove('active');
+                            currentScope = 'player';
                             resolve();
-                        }
-
-                        skipBtn.onclick = (e) => { 
-                            if(e) e.stopPropagation(); 
-                            endAd(); 
                         };
-                        adVid.onended = endAd;
-                        adVid.onerror = endAd;
-                    });
 
-                } catch(e) { console.log("Ad System Error", e); }
+                        // Logic for Center button
+                        skipBtn.onclick = () => { if(canSkip) end(); };
+                        vid.onended = end;
+                        vid.onerror = end;
+                    });
+                } catch(e){}
             }
 
+            // --- SETTINGS LOGIC ---
+            
+            window.setSpeed = (rate) => {
+                video.playbackRate = rate;
+                toggleSettings(false);
+            };
 
-            // --- Navigation System (The "Brain") ---
+            function renderSettings() {
+                // Quality
+                const tracks = player.getVariantTracks();
+                const qList = document.getElementById('quality-list');
+                qList.innerHTML = '<div class="setting-item focusable" onclick="player.configure({abr:{enabled:true}});toggleSettings(false)">Auto</div>';
+                
+                [...new Set(tracks.map(t=>t.height))].sort((a,b)=>b-a).forEach(h => {
+                    const d = document.createElement('div');
+                    d.className = 'setting-item focusable';
+                    d.textContent = `${h}p`;
+                    d.onclick = () => { 
+                        player.configure({abr:{enabled:false}}); 
+                        player.selectVariantTrack(tracks.find(t=>t.height===h), true);
+                        toggleSettings(false);
+                    };
+                    qList.appendChild(d);
+                });
+
+                // Audio
+                const audioTracks = player.getAudioLanguages();
+                const aGroup = document.getElementById('audio-group');
+                const aList = document.getElementById('audio-list');
+                if(audioTracks.length > 1) {
+                    aGroup.style.display = 'block';
+                    aList.innerHTML = '';
+                    audioTracks.forEach(lang => {
+                        const d = document.createElement('div');
+                        d.className = 'setting-item focusable';
+                        d.textContent = lang.toUpperCase();
+                        d.onclick = () => { player.selectAudioLanguage(lang); toggleSettings(false); };
+                        aList.appendChild(d);
+                    });
+                } else { aGroup.style.display = 'none'; }
+
+                // Controls
+                document.getElementById('btn-skip-back').onclick = () => video.currentTime -= 10;
+                document.getElementById('btn-skip-fwd').onclick = () => video.currentTime += 10;
+
+                updateFocusList(settingsOverlay);
+            }
+
+            // --- NAVIGATION ---
 
             function toggleGuide(show) {
                 if(show) {
                     guideOverlay.classList.add('active');
                     currentScope = 'guide';
-                    // Build Focus List
-                    focusList = Array.from(guideOverlay.querySelectorAll('.focusable'));
-                    
-                    // Try to focus current channel if visible
-                    const currentBtn = Array.from(elements.channelsList.children).find(el => el.dataset.index == currentChannelIndex);
-                    if(currentBtn) {
-                        focusIndex = focusList.indexOf(currentBtn);
-                    } else {
-                        focusIndex = 0;
-                    }
-                    updateFocus();
+                    updateFocusList(guideOverlay);
+                    // Find current channel
+                    const curr = Array.from(document.getElementById('all-channels-list').children)
+                        .find(el => el.dataset.index == currentChannelIndex);
+                    if(curr) focusIndex = focusList.indexOf(curr);
                 } else {
                     guideOverlay.classList.remove('active');
+                    // Reset Search
+                    const searchCont = document.getElementById('btn-search');
+                    searchCont.classList.remove('active');
+                    isSearchActive = false;
                     currentScope = 'player';
                 }
             }
@@ -1014,183 +803,115 @@
                 }
             }
 
-            function toggleQR(show) {
-                if(show) {
-                    qrOverlay.classList.add('active');
-                    currentScope = 'qr';
-                    focusList = Array.from(qrOverlay.querySelectorAll('.focusable'));
-                    focusIndex = 0;
-                    updateFocus();
-                    // Initial load
-                    if(menuItems.length > 0) showQR(menuItems[0]);
-                } else {
-                    qrOverlay.classList.remove('active');
-                    currentScope = 'guide'; // Return to guide
-                    focusList = Array.from(guideOverlay.querySelectorAll('.focusable'));
-                    updateFocus();
-                }
+            function updateFocusList(container) {
+                focusList = Array.from(container.querySelectorAll('.focusable'));
+                if(focusIndex >= focusList.length) focusIndex = 0;
+                applyFocus();
             }
 
-            function renderSettings() {
-                const tracks = player.getVariantTracks();
-                const list = document.getElementById('quality-list');
-                list.innerHTML = '';
-                
-                // Group by height/res
-                const unique = [...new Set(tracks.map(t => t.height))].sort((a,b) => b-a);
-                
-                // Add Auto Option
-                const autoDiv = document.createElement('div');
-                autoDiv.className = 'setting-item focusable';
-                autoDiv.innerHTML = '<span class="material-symbols-rounded">hdr_auto</span> Auto';
-                autoDiv.onclick = () => { 
-                    player.configure({ abr: { enabled: true } }); 
-                    toggleSettings(false); 
-                };
-                list.appendChild(autoDiv);
-
-                unique.forEach(h => {
-                    if(!h) return;
-                    const div = document.createElement('div');
-                    div.className = 'setting-item focusable';
-                    div.innerHTML = `<span class="material-symbols-rounded">hd</span> ${h}p`;
-                    div.onclick = () => { 
-                        player.configure({ abr: { enabled: false } });
-                        const track = tracks.find(t => t.height === h);
-                        player.selectVariantTrack(track, true);
-                        toggleSettings(false);
-                    };
-                    list.appendChild(div);
-                });
-
-                focusList = Array.from(settingsOverlay.querySelectorAll('.focusable'));
-                focusIndex = 0;
-                updateFocus();
-            }
-
-            function updateFocus() {
-                // Remove existing focus
-                document.querySelectorAll('.focused').forEach(el => el.classList.remove('focused'));
-                
+            function applyFocus() {
+                document.querySelectorAll('.focused').forEach(e => e.classList.remove('focused'));
                 if(focusList[focusIndex]) {
                     const el = focusList[focusIndex];
                     el.classList.add('focused');
+                    el.scrollIntoView({behavior:'smooth', block:'center'});
                     
-                    // Special logic for QR to update image on hover/focus
-                    if(currentScope === 'qr' && el.dataset.url) {
-                        const item = menuItems.find(i => i.url === el.dataset.url);
+                    if(currentScope==='qr' && el.dataset.url) {
+                        const item = menuItems.find(i=>i.url===el.dataset.url);
                         if(item) showQR(item);
                     }
-
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
 
             function handleInput(key) {
-                if (currentScope === 'player') {
-                    switch(key) {
-                        case 'ArrowUp': 
-                            playChannel((currentChannelIndex - 1 + allChannels.length) % allChannels.length);
-                            break;
-                        case 'ArrowDown':
-                            playChannel((currentChannelIndex + 1) % allChannels.length);
-                            break;
-                        case 'ArrowLeft':
-                            toggleGuide(true);
-                            break;
-                        case 'ArrowRight':
-                            toggleSettings(true);
-                            break;
-                        case 'Enter':
-                            showChannelInfo(allChannels[currentChannelIndex]);
-                            break;
+                if(currentScope === 'player') {
+                    if(key==='ArrowUp') playChannel((currentChannelIndex-1+allChannels.length)%allChannels.length);
+                    if(key==='ArrowDown') playChannel((currentChannelIndex+1)%allChannels.length);
+                    if(key==='ArrowLeft') toggleGuide(true);
+                    if(key==='ArrowRight') toggleSettings(true);
+                    if(key==='Enter') {
+                        infoBar.classList.add('visible');
+                        clearTimeout(infoTimeout);
+                        infoTimeout = setTimeout(() => infoBar.classList.remove('visible'), 5000);
                     }
                 } 
-                else if (currentScope === 'guide' || currentScope === 'settings' || currentScope === 'qr') {
-                    switch(key) {
-                        case 'ArrowUp':
-                            focusIndex = Math.max(0, focusIndex - 1);
-                            updateFocus();
-                            break;
-                        case 'ArrowDown':
-                            focusIndex = Math.min(focusList.length - 1, focusIndex + 1);
-                            updateFocus();
-                            break;
-                        case 'ArrowRight':
-                            if (currentScope === 'guide') toggleGuide(false);
-                            break;
-                        case 'ArrowLeft':
-                            if (currentScope === 'settings') toggleSettings(false);
-                            if (currentScope === 'qr') toggleQR(false);
-                            break;
-                        case 'Enter':
-                            if(focusList[focusIndex]) {
-                                // Specific ID checks
-                                if(focusList[focusIndex].id === 'btn-menu') {
-                                    toggleQR(true);
-                                } else if(focusList[focusIndex].id === 'btn-search') {
-                                    // Implementation for search focus (simplified)
-                                    alert("Search functionality is available on the main website.");
-                                } else {
-                                    focusList[focusIndex].click();
-                                }
-                            }
-                            break;
-                        case 'Back': 
-                        case 'Escape':
-                            if(currentScope === 'guide') toggleGuide(false);
-                            if(currentScope === 'settings') toggleSettings(false);
-                            if(currentScope === 'qr') toggleQR(false);
-                            break;
-                    }
+                else if(currentScope === 'ad') {
+                    if(key==='Enter') document.getElementById('ad-skip-btn').click();
                 }
-                else if (currentScope === 'ad') {
-                    if(key === 'Enter') {
-                        const btn = document.getElementById('ad-skip-btn');
-                        if(btn && !btn.disabled && btn.classList.contains('focusable')) btn.click();
+                else {
+                    // List Nav
+                    if(isSearchActive && currentScope === 'guide' && key !== 'Back' && key !== 'Enter') return; // Trap focus in input?
+
+                    if(key==='ArrowUp') { focusIndex = Math.max(0, focusIndex-1); applyFocus(); }
+                    if(key==='ArrowDown') { focusIndex = Math.min(focusList.length-1, focusIndex+1); applyFocus(); }
+                    
+                    if(key==='Enter') {
+                        const el = focusList[focusIndex];
+                        if(el.id === 'btn-search') {
+                            el.classList.add('active');
+                            document.getElementById('tv-search-input').focus();
+                            isSearchActive = true;
+                        } else if(el.id === 'btn-menu') {
+                            qrOverlay.classList.add('active');
+                            currentScope = 'qr';
+                            updateFocusList(qrOverlay);
+                        } else if (el.onclick) {
+                            el.click();
+                        }
+                    }
+
+                    if(key==='ArrowRight' && currentScope === 'guide') toggleGuide(false);
+                    if(key==='ArrowLeft' && currentScope === 'settings') toggleSettings(false);
+                    
+                    if(key==='Back' || key==='Escape') {
+                        if(isSearchActive) {
+                            document.getElementById('btn-search').classList.remove('active');
+                            document.getElementById('tv-search-input').blur();
+                            isSearchActive = false;
+                        } else if(currentScope==='qr') {
+                            qrOverlay.classList.remove('active');
+                            currentScope='guide';
+                            updateFocusList(guideOverlay);
+                        } else {
+                            toggleGuide(false);
+                            toggleSettings(false);
+                        }
                     }
                 }
             }
 
-            // --- Input Listeners ---
-
-            document.addEventListener('keydown', (e) => {
-                let key = e.key;
-                if(key === 'Escape') key = 'Back';
-                if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter','Back'].includes(key)) {
-                    e.preventDefault();
-                    handleInput(key);
+            // Inputs
+            document.addEventListener('keydown', e => {
+                let k = e.key;
+                if(k==='Escape') k='Back';
+                if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter','Back'].includes(k)) {
+                    if(!isSearchActive || k==='Back' || k==='Enter') e.preventDefault();
+                    handleInput(k);
                 }
             });
 
-            // Virtual Remote Binding
-            const mapBtn = (id, key) => {
-                const btn = document.getElementById(id);
-                if(btn) {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        // Visual feedback
-                        const originalColor = btn.style.backgroundColor;
-                        btn.style.backgroundColor = 'rgba(255,255,255,0.4)';
-                        setTimeout(() => btn.style.backgroundColor = originalColor, 150);
-                        handleInput(key);
-                    });
-                }
+            // Search Filter
+            document.getElementById('tv-search-input').addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                const filtered = allChannels.filter(c => c.name.toLowerCase().includes(val));
+                renderChannels(filtered);
+            });
+
+            // Virtual Remote
+            const mapBtn = (id, k) => {
+                const b = document.getElementById(id);
+                b.addEventListener('click', e => {
+                    e.preventDefault();
+                    b.style.background='rgba(255,255,255,0.3)';
+                    setTimeout(()=>b.style.background='',150);
+                    handleInput(k);
+                });
             };
+            mapBtn('remote-up','ArrowUp'); mapBtn('remote-down','ArrowDown');
+            mapBtn('remote-left','ArrowLeft'); mapBtn('remote-right','ArrowRight');
+            mapBtn('remote-ok','Enter');
 
-            mapBtn('remote-up', 'ArrowUp');
-            mapBtn('remote-down', 'ArrowDown');
-            mapBtn('remote-left', 'ArrowLeft');
-            mapBtn('remote-right', 'ArrowRight');
-            mapBtn('remote-ok', 'Enter');
-
-            function onError(e) {
-                console.error('Shaka Error', e);
-            }
-
-            // Start
             init();
-
         });
     </script>
 </body>
