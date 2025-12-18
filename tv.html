@@ -8,10 +8,8 @@
         (function() {
             var ua = navigator.userAgent;
             var isTV = /SmartTV|Tizen|Web0S|BRAVIA|Kodi|Android TV|GoogleTV|AppleTV|CrKey|Roku|Viera|Philips|Toshiba|LG|Sony|Panasonic|Xbox|PlayStation|Hisense/i.test(ua);
-            
             if (!isTV) {
-                //window.location.href = '/home';
-                //document.documentElement.innerHTML = '';
+                // console.log("Not a TV");
             }
         })();
     </script>
@@ -25,11 +23,11 @@
         :root {
             --focus-bg: #ffffff;
             --focus-text: #000000;
-            /* Changed to solid color for performance */
-            --glass-heavy: #1a1a1a; 
+            --glass-heavy: #151515; /* Solid dark color for TV performance */
             --theme-color: #ffffff;
             --container-bg: rgba(255,255,255,0.05);
             --border-color: rgba(255,255,255,0.15);
+            --border-radius: 15px;
         }
 
         body {
@@ -50,11 +48,10 @@
         }
         video { width: 100%; height: 100%; object-fit: fill; }
 
-        /* PERFORMANCE FIX: Removed backdrop-filter, added GPU acceleration */
+        /* --- LEFT PANEL (GUIDE) --- */
         .glass-panel {
             background: var(--glass-heavy);
-            /* backdrop-filter: blur(40px);  <-- REMOVED FOR TV PERFORMANCE */
-            /* -webkit-backdrop-filter: blur(40px); <-- REMOVED FOR TV PERFORMANCE */
+            /* Performance: Removed backdrop-filter */
             border: 1px solid var(--border-color);
             box-shadow: 5px 0 30px rgba(0,0,0,0.8);
             color: white;
@@ -64,33 +61,24 @@
             border-radius: 20px;
             z-index: 100;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* This stacks Header -> Content -> Footer */
             
-            /* FORCE GPU USAGE */
+            /* TV Animation Performance */
             transform: translate3d(-120%, 0, 0); 
             will-change: transform;
             transition: transform 0.3s ease-out;
-            
             box-sizing: border-box;
+            overflow: hidden;
         }
 
-        .scrollable-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .scrollable-content::-webkit-scrollbar { display: none; }
+        #guide-overlay { left: 20px; }
+        #guide-overlay.active { transform: translate3d(0, 0, 0); }
 
-        #guide-overlay {
-            left: 20px;
-            /* Initial state handled by generic glass-panel class now */
+        #settings-overlay {
+            right: 20px;
+            transform: translate3d(120%, 0, 0);
         }
-        
-        #guide-overlay.active { 
-            transform: translate3d(0, 0, 0); 
-        }
+        #settings-overlay.active { transform: translate3d(0, 0, 0); }
 
         .guide-header {
             padding: 25px;
@@ -98,19 +86,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-shrink: 0;
+            flex-shrink: 0; /* Ensures header stays fixed size */
         }
         .guide-logo { height: 28px; }
         #clock-display { font-size: 0.9rem; color: #888; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-        #settings-overlay {
-            right: 20px;
-            transform: translate3d(120%, 0, 0);
+        /* SCROLLABLE AREA */
+        .scrollable-content {
+            flex: 1; /* Takes up all available space between header and footer */
+            overflow-y: auto;
+            padding: 20px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
-        
-        #settings-overlay.active { 
-            transform: translate3d(0, 0, 0); 
+        .scrollable-content::-webkit-scrollbar { display: none; }
+
+        /* NEW FOOTER STYLE */
+        .guide-footer {
+            padding: 15px 25px;
+            border-top: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+            flex-shrink: 0; /* Ensures footer stays fixed size */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
+        .footer-text { font-size: 0.75rem; color: #666; font-weight: 600; }
 
         .settings-header {
             padding: 25px;
@@ -152,7 +153,7 @@
             padding: 15px 20px;
             border-bottom: 1px solid var(--border-color);
             cursor: pointer;
-            transition: background 0.1s; /* Simplified transition */
+            transition: background 0.1s;
             position: relative;
         }
         .list-item:last-child { border-bottom: none; }
@@ -162,8 +163,6 @@
             align-items: center;
             gap: 15px;
         }
-        
-        /* PERFORMANCE FIX: Removed blur on small images */
         .list-item img {
             width: 32px; height: 32px;
             object-fit: contain;
@@ -174,11 +173,7 @@
             padding: 2px;
         }
         
-        .list-item span {
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
+        .list-item span { font-weight: 500; font-size: 0.9rem; }
         .item-icon { font-size: 22px; color: #aaa; }
         
         .focusable.focused {
@@ -189,18 +184,19 @@
         .focusable.focused .item-icon { color: var(--focus-text); }
         .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
         
+        /* --- WEBOS COMPATIBLE SLIDER --- */
         .tv-slider-container {
             margin-bottom: 10px;
             position: relative;
             width: 100%;
+            /* Fix for WebOS: Use padding for aspect ratio instead of aspect-ratio property */
             height: 0;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             border-radius: 15px;
             overflow: hidden;
             border: 1px solid var(--border-color);
-            background: #111; /* Fallback color if image fails */
+            background: #111;
         }
-
         .tv-slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0; transition: opacity 0.5s ease 1s; border-radius: var(--border-radius);
@@ -209,6 +205,7 @@
         
         .tv-slide-wipe-wrapper {
             position: absolute; inset: 0;
+            /* Fix for WebOS: Add -webkit- prefix */
             -webkit-clip-path: inset(0 0 0 100% round var(--border-radius));
             clip-path: inset(0 0 0 100% round var(--border-radius));
             transition: clip-path 0.1s ease 1s, -webkit-clip-path 0.1s ease 1s;
@@ -219,7 +216,7 @@
             transition: all 0.5s ease;
         }
         .tv-slide-content h2 { font-size: 1.0rem; font-weight: 700; margin: 0 50px 4px 0;}
-        .tv-slide-content p { color: var(--text-secondary); font-size: 0.6rem; line-height: 1.3; margin: 0 0 3px 0; }
+        .tv-slide-content p { color: #ccc; font-size: 0.6rem; line-height: 1.3; margin: 0 0 3px 0; }
         .tv-slide-badge {
             background: var(--theme-color); color: black;
             font-size: 0.48rem; font-weight: 700; padding: 3px;
@@ -232,6 +229,7 @@
 
         .tv-slide.active { opacity: 1; z-index: 1; transition: opacity 0.2s ease; }
         .tv-slide.active .tv-slide-wipe-wrapper {
+            /* Fix for WebOS: Add -webkit- prefix */
             -webkit-clip-path: inset(0 0 0 0 round var(--border-radius));
             clip-path: inset(0 0 0 0 round var(--border-radius));
             transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1), -webkit-clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1);
@@ -248,24 +246,14 @@
             width: 7px; height: 7px; background: rgba(255,255,255,0.4);
             border-radius: 50%; transition: all 0.3s;
         }
-        .dot.active { width: 20px; rgba(255, 255, 255, 0.2); border-radius: 20px; }
+        .dot.active { width: 20px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; }
 
         .dot.active::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background-color: var(--theme-color);
-            border-radius: 20px;
-            width: 0%;
+            content: ''; position: absolute; top: 0; left: 0; height: 100%;
+            background-color: var(--theme-color); border-radius: 20px; width: 0%;
             animation: dotProgress var(--slide-timer, 5000ms) linear forwards;
         }
-        
-        @keyframes dotProgress {
-            from { width: 0%; }
-            to { width: 100%; }
-        }        
+        @keyframes dotProgress { from { width: 0%; } to { width: 100%; } }        
         
         .channel-info-bar {
             position: fixed; bottom: 0; left: 0; width: 100%;
@@ -273,7 +261,7 @@
             background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0) 100%);
             z-index: 10; padding: 40px; box-sizing: border-box;
             display: flex; align-items: flex-end;
-            transform: translate3d(0, 100%, 0); /* GPU */
+            transform: translate3d(0, 100%, 0);
             opacity: 0;
             transition: transform 0.4s ease-out, opacity 0.4s;
             pointer-events: none;
@@ -282,8 +270,6 @@
         .channel-info-bar.visible { transform: translate3d(0, 0, 0); opacity: 1; }
         
         .info-content { display: flex; align-items: center; gap: 20px; }
-        
-        /* PERFORMANCE FIX: Removed blur */
         #info-logo {
             height: 70px; width: 70px; object-fit: contain;
             background: rgba(255,255,255,0.05); 
@@ -320,7 +306,6 @@
         .d-pad {
             position: relative; width: 140px; height: 140px;
             background: rgba(30, 30, 30, 0.6); border-radius: 50%;
-            /* Removed blur here too for consistency, though optional on small elements */
             border: 1px solid rgba(255,255,255,0.15);
         }
         .d-btn {
@@ -367,6 +352,7 @@
             <img src="/assets/liveplay_logo_(white).png" alt="Liveplay" class="guide-logo">
             <div id="clock-display">12:00 PM</div>
         </div>
+        
         <div class="scrollable-content">
             <div class="tv-slider-container" id="tv-slider"></div>
             
@@ -375,6 +361,13 @@
             <div class="list-group-container" id="channel-list">
             </div>
         </div>
+
+        <!-- NEW FOOTER SECTION -->
+        <div class="guide-footer">
+            <span class="footer-text">Project Dev TV</span>
+            <span class="footer-text">v1.2.0</span>
+        </div>
+
     </div>
 
     <div id="settings-overlay" class="glass-panel right-panel">
@@ -700,8 +693,7 @@
                 if(focusList[focusIndex]) {
                     const el = focusList[focusIndex];
                     el.classList.add('focused');
-                    
-                    // CRITICAL FIX: Changed from 'smooth' to 'auto' for TV Performance
+                    // Performance: 'auto' prevents scroll lag on TV
                     el.scrollIntoView({ behavior: 'auto', block: 'center' });
                 }
             }
