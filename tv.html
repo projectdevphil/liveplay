@@ -399,22 +399,19 @@
 <script>
         document.addEventListener('DOMContentLoaded', async () => {
             
-            // --- CONSTANTS ---
             const API_GET_CHANNELS = '/api/getChannels';
             const API_GET_DATA = '/api/getData';
             const API_GET_SLIDES = '/api/getSlides';
             
-            // --- STATE VARIABLES ---
             let allChannels = [];
             let currentChannelIndex = 0;
-            let currentScope = 'player'; // 'player', 'guide', 'settings'
+            let currentScope = 'player';
             let focusIndex = 0;
             let focusList = [];
             let player = null;
             let infoTimeout = null;
             let slideInterval = null;
 
-            // --- DOM ELEMENTS ---
             const els = {
                 video: document.getElementById('video'),
                 guide: document.getElementById('guide-overlay'),
@@ -435,7 +432,6 @@
                 captionWrapper: document.getElementById('caption-group-wrapper')
             };
 
-            // --- UTILS ---
             function updateTime() {
                 const now = new Date();
                 const str = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -445,49 +441,40 @@
             setInterval(updateTime, 1000);
             updateTime();
 
-            // --- INITIALIZATION ---
             async function init() {
                 shaka.polyfill.installAll();
                 
                 if(shaka.Player.isBrowserSupported()) {
                     player = new shaka.Player(els.video);
                     
-                    // --- OPTIMIZED CONFIGURATION FOR STABLE STREAMING ---
                     player.configure({ 
                         drm: { servers: {}, clearKeys: {} },
                         streaming: {
-                            // High buffer goal to survive network drops (60 seconds)
                             bufferingGoal: 60,
-                            // Wait for 2 seconds of buffer before resuming (reduces stalling)
                             rebufferingGoal: 2,
-                            // Aggressive retry logic if connection is lost
                             retryParameters: {
                                 maxAttempts: 10,
                                 baseDelay: 1000,
                                 timeout: 10000 
                             },
-                            // Allow jumping small gaps in stream
                             jumpLargeGaps: true, 
-                            // Disable low latency to prioritize stability over speed
                             lowLatencyMode: false,
                             inaccurateManifestTolerance: 2 
                         },
                         abr: {
                             enabled: true,
-                            switchInterval: 5, // Don't switch quality too often
+                            switchInterval: 2, 
                             bandwidthUpgradeTarget: 0.85,
-                            defaultBandwidthEstimate: 1000000 // Assume 1Mbps start
+                            bandwidthDowngradeTarget: 0.95,
+                            defaultBandwidthEstimate: 500000 
                         }
                     });
 
-                    // Error handling
                     player.addEventListener('error', e => {
-                        console.error('Shaka Error:', e);
-                        // Don't show loader on minor errors, only critical ones
+                        console.error(e);
                         if(e.severity === 2) els.loader.classList.add('hidden');
                     });
 
-                    // Buffering event: Show spinner when stuck, hide when playing
                     player.addEventListener('buffering', (event) => {
                         if (event.buffering) {
                             els.loader.classList.remove('hidden');
@@ -497,7 +484,6 @@
                     });
                 }
 
-                // Load Initial Data
                 try {
                     const [channels, slides] = await Promise.all([
                         fetch(API_GET_CHANNELS).then(r => r.json()),
@@ -507,7 +493,6 @@
                     allChannels = Array.isArray(channels) ? channels : [];
                     renderGuide(allChannels, slides);
                     
-                    // Start first channel if available
                     if(allChannels.length) {
                         playChannel(0);
                     } else {
@@ -515,16 +500,14 @@
                     }
 
                 } catch(e) { 
-                    console.error("Init failed:", e); 
+                    console.error(e); 
                     els.loader.classList.add('hidden'); 
                 }
             }
 
-            // --- PLAYER LOGIC ---
             async function playChannel(idx) {
                 if(idx < 0 || idx >= allChannels.length) return;
                 
-                // UI Updates
                 currentChannelIndex = idx;
                 const ch = allChannels[idx];
                 
@@ -536,19 +519,15 @@
                 clearTimeout(infoTimeout);
                 infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 5000);
 
-                // Show loader while switching
                 els.loader.classList.remove('hidden');
 
                 try {
-                    // 1. Unload previous stream properly
                     await player.unload();
 
-                    // 2. Fetch specific channel data
                     const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(ch.name)}`);
                     if(!res.ok) throw new Error("Stream Offline");
                     const data = await res.json();
                     
-                    // 3. Preserve Streaming Config, Update Only DRM
                     const currentConfig = player.getConfiguration();
                     const newConfig = {
                         drm: { servers: {}, clearKeys: {} },
@@ -561,25 +540,19 @@
                     }
                     player.configure(newConfig);
 
-                    // 4. Load the new stream
                     await player.load(data.manifestUri);
-                    
-                    // 5. Play
                     await els.video.play();
                     
-                    // Loader is handled by 'buffering' event, but force hide here just in case
                     els.loader.classList.add('hidden');
 
                 } catch(e) {
-                    console.error("Play error:", e);
-                    els.name.textContent = "Stream Offline / Error";
+                    console.error(e);
+                    els.name.textContent = "Stream Offline";
                     els.loader.classList.add('hidden');
                 }
             }
 
-            // --- UI RENDERERS ---
             function renderGuide(channels, slides) {
-                // Slider Logic
                 els.slider.innerHTML = '';
                 if(slides && slides.length) {
                     const dotsCont = document.createElement('div');
@@ -607,7 +580,6 @@
                     });
                     els.slider.appendChild(dotsCont);
 
-                    // Auto Rotate Slider
                     let currentSlide = 0;
                     const allSlides = els.slider.querySelectorAll('.tv-slide');
                     const allDots = els.slider.querySelectorAll('.dot');
@@ -625,7 +597,6 @@
                     els.slider.style.display = 'none';
                 }
 
-                // Channel List Logic
                 els.channelList.innerHTML = '';
                 channels.forEach((ch, idx) => {
                     const row = document.createElement('div');
@@ -671,13 +642,11 @@
                 const qList = els.qualityList;
                 qList.innerHTML = '';
                 
-                // Auto Quality
-                qList.appendChild(createSettingBtn('hdr_auto', 'Auto (Recommended)', () => {
+                qList.appendChild(createSettingBtn('hdr_auto', 'Auto', () => {
                     player.configure({ abr: { enabled: true } });
                     toggleSettings(false);
                 }));
 
-                // Manual Qualities
                 const unique = [...new Set(tracks.map(t => t.height))].sort((a,b) => b-a);
                 unique.forEach(h => {
                     if(!h) return;
@@ -689,7 +658,6 @@
                     }));
                 });
 
-                // Audio Tracks
                 const audios = player.getAudioLanguagesAndRoles();
                 els.audioList.innerHTML = '';
                 if(audios.length > 0) {
@@ -705,7 +673,6 @@
                     els.audioWrapper.style.display = 'none';
                 }
 
-                // Captions
                 const subs = player.getTextTracks().filter(t => t.kind === 'subtitle' || t.kind === 'caption');
                 els.captionList.innerHTML = '';
                 if(subs.length > 0) {
@@ -726,7 +693,6 @@
                     els.captionWrapper.style.display = 'none';
                 }
 
-                // Speed
                 els.speedList.innerHTML = '';
                 [0.5, 1, 1.25, 1.5, 2].forEach(rate => {
                     els.speedList.appendChild(createSettingBtn('speed', `${rate}x`, () => {
@@ -740,7 +706,6 @@
                 updateFocus();
             }
 
-            // --- MENU NAVIGATION LOGIC ---
             function toggleGuide(show) {
                 if(show) {
                     els.guide.classList.add('active');
@@ -775,7 +740,6 @@
                 }
             }
 
-            // --- INPUT HANDLING ---
             function handleInput(key) {
                 if(currentScope === 'player') {
                     switch(key) {
@@ -822,7 +786,6 @@
                 }
             }
 
-            // --- EVENT LISTENERS ---
             document.addEventListener('keydown', e => {
                 let key = e.key;
                 if(key === 'Escape') key = 'Back';
@@ -832,15 +795,15 @@
                 }
             });
 
-            // Virtual Remote Support
             ['up','down','left','right','ok'].forEach(k => {
                 const btn = document.getElementById('remote-'+k);
                 if(btn) btn.onclick = (e) => {
                     e.preventDefault();
-                    // Fullscreen request for mobile taps
-                    if (!document.fullscreenElement && els.video.paused) {
-                        // Optional: try to fullscreen on first interaction
-                        try { document.documentElement.requestFullscreen().catch(err => {}); } catch(e){}
+                    
+                    if (!document.fullscreenElement) {
+                        try { 
+                            document.documentElement.requestFullscreen().catch(err => {}); 
+                        } catch(e){}
                     }
 
                     let key = 'Enter';
@@ -849,7 +812,6 @@
                 };
             });
 
-            // Start
             init();
         });
     </script>
