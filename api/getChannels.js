@@ -5,7 +5,6 @@ export default function handler(req, res) {
 
     const channels = [
         // General
-        //{ name: 'Love Joy Hope (ABS-CBN CSID 2025)', logo: 'https://resources.tidal.com/images/5ea2b62e/3555/4cc4/a446/0023a3ad39db/1280x1280.jpg', manifestUri: 'https://iwant-video.akamaized.net/abscbnchristmasstationsid2025/92c31981-db85-4398-8b74-88d870bb0536/manifest.mpd', clearKey: { '664d4714d0124f7ea8d69b487cf243e0': 'b84e0065a763e578ecd8878a2c59d12b' }, group: 'Music' },        
         { name: 'Kapamilya Channel', logo: 'https://static.wikia.nocookie.net/abscbn/images/7/74/Kapamilya_Channel_3D_Logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd', clearKey: { 'bd17afb5dc9648a39be79ee3634dd4b8': '3ecf305d54a7729299b93a3d69c02ea5' }, group: 'General', access: 'PH' },
         { name: 'GMA7', logo: 'https://static.wikia.nocookie.net/logopedia/images/a/aa/GMA_Network_2024_logo.png', manifestUri: 'https://converse.nathcreqtives.com/1093/manifest.mpd', clearKey: { '31363231383438333031323033393138': '38694e34324d543478316b7455753437' }, group: 'General', access: 'PH' },
         { name: 'TV5', logo: 'https://static.wikia.nocookie.net/tv5network/images/9/95/TV5_HD_2024.svg', manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/tv5_hd/default1/index.mpd', clearKey: { '2615129ef2c846a9bbd43a641c7303ef': '07c7f996b1734ea288641a68e1cfdc4d' }, group: 'General', access: 'PH' },
