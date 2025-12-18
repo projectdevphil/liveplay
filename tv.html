@@ -168,11 +168,16 @@
         
         .list-item span { font-weight: 500; font-size: 0.9rem; }
         .item-icon { font-size: 22px; color: #aaa; }
-        
+
+        .focusable.focused .list-item img {
+            background: rgba(255,255,255,0.1);
+            border: var(--border-color);
+        }            
+
         .focusable.focused {
             background: var(--focus-bg);
             color: var(--focus-text);
-            z-index: 1;
+            z-index: 2;
         }
         .focusable.focused .item-icon { color: var(--focus-text); }
         .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
