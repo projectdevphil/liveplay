@@ -6,7 +6,7 @@
     <title>Liveplay for TV by Project Dev</title>
     <script>
       if (!navigator.userAgent.match(/SmartTV|Tizen|Web0S|BRAVIA|NetCast|GoogleTV|AppleTV|HbbTV/i)) {
-        window.location.replace('/404');
+        //window.location.replace('/404');
       }
     </script>
     <meta name="theme-color" content="#000000">
@@ -118,15 +118,16 @@
             font-size: 0.85rem;
             color: #888;
             font-weight: 700;
-            margin: 25px 0 15px 0;
+            margin: 25px 0 10px 0px;
         }
 
         .settings-title {
+            text-align: left;
             text-transform: uppercase;
             font-size: 0.75rem;
             color: #888;
             font-weight: 700;
-            margin: 25px 0 10px 10px;
+            margin: 25px 0 10px 0px;
         }
 
         .list-group-container {
@@ -171,7 +172,7 @@
         .focusable.focused {
             background: var(--focus-bg);
             color: var(--focus-text);
-            z-index: 2;
+            z-index: 1;
         }
         .focusable.focused .item-icon { color: var(--focus-text); }
         .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
