@@ -6,7 +6,8 @@
     <title>Liveplay for TV</title>
     <script>
       if (!navigator.userAgent.match(/SmartTV|Tizen|Web0S|BRAVIA|NetCast|GoogleTV|AppleTV|HbbTV/i)) {
-        //window.location.replace('/404');
+        // allowing desktop for testing purposes based on request context, usually this redirects
+        // window.location.replace('/404');
       }
     </script>
     <meta name="theme-color" content="#000000">
@@ -24,6 +25,7 @@
             --container-bg: rgba(255,255,255,0.05);
             --border-color: rgba(255,255,255,0.15);
             --border-radius: 15px;
+            --card-background: #1e1e1e;
         }
 
         body {
@@ -119,6 +121,7 @@
             color: #888;
             font-weight: 700;
             margin: 25px 0 10px -20px;
+            padding-left: 20px; /* Fix alignment */
         }
         .settings-title {
             text-align: left;
@@ -169,6 +172,7 @@
         .list-item span { font-weight: 500; font-size: 0.9rem; }
         .item-icon { font-size: 22px; color: #aaa; }  
 
+        /* General Focus Styles */
         .focusable.focused {
             background: var(--focus-bg);
             color: var(--focus-text);
@@ -177,6 +181,114 @@
         .focusable.focused .item-icon { color: var(--focus-text); }
         .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
         
+        /* Top 10 Section Styles */
+        .top-watch-section {
+            padding: 0 5px;
+            margin-top: 20px;
+            display: block; 
+            position: relative;
+            min-height: 100px;
+        }
+
+        .top-watch-header {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #888;
+            font-weight: 700;
+            margin-bottom: 10px;
+            margin-left: 0px;
+        }
+
+        .top-watch-list {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-top: 5px; 
+            padding-bottom: 10px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            align-items: center; 
+            touch-action: pan-x;
+        }
+
+        .top-watch-list::-webkit-scrollbar { display: none; }
+
+        .top-watch-item {
+            display: flex;
+            align-items: center; 
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            position: relative;
+            padding-right: 0;
+            /* Focusable Item Wrapper */
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+        
+        /* Focus state for Top 10 Item Wrapper (Scaling) */
+        .top-watch-item.focusable.focused {
+            background: transparent; /* Override standard rectangular focus */
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .top-rank-number {
+            font-family: sans-serif; /* Fallback */
+            font-size: 4.5rem; 
+            font-weight: 900;
+            font-style: normal;
+            letter-spacing: -2.5px;
+            line-height: 0.8; 
+            margin-right: -25px;
+            margin-bottom: 0;
+            z-index: 1;
+            position: relative;
+            transform: translateY(8px); 
+            background: linear-gradient(180deg, #ffffff 15%, #6e6e6e 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent; 
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.8));
+            pointer-events: none;
+        }
+
+        .top-watch-logo-container {
+            background-color: var(--card-background);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+            padding: 8px; 
+            z-index: 5; 
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+
+        /* Specific Hover/Focus for the Logo Circle as requested */
+        .top-watch-item.focusable.focused .top-watch-logo-container {
+            background-color: #f0f0f0; /* Semi-gray/white */
+            border: 2px solid white;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+
+        .top-watch-logo {
+            width: 90%;
+            height: 50%;
+            object-fit: contain; 
+            opacity: 1; 
+            pointer-events: none;
+        }
+        /* End Top 10 Styles */
+
         .tv-slider-container {
             margin-bottom: 10px;
             position: relative;
@@ -289,7 +401,8 @@
 
         .virtual-remote-container {
             position: fixed; bottom: 40px; right: 40px; z-index: 500;
-            opacity: 0.3; transition: opacity 0.3s;
+            opacity: 0.8; /* Changed from 0.3 to 0.8 to be visible */
+            transition: opacity 0.3s;
         }
         .virtual-remote-container:hover { opacity: 1; }
         .d-pad {
@@ -312,55 +425,12 @@
             top: 50%; left: 50%; transform: translate(-50%, -50%); 
             background: rgba(255,255,255,0.1); width: 50px; height: 50px;
         }
-
-        /* --- AD OVERLAYS CSS --- */
-        .ad-ui-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 200;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 50px; box-sizing: border-box;
-            opacity: 0; transition: opacity 0.3s;
-        }
-        .ad-ui-container.visible { opacity: 1; }
-        
-        .ad-controls-row {
-            display: flex; justify-content: space-between; align-items: center; width: 100%;
-        }
-
-        .ad-badge {
-            background: #ffe600; color: black;
-            font-size: 1.1rem; font-weight: 800;
-            padding: 6px 12px; border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .ad-skip-btn {
-            background: rgba(0,0,0,0.7); color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px; border-radius: 30px;
-            display: flex; align-items: center; gap: 8px;
-            font-size: 0.9rem; font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-        .ad-skip-btn span { font-size: 20px; }
     </style>
 </head>
 <body>
 
     <div id="tv-player-container">
         <video id="video" autoplay playsinline></video>
-    </div>
-
-    <!-- AD UI OVERLAY -->
-    <div id="ad-ui" class="ad-ui-container">
-        <div class="ad-controls-row">
-            <div id="ad-timer" class="ad-badge">Ad ● 0:00</div>
-            <div class="ad-skip-btn">
-                <span class="material-symbols-rounded">circle</span> Click center to skip Ad
-            </div>
-        </div>
     </div>
 
     <div id="channel-info-bar" class="channel-info-bar">
@@ -388,6 +458,14 @@
         <div class="scrollable-content">
             <div class="tv-slider-container" id="tv-slider"></div>
             
+            <!-- Top 10 Live TV Channel Section -->
+            <div class="top-watch-section" id="top-watch-section" style="display:none;">
+                <div class="top-watch-header">Top 10 Live TV</div>
+                <div class="top-watch-list" id="top-watch-list">
+                    <!-- Items injected via JS -->
+                </div>
+            </div>
+
             <h3 class="section-header">All Channels</h3>
             
             <div class="list-group-container" id="channel-list">
@@ -446,10 +524,10 @@
             const API_GET_CHANNELS = '/api/getChannels';
             const API_GET_DATA = '/api/getData';
             const API_GET_SLIDES = '/api/getSlides';
-            const API_GET_ADS = '/api/getAds'; // Added Ad API
+            const API_GET_TOP_CHANNELS = '/api/getTopChannels';
+            const API_INCREMENT_VIEW = '/api/incrementView';
             
             let allChannels = [];
-            let allAds = []; // Store fetched ads
             let currentChannelIndex = 0;
             let currentScope = 'player';
             let focusIndex = 0;
@@ -457,7 +535,6 @@
             let player = null;
             let infoTimeout = null;
             let slideInterval = null;
-            let isAdPlaying = false; // Track Ad state
 
             const els = {
                 video: document.getElementById('video'),
@@ -465,6 +542,8 @@
                 settings: document.getElementById('settings-overlay'),
                 info: document.getElementById('channel-info-bar'),
                 slider: document.getElementById('tv-slider'),
+                topSection: document.getElementById('top-watch-section'),
+                topList: document.getElementById('top-watch-list'),
                 channelList: document.getElementById('channel-list'),
                 loader: document.getElementById('tv-loader'),
                 name: document.getElementById('info-name'),
@@ -476,9 +555,7 @@
                 captionList: document.getElementById('caption-list'),
                 speedList: document.getElementById('speed-list'),
                 audioWrapper: document.getElementById('audio-group-wrapper'),
-                captionWrapper: document.getElementById('caption-group-wrapper'),
-                adUi: document.getElementById('ad-ui'),
-                adTimer: document.getElementById('ad-timer')
+                captionWrapper: document.getElementById('caption-group-wrapper')
             };
 
             function updateTime() {
@@ -501,11 +578,7 @@
                         streaming: {
                             bufferingGoal: 60,
                             rebufferingGoal: 2,
-                            retryParameters: {
-                                maxAttempts: 10,
-                                baseDelay: 1000,
-                                timeout: 10000 
-                            },
+                            retryParameters: { maxAttempts: 10, baseDelay: 1000, timeout: 10000 },
                             jumpLargeGaps: true, 
                             lowLatencyMode: false,
                             inaccurateManifestTolerance: 2 
@@ -521,7 +594,7 @@
 
                     player.addEventListener('error', e => {
                         console.error(e);
-                        if(e.severity === 2 && !isAdPlaying) els.loader.classList.add('hidden');
+                        if(e.severity === 2) els.loader.classList.add('hidden');
                     });
 
                     player.addEventListener('buffering', (event) => {
@@ -534,16 +607,14 @@
                 }
 
                 try {
-                    const [channels, slides, ads] = await Promise.all([
+                    const [channels, slides, topData] = await Promise.all([
                         fetch(API_GET_CHANNELS).then(r => r.json()),
                         fetch(API_GET_SLIDES).then(r => r.json()).catch(() => []),
-                        fetch(API_GET_ADS).then(r => r.json()).catch(() => [])
+                        fetch(API_GET_TOP_CHANNELS).then(r => r.json()).catch(() => [])
                     ]);
                     
                     allChannels = Array.isArray(channels) ? channels : [];
-                    allAds = Array.isArray(ads) ? ads : []; // Store Ads
-                    
-                    renderGuide(allChannels, slides);
+                    renderGuide(allChannels, slides, topData);
                     
                     if(allChannels.length) {
                         playChannel(0);
@@ -557,97 +628,25 @@
                 }
             }
 
-            // Function to handle Channel Change + Ad Logic
-            function playChannel(idx) {
+            async function playChannel(idx) {
                 if(idx < 0 || idx >= allChannels.length) return;
                 
                 currentChannelIndex = idx;
                 const ch = allChannels[idx];
                 
-                // Update UI immediately
                 els.name.textContent = ch.name;
                 els.group.textContent = ch.group || 'Live TV';
                 els.logo.src = ch.logo || '/assets/favicon.svg';
                 
-                // Show channel info briefly
                 els.info.classList.add('visible');
                 clearTimeout(infoTimeout);
                 infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 5000);
 
-                // Show loader
                 els.loader.classList.remove('hidden');
 
-                // Determine if we show an ad (Simple logic: if ads exist, show one)
-                if (allAds.length > 0) {
-                    playAd(idx);
-                } else {
-                    loadChannelStream(idx);
-                }
-            }
+                // Increment View
+                fetch(`${API_INCREMENT_VIEW}?channel=${encodeURIComponent(ch.name)}`, {method: 'POST'}).catch(e=>{});
 
-            // New: Logic to play an ad
-            async function playAd(nextChannelIdx) {
-                isAdPlaying = true;
-                const ad = allAds[Math.floor(Math.random() * allAds.length)];
-                
-                try {
-                    await player.unload();
-                    
-                    // Configure for Ad
-                    player.configure({
-                        abr: { enabled: true },
-                        drm: { clearKeys: {} } 
-                    });
-
-                    await player.load(ad.videoUrl);
-                    await els.video.play();
-                    
-                    els.adUi.classList.add('visible');
-                    els.loader.classList.add('hidden');
-
-                    // Setup listener to finish ad when done
-                    const onAdEnded = () => {
-                        skipAd();
-                    };
-                    
-                    // Update timer UI
-                    const onTimeUpdate = () => {
-                        if(!els.video.duration) return;
-                        const remaining = Math.max(0, els.video.duration - els.video.currentTime);
-                        const mins = Math.floor(remaining / 60);
-                        const secs = Math.floor(remaining % 60);
-                        els.adTimer.textContent = `Ad - ${mins}:${secs.toString().padStart(2, '0')}`;
-                    };
-
-                    els.video.addEventListener('ended', onAdEnded, {once: true});
-                    els.video.addEventListener('timeupdate', onTimeUpdate);
-                    
-                    // Save cleanup function to remove listeners if skipped manually
-                    player.adCleanup = () => {
-                        els.video.removeEventListener('ended', onAdEnded);
-                        els.video.removeEventListener('timeupdate', onTimeUpdate);
-                        delete player.adCleanup;
-                    };
-
-                } catch (e) {
-                    console.error("Ad failed to load", e);
-                    skipAd(); // Fallback to content
-                }
-            }
-
-            // New: Skip Ad / Finish Ad
-            function skipAd() {
-                if(player.adCleanup) player.adCleanup();
-                isAdPlaying = false;
-                els.adUi.classList.remove('visible');
-                els.loader.classList.remove('hidden'); // Show loader while switching
-                loadChannelStream(currentChannelIndex);
-            }
-
-            // Extracted logic to load the actual TV stream
-            async function loadChannelStream(idx) {
-                const ch = allChannels[idx];
-                
                 try {
                     await player.unload();
 
@@ -679,12 +678,12 @@
                 }
             }
 
-            function renderGuide(channels, slides) {
+            function renderGuide(channels, slides, topData) {
+                // Slider Logic (Unchanged)
                 els.slider.innerHTML = '';
                 if(slides && slides.length) {
                     const dotsCont = document.createElement('div');
                     dotsCont.className = 'slider-dots';
-                    
                     slides.forEach((s, i) => {
                         const slide = document.createElement('div');
                         slide.className = `tv-slide ${i===0?'active':''}`;
@@ -700,13 +699,11 @@
                             </div>
                         `;
                         els.slider.appendChild(slide);
-                        
                         const dot = document.createElement('button');
                         dot.className = `dot ${i===0?'active':''}`;
                         dotsCont.appendChild(dot);
                     });
                     els.slider.appendChild(dotsCont);
-
                     let currentSlide = 0;
                     const allSlides = els.slider.querySelectorAll('.tv-slide');
                     const allDots = els.slider.querySelectorAll('.dot');
@@ -724,10 +721,41 @@
                     els.slider.style.display = 'none';
                 }
 
+                // Render Top 10
+                els.topList.innerHTML = '';
+                if(topData && topData.length > 0) {
+                    els.topSection.style.display = 'block';
+                    topData.slice(0, 10).forEach((topCh, i) => {
+                        // Find original channel data to get logo
+                        const channelData = channels.find(c => c.name === topCh) || { name: topCh, logo: '' };
+                        const originalIndex = channels.findIndex(c => c.name === topCh);
+                        
+                        const item = document.createElement('div');
+                        item.className = 'top-watch-item focusable is-top-item';
+                        item.dataset.channelIndex = originalIndex > -1 ? originalIndex : 0;
+                        item.innerHTML = `
+                            <span class="top-rank-number">${i + 1}</span>
+                            <div class="top-watch-logo-container">
+                                <img src="${channelData.logo || '/assets/favicon.svg'}" class="top-watch-logo">
+                            </div>
+                        `;
+                        item.onclick = () => {
+                             if(originalIndex > -1) {
+                                 playChannel(originalIndex);
+                                 toggleGuide(false);
+                             }
+                        };
+                        els.topList.appendChild(item);
+                    });
+                } else {
+                    els.topSection.style.display = 'none';
+                }
+
+                // Render All Channels
                 els.channelList.innerHTML = '';
                 channels.forEach((ch, idx) => {
                     const row = document.createElement('div');
-                    row.className = 'list-item focusable';
+                    row.className = 'list-item focusable is-list-item';
                     row.dataset.index = idx;
                     const logo = ch.logo || '/assets/favicon.svg';
                     const isOffline = ch.status === 'offline';
@@ -838,8 +866,14 @@
                     els.guide.classList.add('active');
                     currentScope = 'guide';
                     focusList = Array.from(els.guide.querySelectorAll('.focusable'));
+                    
+                    // Try to focus current channel if possible, else top list, else first item
                     const curr = Array.from(els.channelList.children).find(el => el.dataset.index == currentChannelIndex);
-                    focusIndex = curr ? focusList.indexOf(curr) : 0;
+                    if(curr) {
+                        focusIndex = focusList.indexOf(curr);
+                    } else {
+                        focusIndex = 0; 
+                    }
                     updateFocus();
                 } else {
                     els.guide.classList.remove('active');
@@ -863,7 +897,14 @@
                 if(focusList[focusIndex]) {
                     const el = focusList[focusIndex];
                     el.classList.add('focused');
-                    el.scrollIntoView({ behavior: 'auto', block: 'center' });
+                    
+                    // Horizontal scroll adjustment for Top 10 items
+                    if(el.classList.contains('is-top-item')) {
+                         el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    } else {
+                        // Vertical scroll for list items
+                        el.scrollIntoView({ behavior: 'auto', block: 'center' });
+                    }
                 }
             }
 
@@ -871,7 +912,6 @@
                 if(currentScope === 'player') {
                     switch(key) {
                         case 'ArrowUp': 
-                            // Changing channel dumps the ad and starts over
                             playChannel((currentChannelIndex - 1 + allChannels.length) % allChannels.length);
                             break;
                         case 'ArrowDown':
@@ -880,17 +920,71 @@
                         case 'ArrowLeft': toggleGuide(true); break;
                         case 'ArrowRight': toggleSettings(true); break;
                         case 'Enter':
-                            if (isAdPlaying) {
-                                skipAd(); // Allow skipping ad with Enter
-                            } else {
-                                els.info.classList.add('visible');
-                                clearTimeout(infoTimeout);
-                                infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000);
-                            }
+                            els.info.classList.add('visible');
+                            clearTimeout(infoTimeout);
+                            infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000);
                             break;
                     }
                 }
-                else if(currentScope === 'guide' || currentScope === 'settings') {
+                else if(currentScope === 'guide') {
+                    const currentEl = focusList[focusIndex];
+                    const isTopItem = currentEl && currentEl.classList.contains('is-top-item');
+                    const isListItem = currentEl && currentEl.classList.contains('is-list-item');
+
+                    switch(key) {
+                        case 'ArrowUp':
+                            // Standard movement logic
+                            if (focusIndex > 0) {
+                                focusIndex--;
+                                updateFocus();
+                            }
+                            break;
+                        case 'ArrowDown':
+                            // If in Top 10, jump to first item of channel list
+                            if(isTopItem) {
+                                const firstListIndex = focusList.findIndex(el => el.classList.contains('is-list-item'));
+                                if(firstListIndex > -1) focusIndex = firstListIndex;
+                            } else {
+                                if (focusIndex < focusList.length - 1) focusIndex++;
+                            }
+                            updateFocus();
+                            break;
+                        case 'ArrowLeft':
+                            if(isTopItem) {
+                                // Navigate left within Top 10
+                                if(focusIndex > 0) focusIndex--;
+                            } else {
+                                // Close guide if we are in list (standard behavior) or nothing?
+                                // Actually usually left closes guide if it's a drawer
+                                // But if user wants "freely access", maybe default behavior is fine.
+                                // Let's keep specific Top 10 nav, but standard otherwise.
+                            }
+                            updateFocus();
+                            break;
+                        case 'ArrowRight':
+                            if(isTopItem) {
+                                // Navigate right within Top 10, UNLESS it's the last top item
+                                const nextEl = focusList[focusIndex + 1];
+                                if(nextEl && nextEl.classList.contains('is-top-item')) {
+                                    focusIndex++;
+                                    updateFocus();
+                                } else {
+                                    toggleGuide(false); // Close guide to go to content/settings
+                                }
+                            } else {
+                                toggleGuide(false);
+                            }
+                            break;
+                        case 'Enter':
+                            if(focusList[focusIndex]) focusList[focusIndex].click();
+                            break;
+                        case 'Back':
+                        case 'Escape':
+                            toggleGuide(false);
+                            break;
+                    }
+                }
+                else if(currentScope === 'settings') {
                     switch(key) {
                         case 'ArrowUp':
                             focusIndex = Math.max(0, focusIndex - 1);
@@ -900,19 +994,14 @@
                             focusIndex = Math.min(focusList.length - 1, focusIndex + 1);
                             updateFocus();
                             break;
-                        case 'ArrowLeft':
-                            if(currentScope === 'settings') toggleSettings(false);
-                            break;
-                        case 'ArrowRight':
-                            if(currentScope === 'guide') toggleGuide(false);
-                            break;
+                        case 'ArrowLeft': toggleSettings(false); break;
+                        case 'ArrowRight': break;
                         case 'Enter':
                             if(focusList[focusIndex]) focusList[focusIndex].click();
                             break;
                         case 'Back':
                         case 'Escape':
-                            if(currentScope === 'guide') toggleGuide(false);
-                            if(currentScope === 'settings') toggleSettings(false);
+                            toggleSettings(false);
                             break;
                     }
                 }
