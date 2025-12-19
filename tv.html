@@ -172,7 +172,6 @@
         .list-item span { font-weight: 500; font-size: 0.9rem; }
         .item-icon { font-size: 22px; color: #aaa; }  
 
-        /* General Focus Styles */
         .focusable.focused {
             background: var(--focus-bg);
             color: var(--focus-text);
@@ -181,7 +180,6 @@
         .focusable.focused .item-icon { color: var(--focus-text); }
         .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
         
-        /* Top 10 Section Styles */
         .top-watch-section {
             padding: 0 5px;
             margin-top: 20px;
@@ -232,12 +230,12 @@
 
         .top-rank-number {
             font-family: 'Helvetica 93 Black Extended', sans-serif;
-            font-size: 4.5rem; 
+            font-size: 4rem; 
             font-weight: 900;
             font-style: normal;
             letter-spacing: -2.5px;
             line-height: 0.8; 
-            margin-right: -25px;
+            margin-right: -20px;
             margin-bottom: 0;
             z-index: 1;
             position: relative;
@@ -270,20 +268,18 @@
             padding: 4px;
         }
 
-        /* Specific Hover/Focus for the Logo Circle */
         .top-watch-item.focusable.focused .top-watch-logo-container {
             background-color: #f0f0f0; 
             border-color: #ffffff; 
         }
 
         .top-watch-logo {
-            width: 100%;
-            height: 100%;
+            width: 90%;
+            height: 50%;
             object-fit: contain; 
             opacity: 1; 
             pointer-events: none;
         }
-        /* End Top 10 Styles */
 
         .tv-slider-container {
             margin-bottom: 10px;
@@ -560,7 +556,6 @@
             setInterval(updateTime, 1000);
             updateTime();
 
-            // Utility to match channel names with IDs/Slugs
             const createSlug = (name) => {
                 if (!name) return '';
                 return name.toString().toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');        
@@ -643,7 +638,6 @@
 
                 els.loader.classList.remove('hidden');
 
-                // Increment View
                 fetch(`${API_INCREMENT_VIEW}?channel=${encodeURIComponent(createSlug(ch.name))}`, {method: 'POST'}).catch(e=>{});
 
                 try {
@@ -723,10 +717,8 @@
                 if(topData && topData.length > 0) {
                     els.topSection.style.display = 'block';
                     topData.slice(0, 10).forEach((topSlug, i) => {
-                        // Use correct slug matching logic
                         let channelData = channels.find(c => createSlug(c.name) === topSlug);
 
-                        // If not found, create placeholder
                         if (!channelData) {
                             channelData = { name: topSlug, logo: '' };
                         }
@@ -904,7 +896,6 @@
                     if(el.classList.contains('is-top-item')) {
                          const container = els.topList;
                          
-                         // Manual horizontal scroll isolation
                          const scrollLeft = el.offsetLeft + (el.offsetWidth / 2) - (container.offsetWidth / 2);
                          
                          container.scrollTo({
@@ -912,18 +903,14 @@
                              behavior: 'smooth'
                          });
                          
-                         // Keep top view
                          if(guideScroll) guideScroll.scrollTo({ top: 0, behavior: 'smooth' });
                          
                     } else {
-                        // Check if it is the first item in the channel list
                         const isFirstChannel = (el === els.channelList.firstElementChild);
                         
                         if (isFirstChannel) {
-                             // Scroll to top to show Slider + Top 10
                              if(guideScroll) guideScroll.scrollTo({ top: 0, behavior: 'smooth' });
                         } else {
-                             // Standard scroll for other items
                              el.scrollIntoView({ behavior: 'auto', block: 'center' });
                         }
                     }
