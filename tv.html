@@ -90,7 +90,7 @@
             padding: 20px;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            position: relative; /* Context for scrolling */
+            position: relative;
         }
         .scrollable-content::-webkit-scrollbar { display: none; }
 
@@ -209,7 +209,7 @@
             scrollbar-width: none;
             align-items: center; 
             touch-action: pan-x;
-            position: relative; /* Essential for accurate offsetLeft calculation */
+            position: relative; 
         }
 
         .top-watch-list::-webkit-scrollbar { display: none; }
@@ -717,9 +717,19 @@
                 if(topData && topData.length > 0) {
                     els.topSection.style.display = 'block';
                     topData.slice(0, 10).forEach((topCh, i) => {
-                        const cleanName = String(topCh).trim();
-                        const channelData = channels.find(c => c.name.trim() === cleanName) || { name: topCh, logo: '' };
-                        const originalIndex = channels.findIndex(c => c.name.trim() === cleanName);
+                        const cleanId = String(topCh).trim();
+                        // 1. Try to find by explicit ID match (since API returns IDs like 'kapamilya-channel')
+                        // 2. Fallback to name match
+                        let channelData = channels.find(c => c.id === cleanId) || 
+                                          channels.find(c => c.name === cleanId) || 
+                                          channels.find(c => c.name.toLowerCase() === cleanId.toLowerCase());
+
+                        // If not found, create placeholder
+                        if (!channelData) {
+                            channelData = { name: cleanId, logo: '' };
+                        }
+
+                        const originalIndex = channels.indexOf(channelData);
                         
                         const item = document.createElement('div');
                         item.className = 'top-watch-item focusable is-top-item';
@@ -891,7 +901,6 @@
                          const container = els.topList;
                          
                          // Manual horizontal scroll isolation
-                         // Calculate center position: offsetLeft + halfWidth - halfContainerWidth
                          const scrollLeft = el.offsetLeft + (el.offsetWidth / 2) - (container.offsetWidth / 2);
                          
                          container.scrollTo({
@@ -899,20 +908,18 @@
                              behavior: 'smooth'
                          });
                          
-                         // Check vertical visibility separately to prevent page jumping
+                         // Check vertical visibility separately
                          const section = els.topSection;
                          const guideScroll = document.querySelector('.scrollable-content');
                          
                          const sectionRect = section.getBoundingClientRect();
                          const guideRect = guideScroll.getBoundingClientRect();
                          
-                         // Only scroll vertical parent if the Top 10 section is actually out of view
                          if(sectionRect.top < guideRect.top || sectionRect.bottom > guideRect.bottom) {
                              section.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
                          }
                          
                     } else {
-                        // Standard vertical scroll for list items
                         el.scrollIntoView({ behavior: 'auto', block: 'center' });
                     }
                 }
