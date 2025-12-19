@@ -910,15 +910,11 @@
                              behavior: 'smooth'
                          });
                          
-                         // Check vertical visibility separately
-                         const section = els.topSection;
-                         const guideScroll = document.querySelector('.scrollable-content');
-                         
-                         const sectionRect = section.getBoundingClientRect();
-                         const guideRect = guideScroll.getBoundingClientRect();
-                         
-                         if(sectionRect.top < guideRect.top || sectionRect.bottom > guideRect.bottom) {
-                             section.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                         // Fix: Scroll to top if container is scrolled down
+                         // This keeps the Featured Slider visible and "disables" vertical jump
+                         const guideScroll = els.guide.querySelector('.scrollable-content');
+                         if(guideScroll && guideScroll.scrollTop > 5) {
+                            guideScroll.scrollTo({ top: 0, behavior: 'smooth' });
                          }
                          
                     } else {
