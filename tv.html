@@ -90,6 +90,7 @@
             padding: 20px;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            position: relative; /* Context for scrolling */
         }
         .scrollable-content::-webkit-scrollbar { display: none; }
 
@@ -208,6 +209,7 @@
             scrollbar-width: none;
             align-items: center; 
             touch-action: pan-x;
+            position: relative; /* Essential for accurate offsetLeft calculation */
         }
 
         .top-watch-list::-webkit-scrollbar { display: none; }
@@ -223,10 +225,8 @@
             border-radius: 50%;
         }
         
-        /* Focus state for Top 10 Item Wrapper */
         .top-watch-item.focusable.focused {
-            background: transparent; /* No background on wrapper */
-            /* Removed transform to fix shaky behavior */
+            background: transparent;
             z-index: 10;
         }
 
@@ -260,20 +260,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255,255,255,0.1); 
+            border: 2px solid rgba(255,255,255,0.1); 
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             overflow: hidden;
             position: relative;
             z-index: 5; 
             box-sizing: border-box;
             transition: all 0.2s;
+            padding: 4px;
         }
 
         /* Specific Hover/Focus for the Logo Circle */
         .top-watch-item.focusable.focused .top-watch-logo-container {
-            background-color: #f0f0f0; /* Semi-gray/white background */
-            border: 2px solid white;
-            /* Removed box-shadow to prevent shaky repaint/glow issues */
+            background-color: #f0f0f0; 
+            border-color: #ffffff; 
         }
 
         .top-watch-logo {
@@ -282,8 +282,6 @@
             object-fit: contain; 
             opacity: 1; 
             pointer-events: none;
-            padding: 12px; /* Add padding so logo fits nicely inside circle */
-            box-sizing: border-box;
         }
         /* End Top 10 Styles */
 
@@ -719,8 +717,9 @@
                 if(topData && topData.length > 0) {
                     els.topSection.style.display = 'block';
                     topData.slice(0, 10).forEach((topCh, i) => {
-                        const channelData = channels.find(c => c.name === topCh) || { name: topCh, logo: '' };
-                        const originalIndex = channels.findIndex(c => c.name === topCh);
+                        const cleanName = String(topCh).trim();
+                        const channelData = channels.find(c => c.name.trim() === cleanName) || { name: topCh, logo: '' };
+                        const originalIndex = channels.findIndex(c => c.name.trim() === cleanName);
                         
                         const item = document.createElement('div');
                         item.className = 'top-watch-item focusable is-top-item';
@@ -889,9 +888,31 @@
                     el.classList.add('focused');
                     
                     if(el.classList.contains('is-top-item')) {
-                         // Use 'auto' instead of 'smooth' to prevent shaky/vibrating effect
-                         el.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
+                         const container = els.topList;
+                         
+                         // Manual horizontal scroll isolation
+                         // Calculate center position: offsetLeft + halfWidth - halfContainerWidth
+                         const scrollLeft = el.offsetLeft + (el.offsetWidth / 2) - (container.offsetWidth / 2);
+                         
+                         container.scrollTo({
+                             left: scrollLeft,
+                             behavior: 'smooth'
+                         });
+                         
+                         // Check vertical visibility separately to prevent page jumping
+                         const section = els.topSection;
+                         const guideScroll = document.querySelector('.scrollable-content');
+                         
+                         const sectionRect = section.getBoundingClientRect();
+                         const guideRect = guideScroll.getBoundingClientRect();
+                         
+                         // Only scroll vertical parent if the Top 10 section is actually out of view
+                         if(sectionRect.top < guideRect.top || sectionRect.bottom > guideRect.bottom) {
+                             section.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                         }
+                         
                     } else {
+                        // Standard vertical scroll for list items
                         el.scrollIntoView({ behavior: 'auto', block: 'center' });
                     }
                 }
