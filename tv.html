@@ -208,7 +208,8 @@
             scrollbar-width: none;
             align-items: center; 
             touch-action: pan-x;
-            position: relative; 
+            position: relative;
+            -webkit-overflow-scrolling: touch;
         }
 
         .top-watch-list::-webkit-scrollbar { display: none; }
@@ -268,7 +269,7 @@
         }
 
         .top-watch-item.focusable.focused .top-watch-logo-container {
-            background-color: #f0f0f0; 
+            background-color: var(--card-background); 
             border-color: #ffffff; 
         }
 
