@@ -899,6 +899,8 @@
                     const el = focusList[focusIndex];
                     el.classList.add('focused');
                     
+                    const guideScroll = els.guide.querySelector('.scrollable-content');
+
                     if(el.classList.contains('is-top-item')) {
                          const container = els.topList;
                          
@@ -910,15 +912,20 @@
                              behavior: 'smooth'
                          });
                          
-                         // Fix: Scroll to top if container is scrolled down
-                         // This keeps the Featured Slider visible and "disables" vertical jump
-                         const guideScroll = els.guide.querySelector('.scrollable-content');
-                         if(guideScroll && guideScroll.scrollTop > 5) {
-                            guideScroll.scrollTo({ top: 0, behavior: 'smooth' });
-                         }
+                         // Keep top view
+                         if(guideScroll) guideScroll.scrollTo({ top: 0, behavior: 'smooth' });
                          
                     } else {
-                        el.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        // Check if it is the first item in the channel list
+                        const isFirstChannel = (el === els.channelList.firstElementChild);
+                        
+                        if (isFirstChannel) {
+                             // Scroll to top to show Slider + Top 10
+                             if(guideScroll) guideScroll.scrollTo({ top: 0, behavior: 'smooth' });
+                        } else {
+                             // Standard scroll for other items
+                             el.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        }
                     }
                 }
             }
