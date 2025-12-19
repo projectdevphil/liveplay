@@ -560,6 +560,12 @@
             setInterval(updateTime, 1000);
             updateTime();
 
+            // Utility to match channel names with IDs/Slugs
+            const createSlug = (name) => {
+                if (!name) return '';
+                return name.toString().toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');        
+            };
+
             async function init() {
                 shaka.polyfill.installAll();
                 
@@ -638,7 +644,7 @@
                 els.loader.classList.remove('hidden');
 
                 // Increment View
-                fetch(`${API_INCREMENT_VIEW}?channel=${encodeURIComponent(ch.name)}`, {method: 'POST'}).catch(e=>{});
+                fetch(`${API_INCREMENT_VIEW}?channel=${encodeURIComponent(createSlug(ch.name))}`, {method: 'POST'}).catch(e=>{});
 
                 try {
                     await player.unload();
@@ -716,17 +722,13 @@
                 els.topList.innerHTML = '';
                 if(topData && topData.length > 0) {
                     els.topSection.style.display = 'block';
-                    topData.slice(0, 10).forEach((topCh, i) => {
-                        const cleanId = String(topCh).trim();
-                        // 1. Try to find by explicit ID match (since API returns IDs like 'kapamilya-channel')
-                        // 2. Fallback to name match
-                        let channelData = channels.find(c => c.id === cleanId) || 
-                                          channels.find(c => c.name === cleanId) || 
-                                          channels.find(c => c.name.toLowerCase() === cleanId.toLowerCase());
+                    topData.slice(0, 10).forEach((topSlug, i) => {
+                        // Use correct slug matching logic
+                        let channelData = channels.find(c => createSlug(c.name) === topSlug);
 
                         // If not found, create placeholder
                         if (!channelData) {
-                            channelData = { name: cleanId, logo: '' };
+                            channelData = { name: topSlug, logo: '' };
                         }
 
                         const originalIndex = channels.indexOf(channelData);
