@@ -6,7 +6,6 @@
     <title>Liveplay for TV</title>
     <script>
       if (!navigator.userAgent.match(/SmartTV|Tizen|Web0S|BRAVIA|NetCast|GoogleTV|AppleTV|HbbTV/i)) {
-        // allowing desktop for testing purposes based on request context, usually this redirects
         // window.location.replace('/404');
       }
     </script>
@@ -121,7 +120,7 @@
             color: #888;
             font-weight: 700;
             margin: 25px 0 10px -20px;
-            padding-left: 20px; /* Fix alignment */
+            padding-left: 20px;
         }
         .settings-title {
             text-align: left;
@@ -221,20 +220,18 @@
             cursor: pointer;
             position: relative;
             padding-right: 0;
-            /* Focusable Item Wrapper */
             border-radius: 50%;
-            transition: transform 0.2s;
         }
         
-        /* Focus state for Top 10 Item Wrapper (Scaling) */
+        /* Focus state for Top 10 Item Wrapper */
         .top-watch-item.focusable.focused {
-            background: transparent; /* Override standard rectangular focus */
-            transform: scale(1.1);
+            background: transparent; /* No background on wrapper */
+            /* Removed transform to fix shaky behavior */
             z-index: 10;
         }
 
         .top-rank-number {
-            font-family: sans-serif; /* Fallback */
+            font-family: sans-serif;
             font-size: 4.5rem; 
             font-weight: 900;
             font-style: normal;
@@ -267,25 +264,26 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             overflow: hidden;
             position: relative;
-            padding: 8px; 
             z-index: 5; 
             box-sizing: border-box;
             transition: all 0.2s;
         }
 
-        /* Specific Hover/Focus for the Logo Circle as requested */
+        /* Specific Hover/Focus for the Logo Circle */
         .top-watch-item.focusable.focused .top-watch-logo-container {
-            background-color: #f0f0f0; /* Semi-gray/white */
+            background-color: #f0f0f0; /* Semi-gray/white background */
             border: 2px solid white;
-            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            /* Removed box-shadow to prevent shaky repaint/glow issues */
         }
 
         .top-watch-logo {
-            width: 90%;
-            height: 50%;
+            width: 100%;
+            height: 100%;
             object-fit: contain; 
             opacity: 1; 
             pointer-events: none;
+            padding: 12px; /* Add padding so logo fits nicely inside circle */
+            box-sizing: border-box;
         }
         /* End Top 10 Styles */
 
@@ -401,7 +399,7 @@
 
         .virtual-remote-container {
             position: fixed; bottom: 40px; right: 40px; z-index: 500;
-            opacity: 0.8; /* Changed from 0.3 to 0.8 to be visible */
+            opacity: 0.8;
             transition: opacity 0.3s;
         }
         .virtual-remote-container:hover { opacity: 1; }
@@ -458,12 +456,9 @@
         <div class="scrollable-content">
             <div class="tv-slider-container" id="tv-slider"></div>
             
-            <!-- Top 10 Live TV Channel Section -->
             <div class="top-watch-section" id="top-watch-section" style="display:none;">
                 <div class="top-watch-header">Top 10 Live TV</div>
-                <div class="top-watch-list" id="top-watch-list">
-                    <!-- Items injected via JS -->
-                </div>
+                <div class="top-watch-list" id="top-watch-list"></div>
             </div>
 
             <h3 class="section-header">All Channels</h3>
@@ -679,7 +674,6 @@
             }
 
             function renderGuide(channels, slides, topData) {
-                // Slider Logic (Unchanged)
                 els.slider.innerHTML = '';
                 if(slides && slides.length) {
                     const dotsCont = document.createElement('div');
@@ -721,12 +715,10 @@
                     els.slider.style.display = 'none';
                 }
 
-                // Render Top 10
                 els.topList.innerHTML = '';
                 if(topData && topData.length > 0) {
                     els.topSection.style.display = 'block';
                     topData.slice(0, 10).forEach((topCh, i) => {
-                        // Find original channel data to get logo
                         const channelData = channels.find(c => c.name === topCh) || { name: topCh, logo: '' };
                         const originalIndex = channels.findIndex(c => c.name === topCh);
                         
@@ -751,7 +743,6 @@
                     els.topSection.style.display = 'none';
                 }
 
-                // Render All Channels
                 els.channelList.innerHTML = '';
                 channels.forEach((ch, idx) => {
                     const row = document.createElement('div');
@@ -867,7 +858,6 @@
                     currentScope = 'guide';
                     focusList = Array.from(els.guide.querySelectorAll('.focusable'));
                     
-                    // Try to focus current channel if possible, else top list, else first item
                     const curr = Array.from(els.channelList.children).find(el => el.dataset.index == currentChannelIndex);
                     if(curr) {
                         focusIndex = focusList.indexOf(curr);
@@ -898,11 +888,10 @@
                     const el = focusList[focusIndex];
                     el.classList.add('focused');
                     
-                    // Horizontal scroll adjustment for Top 10 items
                     if(el.classList.contains('is-top-item')) {
-                         el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                         // Use 'auto' instead of 'smooth' to prevent shaky/vibrating effect
+                         el.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
                     } else {
-                        // Vertical scroll for list items
                         el.scrollIntoView({ behavior: 'auto', block: 'center' });
                     }
                 }
@@ -929,18 +918,15 @@
                 else if(currentScope === 'guide') {
                     const currentEl = focusList[focusIndex];
                     const isTopItem = currentEl && currentEl.classList.contains('is-top-item');
-                    const isListItem = currentEl && currentEl.classList.contains('is-list-item');
 
                     switch(key) {
                         case 'ArrowUp':
-                            // Standard movement logic
                             if (focusIndex > 0) {
                                 focusIndex--;
                                 updateFocus();
                             }
                             break;
                         case 'ArrowDown':
-                            // If in Top 10, jump to first item of channel list
                             if(isTopItem) {
                                 const firstListIndex = focusList.findIndex(el => el.classList.contains('is-list-item'));
                                 if(firstListIndex > -1) focusIndex = firstListIndex;
@@ -951,25 +937,18 @@
                             break;
                         case 'ArrowLeft':
                             if(isTopItem) {
-                                // Navigate left within Top 10
                                 if(focusIndex > 0) focusIndex--;
-                            } else {
-                                // Close guide if we are in list (standard behavior) or nothing?
-                                // Actually usually left closes guide if it's a drawer
-                                // But if user wants "freely access", maybe default behavior is fine.
-                                // Let's keep specific Top 10 nav, but standard otherwise.
                             }
                             updateFocus();
                             break;
                         case 'ArrowRight':
                             if(isTopItem) {
-                                // Navigate right within Top 10, UNLESS it's the last top item
                                 const nextEl = focusList[focusIndex + 1];
                                 if(nextEl && nextEl.classList.contains('is-top-item')) {
                                     focusIndex++;
                                     updateFocus();
                                 } else {
-                                    toggleGuide(false); // Close guide to go to content/settings
+                                    toggleGuide(false);
                                 }
                             } else {
                                 toggleGuide(false);
