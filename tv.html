@@ -6,7 +6,7 @@
     <title>Liveplay for TV</title>
     <script>
       if (!navigator.userAgent.match(/SmartTV|Tizen|Web0S|BRAVIA|NetCast|GoogleTV|AppleTV|HbbTV/i)) {
-        window.location.replace('/404');
+        //window.location.replace('/404');
       }
     </script>
     <meta name="theme-color" content="#000000">
@@ -312,12 +312,55 @@
             top: 50%; left: 50%; transform: translate(-50%, -50%); 
             background: rgba(255,255,255,0.1); width: 50px; height: 50px;
         }
+
+        /* --- AD OVERLAYS CSS --- */
+        .ad-ui-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 200;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 50px; box-sizing: border-box;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .ad-ui-container.visible { opacity: 1; }
+        
+        .ad-controls-row {
+            display: flex; justify-content: space-between; align-items: center; width: 100%;
+        }
+
+        .ad-badge {
+            background: #ffe600; color: black;
+            font-size: 1.1rem; font-weight: 800;
+            padding: 6px 12px; border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ad-skip-btn {
+            background: rgba(0,0,0,0.7); color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px; border-radius: 30px;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.9rem; font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .ad-skip-btn span { font-size: 20px; }
     </style>
 </head>
 <body>
 
     <div id="tv-player-container">
         <video id="video" autoplay playsinline></video>
+    </div>
+
+    <!-- AD UI OVERLAY -->
+    <div id="ad-ui" class="ad-ui-container">
+        <div class="ad-controls-row">
+            <div id="ad-timer" class="ad-badge">Ad ● 0:00</div>
+            <div class="ad-skip-btn">
+                <span class="material-symbols-rounded">circle</span> Click center to skip Ad
+            </div>
+        </div>
     </div>
 
     <div id="channel-info-bar" class="channel-info-bar">
@@ -403,8 +446,10 @@
             const API_GET_CHANNELS = '/api/getChannels';
             const API_GET_DATA = '/api/getData';
             const API_GET_SLIDES = '/api/getSlides';
+            const API_GET_ADS = '/api/getAds'; // Added Ad API
             
             let allChannels = [];
+            let allAds = []; // Store fetched ads
             let currentChannelIndex = 0;
             let currentScope = 'player';
             let focusIndex = 0;
@@ -412,6 +457,7 @@
             let player = null;
             let infoTimeout = null;
             let slideInterval = null;
+            let isAdPlaying = false; // Track Ad state
 
             const els = {
                 video: document.getElementById('video'),
@@ -430,7 +476,9 @@
                 captionList: document.getElementById('caption-list'),
                 speedList: document.getElementById('speed-list'),
                 audioWrapper: document.getElementById('audio-group-wrapper'),
-                captionWrapper: document.getElementById('caption-group-wrapper')
+                captionWrapper: document.getElementById('caption-group-wrapper'),
+                adUi: document.getElementById('ad-ui'),
+                adTimer: document.getElementById('ad-timer')
             };
 
             function updateTime() {
@@ -473,7 +521,7 @@
 
                     player.addEventListener('error', e => {
                         console.error(e);
-                        if(e.severity === 2) els.loader.classList.add('hidden');
+                        if(e.severity === 2 && !isAdPlaying) els.loader.classList.add('hidden');
                     });
 
                     player.addEventListener('buffering', (event) => {
@@ -486,12 +534,15 @@
                 }
 
                 try {
-                    const [channels, slides] = await Promise.all([
+                    const [channels, slides, ads] = await Promise.all([
                         fetch(API_GET_CHANNELS).then(r => r.json()),
-                        fetch(API_GET_SLIDES).then(r => r.json()).catch(() => [])
+                        fetch(API_GET_SLIDES).then(r => r.json()).catch(() => []),
+                        fetch(API_GET_ADS).then(r => r.json()).catch(() => [])
                     ]);
                     
                     allChannels = Array.isArray(channels) ? channels : [];
+                    allAds = Array.isArray(ads) ? ads : []; // Store Ads
+                    
                     renderGuide(allChannels, slides);
                     
                     if(allChannels.length) {
@@ -506,22 +557,97 @@
                 }
             }
 
-            async function playChannel(idx) {
+            // Function to handle Channel Change + Ad Logic
+            function playChannel(idx) {
                 if(idx < 0 || idx >= allChannels.length) return;
                 
                 currentChannelIndex = idx;
                 const ch = allChannels[idx];
                 
+                // Update UI immediately
                 els.name.textContent = ch.name;
                 els.group.textContent = ch.group || 'Live TV';
                 els.logo.src = ch.logo || '/assets/favicon.svg';
                 
+                // Show channel info briefly
                 els.info.classList.add('visible');
                 clearTimeout(infoTimeout);
                 infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 5000);
 
+                // Show loader
                 els.loader.classList.remove('hidden');
 
+                // Determine if we show an ad (Simple logic: if ads exist, show one)
+                if (allAds.length > 0) {
+                    playAd(idx);
+                } else {
+                    loadChannelStream(idx);
+                }
+            }
+
+            // New: Logic to play an ad
+            async function playAd(nextChannelIdx) {
+                isAdPlaying = true;
+                const ad = allAds[Math.floor(Math.random() * allAds.length)];
+                
+                try {
+                    await player.unload();
+                    
+                    // Configure for Ad
+                    player.configure({
+                        abr: { enabled: true },
+                        drm: { clearKeys: {} } 
+                    });
+
+                    await player.load(ad.videoUrl);
+                    await els.video.play();
+                    
+                    els.adUi.classList.add('visible');
+                    els.loader.classList.add('hidden');
+
+                    // Setup listener to finish ad when done
+                    const onAdEnded = () => {
+                        skipAd();
+                    };
+                    
+                    // Update timer UI
+                    const onTimeUpdate = () => {
+                        if(!els.video.duration) return;
+                        const remaining = Math.max(0, els.video.duration - els.video.currentTime);
+                        const mins = Math.floor(remaining / 60);
+                        const secs = Math.floor(remaining % 60);
+                        els.adTimer.textContent = `Ad - ${mins}:${secs.toString().padStart(2, '0')}`;
+                    };
+
+                    els.video.addEventListener('ended', onAdEnded, {once: true});
+                    els.video.addEventListener('timeupdate', onTimeUpdate);
+                    
+                    // Save cleanup function to remove listeners if skipped manually
+                    player.adCleanup = () => {
+                        els.video.removeEventListener('ended', onAdEnded);
+                        els.video.removeEventListener('timeupdate', onTimeUpdate);
+                        delete player.adCleanup;
+                    };
+
+                } catch (e) {
+                    console.error("Ad failed to load", e);
+                    skipAd(); // Fallback to content
+                }
+            }
+
+            // New: Skip Ad / Finish Ad
+            function skipAd() {
+                if(player.adCleanup) player.adCleanup();
+                isAdPlaying = false;
+                els.adUi.classList.remove('visible');
+                els.loader.classList.remove('hidden'); // Show loader while switching
+                loadChannelStream(currentChannelIndex);
+            }
+
+            // Extracted logic to load the actual TV stream
+            async function loadChannelStream(idx) {
+                const ch = allChannels[idx];
+                
                 try {
                     await player.unload();
 
@@ -745,6 +871,7 @@
                 if(currentScope === 'player') {
                     switch(key) {
                         case 'ArrowUp': 
+                            // Changing channel dumps the ad and starts over
                             playChannel((currentChannelIndex - 1 + allChannels.length) % allChannels.length);
                             break;
                         case 'ArrowDown':
@@ -753,9 +880,13 @@
                         case 'ArrowLeft': toggleGuide(true); break;
                         case 'ArrowRight': toggleSettings(true); break;
                         case 'Enter':
-                            els.info.classList.add('visible');
-                            clearTimeout(infoTimeout);
-                            infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000);
+                            if (isAdPlaying) {
+                                skipAd(); // Allow skipping ad with Enter
+                            } else {
+                                els.info.classList.add('visible');
+                                clearTimeout(infoTimeout);
+                                infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000);
+                            }
                             break;
                     }
                 }
