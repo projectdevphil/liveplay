@@ -21,7 +21,7 @@ export default function handler(req, res) {
         //},
         {
             title: "Merry Christmas and<br>Happy New Year,<br>Everyone!",
-            description: "To celebrate the season,<br><strong>liveplay</strong> is offering ad-free access<br>from<strong> December 20, 2025</strong>,to<strong> January 08, 2026</strong>.",
+            description: "To celebrate the season,<br><strong>liveplay</strong> is offering ad-free access<br>from<strong> December 20, 2025</strong>, to <strong>January 08, 2026</strong>.",
             image: "/assets/poster/christmas_poster.png",
             badge: "Free Access • Special",
             link: null,
