@@ -282,9 +282,9 @@ header nav {
 }
 
 .slide-content {
-    bottom: 20px;
+    bottom: 15px;
     color: white;
-    left: 20px;
+    left: 15px;
     position: absolute;
     z-index: 2;
     opacity: 0;
@@ -323,11 +323,11 @@ header nav {
 }
 
 .slider-nav {
-    bottom: 20px;
+    bottom: 15px;
     display: flex;
     gap: 5px;
     position: absolute;
-    right: 20px;
+    right: 15px;
     z-index: 10;
     padding: 5px;
     border: var(--glass-border);
