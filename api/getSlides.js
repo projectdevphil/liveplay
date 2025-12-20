@@ -20,7 +20,7 @@ export default function handler(req, res) {
             //link: "https://liveplay.vercel.app/home",
         //},
         {
-            title: "Merry Christmas",
+            title: "Merry Christmas,<br>Everyone!",
             description: "<strong>liveplay</strong> is offering ad-free access <br>from<strong> December 20, 2025</strong>,<br>to<strong> January 08, 2026</strong>.",
             image: "/assets/poster/christmas_poster.png",
             badge: "Free Access • Special",
