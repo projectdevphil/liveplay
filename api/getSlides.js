@@ -20,6 +20,13 @@ export default function handler(req, res) {
             //link: "https://liveplay.vercel.app/home",
         //},
         {
+            title: "Merry Christmas",
+            description: "<strong>liveplay</strong> is offering ad-free access <br>from<strong> December 20, 2025</strong>,<br>to<strong> January 08, 2026</strong>.",
+            image: "/assets/poster/christmas_poster.png",
+            badge: "Free Access • Special",
+            link: null,
+        },        
+        {
             title: "SEA Games:<br>Thailand 2025",
             ph_description: "<strong>Catch-Up TV</strong>: TV5, RPTV, and One Sports<br><strong>Livestream</strong>: Pilipinas Live Channels and<br>Mediacorp SEA Games Channels",
             image: "/assets/poster/seagames_thailand_2025_poster_v2.png",
