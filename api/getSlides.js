@@ -51,8 +51,8 @@ export default function handler(req, res) {
             link: null
         },
         {
-            title: "PBB Celebrity Collab<br>Edition 2.0",
-            ph_description: "<strong>MON-FRI | 9:40PM<br>SAT | 6:15PM<br>SUN | 10:05PM</strong><br>GMA7 and PBB Catch-Up Episode",
+            title: "PBB Celebrity<br>CollabEdition 2.0",
+            ph_description: "<strong>MON-FRI | 9:40PM<br>SAT-SUN | 6:15PM</strong><br>GMA7 and PBB Catch-Up Episode",
             nonph_description: "<strong>MON-FRI | 9:40PM PHT<br>SAT | 6:15PM PHT<br>SUN | 10:05PM PHT</strong><br>PBB Catch-Up Episode",
             image: "https://pql-static.abs-cbn.com/images/pbbcelebritycollab.herobg-tv.V4.JPG?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Reality",
