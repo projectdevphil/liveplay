@@ -81,6 +81,13 @@ export default function handler(req, res) {
             badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv",
             access: "Non-PH"
+        },
+        {
+            title: "Premier League",
+            description: "",
+            image: "https://www.peacocktv.com/dam/growth/assets/sportslandingpages/premier-league/23-24/week24/PREMIERLEAGUE.jpg",
+            badge: "Watch Now • Sports",
+            link: "/home?channel=premier-league",
         }
     ];
 
