@@ -711,6 +711,15 @@ header nav {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    gap: 15px;
+}
+
+.player-info-left {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    min-width: 0; 
+    overflow: hidden;
 }
 
 .player-info-left h3 {
@@ -719,6 +728,8 @@ header nav {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 100%;
+    display: block;
 }
 
 .player-info-left p {
@@ -770,9 +781,9 @@ header nav {
     align-items: center;
     display: flex;
     gap: 12px;
+    flex: 1;
+    min-width: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .minimized-logo {
@@ -787,6 +798,15 @@ header nav {
     display: block;
 }
 
+.minimized-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    flex: 1;
+}
+
 .minimized-info h4 {
     font-size: 0.85rem;
     font-weight: 700;
@@ -795,6 +815,8 @@ header nav {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 100%;
+    display: block;
 }
 
 .minimized-info p {
