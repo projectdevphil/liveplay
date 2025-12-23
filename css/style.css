@@ -419,9 +419,7 @@ header nav {
     display: flex;
     gap: 23px;
     overflow-x: auto;
-    padding-top: 10px; 
-    padding-bottom: 10px;
-    padding-left: 10px;
+    padding: 10px 0;
     -ms-overflow-style: none;
     scrollbar-width: none;
     align-items: center; 
@@ -536,8 +534,8 @@ header nav {
 .section-header {
     font-size: 1rem;
     font-weight: 700;
-    margin: 10px 0 0 0;
-    padding: 0 20px;
+    margin: 10px 0 0;
+    padding: 0px;
 }
 
 .channel-listings {
@@ -596,7 +594,6 @@ header nav {
 .channel-name {
     font-size: 0.85rem;
     font-weight: 500;
-    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -605,6 +602,7 @@ header nav {
 .channel-info-right {
     color: var(--text-secondary);
     font-size: 0.85rem;
+    padding-left: 20px;
 }
 
 .channel-info-right .material-symbols-rounded {
