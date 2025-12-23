@@ -55,7 +55,7 @@
         }
 
         video::-webkit-media-text-track-display { text-align: center; }
-        video::-webkit-media-text-track-container { bottom: 35px; }
+        video::-webkit-media-text-track-container { bottom: 20px; }
 
         .glass-panel {
             background: var(--glass-heavy);
@@ -824,8 +824,8 @@
             }
 
             function updateCaptionCSS() {
-                let size = '2.5rem';
-                if (currentCaptionSize === 'Small') size = '1.75rem';
+                let size = '2rem';
+                if (currentCaptionSize === 'Small') size = '1rem';
                 if (currentCaptionSize === 'Large') size = '3rem';
 
                 let bg = 'rgba(0, 0, 0, 0.75)';
