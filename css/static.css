@@ -633,7 +633,7 @@ a, img, button,
 }
 
 #speedValue {
-    font-family: 'BR Sonoma', sans-serif;
+    font-family: 'Onest', sans-serif;
     font-size: 4.5rem;
     font-weight: 500;
     line-height: 1;
@@ -715,7 +715,7 @@ a, img, button,
 .start-btn {
     background-color: #fff;
     color: #000;
-    font-family: 'BR Sonoma', sans-serif;
+    font-family: 'Onest', sans-serif;
     font-size: 0.95rem;
     font-weight: 700;
     padding: 16px 0;
