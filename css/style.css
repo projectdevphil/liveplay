@@ -462,9 +462,8 @@ header nav {
     background: linear-gradient(to right, #ffffff 0%, #000000 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
     -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 2px transparent; 
+    -webkit-text-stroke: 2px transparent;
 }
 
 .top-watch-logo-container {
