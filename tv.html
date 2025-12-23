@@ -55,7 +55,7 @@
         }
 
         video::-webkit-media-text-track-display { text-align: center; }
-        video::-webkit-media-text-track-container { bottom: 20px; }
+        video::-webkit-media-text-track-container { padding-bottom: 40px; }
 
         .glass-panel {
             background: var(--glass-heavy);
@@ -824,9 +824,9 @@
             }
 
             function updateCaptionCSS() {
-                let size = '2rem';
-                if (currentCaptionSize === 'Small') size = '1rem';
-                if (currentCaptionSize === 'Large') size = '3rem';
+                let size = '32px';
+                if (currentCaptionSize === 'Small') size = '16px';
+                if (currentCaptionSize === 'Large') size = '48rem';
 
                 let bg = 'rgba(0, 0, 0, 0.75)';
                 let color = 'white';
