@@ -450,8 +450,8 @@ header nav {
 .top-rank-number {
     display: block;
     height: 60px;
-    width: auto;
-    margin-right: -30px;
+    width: 65px;
+    margin-right: -28px;
     margin-bottom: 0;
     z-index: 1;
     position: relative;
