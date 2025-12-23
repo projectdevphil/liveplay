@@ -15,6 +15,8 @@
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/shaka-player.ui.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/controls.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <style id="dynamic-caption-style"></style>
+
     <style>
         :root {
             --focus-bg: #ffffff;
@@ -48,23 +50,13 @@
 
         video::cue {
             font-family: 'Onest', sans-serif;
-            background-color: rgba(0, 0, 0, 0.75);
-            color: white;
-            text-shadow: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            line-height: 1.4;
             text-align: center; 
+            line-height: 1.4;
         }
 
-        video::-webkit-media-text-track-display {
-            text-align: center;
-        }
+        video::-webkit-media-text-track-display { text-align: center; }
+        video::-webkit-media-text-track-container { bottom: 50px; }
 
-        video::-webkit-media-text-track-container {
-            bottom: 50px;
-        }
-        
         .glass-panel {
             background: var(--glass-heavy);
             border: 1px solid var(--border-color);
@@ -505,6 +497,16 @@
                 <div class="settings-title">Captions</div>
                 <div class="list-group-container" id="caption-list"></div>
             </div>
+            
+            <div id="caption-size-wrapper" style="display:none;">
+                <div class="settings-title">Caption Size</div>
+                <div class="list-group-container" id="caption-size-list"></div>
+            </div>
+
+            <div id="caption-style-wrapper" style="display:none;">
+                <div class="settings-title">Caption Style</div>
+                <div class="list-group-container" id="caption-style-list"></div>
+            </div>
 
             <div class="settings-title">Playback Speed</div>
             <div class="list-group-container" id="speed-list"></div>
@@ -543,6 +545,8 @@
             let player = null;
             let infoTimeout = null;
             let slideInterval = null;
+            let currentCaptionSize = 'Medium';
+            let currentCaptionStyle = 'Default';
 
             const els = {
                 video: document.getElementById('video'),
@@ -561,9 +565,14 @@
                 qualityList: document.getElementById('quality-list'),
                 audioList: document.getElementById('audio-list'),
                 captionList: document.getElementById('caption-list'),
+                captionSizeList: document.getElementById('caption-size-list'),
+                captionStyleList: document.getElementById('caption-style-list'),
                 speedList: document.getElementById('speed-list'),
                 audioWrapper: document.getElementById('audio-group-wrapper'),
-                captionWrapper: document.getElementById('caption-group-wrapper')
+                captionWrapper: document.getElementById('caption-group-wrapper'),
+                captionSizeWrapper: document.getElementById('caption-size-wrapper'),
+                captionStyleWrapper: document.getElementById('caption-style-wrapper'),
+                dynamicStyle: document.getElementById('dynamic-caption-style')
             };
 
             function updateTime() {
@@ -574,6 +583,8 @@
             }
             setInterval(updateTime, 1000);
             updateTime();
+            
+            updateCaptionCSS();
 
             const createSlug = (name) => {
                 if (!name) return '';
@@ -812,6 +823,38 @@
                 return div;
             }
 
+            function updateCaptionCSS() {
+                let size = '1.75rem';
+                if (currentCaptionSize === 'Small') size = '1rem';
+                if (currentCaptionSize === 'Large') size = '2.5rem';
+
+                let bg = 'rgba(0, 0, 0, 0.75)';
+                let color = 'white';
+                let shadow = 'none';
+
+                if (currentCaptionStyle === 'Shadow') {
+                    bg = 'transparent';
+                    color = 'white';
+                    shadow = '2px 2px 2px black';
+                } else if (currentCaptionStyle === 'Yellow') {
+                    bg = 'yellow';
+                    color = 'black';
+                    shadow = 'none';
+                }
+
+                const css = `
+                    video::cue {
+                        font-size: ${size} !important;
+                        background-color: ${bg} !important;
+                        color: ${color} !important;
+                        text-shadow: ${shadow} !important;
+                        font-family: 'Onest', sans-serif !important;
+                        text-align: center !important;
+                    }
+                `;
+                els.dynamicStyle.textContent = css;
+            }
+
             function renderSettings() {
                 const tracks = player.getVariantTracks();
                 const config = player.getConfiguration();
@@ -866,6 +909,13 @@
 
                 const subs = player.getTextTracks().filter(t => t.kind === 'subtitle' || t.kind === 'caption');
                 els.captionList.innerHTML = '';
+                els.captionSizeList.innerHTML = '';
+                els.captionStyleList.innerHTML = '';
+                
+                els.captionWrapper.style.display = 'none';
+                els.captionSizeWrapper.style.display = 'none';
+                els.captionStyleWrapper.style.display = 'none';
+
                 if(subs.length > 0) {
                     els.captionWrapper.style.display = 'block';
                     const isSubsOn = player.isTextTrackVisible();
@@ -873,8 +923,9 @@
 
                     els.captionList.appendChild(createSettingBtn('subtitles_off', 'Off', !isSubsOn, () => {
                         player.setTextTrackVisibility(false);
-                        toggleSettings(false);
+                        renderSettings(); 
                     }));
+                    
                     subs.forEach(t => {
                         const label = t.label || t.language || 'Unknown';
                         const isSelected = isSubsOn && activeSubs && (activeSubs.id === t.id);
@@ -882,11 +933,36 @@
                         els.captionList.appendChild(createSettingBtn('subtitles', label, isSelected, () => {
                             player.selectTextTrack(t);
                             player.setTextTrackVisibility(true);
-                            toggleSettings(false);
+                            renderSettings();
                         }));
                     });
-                } else {
-                    els.captionWrapper.style.display = 'none';
+
+                    if(isSubsOn) {
+                        els.captionSizeWrapper.style.display = 'block';
+                        els.captionStyleWrapper.style.display = 'block';
+
+                        ['Small', 'Medium', 'Large'].forEach(size => {
+                            els.captionSizeList.appendChild(createSettingBtn('format_size', size, currentCaptionSize === size, () => {
+                                currentCaptionSize = size;
+                                updateCaptionCSS();
+                                renderSettings();
+                            }));
+                        });
+
+                        const styleOpts = [
+                            { id: 'Default', label: 'Default' },
+                            { id: 'Shadow', label: 'Shadow' },
+                            { id: 'Yellow', label: 'Yellow' }
+                        ];
+                        
+                        styleOpts.forEach(s => {
+                            els.captionStyleList.appendChild(createSettingBtn('style', s.label, currentCaptionStyle === s.id, () => {
+                                currentCaptionStyle = s.id;
+                                updateCaptionCSS();
+                                renderSettings();
+                            }));
+                        });
+                    }
                 }
 
                 els.speedList.innerHTML = '';
