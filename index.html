@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Liveplay by Project Dev</title>
+    <script>
+        (function() {
+            var ua = navigator.userAgent.toLowerCase();
+            var path = window.location.pathname;
+            var tvKeywords = [
+                "smart-tv", "smarttv", "appletv", "googletv", "hbbtv", 
+                "netcast", "webos", "tizen", "viera", "bravia", 
+                "roku", "firetv", "android tv", "xbox", "playstation", 
+                "nintendo", "crkey", "dtv"
+            ];
+
+            var isTV = tvKeywords.some(function(keyword) {
+                return ua.indexOf(keyword) !== -1;
+            });
+
+            if (isTV) {
+                if (path !== "/tv" && path !== "/tv/") {
+                    window.location.replace("/tv");
+                }
+            } else {
+                if (path !== "/home" && path !== "/home/") {
+                    window.location.replace("/home");
+                }
+            }
+        })();
+    </script>
     <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
