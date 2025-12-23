@@ -218,6 +218,7 @@
             display: flex;
             align-items: center; 
             justify-content: center;
+            gap: 12px;
             flex-shrink: 0;
             cursor: pointer;
             position: relative;
@@ -231,23 +232,13 @@
         }
 
          .top-rank-number {
-            font-family: 'Helvetica 93 Black Extended', sans-serif;
-            font-size: 3.95rem; 
-            font-weight: 900;
-            font-style: normal;
-            letter-spacing: -2.5px;
-            line-height: 0.8; 
-            margin-right: -16px;
-            margin-bottom: 5px;
+            display: block;
+            height: 60px;
+            width: 65px;
+            margin: 0;
             z-index: 1;
             position: relative;
-            transform: translateY(8px); 
-            background: linear-gradient(180deg, #ffffff 15%, #6e6e6e 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent; 
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            object-fit: contain;
             pointer-events: none;
         }
 
@@ -728,12 +719,14 @@
                         const item = document.createElement('div');
                         item.className = 'top-watch-item focusable is-top-item';
                         item.dataset.channelIndex = originalIndex > -1 ? originalIndex : 0;
+                        
                         item.innerHTML = `
-                            <span class="top-rank-number">${i + 1}</span>
+                            <img src="/assets/ranks/${i + 1}.svg" class="top-rank-number" alt="${i+1}">
                             <div class="top-watch-logo-container">
                                 <img src="${channelData.logo || '/assets/favicon.svg'}" class="top-watch-logo">
                             </div>
                         `;
+                        
                         item.onclick = () => {
                              if(originalIndex > -1) {
                                  playChannel(originalIndex);
