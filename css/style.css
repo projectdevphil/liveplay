@@ -433,6 +433,10 @@ header nav {
     display: none;
 }
 
+--- START OF FILE style.css ---
+
+/* ... existing styles ... */
+
 .top-watch-item {
     display: flex;
     align-items: center; 
@@ -448,24 +452,17 @@ header nav {
 }
 
 .top-rank-number {
-    font-family: 'Helvetica 93 Black Extended', sans-serif;
-    font-size: 4.5rem; 
-    font-weight: 900;
-    font-style: normal;
-    letter-spacing: -2.5px;
-    line-height: 0.8; 
-    margin-right: -20px;
+    display: block;
+    height: 70px;
+    width: auto;
+    margin-right: -25px;
     margin-bottom: 0;
     z-index: 1;
     position: relative;
     transform: translateY(4px);
-    background: linear-gradient(180deg, #ffffff 15%, #6e6e6e 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent; 
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    object-fit: contain;
     filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.8));
+    pointer-events: none;
 }
 
 .top-watch-logo-container {
