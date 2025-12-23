@@ -451,7 +451,7 @@ header nav {
     display: block;
     height: 60px;
     width: 65px;
-    margin-right: -26px;
+    margin-right: -25px;
     margin-bottom: 0;
     z-index: 1;
     position: relative;
@@ -516,7 +516,7 @@ header nav {
     height: 60px;
     background-color: #2a2a2a;
     border-radius: 8px;
-    margin-right: -30px; 
+    margin-right: -27px; 
     transform: translateY(4px);
     z-index: 1;
     animation: skeleton-pulse 1.5s infinite ease-in-out;
