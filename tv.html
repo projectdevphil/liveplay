@@ -46,6 +46,25 @@
         
         video { width: 100%; height: 100%; object-fit: fill; }
 
+        video::cue {
+            font-family: 'Onest', sans-serif;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: white;
+            text-shadow: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            text-align: center; 
+        }
+
+        video::-webkit-media-text-track-display {
+            text-align: center;
+        }
+
+        video::-webkit-media-text-track-container {
+            bottom: 50px;
+        }
+        
         .glass-panel {
             background: var(--glass-heavy);
             border: 1px solid var(--border-color);
@@ -176,7 +195,7 @@
         .material-symbols-rounded .item-icon {
             font-size: 28px;
         }
-        
+
         .selected-check {
             color: var(--theme-color);
             font-size: 20px;
@@ -781,7 +800,7 @@
                 const div = document.createElement('div');
                 div.className = 'list-item focusable';
                 const checkHtml = isSelected ? '<span class="material-symbols-rounded selected-check">check</span>' : '';
-                
+
                 div.innerHTML = `
                     <div class="list-item-left">
                         <span class="material-symbols-rounded item-icon">${icon}</span>
@@ -799,7 +818,7 @@
                 const isAuto = config.abr.enabled;
                 const activeTrack = tracks.find(t => t.active);
                 const currentHeight = activeTrack ? activeTrack.height : 0;
-
+                
                 const qList = els.qualityList;
                 qList.innerHTML = '';
                 
@@ -822,16 +841,13 @@
 
                 const audios = player.getAudioLanguagesAndRoles();
                 els.audioList.innerHTML = '';
-                
                 if(audios.length > 0) {
                     els.audioWrapper.style.display = 'block';
-                    
                     const currentLang = activeTrack ? activeTrack.language : '';
                     const currentRoles = activeTrack ? (activeTrack.roles || []) : [];
 
                     audios.forEach(a => {
                         const label = (a.language + (a.role ? ` (${a.role})` : '')).toUpperCase();
-                        
                         let isSelected = (a.language === currentLang);
                         if (a.role) {
                              isSelected = isSelected && currentRoles.includes(a.role);
@@ -850,17 +866,15 @@
 
                 const subs = player.getTextTracks().filter(t => t.kind === 'subtitle' || t.kind === 'caption');
                 els.captionList.innerHTML = '';
-                
                 if(subs.length > 0) {
                     els.captionWrapper.style.display = 'block';
                     const isSubsOn = player.isTextTrackVisible();
                     const activeSubs = player.getTextTracks().find(t => t.active);
-                    
+
                     els.captionList.appendChild(createSettingBtn('subtitles_off', 'Off', !isSubsOn, () => {
                         player.setTextTrackVisibility(false);
                         toggleSettings(false);
                     }));
-                    
                     subs.forEach(t => {
                         const label = t.label || t.language || 'Unknown';
                         const isSelected = isSubsOn && activeSubs && (activeSubs.id === t.id);
