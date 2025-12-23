@@ -176,6 +176,12 @@
         .material-symbols-rounded .item-icon {
             font-size: 28px;
         }
+        
+        .selected-check {
+            color: var(--theme-color);
+            font-size: 20px;
+            font-weight: 800;
+        }
 
         .focusable.focused {
             background: var(--focus-bg);
@@ -184,6 +190,7 @@
         }
         .focusable.focused .item-icon { color: var(--focus-text); }
         .focusable.focused .channel-sensor { color: var(--focus-text); opacity: 1; }
+        .focusable.focused .selected-check { color: var(--focus-text); }
         
         .top-watch-section {
             padding: 0;
@@ -770,14 +777,17 @@
                 return 'sd';
             }
 
-            function createSettingBtn(icon, text, onClick) {
+            function createSettingBtn(icon, text, isSelected, onClick) {
                 const div = document.createElement('div');
                 div.className = 'list-item focusable';
+                const checkHtml = isSelected ? '<span class="material-symbols-rounded selected-check">check</span>' : '';
+                
                 div.innerHTML = `
                     <div class="list-item-left">
                         <span class="material-symbols-rounded item-icon">${icon}</span>
                         <span>${text}</span>
                     </div>
+                    ${checkHtml}
                 `;
                 if(onClick) div.onclick = onClick;
                 return div;
@@ -785,10 +795,15 @@
 
             function renderSettings() {
                 const tracks = player.getVariantTracks();
+                const config = player.getConfiguration();
+                const isAuto = config.abr.enabled;
+                const activeTrack = tracks.find(t => t.active);
+                const currentHeight = activeTrack ? activeTrack.height : 0;
+
                 const qList = els.qualityList;
                 qList.innerHTML = '';
                 
-                qList.appendChild(createSettingBtn('hdr_auto', 'Auto', () => {
+                qList.appendChild(createSettingBtn('hdr_auto', 'Auto', isAuto, () => {
                     player.configure({ abr: { enabled: true } });
                     toggleSettings(false);
                 }));
@@ -796,7 +811,8 @@
                 const unique = [...new Set(tracks.map(t => t.height))].sort((a,b) => b-a);
                 unique.forEach(h => {
                     if(!h) return;
-                    qList.appendChild(createSettingBtn(getResIcon(h), `${h}p`, () => {
+                    const isSelected = !isAuto && h === currentHeight;
+                    qList.appendChild(createSettingBtn(getResIcon(h), `${h}p`, isSelected, () => {
                         player.configure({ abr: { enabled: false } });
                         const target = tracks.find(t => t.height === h);
                         player.selectVariantTrack(target, true);
@@ -806,11 +822,24 @@
 
                 const audios = player.getAudioLanguagesAndRoles();
                 els.audioList.innerHTML = '';
+                
                 if(audios.length > 0) {
                     els.audioWrapper.style.display = 'block';
+                    
+                    const currentLang = activeTrack ? activeTrack.language : '';
+                    const currentRoles = activeTrack ? (activeTrack.roles || []) : [];
+
                     audios.forEach(a => {
                         const label = (a.language + (a.role ? ` (${a.role})` : '')).toUpperCase();
-                        els.audioList.appendChild(createSettingBtn('audiotrack', label, () => {
+                        
+                        let isSelected = (a.language === currentLang);
+                        if (a.role) {
+                             isSelected = isSelected && currentRoles.includes(a.role);
+                        } else if (currentRoles.length > 0 && isSelected) {
+                             isSelected = isSelected; 
+                        }
+
+                        els.audioList.appendChild(createSettingBtn('audiotrack', label, isSelected, () => {
                             player.selectAudioLanguage(a.language, a.role);
                             toggleSettings(false);
                         }));
@@ -821,15 +850,22 @@
 
                 const subs = player.getTextTracks().filter(t => t.kind === 'subtitle' || t.kind === 'caption');
                 els.captionList.innerHTML = '';
+                
                 if(subs.length > 0) {
                     els.captionWrapper.style.display = 'block';
-                    els.captionList.appendChild(createSettingBtn('subtitles_off', 'Off', () => {
+                    const isSubsOn = player.isTextTrackVisible();
+                    const activeSubs = player.getTextTracks().find(t => t.active);
+                    
+                    els.captionList.appendChild(createSettingBtn('subtitles_off', 'Off', !isSubsOn, () => {
                         player.setTextTrackVisibility(false);
                         toggleSettings(false);
                     }));
+                    
                     subs.forEach(t => {
                         const label = t.label || t.language || 'Unknown';
-                        els.captionList.appendChild(createSettingBtn('subtitles', label, () => {
+                        const isSelected = isSubsOn && activeSubs && (activeSubs.id === t.id);
+
+                        els.captionList.appendChild(createSettingBtn('subtitles', label, isSelected, () => {
                             player.selectTextTrack(t);
                             player.setTextTrackVisibility(true);
                             toggleSettings(false);
@@ -840,8 +876,10 @@
                 }
 
                 els.speedList.innerHTML = '';
+                const currentRate = els.video.playbackRate;
                 [0.5, 1, 1.25, 1.5, 2].forEach(rate => {
-                    els.speedList.appendChild(createSettingBtn('speed', `${rate}x`, () => {
+                    const isSelected = Math.abs(currentRate - rate) < 0.1;
+                    els.speedList.appendChild(createSettingBtn('speed', `${rate}x`, isSelected, () => {
                         els.video.playbackRate = rate;
                         toggleSettings(false);
                     }));
