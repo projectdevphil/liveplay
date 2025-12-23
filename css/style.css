@@ -433,10 +433,6 @@ header nav {
     display: none;
 }
 
---- START OF FILE style.css ---
-
-/* ... existing styles ... */
-
 .top-watch-item {
     display: flex;
     align-items: center; 
