@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const CHANNELS_PER_PAGE = 40;
     const BASE_URL_PATH = '/home';
-    const POSTER_MOBILE = '/assets/poster/mobile_v2.png';
-    const POSTER_DESKTOP = '/assets/poster/desktop_v2.png';
+    const POSTER_MOBILE = '/assets/poster/mobile_v3.png';
+    const POSTER_DESKTOP = '/assets/poster/desktop_v3.png';
 
     const header = document.querySelector("header");
     const menuBtn = document.getElementById("menu-btn");
