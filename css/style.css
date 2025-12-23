@@ -1,5 +1,5 @@
 @import url('/assets/fonts/helvetica.css');
-@import url('/assets/fonts/br-sonoma.css');
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
 
 :root {
     --background-color: #000000;
