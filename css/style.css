@@ -459,11 +459,9 @@ header nav {
     z-index: 1;
     position: relative;
     transform: translateY(4px); 
-    background: linear-gradient(to right, #ffffff 0%, #000000 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 2px transparent;
+    border: 3px solid;
+    border-image: linear-gradient(to right, #ffffff 0%, #000000 100%) 1;
+    background: transparent;
 }
 
 .top-watch-logo-container {
