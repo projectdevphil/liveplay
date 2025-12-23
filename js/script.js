@@ -370,6 +370,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+--- START OF FILE script.js ---
+
+// ... existing code ...
+
     async function renderTopWatch() {
         if (!topWatchSection || !topWatchList) return;
 
@@ -407,7 +411,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const logo = channel.logo || '/assets/favicon.svg';
                     
                     item.innerHTML = `
-                        <div class="top-rank-number">${rankCounter}</div>
+                        <img src="/assets/ranks/${rankCounter}.svg" class="top-rank-number" alt="Rank ${rankCounter}">
                         <div class="top-watch-logo-container">
                             <img src="${logo}" class="top-watch-logo" alt="${channel.name}">
                         </div>
