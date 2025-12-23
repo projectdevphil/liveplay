@@ -417,7 +417,7 @@ header nav {
 
 .top-watch-list {
     display: flex;
-    gap: 23px;
+    gap: 20px;
     overflow-x: auto;
     padding: 10px 0;
     -ms-overflow-style: none;
@@ -492,7 +492,7 @@ header nav {
 
 .top-watch-skeleton-container {
     display: flex;
-    gap: 27px;
+    gap: 24px;
     overflow-x: hidden;
     margin-bottom: 10px;
     padding-top: 10px; 
