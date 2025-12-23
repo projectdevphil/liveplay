@@ -370,10 +370,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
---- START OF FILE script.js ---
-
-// ... existing code ...
-
     async function renderTopWatch() {
         if (!topWatchSection || !topWatchList) return;
 
