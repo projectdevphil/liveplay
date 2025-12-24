@@ -705,6 +705,20 @@ header nav {
     color: var(--theme-color) !important;
 }
 
+.shaka-text-container span {
+    font-family: 'Onest', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+video::cue {
+    font-family: 'Onest', sans-serif !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.shaka-text-region {
+    font-family: 'Onest', sans-serif !important;
+}
+
 .player-info {
     align-items: center;
     display: flex;
