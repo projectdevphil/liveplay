@@ -12,6 +12,7 @@
     <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;800&display=swap">
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/shaka-player.ui.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/shaka-player@4.16.12/dist/controls.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
@@ -53,11 +54,10 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Auth Overlay */
         #auth-overlay {
             position: fixed; inset: 0; 
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
             z-index: 100;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
@@ -69,29 +69,55 @@
         
         .auth-card {
             background: #111;
-            border: 1px solid var(--border-color);
-            padding: 50px;
-            border-radius: 25px;
-            max-width: 600px;
+            border: 1px solid #333;
+            padding: 60px 80px;
+            border-radius: 30px;
+            max-width: 700px;
             width: 80%;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        }
-        .auth-logo { height: 40px; margin-bottom: 30px; }
-        .auth-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
-        .auth-desc { color: #aaa; font-size: 1rem; margin-bottom: 30px; line-height: 1.5; }
-        .auth-code-display {
-            font-size: 4rem; font-weight: 800; letter-spacing: 10px;
-            color: var(--theme-color); margin: 20px 0;
-            font-variant-numeric: tabular-nums;
-        }
-        .auth-url {
-            background: rgba(255,255,255,0.1);
-            padding: 10px 20px; border-radius: 10px;
-            color: #fff; font-family: monospace; font-size: 1.2rem;
-            margin-top: 20px; display: inline-block;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* UI Containers */
+        .auth-icon-circle {
+            width: 80px; height: 80px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .auth-icon-circle .material-symbols-rounded {
+            font-size: 36px; color: white;
+        }
+
+        .auth-title { 
+            font-size: 1.8rem; font-weight: 800; margin: 0 0 15px 0; color: #fff; 
+        }
+        .auth-desc { 
+            color: #aaa; font-size: 1.1rem; margin-bottom: 40px; line-height: 1.6; max-width: 90%;
+        }
+        .highlight-url {
+            color: var(--theme-color); font-weight: 700; text-decoration: underline;
+        }
+
+        .auth-code-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .auth-digit-box {
+            width: 70px; height: 90px;
+            background: #222;
+            border: 2px solid #444;
+            border-radius: 12px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 3rem; font-weight: 800;
+            color: white;
+            font-family: 'Onest', sans-serif;
+        }
+
         .glass-panel {
             background: var(--glass-heavy);
             border: 1px solid var(--border-color);
@@ -122,14 +148,12 @@
         }
         .channel-info-bar.visible { transform: translate3d(0, 0, 0); opacity: 1; }
 
-        /* Virtual Remote */
         .virtual-remote-container {
             position: fixed; bottom: 40px; right: 40px; z-index: 500;
             opacity: 0.3; transition: opacity 0.3s;
         }
         .virtual-remote-container:hover { opacity: 1; }
 
-        /* Other Styles */
         video::cue { font-family: 'Onest', sans-serif; text-align: center; line-height: 1.4; }
         video::-webkit-media-text-track-display { text-align: center; }
         video::-webkit-media-text-track-container { margin-bottom: 55px; }
@@ -183,14 +207,6 @@
         .dot.active::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; background-color: var(--theme-color); border-radius: 20px; width: 0%; animation: dotProgress 5000ms linear forwards; }
         @keyframes dotProgress { from { width: 0%; } to { width: 100%; } }        
 
-        .info-content { display: flex; align-items: center; gap: 20px; }
-        #info-logo { height: 70px; width: 70px; object-fit: contain; background-color: var(--card-background); border-radius: 12px; padding: 8px; border: 1px solid var(--border-color); }
-        .text-details h1 { font-size: 2.2rem; margin: 0 0 5px 0; font-weight: 800; }
-        .meta-row { display: flex; align-items: center; gap: 10px; font-size: 1rem; color: #ccc; }
-        .live-tag { background: #ffffff; color: #000000; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 4px; }
-        .channel-sensor { color: #fff ; opacity: 0.7; font-size: 22px; }
-        .channel-sensor.offline { color: #ff3b30; }
-
         .d-pad { position: relative; width: 140px; height: 140px; background: rgba(30, 30, 30, 0.6); border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); }
         .d-btn { position: absolute; width: 45px; height: 45px; border-radius: 50%; background: transparent; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; outline: none; }
         .d-btn:active { background: rgba(255,255,255,0.2); }
@@ -213,11 +229,25 @@
 
     <div id="auth-overlay">
         <div class="auth-card">
-            <img src="/assets/liveplay_logo_(white)_v2.svg" alt="Liveplay" class="auth-logo">
+            <div class="auth-icon-circle">
+                <span class="material-symbols-rounded">lock</span>
+            </div>
+            
             <h2 class="auth-title">Authentication Required</h2>
-            <p class="auth-desc">To access this channel, please enter the code displayed below on your Mobile or Desktop.</p>
-            <div id="auth-code-display" class="auth-code-display">Loading...</div>
-            <div class="auth-url">liveplay.vercel.app/access-token</div>
+            
+            <p class="auth-desc">
+                To watch this channel you need to input/paste the token, first just visit this site 
+                <span class="highlight-url">liveplay.vercel.app/home/access-token</span> 
+                then enter the 5 digit code on your mobile or desktop, then input/paste the token.
+            </p>
+
+            <div id="auth-code-container" class="auth-code-container">
+                <div class="auth-digit-box">-</div>
+                <div class="auth-digit-box">-</div>
+                <div class="auth-digit-box">-</div>
+                <div class="auth-digit-box">-</div>
+                <div class="auth-digit-box">-</div>
+            </div>
         </div>
     </div>
 
@@ -305,7 +335,7 @@
 
             let allChannels = [];
             let currentChannelIndex = 0;
-            let currentScope = 'player'; // 'player', 'guide', 'settings', 'auth'
+            let currentScope = 'player';
             let focusIndex = 0;
             let focusList = [];
             let player = null;
@@ -321,7 +351,7 @@
                 guide: document.getElementById('guide-overlay'),
                 settings: document.getElementById('settings-overlay'),
                 auth: document.getElementById('auth-overlay'),
-                authCode: document.getElementById('auth-code-display'),
+                authContainer: document.getElementById('auth-code-container'),
                 info: document.getElementById('channel-info-bar'),
                 slider: document.getElementById('tv-slider'),
                 topSection: document.getElementById('top-watch-section'),
@@ -390,14 +420,22 @@
                 els.loader.classList.add('hidden');
                 els.auth.classList.add('active');
                 currentScope = 'auth';
-                els.authCode.textContent = "Loading...";
+                
+                els.authContainer.innerHTML = '';
+                for(let i=0; i<5; i++) {
+                    els.authContainer.innerHTML += `<div class="auth-digit-box">.</div>`;
+                }
 
                 try {
                     const res = await fetch(API_AUTH_GENERATE);
                     const data = await res.json();
                     if(data.code) {
-                        const code = data.code;
-                        els.authCode.textContent = code;
+                        const code = data.code.toString();
+                        els.authContainer.innerHTML = '';
+                        for(let char of code) {
+                            els.authContainer.innerHTML += `<div class="auth-digit-box">${char}</div>`;
+                        }
+
                         if(authPollInterval) clearInterval(authPollInterval);
                         authPollInterval = setInterval(async () => {
                             try {
@@ -413,8 +451,12 @@
                                 }
                             } catch(err) { console.error("Polling error", err); }
                         }, 3000);
-                    } else els.authCode.textContent = "Error";
-                } catch(e) { els.authCode.textContent = "Net Error"; }
+                    } else {
+                        els.authContainer.innerHTML = `<div style="color:red; font-size:1rem;">Error</div>`;
+                    }
+                } catch(e) { 
+                    els.authContainer.innerHTML = `<div style="color:red; font-size:1rem;">Net Error</div>`; 
+                }
             }
 
             async function loadStream(uri, clearKeys = null) {
@@ -436,7 +478,6 @@
             async function playChannel(idx) {
                 if(idx < 0 || idx >= allChannels.length) return;
                 
-                // Reset auth state
                 if(authPollInterval) clearInterval(authPollInterval);
                 els.auth.classList.remove('active');
                 if(currentScope === 'auth') currentScope = 'player';
@@ -478,8 +519,8 @@
                 } catch(e) { console.error(e); els.name.textContent = "Stream Offline"; els.loader.classList.add('hidden'); }
             }
 
-            function renderGuide(channels, slides, topData) {
-                // ... (Slides rendering kept same)
+             function renderGuide(channels, slides, topData) {
+                // (Slides rendering kept same)
                  els.slider.innerHTML = '';
                 if(slides && slides.length) {
                     const dotsCont = document.createElement('div');
@@ -581,12 +622,10 @@
                     currentScope = 'guide'; 
                     focusList = Array.from(els.guide.querySelectorAll('.focusable'));
                     
-                    // Logic to default focus to All Channels (is-list-item) first, unless specifically navigating
                     const currentItem = els.channelList.querySelector(`.is-list-item[data-index="${currentChannelIndex}"]`);
                     if (currentItem) {
                         focusIndex = focusList.indexOf(currentItem);
                     } else {
-                        // Default to first item in "All Channels" list, skipping Top section
                         const firstListItemIndex = focusList.findIndex(el => el.classList.contains('is-list-item'));
                         focusIndex = firstListItemIndex > -1 ? firstListItemIndex : 0;
                     }
@@ -608,24 +647,30 @@
                     const el = focusList[focusIndex];
                     el.classList.add('focused');
                     if(currentScope === 'guide') {
-                        if(el.classList.contains('is-top-item')) els.topList.scrollTo({ left: el.offsetLeft + (el.offsetWidth/2) - (els.topList.offsetWidth/2), behavior: 'smooth'});
-                        else el.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        const guideScroll = els.guide.querySelector('.scrollable-content');
+                        
+                        if(el.classList.contains('is-list-item') && el.dataset.index === '0') {
+                            guideScroll.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                        else if(el.classList.contains('is-top-item')) {
+                            els.topList.scrollTo({ left: el.offsetLeft + (el.offsetWidth/2) - (els.topList.offsetWidth/2), behavior: 'smooth'});
+                        }
+                        else {
+                            el.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        }
                     }
                     else if(currentScope === 'settings') el.scrollIntoView({ behavior: 'auto', block: 'center' });
                 }
             }
 
             function handleInput(key) {
-                // If Auth is active, we STILL allow channel navigation, but block other inputs (like settings)
                 const isAuth = currentScope === 'auth';
-
                 if(currentScope === 'player' || isAuth) {
                     if(key === 'ArrowUp') playChannel((currentChannelIndex - 1 + allChannels.length) % allChannels.length);
                     else if(key === 'ArrowDown') playChannel((currentChannelIndex + 1) % allChannels.length);
                     else if(!isAuth && key === 'ArrowLeft') toggleGuide(true);
                     else if(!isAuth && key === 'ArrowRight') toggleSettings(true);
                     else if(!isAuth && key === 'Enter') { els.info.classList.add('visible'); clearTimeout(infoTimeout); infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000); }
-                    else if(isAuth && (key === 'Back' || key === 'Escape')) { /* Optional: Exit auth, maybe go back to previous channel */ }
                 } 
                 else if(currentScope === 'guide' || currentScope === 'settings') {
                     if(key === 'ArrowUp') { 
@@ -637,7 +682,6 @@
                         updateFocus(); 
                     }
                     else if(key === 'ArrowLeft' && currentScope === 'guide') { 
-                         // Check if we are in top section
                          const currentEl = focusList[focusIndex];
                          if(currentEl && currentEl.classList.contains('is-top-item')) {
                              if(focusIndex > 0) focusIndex--;
@@ -646,7 +690,6 @@
                     } 
                     else if(key === 'ArrowRight' && currentScope === 'guide') { 
                         const currentEl = focusList[focusIndex];
-                        // If in top section, nav right. If last item or in list, close guide
                         if(currentEl && currentEl.classList.contains('is-top-item')) {
                             if(focusList[focusIndex+1] && focusList[focusIndex+1].classList.contains('is-top-item')) focusIndex++;
                             else toggleGuide(false);
