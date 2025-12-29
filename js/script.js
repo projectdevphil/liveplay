@@ -49,6 +49,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const miniPlayerLogo = document.getElementById("minimized-player-logo");
     const miniPlayerIcon = document.querySelector(".live-sensor-mini"); 
 
+    // Token Modal Elements
+    const tokenModal = document.getElementById('token-modal');
+    const tokenInput = document.getElementById('token-input');
+    const tokenSubmitBtn = document.getElementById('token-submit-btn');
+    const tokenStatusMsg = document.getElementById('token-status-message');
+    const tokenModalClose = document.getElementById('close-token-modal');
+
     let player = null;
     let ui = null;
     let allStreams = [];
@@ -458,6 +465,92 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    const handleTokenRequirement = (originalUrl) => {
+        return new Promise((resolve, reject) => {
+            // Check if we have a saved token in localStorage to auto-validate
+            const savedToken = localStorage.getItem('wesley_token');
+            if(savedToken) {
+                tokenInput.value = savedToken;
+            } else {
+                tokenInput.value = '';
+            }
+
+            tokenStatusMsg.textContent = '';
+            tokenStatusMsg.className = 'token-status';
+            tokenModal.classList.add('active');
+            tokenInput.focus();
+
+            const closeModal = () => {
+                tokenModal.classList.remove('active');
+                cleanup();
+                reject('Cancelled');
+            };
+
+            const validateToken = async () => {
+                const token = tokenInput.value.trim();
+                if(!token) return;
+
+                tokenStatusMsg.textContent = "Checking token...";
+                tokenStatusMsg.className = 'token-status status-checking';
+                tokenInput.disabled = true;
+                tokenSubmitBtn.disabled = true;
+
+                const testUrl = originalUrl.replace('[ACCESS_TOKEN]', token);
+
+                try {
+                    // Attempt to fetch headers to validate token
+                    const response = await fetch(testUrl, { method: 'HEAD' });
+                    
+                    tokenInput.disabled = false;
+                    tokenSubmitBtn.disabled = false;
+
+                    if (response.ok) {
+                        tokenStatusMsg.textContent = "Correct Token";
+                        tokenStatusMsg.className = 'token-status status-success';
+                        
+                        localStorage.setItem('wesley_token', token);
+
+                        // Brief delay to show success
+                        setTimeout(() => {
+                            tokenModal.classList.remove('active');
+                            cleanup();
+                            resolve(testUrl);
+                        }, 800);
+                    } else if (response.status === 403 || response.status === 401) {
+                        tokenStatusMsg.textContent = "Expired or Incorrect Token";
+                        tokenStatusMsg.className = 'token-status status-error';
+                    } else if (response.status === 404) {
+                        tokenStatusMsg.textContent = "Incorrect Token";
+                        tokenStatusMsg.className = 'token-status status-error';
+                    } else {
+                        tokenStatusMsg.textContent = "Connection Error";
+                        tokenStatusMsg.className = 'token-status status-error';
+                    }
+                } catch (e) {
+                    console.error(e);
+                    tokenInput.disabled = false;
+                    tokenSubmitBtn.disabled = false;
+                    tokenStatusMsg.textContent = "Incorrect Token / Network Error";
+                    tokenStatusMsg.className = 'token-status status-error';
+                }
+            };
+
+            const onEnterPress = (e) => {
+                if(e.key === 'Enter') validateToken();
+            };
+
+            const cleanup = () => {
+                tokenSubmitBtn.removeEventListener('click', validateToken);
+                tokenModalClose.removeEventListener('click', closeModal);
+                tokenInput.removeEventListener('keypress', onEnterPress);
+            };
+
+            tokenSubmitBtn.addEventListener('click', validateToken);
+            tokenModalClose.addEventListener('click', closeModal);
+            tokenInput.addEventListener('keypress', onEnterPress);
+        });
+    };
+
     const openPlayer = async (publicStreamInfo) => {
         trackChannelView(publicStreamInfo);
 
@@ -519,6 +612,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!res.ok) throw new Error("Channel data not found.");
             const secureData = await res.json();
+
+            // Check for Access Token requirement
+            if (secureData.manifestUri.includes('[ACCESS_TOKEN]')) {
+                try {
+                    const validUrl = await handleTokenRequirement(secureData.manifestUri);
+                    secureData.manifestUri = validUrl;
+                } catch (userCancelled) {
+                    if(mainPlayerStatus) mainPlayerStatus.textContent = "Authentication Cancelled";
+                    return; 
+                }
+            }
 
             if (!player) {
                 const success = await initPlayer();
