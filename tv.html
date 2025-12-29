@@ -205,8 +205,16 @@
         .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.4); border-radius: 50%; transition: all 0.3s; }
         .dot.active { width: 20px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; position: relative; }
         .dot.active::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; background-color: var(--theme-color); border-radius: 20px; width: 0%; animation: dotProgress 5000ms linear forwards; }
-        @keyframes dotProgress { from { width: 0%; } to { width: 100%; } }        
-
+        @keyframes dotProgress { from { width: 0%; } to { width: 100%; } }
+        
+        .info-content { display: flex; align-items: center; gap: 20px; }
+        #info-logo { height: 70px; width: 70px; object-fit: contain; background-color: var(--card-background); border-radius: 12px; padding: 8px; border: 1px solid var(--border-color); }
+        .text-details h1 { font-size: 2.2rem; margin: 0 0 5px 0; font-weight: 800; }
+        .meta-row { display: flex; align-items: center; gap: 10px; font-size: 1rem; color: #ccc; }
+        .live-tag { background: #ffffff; color: #000000; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+        .channel-sensor { color: #fff ; opacity: 0.7; font-size: 22px; }
+        .channel-sensor.offline { color: #ff3b30; }
+        
         .d-pad { position: relative; width: 140px; height: 140px; background: rgba(30, 30, 30, 0.6); border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); }
         .d-btn { position: absolute; width: 45px; height: 45px; border-radius: 50%; background: transparent; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; outline: none; }
         .d-btn:active { background: rgba(255,255,255,0.2); }
