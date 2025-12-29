@@ -10,8 +10,8 @@
     { "source": "/home/privacy", "destination": "/privacy.html" },
     { "source": "/home/speed", "destination": "/speed-test.html" },
     { "source": "/home/terms", "destination": "/terms.html" },
+    { "source": "/home/paste-token", "destination": "/token.html" }, 
     { "source": "/tv", "destination": "/tv.html" },    
-    { "source": "/tv/token", "destination": "/token.html" }, 
     { "source": "/home/updates", "destination": "/updates.html" },
     { "source": "/home", "destination": "/index.html" },
     { "source": "/", "destination": "/home" }
