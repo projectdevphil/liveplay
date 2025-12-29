@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const miniPlayerLogo = document.getElementById("minimized-player-logo");
     const miniPlayerIcon = document.querySelector(".live-sensor-mini"); 
 
-    // Token Modal Elements
     const tokenModal = document.getElementById('token-modal');
     const tokenInput = document.getElementById('token-input');
     const tokenSubmitBtn = document.getElementById('token-submit-btn');
@@ -467,7 +466,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const handleTokenRequirement = (originalUrl) => {
         return new Promise((resolve, reject) => {
-            // Check if we have a saved token in localStorage to auto-validate
             const savedToken = localStorage.getItem('wesley_token');
             if(savedToken) {
                 tokenInput.value = savedToken;
@@ -498,7 +496,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const testUrl = originalUrl.replace('[ACCESS_TOKEN]', token);
 
                 try {
-                    // Attempt to fetch headers to validate token
                     const response = await fetch(testUrl, { method: 'HEAD' });
                     
                     tokenInput.disabled = false;
@@ -510,7 +507,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         
                         localStorage.setItem('wesley_token', token);
 
-                        // Brief delay to show success
                         setTimeout(() => {
                             tokenModal.classList.remove('active');
                             cleanup();
@@ -613,7 +609,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!res.ok) throw new Error("Channel data not found.");
             const secureData = await res.json();
 
-            // Check for Access Token requirement
             if (secureData.manifestUri.includes('[ACCESS_TOKEN]')) {
                 try {
                     const validUrl = await handleTokenRequirement(secureData.manifestUri);
