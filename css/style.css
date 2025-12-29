@@ -1073,9 +1073,9 @@ video::cue {
     text-decoration: none;
 }
 
-@media (max-width: 480px) {
+/**@media (max-width: 480px) {
     .token-modal-content {
         width: calc(100% - 40px); 
         padding: 25px 20px;
     }
-}
+}*/
