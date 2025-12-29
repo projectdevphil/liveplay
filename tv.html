@@ -113,8 +113,8 @@
             margin-bottom: 10px;
         }
         .auth-digit-box {
-            width: 60px; height: 70px;
-            background: #222;
+            width: 60px; height: 75px;
+            background: var(--glass-heavy);
             border: 2px solid #444;
             border-radius: 10px;
             display: flex; justify-content: center; align-items: center;
@@ -340,6 +340,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+            document.addEventListener('click', () => {
+                const docEl = document.documentElement;
+                const requestFullScreen = docEl.requestFullscreen || 
+                                          docEl.mozRequestFullScreen || 
+                                          docEl.webkitRequestFullscreen || 
+                                          docEl.msRequestFullscreen;
+
+                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
+                    if (requestFullScreen) {
+                        requestFullScreen.call(docEl);
+                    }
+                }
+            });
+
             const API_GET_CHANNELS = '/api/getChannels';
             const API_GET_DATA = '/api/getData';
             const API_GET_SLIDES = '/api/getSlides';
