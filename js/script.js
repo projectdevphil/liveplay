@@ -586,13 +586,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
-        await playVideoAd(videoElement, playerWrapper, player, ui, (text, color) => {
-             if(mainPlayerStatus) {
-                mainPlayerStatus.textContent = text;
-                mainPlayerStatus.style.color = color;
-             }
-        });
-
         if (!playerView.classList.contains('active')) return;
         
         videoElement.removeAttribute('src'); 
@@ -611,13 +604,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (secureData.manifestUri.includes('[ACCESS_TOKEN]')) {
                 try {
+                    // Show modal, wait for correct token
                     const validUrl = await handleTokenRequirement(secureData.manifestUri);
+                    // If we reach here, token was correct and modal is closing
                     secureData.manifestUri = validUrl;
                 } catch (userCancelled) {
                     if(mainPlayerStatus) mainPlayerStatus.textContent = "Authentication Cancelled";
                     return; 
                 }
             }
+
+            await playVideoAd(videoElement, playerWrapper, player, ui, (text, color) => {
+                if(mainPlayerStatus) {
+                   mainPlayerStatus.textContent = text;
+                   mainPlayerStatus.style.color = color;
+                }
+           });
 
             if (!player) {
                 const success = await initPlayer();
