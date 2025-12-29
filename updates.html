@@ -81,9 +81,8 @@
                     <div class="version-block" style="margin-top: 15px;">
                         <h3 style="margin-bottom: 10px;">Version 1.0.8 <span class="advisory-tag" style="background-color: #ffffff; margin-left: 8px;">CURRENT</span></h3>
                         <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
-                            <li style="margin-bottom: 8px;"><strong>Token Authentication System:</strong> Introduced a secure <strong>Authentication Token</strong> mechanism. This new functionality enables users to validate their identity by pasting a unique token obtained from <code>panel.nathcreqtives.com</code>, thereby granting exclusive access to restricted premium content within <strong>WesleyVannek's Channel</strong> portfolio.</li>
-                            <li style="margin-bottom: 8px;"><strong>TV Authentication Integration:</strong> Deployed a dedicated <strong>TV Authentication Subpage</strong> designed for seamless large-screen integration. This feature allows TV users to synchronize their devices by simply entering the code displayed on their screen and validating it with their token. The backend architecture for this integration is robustly powered by <strong>Supabase</strong>, utilizing its advanced extension capabilities within the <strong>Vercel</strong> ecosystem.</li>
-                            <li style="margin-bottom: 8px;"><strong>Interface Optimization:</strong> Streamlined the <strong>Updates</strong> tab by removing the legacy System Status monitor feature to focus on critical version history and channel advisories.</li>
+                            <li style="margin-bottom: 8px;"><strong>Token Authentication System:</strong> Introduced a secure <strong>Authentication Token</strong> mechanism. Users can now validate their identity by pasting a unique token obtained from <code>panel.nathcreqtives.com</code>, thereby granting exclusive access to restricted premium content within <strong>WesleyVannek's Channel</strong> portfolio.</li>
+                            <li style="margin-bottom: 8px;"><strong>Seamless TV Integration:</strong> Launched a dedicated <strong>TV Authentication Subpage</strong> to significantly reduce hassle for large-screen users. Instead of typing complex tokens on a TV remote, users can simply enter the code displayed on their TV screen directly into their mobile phone or desktop computer to synchronize access. This seamless cross-device workflow is powered by <strong>Supabase</strong>, utilizing advanced extension capabilities within the <strong>Vercel</strong> ecosystem.</li>
                         </ul>
                     </div>
 
@@ -135,12 +134,37 @@
                 </div>
             </details>
 
+            <hr>
+
+            <section>
+                <h2>Service Status</h2>
+                <p>All other systems and channels are currently operational.</p>
+
+                <div class="combined-status-box">
+                    <div class="status-header">
+                        <span class="status-dot" id="statusDot"></span>
+                        <span id="statusText">Checking Connection...</span>
+                    </div>
+
+                    <hr class="status-divider">
+
+                    <div class="stream-tips-small">
+                        <span class="material-symbols-rounded tip-icon-small">wifi_tethering</span>
+                        <div>
+                            <strong>Stream Quality Tip:</strong>
+                            Slow internet? Switch to <span class="tip-highlight">360p</span> or <span class="tip-highlight">480p</span>.<br>
+                            Fast internet? Switch to <span class="tip-highlight">720p</span> or <span class="tip-highlight">1080p</span>.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const protectAll = document.querySelectorAll('a, button, img, .channel-logo-link, .news-btn');
+            const protectAll = document.querySelectorAll('a, button, img, .channel-logo-link, .news-btn, .combined-status-box');
             protectAll.forEach(el => {
                 el.addEventListener('contextmenu', (e) => { 
                     e.preventDefault(); 
@@ -152,6 +176,32 @@
             window.addEventListener("scroll", () => {
                 header.classList.toggle("scrolled", window.scrollY > 10);
             });
+
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+
+            async function checkSystemStatus() {
+                try {
+                    const response = await fetch(window.location.href, { method: 'HEAD', cache: 'no-store' });
+                    
+                    if (response.ok) {
+                        statusDot.classList.remove('down');
+                        statusDot.classList.add('operational');
+                        statusText.textContent = "All Systems Operational";
+                        statusText.style.color = "#ccc";
+                    } else {
+                        throw new Error('Server error');
+                    }
+                } catch (error) {
+                    statusDot.classList.remove('operational');
+                    statusDot.classList.add('down');
+                    statusText.textContent = "Connection Unstable";
+                    statusText.style.color = "#ff6666";
+                }
+            }
+
+            checkSystemStatus();
+            setInterval(checkSystemStatus, 30000);
         });
     </script>
 </body>
