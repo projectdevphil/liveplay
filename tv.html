@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Liveplay for TV</title>
-    <!-- Keeping existing scripts/styles -->
     <script>
       if (!navigator.userAgent.match(/SmartTV|Tizen|Web0S|BRAVIA|NetCast|GoogleTV|AppleTV|HbbTV/i)) {
-        // window.location.replace('/404'); // Commented out for testing purposes
+         // window.location.replace('/404');
       }
     </script>
     <meta name="theme-color" content="#000000">
@@ -19,7 +18,6 @@
     <style id="dynamic-caption-style"></style>
 
     <style>
-        /* Keeping existing Root and Body styles */
         :root {
             --focus-bg: #ffffff;
             --focus-text: #000000;
@@ -37,14 +35,12 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. VIDEO LAYER (Z-Index 1) */
         #tv-player-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 1; background: #000;
         }
         video { width: 100%; height: 100%; object-fit: fill; }
         
-        /* 2. LOADING LAYER (Z-Index 50) */
         .loader-overlay {
             position: fixed; inset: 0; background: black; z-index: 50;
             display: flex; justify-content: center; align-items: center;
@@ -57,7 +53,7 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 3. AUTH POPUP LAYER (Z-Index 100) */
+        /* Auth Overlay */
         #auth-overlay {
             position: fixed; inset: 0; 
             background: rgba(0,0,0,0.85);
@@ -94,9 +90,8 @@
             color: #fff; font-family: monospace; font-size: 1.2rem;
             margin-top: 20px; display: inline-block;
         }
-        .highlight { color: var(--theme-color); font-weight: bold; }
 
-        /* 4. UI CONTAINERS (Left/Right/Bottom) (Z-Index 200) */
+        /* UI Containers */
         .glass-panel {
             background: var(--glass-heavy);
             border: 1px solid var(--border-color);
@@ -104,7 +99,7 @@
             color: white;
             position: fixed; top: 20px; bottom: 20px;
             width: 380px; border-radius: 20px;
-            z-index: 200; /* Higher than Auth */
+            z-index: 200;
             display: flex; flex-direction: column;
             transform: translate3d(-120%, 0, 0); 
             will-change: transform; transition: transform 0.3s ease-out;
@@ -118,7 +113,7 @@
         .channel-info-bar {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 180px;
             background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0) 100%);
-            z-index: 200; /* Higher than Auth */
+            z-index: 200;
             padding: 40px; box-sizing: border-box;
             display: flex; align-items: flex-end;
             transform: translate3d(0, 100%, 0); opacity: 0;
@@ -127,18 +122,17 @@
         }
         .channel-info-bar.visible { transform: translate3d(0, 0, 0); opacity: 1; }
 
-        /* 5. VIRTUAL REMOTE (Z-Index 500) */
+        /* Virtual Remote */
         .virtual-remote-container {
             position: fixed; bottom: 40px; right: 40px; z-index: 500;
             opacity: 0.3; transition: opacity 0.3s;
         }
         .virtual-remote-container:hover { opacity: 1; }
 
-        /* EXISTING STYLES (Kept for compatibility) */
+        /* Other Styles */
         video::cue { font-family: 'Onest', sans-serif; text-align: center; line-height: 1.4; }
         video::-webkit-media-text-track-display { text-align: center; }
         video::-webkit-media-text-track-container { margin-bottom: 55px; }
-        
         .guide-header, .settings-header { padding: 25px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
         .guide-logo { height: 28px; }
         #clock-display { font-size: 0.9rem; color: #888; font-weight: 600; font-variant-numeric: tabular-nums; }
@@ -159,6 +153,7 @@
         .selected-check { color: var(--theme-color); font-size: 20px; font-weight: 800; }
         .focusable.focused { background: var(--focus-bg); color: var(--focus-text); z-index: 2; }
         .focusable.focused .item-icon, .focusable.focused .channel-sensor, .focusable.focused .selected-check { color: var(--focus-text); opacity: 1; }
+        
         .top-watch-section { padding: 0; margin-top: 20px; display: block; position: relative; min-height: 100px; }
         .top-watch-header { font-size: 0.85rem; text-transform: uppercase; color: #888; font-weight: 700; margin-bottom: 10px; }
         .top-watch-list { display: flex; gap: 14px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; align-items: center; }
@@ -169,6 +164,7 @@
         .top-watch-logo-container { background-color: var(--card-background); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; z-index: 5; transition: all 0.2s; padding: 4px; box-sizing: border-box;}
         .top-watch-item.focusable.focused .top-watch-logo-container { background-color: var(--focus-bg); }
         .top-watch-logo { width: 80%; height: 50%; object-fit: contain; pointer-events: none; }
+        
         .tv-slider-container { margin-bottom: 10px; position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border-radius: 15px; overflow: hidden; border: 1px solid var(--border-color); background: #111; }
         .tv-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease 1s; border-radius: var(--border-radius); }
         .tv-slide-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; border-radius: var(--border-radius);}
@@ -186,6 +182,7 @@
         .dot.active { width: 20px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; position: relative; }
         .dot.active::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; background-color: var(--theme-color); border-radius: 20px; width: 0%; animation: dotProgress 5000ms linear forwards; }
         @keyframes dotProgress { from { width: 0%; } to { width: 100%; } }        
+
         .info-content { display: flex; align-items: center; gap: 20px; }
         #info-logo { height: 70px; width: 70px; object-fit: contain; background-color: var(--card-background); border-radius: 12px; padding: 8px; border: 1px solid var(--border-color); }
         .text-details h1 { font-size: 2.2rem; margin: 0 0 5px 0; font-weight: 800; }
@@ -206,30 +203,24 @@
 </head>
 <body>
 
-    <!-- 1. Video Player -->
     <div id="tv-player-container">
         <video id="video" autoplay playsinline></video>
     </div>
 
-    <!-- 2. Loader -->
     <div id="tv-loader" class="loader-overlay">
         <div class="spinner"></div>
     </div>
 
-    <!-- 3. Auth Overlay (New) -->
     <div id="auth-overlay">
         <div class="auth-card">
             <img src="/assets/liveplay_logo_(white)_v2.svg" alt="Liveplay" class="auth-logo">
             <h2 class="auth-title">Authentication Required</h2>
             <p class="auth-desc">To access this channel, please enter the code displayed below on your Mobile or Desktop.</p>
-            
             <div id="auth-code-display" class="auth-code-display">Loading...</div>
-            
             <div class="auth-url">liveplay.vercel.app/access-token</div>
         </div>
     </div>
 
-    <!-- 4. UI Containers -->
     <div id="channel-info-bar" class="channel-info-bar">
         <div class="info-content">
             <img id="info-logo" src="" alt="Channel Logo">
@@ -292,7 +283,6 @@
         </div>
     </div>
 
-    <!-- 5. Remote -->
     <div class="virtual-remote-container">
         <div class="d-pad">
             <button class="d-btn up" id="remote-up"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
@@ -305,14 +295,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            
             const API_GET_CHANNELS = '/api/getChannels';
             const API_GET_DATA = '/api/getData';
             const API_GET_SLIDES = '/api/getSlides';
             const API_GET_TOP_CHANNELS = '/api/getTopChannels';
             const API_INCREMENT_VIEW = '/api/incrementView';
-            
-            // Auth APIs
             const API_AUTH_GENERATE = '/api/auth/generateCode';
             const API_AUTH_CHECK = '/api/auth/checkToken';
 
@@ -327,8 +314,6 @@
             let authPollInterval = null;
             let currentCaptionSize = 'Medium';
             let currentCaptionStyle = 'Default';
-            
-            // Stored Token for session
             let sessionToken = null;
 
             const els = {
@@ -374,7 +359,6 @@
             async function init() {
                 els.video.style.objectFit = 'fill'; 
                 shaka.polyfill.installAll();
-                
                 if(shaka.Player.isBrowserSupported()) {
                     player = new shaka.Player(els.video);
                     player.configure({ 
@@ -388,67 +372,49 @@
                         else els.loader.classList.add('hidden');
                     });
                 }
-
                 try {
                     const [channels, slides, topData] = await Promise.all([
                         fetch(API_GET_CHANNELS).then(r => r.json()),
                         fetch(API_GET_SLIDES).then(r => r.json()).catch(() => []),
                         fetch(API_GET_TOP_CHANNELS).then(r => r.json()).catch(() => [])
                     ]);
-                    
                     allChannels = Array.isArray(channels) ? channels : [];
                     renderGuide(allChannels, slides, topData);
-                    
                     if(allChannels.length) playChannel(0);
                     else els.loader.classList.add('hidden');
-
                 } catch(e) { console.error(e); els.loader.classList.add('hidden'); }
             }
 
             async function startAuthFlow(manifestUriWithPlaceholder) {
-                // Stop player if playing
                 await player.unload();
                 els.loader.classList.add('hidden');
-                
-                // Show Auth Overlay
                 els.auth.classList.add('active');
                 currentScope = 'auth';
                 els.authCode.textContent = "Loading...";
 
                 try {
-                    // Generate Code
                     const res = await fetch(API_AUTH_GENERATE);
                     const data = await res.json();
-                    
                     if(data.code) {
                         const code = data.code;
                         els.authCode.textContent = code;
-
-                        // Start Polling
                         if(authPollInterval) clearInterval(authPollInterval);
                         authPollInterval = setInterval(async () => {
                             try {
                                 const checkRes = await fetch(`${API_AUTH_CHECK}?code=${code}`);
                                 const checkData = await checkRes.json();
-
                                 if(checkData.status === 'success' && checkData.token) {
                                     clearInterval(authPollInterval);
-                                    sessionToken = checkData.token; // Save token
+                                    sessionToken = checkData.token;
                                     els.auth.classList.remove('active');
                                     currentScope = 'player';
-                                    
-                                    // Resume playing with token
                                     const finalUri = manifestUriWithPlaceholder.replace('[ACCESS_TOKEN]', sessionToken);
                                     loadStream(finalUri);
                                 }
                             } catch(err) { console.error("Polling error", err); }
-                        }, 3000); // Check every 3 seconds
-                    } else {
-                        els.authCode.textContent = "Error";
-                    }
-                } catch(e) {
-                    els.authCode.textContent = "Net Error";
-                }
+                        }, 3000);
+                    } else els.authCode.textContent = "Error";
+                } catch(e) { els.authCode.textContent = "Net Error"; }
             }
 
             async function loadStream(uri, clearKeys = null) {
@@ -464,16 +430,13 @@
                     await player.load(uri);
                     await els.video.play();
                     els.loader.classList.add('hidden');
-                 } catch(e) {
-                    console.error(e);
-                    els.loader.classList.add('hidden');
-                 }
+                 } catch(e) { console.error(e); els.loader.classList.add('hidden'); }
             }
 
             async function playChannel(idx) {
                 if(idx < 0 || idx >= allChannels.length) return;
                 
-                // Clear any existing auth interval
+                // Reset auth state
                 if(authPollInterval) clearInterval(authPollInterval);
                 els.auth.classList.remove('active');
                 if(currentScope === 'auth') currentScope = 'player';
@@ -505,40 +468,26 @@
                         clearKeys[data.ClearKey.k1] = data.ClearKey.k2;
                     }
 
-                    // Check for Token Requirement
                     if (manifestUri.includes('[ACCESS_TOKEN]')) {
                         if (sessionToken) {
-                            // If we already have a token this session, try to use it
                             manifestUri = manifestUri.replace('[ACCESS_TOKEN]', sessionToken);
                             loadStream(manifestUri, clearKeys);
-                        } else {
-                            // Trigger Auth Flow
-                            startAuthFlow(manifestUri);
-                        }
-                    } else {
-                        // Normal Play
-                        loadStream(manifestUri, clearKeys);
-                    }
+                        } else startAuthFlow(manifestUri);
+                    } else loadStream(manifestUri, clearKeys);
 
-                } catch(e) {
-                    console.error(e);
-                    els.name.textContent = "Stream Offline";
-                    els.loader.classList.add('hidden');
-                }
+                } catch(e) { console.error(e); els.name.textContent = "Stream Offline"; els.loader.classList.add('hidden'); }
             }
 
-            // ... (Keep renderGuide, getResIcon, createSettingBtn, updateCaptionCSS, renderSettings from original file) ...
-            
             function renderGuide(channels, slides, topData) {
-                els.slider.innerHTML = '';
+                // ... (Slides rendering kept same)
+                 els.slider.innerHTML = '';
                 if(slides && slides.length) {
                     const dotsCont = document.createElement('div');
                     dotsCont.className = 'slider-dots';
                     slides.forEach((s, i) => {
                         const slide = document.createElement('div');
                         slide.className = `tv-slide ${i===0?'active':''}`;
-                        slide.innerHTML = `
-                            <div class="tv-slide-wipe-wrapper"><img src="${s.image}" class="tv-slide-bg"><div class="tv-slide-overlay"></div><div class="tv-slide-content"><h2>${s.title}</h2><p>${s.description}</p><div class="tv-slide-badge">${s.badge}</div></div></div>`;
+                        slide.innerHTML = `<div class="tv-slide-wipe-wrapper"><img src="${s.image}" class="tv-slide-bg"><div class="tv-slide-overlay"></div><div class="tv-slide-content"><h2>${s.title}</h2><p>${s.description}</p><div class="tv-slide-badge">${s.badge}</div></div></div>`;
                         els.slider.appendChild(slide);
                         const dot = document.createElement('button');
                         dot.className = `dot ${i===0?'active':''}`;
@@ -598,7 +547,7 @@
                 else if (currentCaptionStyle === 'Yellow') { bg = 'yellow'; color = 'black'; }
                 els.dynamicStyle.textContent = `video::cue { font-size: ${size} !important; background-color: ${bg} !important; color: ${color} !important; text-shadow: ${shadow} !important; font-family: 'Onest', sans-serif !important; text-align: center !important; font-weight: 800 !important; }`;
             }
-            function renderSettings() { /* ... Same as original ... */ 
+            function renderSettings() { 
                 const tracks = player.getVariantTracks();
                 const config = player.getConfiguration();
                 const isAuto = config.abr.enabled;
@@ -609,7 +558,6 @@
                 qList.appendChild(createSettingBtn('hdr_auto', 'Auto', isAuto, () => { player.configure({ abr: { enabled: true } }); toggleSettings(false); }));
                 [...new Set(tracks.map(t => t.height))].sort((a,b) => b-a).forEach(h => { if(h) qList.appendChild(createSettingBtn(getResIcon(h), `${h}p`, !isAuto && h === currentHeight, () => { player.configure({ abr: { enabled: false } }); player.selectVariantTrack(tracks.find(t => t.height === h), true); toggleSettings(false); })); });
 
-                // Audio, Captions, Speed - Keeping simple for brevity, paste full logic from original file here
                  const audios = player.getAudioLanguagesAndRoles();
                 els.audioList.innerHTML = '';
                 if(audios.length > 0) {
@@ -624,14 +572,31 @@
                 [0.5, 1, 1.25, 1.5, 2].forEach(rate => {
                     els.speedList.appendChild(createSettingBtn('speed', `${rate}x`, Math.abs(els.video.playbackRate - rate) < 0.1, () => { els.video.playbackRate = rate; toggleSettings(false); }));
                 });
-                
                 focusList = Array.from(els.settings.querySelectorAll('.focusable')); focusIndex = 0; updateFocus();
             }
 
             function toggleGuide(show) {
-                if(show) { els.guide.classList.add('active'); currentScope = 'guide'; focusList = Array.from(els.guide.querySelectorAll('.focusable')); focusIndex = 0; updateFocus(); }
-                else { els.guide.classList.remove('active'); currentScope = 'player'; }
+                if(show) { 
+                    els.guide.classList.add('active'); 
+                    currentScope = 'guide'; 
+                    focusList = Array.from(els.guide.querySelectorAll('.focusable'));
+                    
+                    // Logic to default focus to All Channels (is-list-item) first, unless specifically navigating
+                    const currentItem = els.channelList.querySelector(`.is-list-item[data-index="${currentChannelIndex}"]`);
+                    if (currentItem) {
+                        focusIndex = focusList.indexOf(currentItem);
+                    } else {
+                        // Default to first item in "All Channels" list, skipping Top section
+                        const firstListItemIndex = focusList.findIndex(el => el.classList.contains('is-list-item'));
+                        focusIndex = firstListItemIndex > -1 ? firstListItemIndex : 0;
+                    }
+                    updateFocus(); 
+                } else { 
+                    els.guide.classList.remove('active'); 
+                    currentScope = 'player'; 
+                }
             }
+
             function toggleSettings(show) {
                 if(show) { els.settings.classList.add('active'); currentScope = 'settings'; renderSettings(); }
                 else { els.settings.classList.remove('active'); currentScope = 'player'; }
@@ -651,27 +616,42 @@
             }
 
             function handleInput(key) {
-                if(currentScope === 'auth') {
-                     // In auth mode, block most inputs, maybe allow Back to cancel
-                     if(key === 'Back' || key === 'Escape') {
-                         clearInterval(authPollInterval);
-                         els.auth.classList.remove('active');
-                         currentScope = 'player';
-                     }
-                     return; 
-                }
+                // If Auth is active, we STILL allow channel navigation, but block other inputs (like settings)
+                const isAuth = currentScope === 'auth';
 
-                if(currentScope === 'player') {
+                if(currentScope === 'player' || isAuth) {
                     if(key === 'ArrowUp') playChannel((currentChannelIndex - 1 + allChannels.length) % allChannels.length);
                     else if(key === 'ArrowDown') playChannel((currentChannelIndex + 1) % allChannels.length);
-                    else if(key === 'ArrowLeft') toggleGuide(true);
-                    else if(key === 'ArrowRight') toggleSettings(true);
-                    else if(key === 'Enter') { els.info.classList.add('visible'); clearTimeout(infoTimeout); infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000); }
-                } else if(currentScope === 'guide' || currentScope === 'settings') {
-                    if(key === 'ArrowUp') { focusIndex = Math.max(0, focusIndex - 1); updateFocus(); }
-                    else if(key === 'ArrowDown') { focusIndex = Math.min(focusList.length - 1, focusIndex + 1); updateFocus(); }
-                    else if(key === 'ArrowLeft' && currentScope === 'guide') { /* handle top row logic */ updateFocus(); } 
-                    else if(key === 'ArrowRight' && currentScope === 'guide') { toggleGuide(false); }
+                    else if(!isAuth && key === 'ArrowLeft') toggleGuide(true);
+                    else if(!isAuth && key === 'ArrowRight') toggleSettings(true);
+                    else if(!isAuth && key === 'Enter') { els.info.classList.add('visible'); clearTimeout(infoTimeout); infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000); }
+                    else if(isAuth && (key === 'Back' || key === 'Escape')) { /* Optional: Exit auth, maybe go back to previous channel */ }
+                } 
+                else if(currentScope === 'guide' || currentScope === 'settings') {
+                    if(key === 'ArrowUp') { 
+                        if (focusIndex > 0) focusIndex--; 
+                        updateFocus(); 
+                    }
+                    else if(key === 'ArrowDown') { 
+                        if (focusIndex < focusList.length - 1) focusIndex++; 
+                        updateFocus(); 
+                    }
+                    else if(key === 'ArrowLeft' && currentScope === 'guide') { 
+                         // Check if we are in top section
+                         const currentEl = focusList[focusIndex];
+                         if(currentEl && currentEl.classList.contains('is-top-item')) {
+                             if(focusIndex > 0) focusIndex--;
+                         }
+                         updateFocus();
+                    } 
+                    else if(key === 'ArrowRight' && currentScope === 'guide') { 
+                        const currentEl = focusList[focusIndex];
+                        // If in top section, nav right. If last item or in list, close guide
+                        if(currentEl && currentEl.classList.contains('is-top-item')) {
+                            if(focusList[focusIndex+1] && focusList[focusIndex+1].classList.contains('is-top-item')) focusIndex++;
+                            else toggleGuide(false);
+                        } else toggleGuide(false);
+                    }
                     else if(key === 'ArrowLeft' && currentScope === 'settings') { toggleSettings(false); }
                     else if(key === 'Enter') { if(focusList[focusIndex]) focusList[focusIndex].click(); }
                     else if(key === 'Back' || key === 'Escape') { toggleGuide(false); toggleSettings(false); }
