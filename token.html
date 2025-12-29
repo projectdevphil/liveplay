@@ -13,8 +13,7 @@
     <link rel="manifest" href="/assets/site.webmanifest" />
     <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />   
     <style>
         :root {
             --theme-color: #ffffff; 
@@ -411,7 +410,7 @@
 
                 btnSubmit.disabled = true;
                 btnSubmit.style.opacity = '0.7';
-                showStatus('status-checking', "Verifying...");
+                showStatus('status-checking', "Checking token...");
 
                 try {
                     const res = await fetch('/api/auth/submitToken', {
@@ -425,7 +424,7 @@
                     if(res.ok) {
                         goToSuccess();
                     } else {
-                        showStatus('status-error', data.error || "Invalid Token.");
+                        showStatus('status-error', data.error || "Expired or Incorrect Token");
                         btnSubmit.disabled = false;
                         btnSubmit.style.opacity = '1';
                     }
@@ -439,7 +438,7 @@
             });
 
             function goToSuccess() {
-                showStatus('status-success', "Verified!");
+                showStatus('status-success', "Correct Token");
                 setTimeout(() => {
                     step2.classList.add('hidden');
                     step3.classList.remove('hidden');
