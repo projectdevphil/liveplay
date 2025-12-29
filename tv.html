@@ -646,7 +646,12 @@
                     updateFocus(); 
                 } else { 
                     els.guide.classList.remove('active'); 
-                    currentScope = 'player'; 
+                    
+                    if(els.auth.classList.contains('active')) {
+                        currentScope = 'auth';
+                    } else {
+                        currentScope = 'player';
+                    }
                 }
             }
 
@@ -679,10 +684,11 @@
 
             function handleInput(key) {
                 const isAuth = currentScope === 'auth';
+                
                 if(currentScope === 'player' || isAuth) {
                     if(key === 'ArrowUp') playChannel((currentChannelIndex - 1 + allChannels.length) % allChannels.length);
                     else if(key === 'ArrowDown') playChannel((currentChannelIndex + 1) % allChannels.length);
-                    else if(!isAuth && key === 'ArrowLeft') toggleGuide(true);
+                    else if(key === 'ArrowLeft') toggleGuide(true); // Allow opening guide even in auth
                     else if(!isAuth && key === 'ArrowRight') toggleSettings(true);
                     else if(!isAuth && key === 'Enter') { els.info.classList.add('visible'); clearTimeout(infoTimeout); infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 4000); }
                 } 
@@ -716,6 +722,7 @@
                         if(currentEl && currentEl.classList.contains('is-top-item')) {
                             if(focusList[focusIndex+1] && focusList[focusIndex+1].classList.contains('is-top-item')) {
                                 focusIndex++;
+                                updateFocus();
                             }
                             else toggleGuide(false);
                         } else toggleGuide(false);
