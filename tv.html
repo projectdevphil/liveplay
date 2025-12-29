@@ -70,9 +70,9 @@
         .auth-card {
             background: #111;
             border: 1px solid #333;
-            padding: 60px 80px;
-            border-radius: 30px;
-            max-width: 700px;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 600px;
             width: 80%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             display: flex;
@@ -81,39 +81,44 @@
         }
 
         .auth-icon-circle {
-            width: 80px; height: 80px;
+            width: 60px; height: 60px;
             background: rgba(255,255,255,0.1);
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border: 1px solid rgba(255,255,255,0.1);
         }
         .auth-icon-circle .material-symbols-rounded {
-            font-size: 36px; color: white;
+            font-size: 30px; color: white;
         }
 
         .auth-title { 
-            font-size: 1.8rem; font-weight: 800; margin: 0 0 15px 0; color: #fff; 
+            font-size: 1.5rem; font-weight: 800; margin: 0 0 10px 0; color: #fff; 
         }
         .auth-desc { 
-            color: #aaa; font-size: 1.1rem; margin-bottom: 40px; line-height: 1.6; max-width: 90%;
+            color: #ccc; font-size: 0.95rem; margin-bottom: 30px; line-height: 1.5; max-width: 95%;
         }
         .highlight-url {
-            color: var(--theme-color); font-weight: 700; text-decoration: underline;
+            color: var(--theme-color); font-weight: 700;
+        }
+        
+        .auth-code-label {
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;
+            color: #888; font-weight: 700; margin-bottom: 10px;
         }
 
         .auth-code-container {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         .auth-digit-box {
-            width: 70px; height: 90px;
+            width: 60px; height: 80px;
             background: #222;
             border: 2px solid #444;
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex; justify-content: center; align-items: center;
-            font-size: 3rem; font-weight: 800;
+            font-size: 2.5rem; font-weight: 800;
             color: white;
             font-family: 'Onest', sans-serif;
         }
@@ -201,12 +206,12 @@
         .tv-slide.active { opacity: 1; z-index: 1; transition: opacity 0.2s ease; }
         .tv-slide.active .tv-slide-wipe-wrapper { clip-path: inset(0 0 0 0 round var(--border-radius)); transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1); }
         .tv-slide.active .tv-slide-content { opacity: 1; transform: translateY(0); transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s; }
-        .slider-dots { position: absolute; bottom: 10px; right: 10px; display: flex; gap: 4px; z-index: 5; padding: 5px; border-radius: 20px; }
+        .slider-dots { position: absolute; bottom: 10px; right: 10px; display: flex; gap: 4px; z-index: 5; padding: 5px; border: var(--glass-border); border-radius: 20px; }
         .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.4); border-radius: 50%; transition: all 0.3s; }
         .dot.active { width: 20px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; position: relative; }
         .dot.active::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; background-color: var(--theme-color); border-radius: 20px; width: 0%; animation: dotProgress 5000ms linear forwards; }
         @keyframes dotProgress { from { width: 0%; } to { width: 100%; } }
-        
+
         .info-content { display: flex; align-items: center; gap: 20px; }
         #info-logo { height: 70px; width: 70px; object-fit: contain; background-color: var(--card-background); border-radius: 12px; padding: 8px; border: 1px solid var(--border-color); }
         .text-details h1 { font-size: 2.2rem; margin: 0 0 5px 0; font-weight: 800; }
@@ -214,7 +219,7 @@
         .live-tag { background: #ffffff; color: #000000; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 4px; }
         .channel-sensor { color: #fff ; opacity: 0.7; font-size: 22px; }
         .channel-sensor.offline { color: #ff3b30; }
-        
+
         .d-pad { position: relative; width: 140px; height: 140px; background: rgba(30, 30, 30, 0.6); border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); }
         .d-btn { position: absolute; width: 45px; height: 45px; border-radius: 50%; background: transparent; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; outline: none; }
         .d-btn:active { background: rgba(255,255,255,0.2); }
@@ -244,10 +249,12 @@
             <h2 class="auth-title">Authentication Required</h2>
             
             <p class="auth-desc">
-                To watch this channel you need to input/paste the token, first just visit this site 
-                <span class="highlight-url">liveplay.vercel.app/home/access-token</span> 
-                then enter the 5 digit code on your mobile or desktop, then input/paste the token.
+                To access this channel, get the token from <span class="highlight-url">panel.nathcreqtives.com</span>, 
+                then paste it into <span class="highlight-url">liveplay.vercel.app/home/access-token</span> on your mobile or desktop. 
+                Please note that you need to enter the 5-digit code first before you can paste your token.
             </p>
+
+            <div class="auth-code-label">YOUR 5-DIGIT CODE</div>
 
             <div id="auth-code-container" class="auth-code-container">
                 <div class="auth-digit-box">-</div>
@@ -527,8 +534,7 @@
                 } catch(e) { console.error(e); els.name.textContent = "Stream Offline"; els.loader.classList.add('hidden'); }
             }
 
-             function renderGuide(channels, slides, topData) {
-                // (Slides rendering kept same)
+            function renderGuide(channels, slides, topData) {
                  els.slider.innerHTML = '';
                 if(slides && slides.length) {
                     const dotsCont = document.createElement('div');
@@ -686,8 +692,17 @@
                         updateFocus(); 
                     }
                     else if(key === 'ArrowDown') { 
-                        if (focusIndex < focusList.length - 1) focusIndex++; 
-                        updateFocus(); 
+                        const currentEl = focusList[focusIndex];
+                        if(currentScope === 'guide' && currentEl && currentEl.classList.contains('is-top-item')) {
+                             const firstListIndex = focusList.findIndex(el => el.classList.contains('is-list-item'));
+                             if(firstListIndex > -1) {
+                                 focusIndex = firstListIndex;
+                                 updateFocus();
+                             }
+                        } else {
+                            if (focusIndex < focusList.length - 1) focusIndex++; 
+                            updateFocus(); 
+                        }
                     }
                     else if(key === 'ArrowLeft' && currentScope === 'guide') { 
                          const currentEl = focusList[focusIndex];
