@@ -714,7 +714,9 @@
                     else if(key === 'ArrowRight' && currentScope === 'guide') { 
                         const currentEl = focusList[focusIndex];
                         if(currentEl && currentEl.classList.contains('is-top-item')) {
-                            if(focusList[focusIndex+1] && focusList[focusIndex+1].classList.contains('is-top-item')) focusIndex++;
+                            if(focusList[focusIndex+1] && focusList[focusIndex+1].classList.contains('is-top-item')) {
+                                focusIndex++;
+                            }
                             else toggleGuide(false);
                         } else toggleGuide(false);
                     }
