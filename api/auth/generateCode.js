@@ -1,17 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-    process.env.SUPABASE_URL, 
-    process.env.SUPABASE_SERVICE_ROLE_KEY
-);
-
-function generateCode() {
-    return Math.floor(10000 + Math.random() * 90000).toString();
-}
-
 export default async function handler(req, res) {
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+        console.error("Missing Environment Variables");
+        return res.status(500).json({ error: "Server Configuration Error: Missing Env Vars" });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
     try {
-        const code = generateCode();
+        const code = Math.floor(10000 + Math.random() * 90000).toString();
 
         const { error } = await supabase
             .from('tv_auth_codes')
