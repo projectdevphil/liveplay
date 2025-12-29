@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;800&display=swap">
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <style>
+        :root {
+            --theme-color: #ffffff;
+            --border-radius: 15px;
+            --card-bg: #111;
+            --border-color: #333;
+            --input-bg: #222;
+            --input-border: #444;
+        }
+
         body {
             background-color: #000;
             color: white;
@@ -17,47 +26,71 @@
             min-height: 100vh;
             margin: 0;
         }
+
         .container {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             padding: 20px;
             text-align: center;
+            box-sizing: border-box;
         }
+
         .logo {
-            height: 40px;
+            height: 32px; /* Matched tv.html guide logo size approx */
             margin-bottom: 30px;
         }
+
         .card {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius); /* Matched tv.html (15px) */
+            padding: 30px; /* Matched tv.html padding */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
         }
-        h2 { margin: 0 0 10px 0; font-weight: 800; font-size: 1.5rem; }
-        p { color: #888; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5; }
+
+        h2 { 
+            margin: 0 0 10px 0; 
+            font-weight: 800; 
+            font-size: 1.5rem; 
+        }
+
+        p { 
+            color: #ccc; /* Matched tv.html auth-desc color */
+            font-size: 0.95rem; 
+            margin-bottom: 30px; 
+            line-height: 1.5; 
+        }
         
+        /* OTP Input Styling */
         .otp-container {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 12px; /* Matched tv.html gap */
             margin-bottom: 25px;
         }
         
         .otp-input {
-            width: 50px;
-            height: 60px;
-            background: #222;
-            border: 2px solid #444;
-            border-radius: 12px;
+            width: 55px;
+            height: 75px;
+            background: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 10px; /* Matched tv.html digit box radius */
             color: white;
             font-family: 'Onest', sans-serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             text-align: center;
             outline: none;
             transition: border-color 0.2s, transform 0.2s;
             padding: 0;
+            /* Remove spinners for number input */
+            -moz-appearance: textfield; 
+        }
+        
+        .otp-input::-webkit-outer-spin-button,
+        .otp-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
         
         .otp-input:focus {
@@ -69,17 +102,17 @@
         .token-textarea {
             width: 100%;
             box-sizing: border-box;
-            background: #222;
-            border: 1px solid #444;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
             color: white;
             padding: 15px;
             border-radius: 10px;
             font-size: 1rem;
             font-family: 'Onest', sans-serif;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             outline: none;
             resize: none;
-            height: 80px;
+            height: 100px;
         }
         .token-textarea:focus { border-color: white; }
         
@@ -94,16 +127,23 @@
             font-size: 1rem;
             cursor: pointer;
             transition: opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .btn:active { opacity: 0.8; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .highlight { color: #fff; font-weight: 700; }
+        .highlight { 
+            color: var(--theme-color); 
+            font-weight: 700; 
+        }
         
         .token-footer {
-            margin-top: 20px;
+            margin-top: 25px;
             font-size: 0.8rem;
             color: #666;
+            border-top: 1px solid #222;
+            padding-top: 20px;
         }
         .token-link {
             color: #888;
@@ -115,7 +155,16 @@
         .token-link:hover { color: white; }
 
         .hidden { display: none; }
-        .error-msg { color: #ff3b30; font-size: 0.85rem; margin-bottom: 15px; display: none;}
+        .error-msg { 
+            color: #ff3b30; 
+            font-size: 0.9rem; 
+            margin-bottom: 15px; 
+            display: none;
+            font-weight: 600;
+            background: rgba(255, 59, 48, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -123,6 +172,7 @@
     <div class="container">
         <img src="/assets/liveplay_logo_(white)_v2.svg" alt="Liveplay" class="logo">
         
+        <!-- Step 1: Enter Code -->
         <div id="step-1" class="card">
             <h2>Enter TV Code</h2>
             <p>Please enter the 5-digit code displayed on your TV screen.</p>
@@ -139,26 +189,27 @@
             <button class="btn" id="btn-next">Next</button>
         </div>
 
+        <!-- Step 2: Enter Token -->
         <div id="step-2" class="card hidden">
             <h2>Authentication Required</h2>
             <p>To access <span class="highlight">WesleyVanneck's Channels</span> you need to paste the token below.</p>
             
             <div id="error-2" class="error-msg"></div>
-            <textarea id="access-token" class="token-textarea" placeholder="Paste Token Here"></textarea>
+            <textarea id="access-token" class="token-textarea" placeholder="Paste Token Here..."></textarea>
             <button class="btn" id="btn-submit">Submit</button>
 
             <div class="token-footer">
-                <p>How to get Token? Just go to <br>
-                    <a href="https://panel.nathcreqtives.com/register" target="_blank" class="token-link">
-                        panel.nathcreqtives.com
-                    </a>
-                </p>
+                How to get Token? Just go to <br>
+                <a href="https://panel.nathcreqtives.com/register" target="_blank" class="token-link">
+                    panel.nathcreqtives.com
+                </a>
             </div>
         </div>
         
+        <!-- Success Step -->
         <div id="step-3" class="card hidden">
             <h2>Success!</h2>
-            <p>Your TV is now authenticated. Content will start playing automatically.</p>
+            <p style="margin-bottom: 0;">Your TV is now authenticated.<br>Content will start playing automatically.</p>
         </div>
 
     </div>
@@ -177,24 +228,27 @@
         let fullCode = '';
 
         inputs.forEach((input, index) => {
+            // Focus next input
             input.addEventListener('input', (e) => {
                 if(e.target.value.length === 1 && index < inputs.length - 1) {
                     inputs[index + 1].focus();
                 }
             });
 
+            // Focus prev input on Backspace
             input.addEventListener('keydown', (e) => {
                 if(e.key === 'Backspace' && !e.target.value && index > 0) {
                     inputs[index - 1].focus();
                 }
             });
             
+            // Paste logic
             input.addEventListener('paste', (e) => {
-                const paste = (e.clipboardData || window.clipboardData).getData('text');
-                if(paste.length === 5 && /^\d+$/.test(paste)) {
-                    e.preventDefault();
+                e.preventDefault();
+                const paste = (e.clipboardData || window.clipboardData).getData('text').trim();
+                if(paste.length >= 5 && /^\d+$/.test(paste)) {
                     inputs.forEach((inp, i) => {
-                        inp.value = paste[i];
+                        if(i < 5) inp.value = paste[i];
                     });
                     inputs[4].focus();
                 }
@@ -208,9 +262,16 @@
             if(fullCode.length !== 5 || !/^\d+$/.test(fullCode)) {
                 err1.textContent = "Please enter a valid 5-digit code.";
                 err1.style.display = 'block';
+                step1.animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 300 });
                 return;
             }
 
+            err1.style.display = 'none';
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
         });
@@ -224,7 +285,8 @@
             }
 
             btnSubmit.disabled = true;
-            btnSubmit.textContent = "Submitting...";
+            btnSubmit.textContent = "SUBMITTING...";
+            err2.style.display = 'none';
 
             try {
                 const res = await fetch('/api/auth/submitToken', {
@@ -242,14 +304,14 @@
                     err2.textContent = data.error || "Invalid Code or Token.";
                     err2.style.display = 'block';
                     btnSubmit.disabled = false;
-                    btnSubmit.textContent = "Submit";
+                    btnSubmit.textContent = "SUBMIT";
                 }
 
             } catch(e) {
                 err2.textContent = "Network Error. Please try again.";
                 err2.style.display = 'block';
                 btnSubmit.disabled = false;
-                btnSubmit.textContent = "Submit";
+                btnSubmit.textContent = "SUBMIT";
             }
         });
     </script>
