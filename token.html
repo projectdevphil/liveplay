@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Required - Liveplay for TV</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;800&display=swap">
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: 'Onest', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            height: 40px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        h2 { margin: 0 0 10px 0; font-weight: 800; font-size: 1.5rem; }
+        p { color: #888; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5; }
+        
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            font-family: 'Onest', sans-serif;
+            font-weight: 600;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        input:focus { border-color: white; }
+        
+        .btn {
+            background: white;
+            color: black;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn:active { opacity: 0.8; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .highlight { color: #fff; font-weight: 700; text-decoration: underline; text-decoration-color: #444;}
+        
+        .token-footer {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .token-link {
+            color: #888;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .token-link:hover { color: white; }
+
+        .hidden { display: none; }
+        .error-msg { color: #ff3b30; font-size: 0.85rem; margin-bottom: 15px; display: none;}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="/assets/liveplay_logo_(white)_v2.svg" alt="Liveplay" class="logo">
+        
+        <!-- Step 1: Enter Code -->
+        <div id="step-1" class="card">
+            <h2>Enter TV Code</h2>
+            <p>Please enter the 5-digit code displayed on your TV screen.</p>
+            <div id="error-1" class="error-msg"></div>
+            <input type="tel" id="tv-code" placeholder="00000" maxlength="5" autocomplete="off">
+            <button class="btn" id="btn-next">Next</button>
+        </div>
+
+        <!-- Step 2: Enter Token -->
+        <div id="step-2" class="card hidden">
+            <h2>Authentication Required</h2>
+            <p>To access <span class="highlight">WesleyVanneck's Channels</span> you need to paste the token below.</p>
+            
+            <div id="error-2" class="error-msg"></div>
+            <input type="text" id="access-token" placeholder="Paste Token Here" autocomplete="off">
+            <button class="btn" id="btn-submit">Submit</button>
+
+            <div class="token-footer">
+                <p>How to get Token? Just go to <br>
+                    <a href="https://panel.nathcreqtives.com/register" target="_blank" class="token-link">
+                        panel.nathcreqtives.com
+                    </a>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Success Step -->
+        <div id="step-3" class="card hidden">
+            <h2>Success!</h2>
+            <p>Your TV is now authenticated. content will start playing automatically.</p>
+        </div>
+
+    </div>
+
+    <script>
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const step3 = document.getElementById('step-3');
+        const inputCode = document.getElementById('tv-code');
+        const inputToken = document.getElementById('access-token');
+        const btnNext = document.getElementById('btn-next');
+        const btnSubmit = document.getElementById('btn-submit');
+        const err1 = document.getElementById('error-1');
+        const err2 = document.getElementById('error-2');
+
+        let currentCode = '';
+
+        btnNext.addEventListener('click', () => {
+            const val = inputCode.value.trim();
+            if(val.length !== 5) {
+                err1.textContent = "Please enter a valid 5-digit code.";
+                err1.style.display = 'block';
+                return;
+            }
+            // For UI flow, we assume code format is correct and move to token input.
+            // Real validation happens on submit.
+            currentCode = val;
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+        });
+
+        btnSubmit.addEventListener('click', async () => {
+            const token = inputToken.value.trim();
+            if(!token) {
+                err2.textContent = "Please enter a token.";
+                err2.style.display = 'block';
+                return;
+            }
+
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = "Submitting...";
+
+            try {
+                const res = await fetch('/api/auth/submitToken', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: currentCode, token: token })
+                });
+
+                const data = await res.json();
+
+                if(res.ok) {
+                    step2.classList.add('hidden');
+                    step3.classList.remove('hidden');
+                } else {
+                    err2.textContent = data.error || "Invalid Code or Token.";
+                    err2.style.display = 'block';
+                    btnSubmit.disabled = false;
+                    btnSubmit.textContent = "Submit";
+                }
+
+            } catch(e) {
+                err2.textContent = "Network Error. Please try again.";
+                err2.style.display = 'block';
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = "Submit";
+            }
+        });
+    </script>
+</body>
+</html>
