@@ -888,6 +888,8 @@ video::cue {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 20px; 
+    box-sizing: border-box;    
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
@@ -911,7 +913,7 @@ video::cue {
 
 .token-modal-content {
     position: relative;
-    width: calc(100% - 40px); 
+    width: 100%; 
     max-width: 380px;
     background: #1a1a1a;
     border: var(--glass-border);
@@ -1072,10 +1074,3 @@ video::cue {
     color: var(--text-color);
     text-decoration: none;
 }
-
-/**@media (max-width: 480px) {
-    .token-modal-content {
-        width: calc(100% - 40px); 
-        padding: 25px 20px;
-    }
-}*/
