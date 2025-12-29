@@ -914,9 +914,9 @@ video::cue {
     width: 90%;
     max-width: 380px;
     background: #1a1a1a;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 30px 25px;
+    border: var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 20px;
     text-align: center;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     transform: scale(0.9) translateY(20px);
@@ -934,7 +934,7 @@ video::cue {
     color: #666;
     background: transparent;
     border-radius: 50%;
-    padding: 5px;
+    padding: 8px;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
@@ -943,7 +943,8 @@ video::cue {
 
 .token-close-btn:hover {
     color: #fff;
-    background: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: var(--glass-border);
 }
 
 .token-icon-wrapper {
@@ -987,7 +988,7 @@ video::cue {
     gap: 8px;
     background: rgba(0, 0, 0, 0.3);
     padding: 5px;
-    border-radius: 15px;
+    border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 15px;
 }
@@ -1008,7 +1009,7 @@ video::cue {
     background: var(--theme-color);
     color: #000;
     border: none;
-    border-radius: 12px;
+    border-radius: 50px;
     width: 45px;
     display: flex;
     align-items: center;
@@ -1059,16 +1060,16 @@ video::cue {
 }
 
 .token-link {
-    color: #4da6ff;
+    color: var(--text-color);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     transition: color 0.2s;
     word-break: break-all;
 }
 
 .token-link:hover {
-    color: #7dc2ff;
-    text-decoration: underline;
+    color: var(--text-color);
+    text-decoration: none;
 }
 
 @media (max-width: 480px) {
