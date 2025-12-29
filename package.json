@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@upstash/redis": "latest"
+    "@upstash/redis": "latest",
+    "@supabase/supabase-js": "^2.39.0"
   }
 }
