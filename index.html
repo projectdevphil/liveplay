@@ -186,26 +186,40 @@
     </div>
 
     <div id="token-modal" class="token-modal">
+        <div class="token-modal-backdrop"></div>
         <div class="token-modal-content">
+            <button id="close-token-modal" class="token-close-btn">
+                <span class="material-symbols-rounded">close</span>
+            </button>
+    
+            <div class="token-icon-wrapper">
+                <span class="material-symbols-rounded">lock</span>
+            </div>
+    
             <h3>Authentication Required</h3>
-            <p>To access <strong>WesleyVanneck's Channels</strong> you need to paste the token below.</p>
             
-            <a href="https://panel.nathcreqtives.com/register" target="_blank" class="token-link">
-                How to get Token? Just go to https://panel.nathcreqtives.com/register
-            </a>
-
-            <div class="token-input-container">
-                <input type="text" id="token-input" placeholder="Paste access token here...">
+            <p class="token-text">
+                To Access the <span class="highlight">WesleyVanneck's Channels</span> you need to paste the token below
+            </p>
+    
+            <div class="token-input-group">
+                <input type="text" id="token-input" placeholder="Paste access token here" autocomplete="off">
                 <button id="token-submit-btn">
                     <span class="material-symbols-rounded">arrow_forward</span>
                 </button>
             </div>
-            
-            <p id="token-status-message" class="token-status"></p>
-            
-            <button id="close-token-modal" class="icon-link-mini close-modal-abs">
-                <span class="material-symbols-rounded">close</span>
-            </button>
+    
+            <div class="token-message-container">
+                <p id="token-status-message" class="token-status"></p>
+            </div>
+    
+            <div class="token-footer">
+                <p>How to get Token? Just go to <br>
+                    <a href="https://panel.nathcreqtives.com/register" target="_blank" class="token-link">
+                        https://panel.nathcreqtives.com/register
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
     
