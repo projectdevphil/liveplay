@@ -2,180 +2,228 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Authentication - Liveplay for TV</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;800&display=swap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Access Token - Liveplay for TV</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <style>
         :root {
-            --theme-color: #ffffff;
-            --border-radius: 15px;
-            --card-bg: #111;
-            --border-color: #333;
-            --input-bg: #222;
-            --input-border: #444;
+            --card-background: #1a1a1a;
+            --text-color: #fff;
+            --text-secondary: #ccc;
+            --theme-color: #fff;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --focus-bg: rgba(255, 255, 255, 0.08);
         }
 
         body {
+            margin: 0;
+            padding: 0;
             background-color: #000;
-            color: white;
+            color: var(--text-color);
             font-family: 'Onest', sans-serif;
+            -webkit-font-smoothing: antialiased;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
         }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
+        .static-page-container {
+            margin: 0 auto;
+            max-width: 600px;
             padding: 20px;
-            text-align: center;
+            width: 100%;
             box-sizing: border-box;
+            text-align: center;
         }
 
-        .logo {
-            height: 32px; /* Matched tv.html guide logo size approx */
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 800;
             margin-bottom: 30px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius); /* Matched tv.html (15px) */
-            padding: 30px; /* Matched tv.html padding */
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        .content-card {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        h2 { 
-            margin: 0 0 10px 0; 
-            font-weight: 800; 
-            font-size: 1.5rem; 
+        .content-card h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
         }
 
-        p { 
-            color: #ccc; /* Matched tv.html auth-desc color */
-            font-size: 0.95rem; 
-            margin-bottom: 30px; 
-            line-height: 1.5; 
+        .content-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            max-width: 90%;
         }
-        
-        /* OTP Input Styling */
+
         .otp-container {
             display: flex;
-            justify-content: center;
-            gap: 12px; /* Matched tv.html gap */
+            gap: 12px;
             margin-bottom: 25px;
+            width: 100%;
+            justify-content: center;
         }
-        
+
         .otp-input {
             width: 55px;
-            height: 75px;
+            height: 70px;
             background: var(--input-bg);
-            border: 2px solid var(--input-border);
-            border-radius: 10px; /* Matched tv.html digit box radius */
-            color: white;
+            border: var(--glass-border);
+            border-radius: 12px;
+            color: #fff;
             font-family: 'Onest', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 800;
+            font-size: 2rem;
+            font-weight: 700;
             text-align: center;
             outline: none;
-            transition: border-color 0.2s, transform 0.2s;
+            transition: all 0.2s ease;
             padding: 0;
-            /* Remove spinners for number input */
-            -moz-appearance: textfield; 
+            -moz-appearance: textfield;
         }
-        
+
         .otp-input::-webkit-outer-spin-button,
         .otp-input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-        
+
         .otp-input:focus {
-            border-color: white;
-            transform: scale(1.05);
-            background: #2a2a2a;
+            border-color: #fff;
+            background: var(--focus-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .token-textarea {
             width: 100%;
             box-sizing: border-box;
             background: var(--input-bg);
-            border: 1px solid var(--input-border);
-            color: white;
+            border: var(--glass-border);
+            color: #fff;
             padding: 15px;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
             font-family: 'Onest', sans-serif;
             margin-bottom: 20px;
             outline: none;
             resize: none;
-            height: 100px;
+            height: 120px;
+            transition: all 0.2s ease;
         }
-        .token-textarea:focus { border-color: white; }
-        
-        .btn {
-            background: white;
-            color: black;
-            border: none;
-            width: 100%;
-            padding: 15px;
-            border-radius: 10px;
+
+        .token-textarea:focus {
+            border-color: #fff;
+            background: var(--focus-bg);
+        }
+
+        .start-btn {
+            background-color: #fff;
+            color: #000;
+            font-family: 'Onest', sans-serif;
+            font-size: 0.95rem;
             font-weight: 800;
-            font-size: 1rem;
+            padding: 16px 0;
+            width: 100%;
+            border-radius: 50px;
+            border: none;
             cursor: pointer;
-            transition: opacity 0.2s;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            margin-top: 10px;
         }
-        .btn:active { opacity: 0.8; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .highlight { 
-            color: var(--theme-color); 
-            font-weight: 700; 
+        .start-btn:active { transform: scale(0.98); }
+        .start-btn:hover { box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+        .start-btn:disabled { 
+            background-color: #333; 
+            color: #555; 
+            cursor: not-allowed; 
+            box-shadow: none; 
         }
-        
+
+        .highlight {
+            color: #fff;
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-color: rgba(255,255,255,0.3);
+        }
+
         .token-footer {
             margin-top: 25px;
             font-size: 0.8rem;
             color: #666;
-            border-top: 1px solid #222;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 20px;
+            width: 100%;
+            text-align: center;
         }
+
         .token-link {
-            color: #888;
+            color: #aaa;
             text-decoration: none;
             font-weight: 700;
             display: inline-block;
             margin-top: 5px;
+            transition: color 0.2s;
         }
-        .token-link:hover { color: white; }
+        .token-link:hover { color: #fff; }
 
-        .hidden { display: none; }
-        .error-msg { 
-            color: #ff3b30; 
-            font-size: 0.9rem; 
-            margin-bottom: 15px; 
+        .hidden { display: none !important; }
+        
+        .error-msg {
+            background: rgba(255, 23, 68, 0.1);
+            border: 1px solid rgba(255, 23, 68, 0.3);
+            color: #ff1744;
+            font-size: 0.85rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
             display: none;
             font-weight: 600;
-            background: rgba(255, 59, 48, 0.1);
-            padding: 10px;
-            border-radius: 8px;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #00e676;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="/assets/liveplay_logo_(white)_v2.svg" alt="Liveplay" class="logo">
+    <div class="static-page-container">
         
-        <!-- Step 1: Enter Code -->
-        <div id="step-1" class="card">
+        <h1 class="page-title">Access Token for TV</h1>
+
+        <div id="step-1" class="content-card">
             <h2>Enter TV Code</h2>
-            <p>Please enter the 5-digit code displayed on your TV screen.</p>
+            <p>Please enter the 5-digit code currently displayed on your TV screen.</p>
+            
             <div id="error-1" class="error-msg"></div>
             
             <div class="otp-container" id="code-inputs">
@@ -186,30 +234,31 @@
                 <input type="tel" class="otp-input" maxlength="1" pattern="[0-9]*" inputmode="numeric">
             </div>
 
-            <button class="btn" id="btn-next">Next</button>
+            <button class="start-btn" id="btn-next">Next Step</button>
         </div>
 
-        <!-- Step 2: Enter Token -->
-        <div id="step-2" class="card hidden">
+        <div id="step-2" class="content-card hidden">
             <h2>Authentication Required</h2>
-            <p>To access <span class="highlight">WesleyVanneck's Channels</span> you need to paste the token below.</p>
+            <p>To access <span class="highlight">WesleyVanneck's Channels</span>, please paste your access token below.</p>
             
             <div id="error-2" class="error-msg"></div>
-            <textarea id="access-token" class="token-textarea" placeholder="Paste Token Here..."></textarea>
-            <button class="btn" id="btn-submit">Submit</button>
+            
+            <textarea id="access-token" class="token-textarea" placeholder="eyJh..."></textarea>
+            
+            <button class="start-btn" id="btn-submit">Submit Token</button>
 
             <div class="token-footer">
-                How to get Token? Just go to <br>
+                How to get a token? Just go to<br>
                 <a href="https://panel.nathcreqtives.com/register" target="_blank" class="token-link">
                     panel.nathcreqtives.com
                 </a>
             </div>
         </div>
         
-        <!-- Success Step -->
-        <div id="step-3" class="card hidden">
+        <div id="step-3" class="content-card hidden">
+            <span class="material-symbols-rounded success-icon">check_circle</span>
             <h2>Success!</h2>
-            <p style="margin-bottom: 0;">Your TV is now authenticated.<br>Content will start playing automatically.</p>
+            <p style="margin-bottom: 0;">Your TV has been successfully authenticated.<br>Content will start playing automatically.</p>
         </div>
 
     </div>
@@ -228,21 +277,18 @@
         let fullCode = '';
 
         inputs.forEach((input, index) => {
-            // Focus next input
             input.addEventListener('input', (e) => {
                 if(e.target.value.length === 1 && index < inputs.length - 1) {
                     inputs[index + 1].focus();
                 }
             });
 
-            // Focus prev input on Backspace
             input.addEventListener('keydown', (e) => {
                 if(e.key === 'Backspace' && !e.target.value && index > 0) {
                     inputs[index - 1].focus();
                 }
             });
             
-            // Paste logic
             input.addEventListener('paste', (e) => {
                 e.preventDefault();
                 const paste = (e.clipboardData || window.clipboardData).getData('text').trim();
@@ -260,12 +306,13 @@
             inputs.forEach(inp => fullCode += inp.value);
 
             if(fullCode.length !== 5 || !/^\d+$/.test(fullCode)) {
-                err1.textContent = "Please enter a valid 5-digit code.";
+                err1.textContent = "Invalid Code. Please enter 5 digits.";
                 err1.style.display = 'block';
+                
                 step1.animate([
                     { transform: 'translateX(0)' },
-                    { transform: 'translateX(-10px)' },
-                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(-5px)' },
+                    { transform: 'translateX(5px)' },
                     { transform: 'translateX(0)' }
                 ], { duration: 300 });
                 return;
@@ -279,13 +326,13 @@
         btnSubmit.addEventListener('click', async () => {
             const token = inputToken.value.trim();
             if(!token) {
-                err2.textContent = "Please enter a token.";
+                err2.textContent = "Token field cannot be empty.";
                 err2.style.display = 'block';
                 return;
             }
 
             btnSubmit.disabled = true;
-            btnSubmit.textContent = "SUBMITTING...";
+            btnSubmit.textContent = "Processing...";
             err2.style.display = 'none';
 
             try {
@@ -304,14 +351,14 @@
                     err2.textContent = data.error || "Invalid Code or Token.";
                     err2.style.display = 'block';
                     btnSubmit.disabled = false;
-                    btnSubmit.textContent = "SUBMIT";
+                    btnSubmit.textContent = "Submit Token";
                 }
 
             } catch(e) {
-                err2.textContent = "Network Error. Please try again.";
+                err2.textContent = "Connection failed. Please try again.";
                 err2.style.display = 'block';
                 btnSubmit.disabled = false;
-                btnSubmit.textContent = "SUBMIT";
+                btnSubmit.textContent = "Submit Token";
             }
         });
     </script>
