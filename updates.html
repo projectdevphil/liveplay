@@ -33,23 +33,16 @@
                 </summary>
 
                 <div class="details-content">
-                    <span class="update-date" style="display:block; margin-top:10px;">Latest Build: v1.0.8</span>
+                    <span class="update-date" style="display:block; margin-top:10px;">Latest Build: v1.0.7</span>
 
                     <div class="version-block" style="margin-top: 15px;">
-                        <h3 style="margin-bottom: 10px;">Version 1.0.8 <span class="advisory-tag" style="background-color: #ffffff; margin-left: 8px;">CURRENT</span></h3>
+                        <h3 style="margin-bottom: 10px;">Version 1.0.7 <span class="advisory-tag" style="background-color: #ffffff; margin-left: 8px;">CURRENT</span></h3>
                         <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
-                            <li style="margin-bottom: 8px;"><strong>New Feature:</strong> Deployed the <strong>Live Analytics</strong> center within the Updates hub. Powered by <strong>Vercel KV (Redis)</strong>, this telemetry system provides real-time transparency on active user sessions and historical traffic data across the <strong>/home</strong> (Mobile/Desktop) and <strong>/tv</strong> interfaces.</li>
+                            <li style="margin-bottom: 8px;"><strong>New Integration:</strong> Implemented a native <strong>Litestream Speed Test</strong> utility, effectively replacing the external 'SpeedUp' platform. Powered by <strong>Project Dev</strong> and utilizing <strong>Netflix's fast.com API</strong>, this built-in feature provides users with a seamless, accurate assessment of their internet connection, specifically optimized to gauge streaming performance and stability.</li>
                         </ul>
                     </div>
 
                     <div style="opacity: 0.85;">
-                        <div class="version-block">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.7</h4>
-                            <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
-                                <li style="margin-bottom: 8px;"><strong>New Integration:</strong> Implemented a native <strong>Litestream Speed Test</strong> utility, effectively replacing the external 'SpeedUp' platform. Powered by <strong>Project Dev</strong> and utilizing <strong>Netflix's fast.com API</strong>, this built-in feature provides users with a seamless, accurate assessment of their internet connection, specifically optimized to gauge streaming performance and stability.</li>
-                            </ul>
-                        </div>
-
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.6</h4>
                             <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
@@ -91,60 +84,6 @@
                     </div>
                 </div>
             </details>
-
-            <hr>
-
-            <section class="analytics-section">
-                <h2>Live Analytics</h2>
-                
-                <div class="analytics-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon-wrapper">
-                            <span class="material-symbols-rounded">devices</span>
-                        </div>
-                        <div class="stat-title">Mobile / Desktop</div>
-                        <div class="stat-route">/home</div>
-                        
-                        <div class="active-container">
-                            <span class="pulsing-dot"></span>
-                            <span class="active-count" id="active-home">--</span>
-                            <span class="active-label">Active</span>
-                        </div>
-                        
-                        <div class="total-container">
-                            <span class="material-symbols-rounded" style="font-size:14px;">history</span>
-                            <span id="total-home">--</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon-wrapper">
-                            <span class="material-symbols-rounded">tv</span>
-                        </div>
-                        <div class="stat-title">Liveplay TV</div>
-                        <div class="stat-route">/tv</div>
-                        
-                        <div class="active-container">
-                            <span class="pulsing-dot"></span>
-                            <span class="active-count" id="active-tv">--</span>
-                            <span class="active-label">Active</span>
-                        </div>
-                        
-                        <div class="total-container">
-                            <span class="material-symbols-rounded" style="font-size:14px;">history</span>
-                            <span id="total-tv">--</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grand-total">
-                    <div class="grand-left">
-                        <span class="material-symbols-rounded">public</span>
-                        <span>Total Visits</span>
-                    </div>
-                    <span class="grand-number" id="grand-total">Loading...</span>
-                </div>
-            </section>
 
             <hr>
 
@@ -212,44 +151,8 @@
                 }
             }
 
-            async function fetchAnalytics() {
-                try {
-                    const response = await fetch('/api/stats');
-                    if (!response.ok) return;
-                    
-                    const data = await response.json();
-                    
-                    const fmt = (n) => n ? n.toLocaleString() : '0';
-
-                    if(data.home) {
-                        const activeHomeEl = document.getElementById('active-home');
-                        const totalHomeEl = document.getElementById('total-home');
-                        if (activeHomeEl) activeHomeEl.textContent = fmt(data.home.active);
-                        if (totalHomeEl) totalHomeEl.textContent = fmt(data.home.total);
-                    }
-                    
-                    if(data.tv) {
-                        const activeTvEl = document.getElementById('active-tv');
-                        const totalTvEl = document.getElementById('total-tv');
-                        if (activeTvEl) activeTvEl.textContent = fmt(data.tv.active);
-                        if (totalTvEl) totalTvEl.textContent = fmt(data.tv.total);
-                    }
-                    
-                    if(data.grandTotal !== undefined) {
-                        const grandEl = document.getElementById('grand-total');
-                        if (grandEl) grandEl.textContent = fmt(data.grandTotal);
-                    }
-
-                } catch (e) {
-                    console.error("Stats error", e);
-                }
-            }
-
             checkSystemStatus();
-            fetchAnalytics();
-
             setInterval(checkSystemStatus, 30000);
-            setInterval(fetchAnalytics, 5000);
         });
     </script>
 </body>
