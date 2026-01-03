@@ -1,68 +1,81 @@
-import { createClient } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 
-export default async function handler(req, res) {
-    const { action, page } = req.query;
+export const config = {
+  runtime: 'edge',
+};
 
-    const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-    const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+export default async function handler(request) {
+  try {
+    const redis = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_KV_REST_API_URL,
+      token: process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN,
+    });
 
-    if (!url || !token) {
-        console.warn("Database not connected. Returning dummy stats.");
-        return res.status(200).json({ 
-            home: { total: 0, active: 0 }, 
-            tv: { total: 0, active: 0 }, 
-            grandTotal: 0 
-        });
-    }
+    const url = new URL(request.url);
+    const action = url.searchParams.get('action');
+    const page = url.searchParams.get('page');
 
-    const kv = createClient({ url, token });
-
-    try {
-        if (action === 'track' && page) {
-            if (page !== 'home' && page !== 'tv') return res.status(400).json({ error: 'Invalid page' });
-
-            const now = Date.now();
-            const userId = req.headers['x-forwarded-for'] || `user-${Math.random()}`;
-
-            await Promise.all([
-                kv.incr(`stats:total:${page}`),
-                kv.zadd(`stats:active_set:${page}`, { score: now, member: userId }),
-                kv.zremrangebyscore(`stats:active_set:${page}`, 0, now - 60000)
-            ]);
-
-            return res.status(200).json({ success: true });
+    if (action === 'track' && page) {
+        if (page !== 'home' && page !== 'tv') {
+            return new Response('Invalid page', { status: 400 });
         }
 
         const now = Date.now();
-        const oneMinuteAgo = now - 60000;
+        const userId = 'user-' + Math.random().toString(36).substring(7);
 
-        await Promise.allSettled([
-            kv.zremrangebyscore('stats:active_set:home', 0, oneMinuteAgo),
-            kv.zremrangebyscore('stats:active_set:tv', 0, oneMinuteAgo)
+        await Promise.all([
+            redis.incr(`stats:total:${page}`),
+            redis.zadd(`stats:active_set:${page}`, { score: now, member: userId }),
+            redis.zremrangebyscore(`stats:active_set:${page}`, 0, now - 60000)
         ]);
 
-        const [totalHome, activeHome, totalTv, activeTv] = await Promise.all([
-            kv.get('stats:total:home'),
-            kv.zcard('stats:active_set:home'),
-            kv.get('stats:total:tv'),
-            kv.zcard('stats:active_set:tv')
-        ]);
-
-        const hTotal = parseInt(totalHome) || 0;
-        const tTotal = parseInt(totalTv) || 0;
-
-        return res.status(200).json({
-            home: { total: hTotal, active: parseInt(activeHome) || 0 },
-            tv: { total: tTotal, active: parseInt(activeTv) || 0 },
-            grandTotal: hTotal + tTotal
-        });
-
-    } catch (error) {
-        console.error("Redis Error:", error);
-        return res.status(200).json({ 
-            home: { total: 0, active: 0 }, 
-            tv: { total: 0, active: 0 }, 
-            grandTotal: 0 
+        return new Response(JSON.stringify({ success: true }), {
+            status: 200,
+            headers: { 'content-type': 'application/json' }
         });
     }
+    
+    const now = Date.now();
+    const oneMinuteAgo = now - 60000;
+    
+    await Promise.allSettled([
+        redis.zremrangebyscore('stats:active_set:home', 0, oneMinuteAgo),
+        redis.zremrangebyscore('stats:active_set:tv', 0, oneMinuteAgo)
+    ]);
+
+    const [totalHome, activeHome, totalTv, activeTv] = await Promise.all([
+        redis.get('stats:total:home'),
+        redis.zcard('stats:active_set:home'),
+        redis.get('stats:total:tv'),
+        redis.zcard('stats:active_set:tv')
+    ]);
+
+    const hTotal = Number(totalHome) || 0;
+    const tTotal = Number(totalTv) || 0;
+
+    const data = {
+        home: { total: hTotal, active: Number(activeHome) || 0 },
+        tv: { total: tTotal, active: Number(activeTv) || 0 },
+        grandTotal: hTotal + tTotal
+    };
+
+    return new Response(JSON.stringify(data), {
+        status: 200,
+        headers: { 
+            'content-type': 'application/json',
+            'cache-control': 'no-store, max-age=0' 
+        }
+    });
+
+  } catch (error) {
+    console.error("Stats API Error:", error);
+    return new Response(JSON.stringify({
+        home: { total: 0, active: 0 },
+        tv: { total: 0, active: 0 },
+        grandTotal: 0
+    }), { 
+        status: 200, 
+        headers: { 'content-type': 'application/json' } 
+    });
+  }
 }
