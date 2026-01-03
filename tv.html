@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Liveplay for TV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />    <title>Liveplay for TV</title>
     <script>
       if (!navigator.userAgent.match(/SmartTV|Tizen|Web0S|BRAVIA|NetCast|GoogleTV|AppleTV|HbbTV/i)) {
           window.location.replace('/404');
@@ -33,17 +32,31 @@
         body {
             margin: 0; padding: 0; overflow: hidden; background: #000;
             cursor: default; font-family: 'Onest', sans-serif; color: white;
-            -webkit-font-smoothing: antialiased;
+            -webkit-font-smoothing: antialiased; height: 100vh; width: 100vw;
         }
-
         #tv-player-container {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 1; background: #000;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            z-index: 1; 
+            background: #000;
+            overflow: hidden;
         }
         video { 
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100% !important;
             height: 100% !important;
             object-fit: fill !important;
+            will-change: transform;
+        }
+        .shaka-video-container {
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden !important;
         }
         .loader-overlay {
             position: fixed; inset: 0; background: black; z-index: 50;
