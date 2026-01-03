@@ -19,13 +19,13 @@ export default function handler(req, res) {
             //badge: "Coming this Christmas",
             //link: "https://liveplay.vercel.app/home",
         //},
-        {
-            title: "Merry Christmas and<br>Happy New Year,<br>Everyone!",
-            description: "To celebrate the season,<br><strong>liveplay</strong> is offering ad-free access<br>from<strong> December 20, 2025</strong>, to <strong>January 08, 2026</strong>.",
-            image: "/assets/poster/christmas_poster.png",
-            badge: "Free Access • Special",
-            link: null,
-        },        
+        //{
+            //title: "Merry Christmas and<br>Happy New Year,<br>Everyone!",
+            //description: "To celebrate the season,<br><strong>liveplay</strong> is offering ad-free access<br>from<strong> December 20, 2025</strong>, to <strong>January 08, 2026</strong>.",
+            //image: "/assets/poster/christmas_poster.png",
+            //badge: "Free Access • Special",
+            //link: null,
+        //},        
         //{
             //title: "SEA Games:<br>Thailand 2025",
             //ph_description: "<strong>Catch-Up TV</strong>: TV5, RPTV, and One Sports<br><strong>Livestream</strong>: Pilipinas Live Channels and<br>Mediacorp SEA Games Channels",
