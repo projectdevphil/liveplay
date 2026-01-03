@@ -52,7 +52,7 @@ export default function handler(req, res) {
         },
         {
             title: "Sanggang-Dikit FR",
-            ph_description: "<strong>MON-FRI | 8:50PM</strong> GMA7<br><strong>MON-FRI | 10:30PM</strong> GTV",
+            ph_description: "<strong>MON-FRI | 8:55PM</strong> GMA7<br><strong>MON-FRI | 10:30PM</strong> GTV",
             nonph_description: "<strong>on GMA Pinoy TV</strong>",
             image: "https://lh3.googleusercontent.com/pRtwAg1WuFVc7KpKVACA9hpw6dcfrIXYpGWuqM4nWtT_P3OCenNk5QIDHd_O0GUKIM0K7oEUxJiWBQ=w1440-ns-nd-rj",
             badge: "Catch-Up TV • Action",
