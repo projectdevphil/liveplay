@@ -49,12 +49,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const miniPlayerLogo = document.getElementById("minimized-player-logo");
     const miniPlayerIcon = document.querySelector(".live-sensor-mini"); 
 
-    const tokenModal = document.getElementById('token-modal');
-    const tokenInput = document.getElementById('token-input');
-    const tokenSubmitBtn = document.getElementById('token-submit-btn');
-    const tokenStatusMsg = document.getElementById('token-status-message');
-    const tokenModalClose = document.getElementById('close-token-modal');
-
     let player = null;
     let ui = null;
     let allStreams = [];
@@ -464,89 +458,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    const handleTokenRequirement = (originalUrl) => {
-        return new Promise((resolve, reject) => {
-            const savedToken = localStorage.getItem('wesley_token');
-            if(savedToken) {
-                tokenInput.value = savedToken;
-            } else {
-                tokenInput.value = '';
-            }
-
-            tokenStatusMsg.textContent = '';
-            tokenStatusMsg.className = 'token-status';
-            tokenModal.classList.add('active');
-            tokenInput.focus();
-
-            const closeModal = () => {
-                tokenModal.classList.remove('active');
-                cleanup();
-                reject('Cancelled');
-            };
-
-            const validateToken = async () => {
-                const token = tokenInput.value.trim();
-                if(!token) return;
-
-                tokenStatusMsg.textContent = "Checking token...";
-                tokenStatusMsg.className = 'token-status status-checking';
-                tokenInput.disabled = true;
-                tokenSubmitBtn.disabled = true;
-
-                const testUrl = originalUrl.replace('[ACCESS_TOKEN]', token);
-
-                try {
-                    const response = await fetch(testUrl, { method: 'HEAD' });
-                    
-                    tokenInput.disabled = false;
-                    tokenSubmitBtn.disabled = false;
-
-                    if (response.ok) {
-                        tokenStatusMsg.textContent = "Correct Token";
-                        tokenStatusMsg.className = 'token-status status-success';
-                        
-                        localStorage.setItem('wesley_token', token);
-
-                        setTimeout(() => {
-                            tokenModal.classList.remove('active');
-                            cleanup();
-                            resolve(testUrl);
-                        }, 800);
-                    } else if (response.status === 403 || response.status === 401) {
-                        tokenStatusMsg.textContent = "Expired or Incorrect Token";
-                        tokenStatusMsg.className = 'token-status status-error';
-                    } else if (response.status === 404) {
-                        tokenStatusMsg.textContent = "Incorrect Token";
-                        tokenStatusMsg.className = 'token-status status-error';
-                    } else {
-                        tokenStatusMsg.textContent = "Connection Error";
-                        tokenStatusMsg.className = 'token-status status-error';
-                    }
-                } catch (e) {
-                    console.error(e);
-                    tokenInput.disabled = false;
-                    tokenSubmitBtn.disabled = false;
-                    tokenStatusMsg.textContent = "Incorrect Token / Network Error";
-                    tokenStatusMsg.className = 'token-status status-error';
-                }
-            };
-
-            const onEnterPress = (e) => {
-                if(e.key === 'Enter') validateToken();
-            };
-
-            const cleanup = () => {
-                tokenSubmitBtn.removeEventListener('click', validateToken);
-                tokenModalClose.removeEventListener('click', closeModal);
-                tokenInput.removeEventListener('keypress', onEnterPress);
-            };
-
-            tokenSubmitBtn.addEventListener('click', validateToken);
-            tokenModalClose.addEventListener('click', closeModal);
-            tokenInput.addEventListener('keypress', onEnterPress);
-        });
-    };
-
     const openPlayer = async (publicStreamInfo) => {
         trackChannelView(publicStreamInfo);
 
@@ -586,6 +497,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
+        await playVideoAd(videoElement, playerWrapper, player, ui, (text, color) => {
+             if(mainPlayerStatus) {
+                mainPlayerStatus.textContent = text;
+                mainPlayerStatus.style.color = color;
+             }
+        });
+
         if (!playerView.classList.contains('active')) return;
         
         videoElement.removeAttribute('src'); 
@@ -601,25 +519,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!res.ok) throw new Error("Channel data not found.");
             const secureData = await res.json();
-
-            if (secureData.manifestUri.includes('[ACCESS_TOKEN]')) {
-                try {
-                    // Show modal, wait for correct token
-                    const validUrl = await handleTokenRequirement(secureData.manifestUri);
-                    // If we reach here, token was correct and modal is closing
-                    secureData.manifestUri = validUrl;
-                } catch (userCancelled) {
-                    if(mainPlayerStatus) mainPlayerStatus.textContent = "Authentication Cancelled";
-                    return; 
-                }
-            }
-
-            await playVideoAd(videoElement, playerWrapper, player, ui, (text, color) => {
-                if(mainPlayerStatus) {
-                   mainPlayerStatus.textContent = text;
-                   mainPlayerStatus.style.color = color;
-                }
-           });
 
             if (!player) {
                 const success = await initPlayer();
