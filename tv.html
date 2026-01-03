@@ -44,11 +44,6 @@
             width: 100% !important;
             height: 100% !important;
             object-fit: fill !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
         .loader-overlay {
             position: fixed; inset: 0; background: black; z-index: 50;
@@ -400,6 +395,24 @@
                     loadStream(manifestUri, clearKeys);
 
                 } catch(e) { console.error(e); els.name.textContent = "Stream Offline"; els.loader.classList.add('hidden'); }
+            }
+
+            function forceFill() {
+                const video = document.querySelector('video');
+    
+                video.style.width = '100vw';
+                video.style.height = '100vh';
+                video.style.position = 'fixed';
+                video.style.top = '0';
+                video.style.left = '0';
+                video.style.zIndex = '9999';
+    
+                video.style.objectFit = 'fill';
+    
+                const container = video.parentElement;
+                   if (container.requestFullscreen) {
+                container.requestFullscreen();
+                }
             }
 
             function renderGuide(channels, slides, topData) {
