@@ -45,15 +45,23 @@ export default function handler(req, res) {
         {
             title: "ROJA",
             ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, A2Z and ALLTV2",
-            nonph_description: "<strong>on TFC </strong>",
+            nonph_description: "<strong>on TFC</strong>",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABQ2QL_Xl927R68dyQNd7mIavq3jzl6TXs2baGhbYVxfZNeMUOlnLsPelcmT2_iKWf0qLeFKMXQd4Dsx57QeHuuO2TS4iIKn3EFKO.webp",
+            badge: "Catch-Up TV • Action",
+            link: null
+        },
+        {
+            title: "Sanggang-Dikit FR",
+            ph_description: "<strong>MON-FRI | 8:50PM</strong> GMA7<br><strong>MON-FRI | 10:30PM (Delay)</strong> GTV",
+            nonph_description: "<strong>on GMA Pinoy TV</strong>",
+            image: "https://lh3.googleusercontent.com/pRtwAg1WuFVc7KpKVACA9hpw6dcfrIXYpGWuqM4nWtT_P3OCenNk5QIDHd_O0GUKIM0K7oEUxJiWBQ=w1440-ns-nd-rj",
             badge: "Catch-Up TV • Action",
             link: null
         },
         {
             title: "PBB Celebrity<br>Collab Edition 2.0",
             ph_description: "<strong>MON-FRI | 9:40PM<br>SAT-SUN | 6:15PM</strong><br>GMA7 and PBB Catch-Up Livestream",
-            nonph_description: "<strong>MON-FRI | 9:40PM PHT<br>SAT | 6:15PM PHT<br>SUN | 10:05PM PHT</strong><br>PBB Catch-Up Episode",
+            nonph_description: "<strong>MON-FRI | 9:40PM PHT<br>SAT | 6:15PM PHT<br>SUN | 10:05PM PHT</strong><br>PBB Catch-Up Livestream",
             image: "https://pql-static.abs-cbn.com/images/pbbcelebritycollab.herobg-tv.V4.JPG?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Reality",
             link: null
