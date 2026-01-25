@@ -46,16 +46,16 @@ export default function handler(req, res) {
             title: "ROJA",
             ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, A2Z and ALLTV2",
             nonph_description: "<strong>on TFC</strong>",
-            image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABQ2QL_Xl927R68dyQNd7mIavq3jzl6TXs2baGhbYVxfZNeMUOlnLsPelcmT2_iKWf0qLeFKMXQd4Dsx57QeHuuO2TS4iIKn3EFKO.webp",
+            image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
             badge: "Catch-Up TV • Action",
             link: null
         },
         {
-            title: "Sanggang-Dikit FR",
-            ph_description: "<strong>MON-FRI | 8:55PM</strong> - GMA7<br><strong>MON-FRI | 10:30PM</strong> - GTV",
+            title: "Hating Kapatid",
+            ph_description: "<strong>MON-SAT | 2:30PM</strong><br>GMA7",
             nonph_description: "<strong>on GMA Pinoy TV</strong>",
-            image: "https://lh3.googleusercontent.com/pRtwAg1WuFVc7KpKVACA9hpw6dcfrIXYpGWuqM4nWtT_P3OCenNk5QIDHd_O0GUKIM0K7oEUxJiWBQ=w1440-ns-nd-rj",
-            badge: "Catch-Up TV • Action",
+            image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
+            badge: "Catch-Up TV • Drama",
             link: null
         },
         {
