@@ -25,7 +25,7 @@ export default function handler(req, res) {
             image: "https://pql-static.abs-cbn.com/images/batangquiapo.herobg-tv.v3.jpg?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Action",
             link: null,
-            overlay: "show" // Added here
+            overlay: "show"
         },
         {
             title: "ROJA",
@@ -34,7 +34,7 @@ export default function handler(req, res) {
             image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
             badge: "Catch-Up TV • Action",
             link: null,
-            overlay: "show" // Added here
+            overlay: "show"
         },
         {
             title: "Hating Kapatid",
@@ -43,7 +43,7 @@ export default function handler(req, res) {
             image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
             badge: "Catch-Up TV • Drama",
             link: null,
-            overlay: "show" // Added here
+            overlay: "show"
         },
         {
             title: "PBB Celebrity<br>Collab Edition 2.0",
@@ -52,7 +52,7 @@ export default function handler(req, res) {
             image: "https://pql-static.abs-cbn.com/images/pbbcelebritycollab.herobg-tv.V4.JPG?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Reality",
             link: null,
-            overlay: "show" // Added here
+            overlay: "show"
         },
         {
             title: "It's Showtime",
@@ -61,7 +61,7 @@ export default function handler(req, res) {
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "Catch-Up TV • Variety",
             link: null,
-            overlay: "show" // Added here
+            overlay: "show"
         },
         {
             title: "NBA TV Philippines",
@@ -70,7 +70,7 @@ export default function handler(req, res) {
             badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv-philippines",
             access: "PH",
-            overlay: "none" // Example: No overlay for this one
+            overlay: "show"
         },
         {
             title: "NBA TV",
@@ -79,7 +79,7 @@ export default function handler(req, res) {
             badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv",
             access: "Non-PH",
-            overlay: "none" // Example: No overlay for this one
+            overlay: "show"
         },
         {
             title: "Premier League",
@@ -87,7 +87,7 @@ export default function handler(req, res) {
             image: "https://www.peacocktv.com/dam/growth/assets/sportslandingpages/premier-league/23-24/week24/PREMIERLEAGUE.jpg",
             badge: "Watch Now • Sports",
             link: "/home?channel=premier-league",
-            overlay: "show" // Added here
+            overlay: "show"
         }
     ];
 
