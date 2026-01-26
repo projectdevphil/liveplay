@@ -13,6 +13,8 @@ export default function handler(req, res) {
 
     const slidesData = [
         {
+            title: "",
+            description: "",
             image: "/assets/poster/m7_champion_rora.png",
             badge: "Events • Games",
             link: null,
