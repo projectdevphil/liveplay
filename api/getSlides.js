@@ -13,6 +13,12 @@ export default function handler(req, res) {
 
     const slidesData = [
         {
+            image: "/assets/poster/m7_champion_rora.png",
+            badge: "Events • Games",
+            link: null,
+            overlay: "none"
+        },
+        {
             title: "FPJ's Batang Quiapo",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, A2Z and ALLTV2",
             nonph_description: "<strong>on TFC</strong>",
