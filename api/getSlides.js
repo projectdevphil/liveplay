@@ -16,8 +16,8 @@ export default function handler(req, res) {
             title: "",
             description: "",
             image: "/assets/poster/m7_champion_rora.png",
-            badge: "Events • Games",
-            link: null,
+            badge: "Watch Replay • Events • E-Games",
+            link: "https://m.youtube.com/watch?v=I-6flm9RfFg",
             overlay: "none"
         },
         {
