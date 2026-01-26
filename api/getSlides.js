@@ -12,35 +12,14 @@ export default function handler(req, res) {
     const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
 
     const slidesData = [
-        //{
-            //title: "Coming Soon",
-            //description: "New name, same interface.<br><strong>litestream</strong> rebrands to <strong>liveplay</strong>.",
-            //image: "/assets/poster/rebranding_poster.png",
-            //badge: "Coming this Christmas",
-            //link: "https://liveplay.vercel.app/home",
-        //},
-        //{
-            //title: "Merry Christmas and<br>Happy New Year,<br>Everyone!",
-            //description: "To celebrate the season,<br><strong>liveplay</strong> is offering ad-free access<br>from<strong> December 20, 2025</strong>, to <strong>January 08, 2026</strong>.",
-            //image: "/assets/poster/christmas_poster.png",
-            //badge: "Free Access • Special",
-            //link: null,
-        //},        
-        //{
-            //title: "SEA Games:<br>Thailand 2025",
-            //ph_description: "<strong>Catch-Up TV</strong>: TV5, RPTV, and One Sports<br><strong>Livestream</strong>: Pilipinas Live Channels and<br>Mediacorp SEA Games Channels",
-            //image: "/assets/poster/seagames_thailand_2025_poster_v2.png",
-            //badge: "Watch Now • Event • Sports",
-            //link: null,
-            //access: 'PH'
-        //},
         {
             title: "FPJ's Batang Quiapo",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, A2Z and ALLTV2",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/batangquiapo.herobg-tv.v3.jpg?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Action",
-            link: null
+            link: null,
+            overlay: "show" // Added here
         },
         {
             title: "ROJA",
@@ -48,7 +27,8 @@ export default function handler(req, res) {
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
             badge: "Catch-Up TV • Action",
-            link: null
+            link: null,
+            overlay: "show" // Added here
         },
         {
             title: "Hating Kapatid",
@@ -56,7 +36,8 @@ export default function handler(req, res) {
             nonph_description: "<strong>on GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
             badge: "Catch-Up TV • Drama",
-            link: null
+            link: null,
+            overlay: "show" // Added here
         },
         {
             title: "PBB Celebrity<br>Collab Edition 2.0",
@@ -64,7 +45,8 @@ export default function handler(req, res) {
             nonph_description: "<strong>MON-FRI | 9:40PM PHT<br>SAT | 6:15PM PHT<br>SUN | 10:05PM PHT</strong><br>PBB Catch-Up Livestream",
             image: "https://pql-static.abs-cbn.com/images/pbbcelebritycollab.herobg-tv.V4.JPG?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Reality",
-            link: null
+            link: null,
+            overlay: "show" // Added here
         },
         {
             title: "It's Showtime",
@@ -72,7 +54,8 @@ export default function handler(req, res) {
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "Catch-Up TV • Variety",
-            link: null
+            link: null,
+            overlay: "show" // Added here
         },
         {
             title: "NBA TV Philippines",
@@ -80,7 +63,8 @@ export default function handler(req, res) {
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv-philippines",
-            access: "PH"
+            access: "PH",
+            overlay: "none" // Example: No overlay for this one
         },
         {
             title: "NBA TV",
@@ -88,7 +72,8 @@ export default function handler(req, res) {
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
             link: "/home?channel=nba-tv",
-            access: "Non-PH"
+            access: "Non-PH",
+            overlay: "none" // Example: No overlay for this one
         },
         {
             title: "Premier League",
@@ -96,6 +81,7 @@ export default function handler(req, res) {
             image: "https://www.peacocktv.com/dam/growth/assets/sportslandingpages/premier-league/23-24/week24/PREMIERLEAGUE.jpg",
             badge: "Watch Now • Sports",
             link: "/home?channel=premier-league",
+            overlay: "show" // Added here
         }
     ];
 
