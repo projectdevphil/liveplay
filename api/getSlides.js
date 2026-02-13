@@ -12,14 +12,14 @@ export default function handler(req, res) {
     const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
 
     const slidesData = [
-        {
-            title: "",
-            description: "",
-            image: "/assets/poster/m7_champion_rora.png",
-            badge: "Watch Replay • Events • E-Games",
-            link: "https://m.youtube.com/watch?v=I-6flm9RfFg",
-            overlay: "none"
-        },
+        //{
+            //title: "",
+            //description: "",
+            //image: "/assets/poster/m7_champion_rora.png",
+            //badge: "Watch Replay • Events • E-Games",
+            //link: "https://m.youtube.com/watch?v=I-6flm9RfFg",
+            //overlay: "none"
+        //},
         {
             title: "FPJ's Batang Quiapo",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, A2Z and ALLTV2",
