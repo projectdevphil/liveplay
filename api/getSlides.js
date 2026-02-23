@@ -83,12 +83,20 @@ export default function handler(req, res) {
             access: "Non-PH",
             overlay: "show"
         },
+        //{
+            //title: "Premier League",
+            //description: "",
+            //image: "https://www.peacocktv.com/dam/growth/assets/sportslandingpages/premier-league/23-24/week24/PREMIERLEAGUE.jpg",
+            //badge: "Watch Now • Sports",
+            //link: "/home?channel=premier-league",
+            //overlay: "show"
+        //},
         {
-            title: "Premier League",
+            title: "NFL Network",
             description: "",
-            image: "https://www.peacocktv.com/dam/growth/assets/sportslandingpages/premier-league/23-24/week24/PREMIERLEAGUE.jpg",
+            image: "https://images.t-online.de/2025/08/CKDB6tmOYvGL/0x0:3150x1772/fit-in/__WIDTH__x0/minneapolis-mn-december-08-minnesota-vikings-wide-receiver-justin-jefferson-18-catches-a-52-yard-pass-for-a-touchdown-during-the-third-quarter-of-a-nfl-american-football-herren-usa-game-between-the-minnesota-vikings-and-atlanta-falcons-on-december-8-2024-at-u-s-bank-stadium-in-minneapolis-mn-photo-by-nick-wosika-icon-sportswire-nfl-dec-08-falcons-at-vikings-editorial-use-only-icon20241208097.jpg",
             badge: "Watch Now • Sports",
-            link: "/home?channel=premier-league",
+            link: "/home?channel=nfl-network",
             overlay: "show"
         }
     ];
