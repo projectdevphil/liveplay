@@ -169,6 +169,67 @@ header nav {
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         border: 1px solid transparent;
         border-radius: 15px;
+.search-container {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+}
+
+.search-container.active {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding-left: 15px;
+}
+
+#search-input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: 'Onest', sans-serif;
+    font-size: 0.9rem;
+    width: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* This is the 150px that was breaking mobile */
+.search-container.active #search-input {
+    width: 150px;
+    opacity: 1;
+    margin-right: 5px;
+}
+
+#search-clear {
+    display: none !important; 
+}
+
+@media (max-width: 1023px) {
+    .search-container.active {
+        background: transparent;
+        border-color: transparent;
+        padding-left: 0;
+    }
+
+    #search-input {
+        position: absolute;
+        top: 80px; /* 60px header + 20px spacing top */
+        left: 20px;
+        right: 20px;
+        width: calc(100vw - 40px);
+        height: 0;
+        padding: 0 20px;
+        opacity: 0;
+        visibility: hidden;
+        background: rgba(25, 25, 25, 0.65); /* Made slightly darker for better glass effect */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        border: 1px solid transparent;
+        border-radius: 15px;
         color: white;
         font-size: 1rem;
         transition: height 0.3s ease, opacity 0.3s ease, visibility 0.3s, padding 0.3s ease, border-color 0.3s ease;
@@ -177,17 +238,20 @@ header nav {
         margin: 0;
     }
 
+    /* THE FIX IS HERE: We override the 150px desktop width */
     .search-container.active #search-input {
         height: 60px;
+        width: calc(100vw - 40px); /* Forces full width minus padding */
+        margin-right: 0;
         opacity: 1;
         visibility: visible;
         padding: 0 60px 0 20px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25); /* Glass border */
     }
 
     #search-clear {
         position: absolute;
-        top: 96px;
+        top: 96px; /* Vertically centered inside the new 60px height box */
         right: 35px;
         color: var(--text-secondary);
         z-index: 1000;
@@ -215,6 +279,7 @@ header nav {
         background: rgba(255, 255, 255, 0.2);
     }
 
+    /* Fix for Glass Morphing disappearing on scroll */
     header.scrolled:has(.search-container.active) {
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
