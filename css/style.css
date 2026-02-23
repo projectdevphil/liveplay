@@ -190,7 +190,7 @@ header nav {
 }
 
 .search-container.active #search-clear {
-    /**display: flex !important;*/
+    display: flex;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
