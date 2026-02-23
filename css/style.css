@@ -152,7 +152,7 @@ header nav {
     color: white;
     font-size: 1rem;
     transform: translateY(-10px);
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-sizing: border-box;
     z-index: 999;
     margin: 0;
@@ -180,17 +180,16 @@ header nav {
     align-items: center;
     justify-content: center;
     transform: translateY(-10px);
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 20px;
     background: none;
     border-radius: 50%;
     padding: 4px;
     margin: 0;
-    display: none;
+    display: flex; 
 }
 
 .search-container.active #search-clear {
-    display: flex;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
