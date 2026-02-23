@@ -50,8 +50,6 @@ button {
 
 header {
     align-items: center;
-    backdrop-filter: none;
-    background: transparent;
     display: flex;
     height: 60px;
     justify-content: space-between;
@@ -60,11 +58,22 @@ header {
     position: fixed;
     right: 0;
     top: 0;
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
     z-index: 1000;
+    background: transparent;
 }
 
-header.scrolled {
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease;
+    pointer-events: none;
+}
+
+header.scrolled::before {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     background: var(--glass-bg);
