@@ -20,13 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchInput = document.getElementById("search-input");
     
     let searchClear = document.getElementById("search-clear");
-    if (!searchClear && searchContainer) {
-        searchClear = document.createElement("span");
-        searchClear.id = "search-clear";
-        searchClear.className = "material-symbols-rounded";
-        searchClear.textContent = "close";
-        searchContainer.appendChild(searchClear);
-        
+    if (searchClear) {
         searchClear.addEventListener("click", (e) => {
             e.stopPropagation();
             searchInput.value = "";
