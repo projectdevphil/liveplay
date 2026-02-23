@@ -171,7 +171,7 @@ header nav {
 
 #search-clear {
     position: absolute;
-    top: 78px;
+    top: 75px;
     right: 35px;
     color: var(--text-secondary);
     z-index: 1000;
