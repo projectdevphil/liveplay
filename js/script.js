@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchToggle = document.getElementById("search-toggle");
     const searchInput = document.getElementById("search-input");
     
-    // Dynamically inject the Clear Search (x) icon
     let searchClear = document.getElementById("search-clear");
     if (!searchClear && searchContainer) {
         searchClear = document.createElement("span");
@@ -28,11 +27,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         searchClear.textContent = "close";
         searchContainer.appendChild(searchClear);
         
-        // Clear text and focus back on click
         searchClear.addEventListener("click", (e) => {
-            e.stopPropagation(); // Prevents the search bar from toggling closed
+            e.stopPropagation();
             searchInput.value = "";
-            searchInput.dispatchEvent(new Event('input')); // Reset the filtered list
+            searchInput.dispatchEvent(new Event('input'));
             searchInput.focus();
         });
     }
