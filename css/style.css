@@ -167,7 +167,7 @@ header nav {
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        border: 1px solid transparent;
+        border: var(--glass-border);
         border-radius: 50px;
         color: white;
         font-size: 1rem;
@@ -184,7 +184,7 @@ header nav {
         opacity: 1;
         visibility: visible;
         padding: 0 60px 0 20px;
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        border: var(--glass-border);
     }
 
     #search-clear {
