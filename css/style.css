@@ -159,15 +159,11 @@ header nav {
         left: 20px;
         right: 20px;
         width: calc(100vw - 40px);
-        
-        /* Set height permanently so we slide it rather than grow it */
         height: 60px;
         padding: 0 60px 0 20px;
-        
         opacity: 0;
         visibility: hidden;
-        transform: translateY(-15px); /* Start slightly shifted up */
-        
+        transform: translateY(-15px);
         background: rgba(25, 25, 25, 0.65);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
@@ -176,8 +172,6 @@ header nav {
         border-radius: 50px;
         color: white;
         font-size: 1rem;
-        
-        /* Animate transform instead of height */
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s, border-color 0.3s ease;
         box-sizing: border-box;
         z-index: 999;
@@ -185,9 +179,11 @@ header nav {
     }
 
     .search-container.active #search-input {
+        width: calc(100vw - 40px); 
+        margin-right: 0;
         opacity: 1;
         visibility: visible;
-        transform: translateY(0); /* Drop down to normal position */
+        transform: translateY(0);
         border: var(--glass-border);
     }
 
@@ -197,17 +193,12 @@ header nav {
         right: 35px;
         color: var(--text-secondary);
         z-index: 1000;
-        
         opacity: 0;
         visibility: hidden;
-        transform: translateY(-15px); /* Same upward shift as the search input */
-        
+        transform: translateY(-15px);
         align-items: center;
         justify-content: center;
-        
-        /* Sync animation exactly with the search input */
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s;
-        
         font-size: 20px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
@@ -219,7 +210,7 @@ header nav {
         display: flex !important;
         opacity: 1;
         visibility: visible;
-        transform: translateY(0); /* Drop down together with the input */
+        transform: translateY(0);
     }
     
     #search-clear:hover {
