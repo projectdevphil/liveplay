@@ -148,9 +148,11 @@ header nav {
 
 @media (max-width: 1023px) {
     .search-container.active {
-        background: transparent;
-        border-color: transparent;
-        padding-left: 0;
+        background: var(--glass-bg);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: var(--glass-border);
+        padding-left: 15px;
     }
 
     #search-input {
@@ -164,7 +166,7 @@ header nav {
         opacity: 0;
         visibility: hidden;
         transform: translateY(-15px);
-        background: rgba(25, 25, 25, 0.65);
+        background: var(--glass-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
@@ -219,11 +221,11 @@ header nav {
         border: var(--glass-border);
     }
     
-    header.scrolled:has(.search-container.active) {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        background: transparent !important;
-        border-bottom: none !important;
+    header.scrolled {
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        background: var(--glass-bg);
+        border-bottom: var(--glass-border);
     }
 
     header.scrolled:has(.search-container.active)::before {
@@ -232,8 +234,8 @@ header nav {
         inset: 0;
         z-index: -1;
         background: var(--glass-bg);
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
         border-bottom: var(--glass-border);
     }
 }
