@@ -143,7 +143,6 @@ header nav {
     padding: 0 60px 0 20px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-15px);
     background: rgba(25, 25, 25, 0.65);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -152,7 +151,8 @@ header nav {
     border-radius: 40px;
     color: white;
     font-size: 1rem;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s, border-color 0.3s ease;
+    transform: translateY(-10px);
+    transition: all 0.3s;
     box-sizing: border-box;
     z-index: 999;
     margin: 0;
@@ -177,10 +177,10 @@ header nav {
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-15px);
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s;
+    transform: translateY(-10px);
+    transition: all 0.3s;
     font-size: 20px;
     background: none;
     border-radius: 50%;
