@@ -198,7 +198,7 @@ header nav {
         align-items: center;
         justify-content: center;
         transition: opacity 0.3s ease, visibility 0.3s;
-        font-size: 30px;
+        font-size: 20px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
         padding: 4px;
