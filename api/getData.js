@@ -6,7 +6,7 @@ export default function handler(req, res) {
     }
 
     // FIX: Default to 'PH' instead of 'XX' so local testing doesn't get blocked
-    const country = req.headers['x-vercel-ip-country'] || 'PH'; 
+    const country = req.headers['x-vercel-ip-country'] || 'XX'; 
     const isPH = country === 'PH';
     const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
 
