@@ -193,17 +193,24 @@ header nav {
         right: 35px;
         color: var(--text-secondary);
         z-index: 1000;
-        cursor: pointer;
+        opacity: 0;
         visibility: hidden;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
+        transition: opacity 0.3s ease, visibility 0.3s;
+        font-size: 30px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
         padding: 4px;
         margin: 0;
     }
 
+    .search-container.active #search-clear {
+        display: flex !important;
+        opacity: 1;
+        visibility: visible;
+    }
+    
     #search-clear:hover {
         color: white;
         background-color: rgba(255, 255, 255, 0.1);
