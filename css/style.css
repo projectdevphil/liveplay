@@ -142,12 +142,10 @@ header nav {
     margin-right: 5px;
 }
 
-/* Ensure completely invisible on Desktop to respect instructions */
 #search-clear {
     display: none !important; 
 }
 
-/* Mobile Drop-Down Search Customization */
 @media (max-width: 1023px) {
     .search-container.active {
         background: transparent;
@@ -157,42 +155,39 @@ header nav {
 
     #search-input {
         position: absolute;
-        top: 60px; /* Aligned exactly under the header */
-        left: 0;
-        right: 0;
-        width: 100%;
+        top: 80px;
+        left: 20px;
+        width: calc(100vw - 40px);
         height: 0;
         padding: 0 20px;
         opacity: 0;
         visibility: hidden;
-        /* Glass Morphing Effect */
-        background: rgba(25, 25, 25, 0.85);
+        background: rgba(25, 25, 25, 0.45);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        border: 1px solid transparent;
+        border-radius: 15px;
         color: white;
         font-size: 1rem;
-        transition: height 0.3s ease, opacity 0.3s ease, visibility 0.3s, padding 0.3s ease;
+        transition: height 0.3s ease, opacity 0.3s ease, visibility 0.3s, padding 0.3s ease, border-color 0.3s ease;
         box-sizing: border-box;
         z-index: 999;
-        border-radius: 0;
         margin: 0;
     }
 
     .search-container.active #search-input {
         height: 60px;
-        width: 100%;
         opacity: 1;
         visibility: visible;
-        padding: 0 60px 0 20px; /* Offset right padding for clear icon */
-        margin-right: 0;
+        padding: 0 60px 0 20px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     #search-clear {
         position: absolute;
-        top: 76px; /* Centered in the newly dropped down 60px search menu */
-        right: 20px;
+        top: 96px;
+        right: 35px;
         color: var(--text-secondary);
         z-index: 1000;
         cursor: pointer;
@@ -217,6 +212,12 @@ header nav {
     #search-clear:hover {
         color: white;
         background: rgba(255, 255, 255, 0.2);
+    }
+
+    header.scrolled:has(.search-container.active) {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(15, 15, 15, 0.95) !important;
     }
 }
 
