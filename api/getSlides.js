@@ -22,7 +22,7 @@ export default function handler(req, res) {
         //},
         {
             title: "FPJ's Batang Quiapo",
-            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, A2Z and ALLTV2",
+            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/batangquiapo.herobg-tv.v3.jpg?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Action",
@@ -31,7 +31,7 @@ export default function handler(req, res) {
         },
         {
             title: "ROJA",
-            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, A2Z and ALLTV2",
+            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
             badge: "Catch-Up TV • Action",
@@ -58,7 +58,7 @@ export default function handler(req, res) {
         //},
         {
             title: "It's Showtime",
-            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z, ALLTV2 and GMA7",
+            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z, GMA7 and<br>It's Showtime Catch-Up Livestream",
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "Catch-Up TV • Variety",
