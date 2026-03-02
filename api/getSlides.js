@@ -47,15 +47,15 @@ export default function handler(req, res) {
             link: null,
             overlay: "show"
         },
-        {
-            title: "PBB Celebrity<br>Collab Edition 2.0",
-            ph_description: "<strong>MON-FRI | 9:40PM<br>SAT-SUN | 6:15PM</strong><br>GMA7 and PBB Catch-Up Livestream",
-            nonph_description: "<strong>MON-FRI | 9:40PM PHT<br>SAT | 6:15PM PHT<br>SUN | 10:05PM PHT</strong><br>PBB Catch-Up Livestream",
-            image: "https://pql-static.abs-cbn.com/images/pbbcelebritycollab.herobg-tv.V4.JPG?im_policy=landscapeHero_tv_hd",
-            badge: "Catch-Up TV • Reality",
-            link: null,
-            overlay: "show"
-        },
+        //{
+            //title: "PBB Celebrity<br>Collab Edition 2.0",
+            //ph_description: "<strong>MON-FRI | 9:40PM<br>SAT-SUN | 6:15PM</strong><br>GMA7 and PBB Catch-Up Livestream",
+            //nonph_description: "<strong>MON-FRI | 9:40PM PHT<br>SAT | 6:15PM PHT<br>SUN | 10:05PM PHT</strong><br>PBB Catch-Up Livestream",
+            //image: "https://pql-static.abs-cbn.com/images/pbbcelebritycollab.herobg-tv.V4.JPG?im_policy=landscapeHero_tv_hd",
+            //badge: "Catch-Up TV • Reality",
+            //link: null,
+            //overlay: "show"
+        //},
         {
             title: "It's Showtime",
             ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z, ALLTV2 and GMA7",
