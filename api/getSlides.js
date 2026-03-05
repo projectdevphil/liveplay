@@ -22,7 +22,7 @@ export default function handler(req, res) {
         //},
         {
             title: "FPJ's Batang Quiapo",
-            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "The Last 2 Weeks<br><strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/batangquiapo.herobg-tv.v3.jpg?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Action",
@@ -31,7 +31,7 @@ export default function handler(req, res) {
         },
         {
             title: "ROJA",
-            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "The Last 2 Weeks<br><strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
             badge: "Catch-Up TV • Action",
