@@ -22,7 +22,7 @@ export default function handler(req, res) {
         //},
         {
             title: "<span style='font-size: 25px;'>Formula 1</span>",
-            description: "on BeIN Sports 1 and Sky Sports F1",
+            description: "<strong>LIVE</strong><br>BeIN Sports 1, Sky Sports and Sky Sports F1",
             image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
             badge: "Catch-Up TV • Sports",
             link: null,
@@ -74,7 +74,7 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
-            title: "NBA TV Philippines",
+            title: "<span style='font-size: 24px;'>NBA TV Philippines</span>",
             description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
@@ -83,7 +83,7 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
-            title: "NBA TV",
+            title: "<span style='font-size: 26px;'>NBA TV</span>",
             description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
@@ -100,7 +100,7 @@ export default function handler(req, res) {
             //overlay: "show"
         //},
         {
-            title: "NFL Network",
+            title: "<span style='font-size: 23px;'>NFL Network</span>",
             description: "",
             image: "https://images.t-online.de/2025/08/CKDB6tmOYvGL/0x0:3150x1772/fit-in/__WIDTH__x0/minneapolis-mn-december-08-minnesota-vikings-wide-receiver-justin-jefferson-18-catches-a-52-yard-pass-for-a-touchdown-during-the-third-quarter-of-a-nfl-american-football-herren-usa-game-between-the-minnesota-vikings-and-atlanta-falcons-on-december-8-2024-at-u-s-bank-stadium-in-minneapolis-mn-photo-by-nick-wosika-icon-sportswire-nfl-dec-08-falcons-at-vikings-editorial-use-only-icon20241208097.jpg",
             badge: "Watch Now • Sports",
