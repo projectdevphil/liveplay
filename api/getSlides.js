@@ -38,7 +38,7 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
-            title: "<span style='font-size: 30px;'>ROJA</span>",
+            title: "<span style='font-size: 27px; margin-bottom: 3.5px;'>ROJA</span>",
             ph_description: "Finale Week<br><strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
@@ -83,7 +83,7 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
-            title: "<span style='font-size: 30px;'>NBA TV</span>",
+            title: "<span style='font-size: 25px; margin-bottom: 3.5px;'>NBA TV</span>",
             description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
