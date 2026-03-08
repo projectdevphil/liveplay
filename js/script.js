@@ -254,17 +254,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             const overlayStyle = (data.overlay === 'none') ? 'display: none;' : '';
 
             slide.innerHTML = `
-                 <div class="slide-wipe-wrapper">
-                     <img src="${data.image}" alt="${data.title}" class="slide-bg">
-                     <div class="slide-overlay" style="${overlayStyle}"></div>
-                     <div class="slide-content">
-                         <div class="slide-badge visit-badge">${data.badge}</div>
-            
-                     <div class="slide-title">${data.logo}</div>
-            
-                         <p class="slide-description">${data.description}</p>
-                     </div>
-                 </div>
+                <div class="slide-wipe-wrapper">
+                    <img src="${data.image}" alt="${data.title}" class="slide-bg">
+                    <div class="slide-overlay" style="${overlayStyle}"></div>
+                    <div class="slide-content">
+                        <h2 class="slide-title">${data.title}</h2>
+                        <p class="slide-description">${data.description}</p>
+                        <div class="slide-badge visit-badge">${data.badge}</div>
+                    </div>
+                </div>
             `;
             sliderWrapper.appendChild(slide);
 
