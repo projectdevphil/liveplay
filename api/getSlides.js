@@ -31,7 +31,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Action</span>",            
             title: "FPJ's Batang Quiapo",
-            ph_description: "The Last 2 Weeks<br><strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "<span style='font-style: italic;'>The Final Week</span><br><span style='font-size: 8px; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-FRI | 8PM</span> on Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/batangquiapo.herobg-tv.v3.jpg?im_policy=landscapeHero_tv_hd",
             link: null,
@@ -40,7 +40,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Action</span>",           
             title: "ROJA",
-            ph_description: "The Last 2 Weeks<br><strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "<span style='font-style: italic;'>The Final Week</span><br><span style='font-size: 8px; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-FRI | 8:45PM</span> on Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
             link: null,
@@ -49,10 +49,9 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Drama</span>",           
             title: "Hating Kapatid",
-            ph_description: "<strong>MON-SAT | 2:30PM</strong><br>GMA7",
+            ph_description: "<span style='font-size: 8px; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-SAT| 2:30PM</span> on GMA7",
             nonph_description: "<strong>on GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
-            link: null,
             overlay: "show"
         },
         //{
@@ -67,7 +66,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Variety</span>",           
             title: "It's Showtime",
-            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z, GMA7 and<br>It's Showtime Catch-Up Livestream",
+            ph_description: "<span style='font-size: 8px; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-SAT| 12NN</span> on Kapamilya Channel, A2Z, GMA7<br> and Catch-Up Livestream",
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             link: null,
