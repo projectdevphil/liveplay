@@ -23,7 +23,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Sports</span>",            
             title: "Formula 1", 
-            logo: "<img src='https://example.com/f1-logo.png' style='max-width: 150px; height: auto; display: block; margin-bottom: 10px;'>", 
+            logo: "<img src='https://companieslogo.com/img/orig/FWONK.D-6358a63d.png' style='max-width: 150px; height: auto; display: block; margin-bottom: 10px;'>", 
             description: "<span style='font-size: 8px; font-weight: bold; color: white; background: red; border-radius: 1.5px; padding: 0 3px;'>LIVE</span> on BeIN Sports 1, Sky Sports and Sky Sports F1",
             image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
             link: null,
