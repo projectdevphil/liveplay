@@ -21,6 +21,14 @@ export default function handler(req, res) {
             //overlay: "none"
         //},
         {
+            title: "<span style='font-size: 25px;'>Formula 1</span>",
+            description: "on BeIN Sports 1 and Sky Sports F1",
+            image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
+            badge: "Catch-Up TV • Sports",
+            link: null,
+            overlay: "show"
+        },
+        {
             title: "FPJ's Batang Quiapo",
             ph_description: "The Last 2 Weeks<br><strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
