@@ -24,7 +24,7 @@ export default function handler(req, res) {
             title: "<span style='font-size: 25px;'>Formula 1</span>",
             description: "<span style='font-size: 7px; color: white; background: red; border-radius: 1.5px; padding: 0 3px;'>LIVE</span> on BeIN Sports 1, Sky Sports and Sky Sports F1",
             image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
-            badge: "Catch-Up TV • Sports",
+            badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;>Sports</span>",
             link: null,
             overlay: "show"
         },
