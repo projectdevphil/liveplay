@@ -258,9 +258,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <img src="${data.image}" alt="${data.title}" class="slide-bg">
                     <div class="slide-overlay" style="${overlayStyle}"></div>
                     <div class="slide-content">
+                        <div class="slide-badge visit-badge">${data.badge}</div>
                         <h2 class="slide-title">${data.title}</h2>
                         <p class="slide-description">${data.description}</p>
-                        <div class="slide-badge visit-badge">${data.badge}</div>
                     </div>
                 </div>
             `;
