@@ -23,7 +23,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Sports</span>",           
             title: "<span style='font-size: 25px;'>Formula 1</span>",
-            description: "<span style='font-size: 8px; color: white; background: red; border-radius: 1.5px; padding: 0 3px;'>LIVE</span> on BeIN Sports 1, Sky Sports and Sky Sports F1",
+            description: "<span style='font-size: 8px; font-weight: bold; color: white; background: red; border-radius: 1.5px; padding: 0 3px;'>LIVE</span> on BeIN Sports 1, Sky Sports and Sky Sports F1",
             image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
             link: null,
             overlay: "show"
@@ -31,7 +31,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Action</span>",            
             title: "FPJ's Batang Quiapo",
-            ph_description: "<span style='font-style: italic;'>The Final Week</span><br><span style='font-size: 8px; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-FRI | 8PM</span> on Kapamilya Channel and A2Z",
+            ph_description: "<span style='font-style: italic;'>The Final Week</span><br><span style='font-size: 8px; font-weight: bold; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-FRI | 8PM</span> on Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/batangquiapo.herobg-tv.v3.jpg?im_policy=landscapeHero_tv_hd",
             link: null,
@@ -40,7 +40,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Action</span>",           
             title: "ROJA",
-            ph_description: "<span style='font-style: italic;'>The Final Week</span><br><span style='font-size: 8px; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-FRI | 8:45PM</span> on Kapamilya Channel and A2Z",
+            ph_description: "<span style='font-style: italic;'>The Final Week</span><br><span style='font-size: 8px; font-weight: bold; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-FRI | 8:45PM</span> on Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
             link: null,
@@ -49,7 +49,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Drama</span>",           
             title: "Hating Kapatid",
-            ph_description: "<span style='font-size: 8px; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-SAT| 2:30PM</span> on GMA7",
+            ph_description: "<span style='font-size: 8px; font-weight: bold; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-SAT | 2:30PM</span> on GMA7",
             nonph_description: "<strong>on GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
             overlay: "show"
@@ -66,7 +66,7 @@ export default function handler(req, res) {
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Catch-Up TV</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Variety</span>",           
             title: "It's Showtime",
-            ph_description: "<span style='font-size: 8px; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-SAT| 12NN</span> on Kapamilya Channel, A2Z, GMA7<br> and Catch-Up Livestream",
+            ph_description: "<span style='font-size: 8px; font-weight: bold; color: black; background: white; border-radius: 1.5px; padding: 0 3px;'>MON-SAT | 12NN</span> on Kapamilya Channel, A2Z, GMA7<br> and Catch-Up Livestream",
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             link: null,
@@ -74,7 +74,7 @@ export default function handler(req, res) {
         },
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Watch Now</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Sports</span>",           
-            title: "<span style='font-size: 24px;'>NBA TV Philippines</span>",
+            title: "<span style='font-size: 20px;'>NBA TV Philippines</span>",
             description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             link: "/home?channel=nba-tv-philippines",
@@ -83,7 +83,7 @@ export default function handler(req, res) {
         },
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Watch Now</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Sports</span>",           
-            title: "<span style='font-size: 26px;'>NBA TV</span>",
+            title: "<span style='font-size: 24px;'>NBA TV</span>",
             description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             link: "/home?channel=nba-tv",
@@ -100,7 +100,7 @@ export default function handler(req, res) {
         //},
         {
             badge: "<span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Watch Now</span> • <span style='color: #000; background: #fff; border-radius: 1.5px; padding: 0 3px;'>Sports</span>",           
-            title: "<span style='font-size: 23px;'>NFL Network</span>",
+            title: "<span style='font-size: 20px;'>NFL Network</span>",
             description: "",
             image: "https://images.t-online.de/2025/08/CKDB6tmOYvGL/0x0:3150x1772/fit-in/__WIDTH__x0/minneapolis-mn-december-08-minnesota-vikings-wide-receiver-justin-jefferson-18-catches-a-52-yard-pass-for-a-touchdown-during-the-third-quarter-of-a-nfl-american-football-herren-usa-game-between-the-minnesota-vikings-and-atlanta-falcons-on-december-8-2024-at-u-s-bank-stadium-in-minneapolis-mn-photo-by-nick-wosika-icon-sportswire-nfl-dec-08-falcons-at-vikings-editorial-use-only-icon20241208097.jpg",
             link: "/home?channel=nfl-network",
