@@ -22,7 +22,7 @@ export default function handler(req, res) {
         //},
         {
             title: "<span style='font-size: 25px;'>Formula 1</span>",
-            description: "on BeIN Sports 1 and Sky Sports F1",
+            description: "on BeIN Sports 1, Sky Sports and Sky Sports F1",
             image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
             badge: "Catch-Up TV • Sports",
             link: null,
@@ -30,7 +30,7 @@ export default function handler(req, res) {
         },
         {
             title: "FPJ's Batang Quiapo",
-            ph_description: "The Last 2 Weeks<br><strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "Finale Week<br><strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/batangquiapo.herobg-tv.v3.jpg?im_policy=landscapeHero_tv_hd",
             badge: "Catch-Up TV • Action",
@@ -38,8 +38,8 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
-            title: "ROJA",
-            ph_description: "The Last 2 Weeks<br><strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
+            title: "<span style='font-size: 30px;'>ROJA</span>",
+            ph_description: "Finale Week<br><strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
             badge: "Catch-Up TV • Action",
@@ -66,7 +66,7 @@ export default function handler(req, res) {
         //},
         {
             title: "It's Showtime",
-            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z, GMA7 and<br>It's Showtime Catch-Up Livestream",
+            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z, GMA7<br>and Catch-Up Livestream",
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "Catch-Up TV • Variety",
@@ -83,7 +83,7 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
-            title: "NBA TV",
+            title: "<span style='font-size: 30px;'>NBA TV</span>",
             description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
