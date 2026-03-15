@@ -30,6 +30,15 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
+            title: "It's Showtime",
+            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z, GMA7<br>and Catch-Up Livestream",
+            nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
+            image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
+            badge: "Catch-Up TV • Variety",
+            link: null,
+            overlay: "show"
+        },
+        {
             title: "Never Say Die",
             ph_description: "<strong>MON-FRI | 8:55PM</strong><br>GMA7",
             nonph_description: "<strong>on GMA Pinoy TV</strong>",
@@ -56,6 +65,24 @@ export default function handler(req, res) {
             link: null,
             overlay: "show"
         },
+        {
+            title: "House of Lies",
+            ph_description: "<strong>MON-FRI | 3:20PM</strong><br>GMA7",
+            nonph_description: "<strong>on GMA Pinoy TV</strong>",
+            image: "https://pql-static.abs-cbn.com/images/houseoflies.herobg-tv.JPG",
+            badge: "Catch-Up TV • Drama",
+            link: null,
+            overlay: "show"
+        },
+        {
+            title: "Your Face Sounds Familiar",
+            ph_description: "<strong>SAT-SUN | 7:15PM</strong><br>Kapamilya Channel, A2Z<br>and Catch-Up Livestream",
+            nonph_description: "<strong>on TFC</strong>",
+            image: "https://pql-static.abs-cbn.com/images/yourfacesoundsfamiliar.herobg-tv.JPG",
+            badge: "Catch-Up TV • Variety",
+            link: null,
+            overlay: "show"
+        },        
         //{
             //title: "PBB Celebrity<br>Collab Edition 2.0",
             //ph_description: "<strong>MON-FRI | 9:40PM<br>SAT-SUN | 6:15PM</strong><br>GMA7 and PBB Catch-Up Livestream",
@@ -65,15 +92,6 @@ export default function handler(req, res) {
             //link: null,
             //overlay: "show"
         //},
-        {
-            title: "It's Showtime",
-            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z, GMA7<br>and Catch-Up Livestream",
-            nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
-            image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
-            badge: "Catch-Up TV • Variety",
-            link: null,
-            overlay: "show"
-        },
         {
             title: "<span style='font-size: 20px;'>Formula 1</span>",
             description: "on BeIN Sports 1, Sky Sports and Sky Sports F1",
