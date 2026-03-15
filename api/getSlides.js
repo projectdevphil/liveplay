@@ -24,7 +24,7 @@ export default function handler(req, res) {
             title: "Channel Advisory",
             ph_description: "Please tap the banner for more details.",
             image: "https://img.freepik.com/free-vector/vector-background-gradient-black-white-abstract-design_779267-2579.jpg",
-            //badge: "",
+            badge: null,
             link: "https://phcorner.org/threads/liveplay-by-project-dev-updates.2477294/post-31236017",
             access: "PH",
             overlay: "show"
