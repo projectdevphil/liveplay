@@ -30,6 +30,15 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
+            title: "Never Say Die",
+            ph_description: "<strong>MON-FRI | 8:55PM</strong><br>GMA7",
+            nonph_description: "<strong>on GMA Pinoy TV</strong>",
+            image: "https://pql-static.abs-cbn.com/images/neversaydie.herobg-tv.JPG",
+            badge: "Catch-Up TV • Action",
+            link: null,
+            overlay: "show"
+        },        
+        {
             title: "The Secrets of Hotel 88",
             ph_description: "<strong>MON-FRI | 9:35PM</strong><br>GMA7",
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
@@ -66,7 +75,7 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
-            title: "<span style='font-size: 25px;'>Formula 1</span>",
+            title: "<span style='font-size: 20px;'>Formula 1</span>",
             description: "on BeIN Sports 1, Sky Sports and Sky Sports F1",
             image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
             badge: "Catch-Up TV • Sports",
