@@ -21,6 +21,15 @@ export default function handler(req, res) {
             //overlay: "none"
         //},
         {
+            title: "Channel Advisory",
+            ph_description: "Please tap the banner for more details.",
+            image: "https://img.freepik.com/free-vector/vector-background-gradient-black-white-abstract-design_779267-2579.jpg",
+            badge: "",
+            link: null,
+            access: "PH",
+            overlay: "show"
+        },        
+        {
             title: "The Alibi",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
