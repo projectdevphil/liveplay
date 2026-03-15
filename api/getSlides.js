@@ -20,15 +20,15 @@ export default function handler(req, res) {
             //link: "https://m.youtube.com/watch?v=I-6flm9RfFg",
             //overlay: "none"
         //},
-        {
-            title: "<span style='font-size: 26px;'>Channel<br>Advisory</span>",
-            ph_description: "Please tap the banner for more details.",
-            image: "https://img.freepik.com/free-vector/vector-background-gradient-black-white-abstract-design_779267-2579.jpg",
-            badge: "<span style='background-color: transparent !important;'> </span>",
-            link: "https://phcorner.org/threads/liveplay-by-project-dev-updates.2477294/post-31236017",
-            access: "PH",
-            overlay: "show"
-        },        
+        //{
+            //title: "<span style='font-size: 26px;'>Channel<br>Advisory</span>",
+            //ph_description: "Please tap the banner for more details.",
+            //image: "https://img.freepik.com/free-vector/vector-background-gradient-black-white-abstract-design_779267-2579.jpg",
+            //badge: "",
+            //link: "https://phcorner.org/threads/liveplay-by-project-dev-updates.2477294/post-31236017",
+            //access: "PH",
+            //overlay: "show"
+        //},        
         {
             title: "The Alibi",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
