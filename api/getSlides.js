@@ -65,15 +65,15 @@ export default function handler(req, res) {
             link: null,
             overlay: "show"
         },
-        {
-            title: "Hating Kapatid",
-            ph_description: "Final Week<br><strong>MON-SAT | 2:30PM</strong><br>GMA7",
-            nonph_description: "<strong>on GMA Pinoy TV</strong>",
-            image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
-            badge: "Catch-Up TV • Drama",
-            link: null,
-            overlay: "show"
-        },
+        //{
+            //title: "Hating Kapatid",
+            //ph_description: "Final Week<br><strong>MON-SAT | 2:30PM</strong><br>GMA7",
+            //nonph_description: "<strong>on GMA Pinoy TV</strong>",
+            //image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
+            //badge: "Catch-Up TV • Drama",
+            //link: null,
+            //overlay: "show"
+        //},
         {
             title: "House of Lies",
             ph_description: "<strong>MON-FRI | 3:20PM</strong><br>GMA7",
