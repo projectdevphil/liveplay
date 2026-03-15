@@ -21,7 +21,7 @@ export default function handler(req, res) {
             //overlay: "none"
         //},
         {
-            title: "Channel Advisory",
+            title: "<span style='font-size: 26px;'>Channel<br>Advisory</span>",
             ph_description: "Please tap the banner for more details.",
             image: "https://img.freepik.com/free-vector/vector-background-gradient-black-white-abstract-design_779267-2579.jpg",
             badge: "",
@@ -102,7 +102,7 @@ export default function handler(req, res) {
             //overlay: "show"
         //},
         {
-            title: "<span style='font-size: 20px;'>Formula 1</span>",
+            title: "Formula 1",
             description: "on BeIN Sports 1, Sky Sports and Sky Sports F1",
             image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
             badge: "Catch-Up TV • Sports",
