@@ -24,7 +24,7 @@ export default function handler(req, res) {
             title: "Channel Advisory",
             ph_description: "Please tap the banner for more details.",
             image: "https://img.freepik.com/free-vector/vector-background-gradient-black-white-abstract-design_779267-2579.jpg",
-            badge: "",
+            //badge: "",
             link: null,
             access: "PH",
             overlay: "show"
