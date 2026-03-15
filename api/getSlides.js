@@ -21,34 +21,26 @@ export default function handler(req, res) {
             //overlay: "none"
         //},
         {
-            title: "<span style='font-size: 25px;'>Formula 1</span>",
-            description: "on BeIN Sports 1, Sky Sports and Sky Sports F1",
-            image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
-            badge: "Catch-Up TV • Sports",
+            title: "The Alibi",
+            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
+            nonph_description: "<strong>on TFC</strong>",
+            image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
+            badge: "Catch-Up TV • Drama",
             link: null,
             overlay: "show"
         },
         {
-            title: "FPJ's Batang Quiapo",
-            ph_description: "Finale Week<br><strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
-            nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/batangquiapo.herobg-tv.v3.jpg?im_policy=landscapeHero_tv_hd",
-            badge: "Catch-Up TV • Action",
-            link: null,
-            overlay: "show"
-        },
-        {
-            title: "ROJA",
-            ph_description: "Finale Week<br><strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
-            nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/roja.herobg-tv.v2.JPG",
-            badge: "Catch-Up TV • Action",
+            title: "The Secrets of Hotel 88",
+            ph_description: "<strong>MON-FRI | 9:35PM</strong><br>GMA7",
+            nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
+            image: "https://pql-static.abs-cbn.com/images/thesecretsofhotel88.herobg-tv.JPG",
+            badge: "Catch-Up TV • Drama",
             link: null,
             overlay: "show"
         },
         {
             title: "Hating Kapatid",
-            ph_description: "<strong>MON-SAT | 2:30PM</strong><br>GMA7",
+            ph_description: "Final Week<br><strong>MON-SAT | 2:30PM</strong><br>GMA7",
             nonph_description: "<strong>on GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
             badge: "Catch-Up TV • Drama",
@@ -70,6 +62,14 @@ export default function handler(req, res) {
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "Catch-Up TV • Variety",
+            link: null,
+            overlay: "show"
+        },
+        {
+            title: "<span style='font-size: 25px;'>Formula 1</span>",
+            description: "on BeIN Sports 1, Sky Sports and Sky Sports F1",
+            image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
+            badge: "Catch-Up TV • Sports",
             link: null,
             overlay: "show"
         },
