@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="uuid-99d409e6-98c3-410a-8b6c-b2d06a79f6e6" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="868.9144" height="479.5116" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 868.9144 479.5116">
-  <defs>
+<svg id="uuid-99d409e6-98c3-410a-8b6c-b2d06a79f6e6" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 868.9144 479.5116" style="width: 100%; height: auto; display: block;">  <defs>
     <linearGradient id="uuid-e684208f-eeb2-417b-b72c-e76d021fe36c" x1="984.8251" y1="1390.0168" x2="1130.0785" y2="1502.1108" gradientTransform="translate(-2737.1302 4411.557) scale(2.9011 -2.9011)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#00a653"/>
       <stop offset=".3683" stop-color="#0167af"/>
