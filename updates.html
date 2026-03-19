@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/static.css">
+    <style>
+        .version-block { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px; }
+        .version-block:last-child { border: none; }
+    </style>
 </head>
 <body>
     <div class="static-page-container">
@@ -25,174 +29,159 @@
         </header>
 
         <main class="content-card">
-
-            <details>
+            <details open>
                 <summary>
                     <h2>Version Details</h2>
                     <span class="material-symbols-rounded dropdown-arrow">expand_more</span>
                 </summary>
 
                 <div class="details-content">
-                    <span class="update-date" style="display:block; margin-top:10px;">Latest Build: v1.0.8</span>
+                    <span class="update-date" style="display:block; margin-top:10px; font-weight: 500;">Latest Build: v1.0.8</span>
 
-                    <div class="version-block" style="margin-top: 15px;">
-                        <h3 style="margin-bottom: 10px;">Version 1.0.8 <span class="advisory-tag" style="background-color: #ffffff; color: #000000; margin-left: 8px; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">CURRENT</span></h3>
+                    <div class="version-block" style="margin-top: 15px; border-left: 3px solid #00E676; padding-left: 15px;">
+                        <h3 style="margin-bottom: 10px;">
+                            Version 1.0.8 
+                            <span class="advisory-tag" style="background-color: #ffffff; color: #000000; margin-left: 8px; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">CURRENT</span>
+                        </h3>
                         <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
-                            <li style="margin-bottom: 8px;"><strong>System Enhancement:</strong> Upgraded the <strong>Service Status</strong> module to actively calculate real-time platform health. The system now dynamically evaluates the percentage of operational channels and displays a color-coded indicator (Green, Yellow, Orange, Red) reflecting exact platform stability.</li>
-                            <li style="margin-bottom: 8px;"><strong>Mobile Search Gesture:</strong> Optimized the mobile search layout. The search container now dynamically appears directly below the search bar for improved visibility and ease of use.</li>
-                            <li style="margin-bottom: 8px;"><strong>Channel Checking:</strong> Added real-time status monitoring. Channel indicators automatically turn red if a stream is down. (Available on Mobile App & Website; TV support coming soon).</li>                        </ul>
+                            <li style="margin-bottom: 8px;"><strong>System Enhancement:</strong> Upgraded the <strong>Service Status</strong> module to calculate real-time platform health with dynamic color-coded indicators (Green, Yellow, Orange, Red).</li>
+                            <li style="margin-bottom: 8px;"><strong>Search Gesture (Mobile):</strong> Optimized mobile search layout; results now display directly below the search bar container for better accessibility.</li>
+                            <li style="margin-bottom: 8px;"><strong>Channel Monitoring:</strong> Integrated automatic status updates. Indicators now turn red if a channel is offline. (Available on Mobile & Desktop; TV support coming soon).</li>
+                        </ul>
                     </div>
 
-                    <div style="opacity: 0.85;">
+                    <div style="opacity: 0.85; margin-top: 20px;">
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.7</h4>
                             <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
-                                <li style="margin-bottom: 8px;"><strong>New Integration:</strong> Implemented a native <strong>Liveplay Speed Test</strong> utility, effectively replacing the external 'SpeedUp' platform. Powered by <strong>Project Dev</strong> and utilizing <strong>Netflix's fast.com API</strong>, this built-in feature provides users with a seamless, accurate assessment of their internet connection, specifically optimized to gauge streaming performance and stability.</li>
+                                <li><strong>New Integration:</strong> Native <strong>Liveplay Speed Test</strong> utility powered by Fast.com API, optimized for streaming diagnostics.</li>
                             </ul>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.6</h4>
                             <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
-                                <li style="margin-bottom: 5px;"><strong>UI Optimization:</strong> Refined the visual dynamics of the Featured Slider with advanced transition logic.</li>
-                                <li style="margin-bottom: 5px;"><strong>New Feature:</strong> Introduced the **Top 10 Live TV Channels** ranking system powered by Redis.</li>
-                                <li style="margin-bottom: 5px;"><strong>Documentation:</strong> Incorporated a comprehensive **Version Details** log.</li>
+                                <li><strong>UI Optimization:</strong> Refined Featured Slider transitions and introduced **Top 10 Live TV** ranking system via Redis.</li>
                             </ul>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.5</h4>
-                            <p style="font-size: 0.95rem;">Integrated a real-time <strong>Stream Status</strong> monitor. The "Live" sensor utilizes active health-checking to automatically turn the indicator red, visually alerting users immediately if a specific stream source is offline or experiencing downtime.</p>
+                            <p style="font-size: 0.95rem;">Integrated real-time <strong>Stream Status</strong> monitoring to detect offline sources automatically.</p>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.4</h4>
-                            <p style="font-size: 0.95rem;">Deployed a centralized <strong>Updates</strong> tab within the main navigation menu. This hub provides users with critical information, including channel advisories, system notifications, and overall platform status reports.</p>
+                            <p style="font-size: 0.95rem;">Deployed centralized <strong>Updates</strong> tab for channel advisories and system notifications.</p>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.3</h4>
-                            <p style="font-size: 0.95rem;">Incorporated network diagnostic tools. This integration allows users to seamlessly access tools for testing latency (ping), upload bandwidth, and download speeds without leaving the ecosystem.</p>
+                            <p style="font-size: 0.95rem;">Added network diagnostic tools (Ping, Upload, and Download) within the ecosystem.</p>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.2</h4>
-                            <p style="font-size: 0.95rem;">Added a gateway to the <strong>Stream Tester</strong>, a specialized sister platform utility created by <strong>Project Dev</strong>. This feature enables advanced users and developers to validate external stream links (supporting HLS and MPD with DRM keys) or upload and execute playlist configurations directly.</p>
+                            <p style="font-size: 0.95rem;">Added <strong>Stream Tester</strong> gateway for HLS/MPD link validation and playlist configuration.</p>
                         </div>
 
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.1</h4>
-                            <p style="font-size: 0.95rem;">Implemented a monetization framework featuring pre-roll advertisement functionality, allowing short promotional content to display prior to the initialization of the live channel stream.</p>
+                            <p style="font-size: 0.95rem;">Implemented monetization framework with pre-roll advertisement functionality.</p>
                         </div>
 
-                        <div class="version-block" style="border:none;">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.0 (Initial Release)</h4>
-                            <p style="font-size: 0.95rem;">Official platform launch introducing core capabilities from Project Dev. Features include comprehensive channel and genre search engines, curated featured slides, and a streamlined navigation architecture for live content viewing.</p>
+                        <div class="version-block">
+                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.0</h4>
+                            <p style="font-size: 0.95rem;">Initial platform launch featuring core search engines, featured slides, and live content viewing architecture.</p>
                         </div>
                     </div>
                 </div>
             </details>
 
-            <hr>
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
 
             <section>
                 <h2>Service Status</h2>
-                <p id="service-desc-text">Analyzing platform availability and channel health...</p>
+                <p id="service-desc-text" style="font-size: 0.9rem; opacity: 0.8;">Analyzing platform availability and channel health...</p>
 
-                <div class="combined-status-box">
-                    <div class="status-header">
-                        <span class="status-dot" id="statusDot" style="transition: all 0.3s ease;"></span>
-                        <span id="statusText">Checking Connection...</span>
+                <div class="combined-status-box" style="margin-top: 15px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px;">
+                    <div class="status-header" style="display: flex; align-items: center; gap: 10px;">
+                        <span class="status-dot" id="statusDot" style="width: 12px; height: 12px; border-radius: 50%; background-color: #555; transition: all 0.3s ease;"></span>
+                        <span id="statusText" style="font-weight: bold; font-size: 1.1rem;">Checking Connection...</span>
                     </div>
 
-                    <hr class="status-divider">
+                    <hr class="status-divider" style="margin: 15px 0; opacity: 0.1;">
 
-                    <div class="stream-tips-small">
+                    <div class="stream-tips-small" style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem;">
                         <span class="material-symbols-rounded tip-icon-small">wifi_tethering</span>
                         <div>
-                            <strong>Stream Quality Tip:</strong>
-                            Slow internet? Switch to <span class="tip-highlight">360p</span> or <span class="tip-highlight">480p</span>.<br>
-                            Fast internet? Switch to <span class="tip-highlight">720p</span> or <span class="tip-highlight">1080p</span>.
+                            <strong>Stream Quality Tip:</strong><br>
+                            Slow internet? Switch to <span class="tip-highlight" style="color: #00E676;">360p/480p</span>.<br>
+                            Fast internet? Switch to <span class="tip-highlight" style="color: #00E676;">720p/1080p</span>.
                         </div>
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const statusDot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
-        const serviceDescText = document.getElementById('service-desc-text');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            const serviceDescText = document.getElementById('service-desc-text');
 
-        async function checkSystemStatus() {
-            try {
-                const response = await fetch('/api/getChannels', { method: 'GET', cache: 'no-store' });
-                
-                if (!response.ok) throw new Error('Channel API unreachable');
-                
-                const channels = await response.json();
-                
-                if (!Array.isArray(channels) || channels.length === 0) {
-                    throw new Error('No channels found for this region');
-                }
+            async function checkSystemStatus() {
+                try {
+                    const response = await fetch('/api/getChannels', { method: 'GET', cache: 'no-store' });
+                    if (!response.ok) throw new Error('Channel API unreachable');
+                    
+                    const channels = await response.json();
+                    if (!Array.isArray(channels) || channels.length === 0) throw new Error('No channels found');
 
-                const total = channels.length;
-                let onlineCount = 0;
+                    const total = channels.length;
+                    let onlineCount = 0;
 
-                await Promise.all(channels.map(async (channel) => {
-                    try {
-                        const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
-                        if (!dataRes.ok) return;
-                        
-                        const data = await dataRes.json();
-                        if (!data.manifestUri) return;
+                    await Promise.all(channels.map(async (channel) => {
+                        try {
+                            const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
+                            if (!dataRes.ok) return;
+                            const data = await dataRes.json();
+                            if (!data.manifestUri) return;
 
-                        const pingRes = await fetch(data.manifestUri, { 
-                            method: 'HEAD',
-                            cache: 'no-store' 
-                        });
-                        
-                        if (pingRes.ok) {
-                            onlineCount++;
+                            const pingRes = await fetch(data.manifestUri, { method: 'HEAD', cache: 'no-store' });
+                            if (pingRes.ok) onlineCount++;
+                        } catch (err) {
+                            console.debug(`[Status] ${channel.name} offline.`);
                         }
-                    } catch (err) {
-                        console.debug(`[Status] ${channel.name} appears offline.`);
+                    }));
+
+                    const percent = (onlineCount / total) * 100;
+                    if (percent >= 95) {
+                        updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
+                    } else if (percent >= 75) {
+                        updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or unreachable.");
+                    } else if (percent >= 30) {
+                        updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channel sources are offline. Our team is working on it.");
+                    } else {
+                        updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple providers.");
                     }
-                }));
-
-                const percent = (onlineCount / total) * 100;
-
-                if (percent >= 95) {
-                    updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
-                } else if (percent >= 75) {
-                    updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or unreachable.");
-                } else if (percent >= 30) {
-                    updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channel sources are offline. Our team is working on it.");
-                } else {
-                    updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple providers.");
+                } catch (error) {
+                    updateUI('#FF1744', "Connection Unstable", "Unable to reach the server. Please check your internet connection.");
                 }
-                
-            } catch (error) {
-                console.error('Status Error:', error);
-                updateUI('#FF1744', "Connection Unstable", "Unable to reach the server. Please check your internet connection.");
             }
-        }
 
-        function updateUI(color, text, desc) {
-            statusDot.style.backgroundColor = color;
-            statusDot.style.boxShadow = `0 0 10px ${color}`;
-            statusText.textContent = text;
-            statusText.style.color = color;
-            serviceDescText.textContent = desc;
-        }
+            function updateUI(color, text, desc) {
+                statusDot.style.backgroundColor = color;
+                statusDot.style.boxShadow = `0 0 10px ${color}`;
+                statusText.textContent = text;
+                statusText.style.color = color;
+                serviceDescText.textContent = desc;
+            }
 
-        checkSystemStatus();
-        
-        setInterval(checkSystemStatus, 120000); 
-    });
-</script>
+            checkSystemStatus();
+            setInterval(checkSystemStatus, 120000); 
+        });
+    </script>
 </body>
 </html>
