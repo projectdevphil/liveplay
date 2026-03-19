@@ -2,7 +2,7 @@
   "version": 2,
   "redirects": [
     { "source": "/:path*.html", "destination": "/404", "permanent": false },
-    { "source": "/((?!503.html).*)", "destination": "/503", "permanent": false }
+    { "source": "/((?!503|.*\\.(?:css|js|png|jpg|svg)$).*)", "destination": "/503", "permanent": false }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
@@ -10,7 +10,7 @@
     { "source": "/home/faq", "destination": "/faq.html" },
     { "source": "/home/privacy", "destination": "/privacy.html" },
     { "source": "/home/speed", "destination": "/speed-test.html" },
-    { "source": "/system-maintenance", "destination": "/system.html" },
+    { "source": "/503", "destination": "/503.html" },
     { "source": "/home/terms", "destination": "/terms.html" },
     { "source": "/home/paste-token", "destination": "/token.html" }, 
     { "source": "/tv", "destination": "/tv.html" },    
