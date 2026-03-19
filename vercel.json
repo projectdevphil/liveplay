@@ -1,6 +1,7 @@
 {
   "version": 2,
   "redirects": [
+    { "source": "/503", "destination": "/404", "permanent": false }, 
     { "source": "/:path*.html", "destination": "/404", "permanent": false }
   ],
   "rewrites": [
