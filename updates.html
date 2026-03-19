@@ -123,7 +123,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
- 
         const statusDot = document.getElementById('statusDot');
         const statusText = document.getElementById('statusText');
         const serviceDescText = document.getElementById('service-desc-text');
@@ -132,22 +131,44 @@
             try {
                 const response = await fetch('/api/getChannels', { method: 'GET', cache: 'no-store' });
                 
-                if (!response.ok) throw new Error('API unreachable');
+                if (!response.ok) throw new Error('Channel API unreachable');
                 
                 const channels = await response.json();
                 
                 if (!Array.isArray(channels) || channels.length === 0) {
-                    throw new Error('No channels found');
+                    throw new Error('No channels found for this region');
                 }
 
                 const total = channels.length;
-                const online = channels.filter(c => c.status !== 'offline' && c.active !== false).length;
-                const percent = (online / total) * 100;
+                let onlineCount = 0;
+
+                await Promise.all(channels.map(async (channel) => {
+                    try {
+                        const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
+                        if (!dataRes.ok) return;
+                        
+                        const data = await dataRes.json();
+                        if (!data.manifestUri) return;
+
+                        const pingRes = await fetch(data.manifestUri, { 
+                            method: 'HEAD',
+                            cache: 'no-store' 
+                        });
+                        
+                        if (pingRes.ok) {
+                            onlineCount++;
+                        }
+                    } catch (err) {
+                        console.debug(`[Status] ${channel.name} appears offline.`);
+                    }
+                }));
+
+                const percent = (onlineCount / total) * 100;
 
                 if (percent >= 95) {
                     updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
                 } else if (percent >= 75) {
-                    updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down for maintenance.");
+                    updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or unreachable.");
                 } else if (percent >= 30) {
                     updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channel sources are offline. Our team is working on it.");
                 } else {
@@ -169,7 +190,8 @@
         }
 
         checkSystemStatus();
-        setInterval(checkSystemStatus, 60000);
+        
+        setInterval(checkSystemStatus, 120000); 
     });
 </script>
 </body>
