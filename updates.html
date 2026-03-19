@@ -25,7 +25,6 @@
         </header>
 
         <main class="content-card">
-
             <details>
                 <summary>
                     <h2>Version Details</h2>
@@ -38,9 +37,9 @@
                     <div class="version-block" style="margin-top: 15px;">
                         <h3 style="margin-bottom: 10px;">Version 1.0.8 <span class="advisory-tag" style="background-color: #ffffff; color: #000000; margin-left: 8px; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">CURRENT</span></h3>
                         <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
-                            <li style="margin-bottom: 8px;"><strong>System Enhancement:</strong> Upgraded the <strong>Service Status</strong> module to actively calculate real-time platform health. The system now dynamically evaluates the percentage of operational channels and displays a color-coded indicator (Green, Yellow, Orange, Red) reflecting exact platform stability.</li>
+                            <li style="margin-bottom: 8px;"><strong>System Enhancement:</strong> Upgraded the real-time status monitoring. Channel indicators automatically turn red if a stream is down. (Available on Mobile App & Website; TV support coming soon). <strong>Service Status</strong> module to actively calculate real-time platform health. The system now dynamically evaluates the percentage of operational channels and displays a color-coded indicator (Green, Yellow, Orange, Red) reflecting exact platform stability.</li>
                             <li style="margin-bottom: 8px;"><strong>Mobile Search Gesture:</strong> Optimized the mobile search layout. The search container now dynamically appears directly below the search bar for improved visibility and ease of use.</li>
-                            <li style="margin-bottom: 8px;"><strong>Channel Checking:</strong> Added real-time status monitoring. Channel indicators automatically turn red if a stream is down. (Available on Mobile App & Website; TV support coming soon).</li>                        </ul>
+                        </ul>
                     </div>
 
                     <div style="opacity: 0.85;">
@@ -117,87 +116,88 @@
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const statusDot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
-        const serviceDescText = document.getElementById('service-desc-text');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            const serviceDescText = document.getElementById('service-desc-text');
 
-        const header = document.querySelector(".static-header");
+            const header = document.querySelector(".static-header");
             window.addEventListener("scroll", () => {
                 header.classList.toggle("scrolled", window.scrollY > 10);
             });
 
-        async function checkSystemStatus() {
-            try {
-                const response = await fetch('/api/getChannels', { method: 'GET', cache: 'no-store' });
-                
-                if (!response.ok) throw new Error('Channel API unreachable');
-                
-                const channels = await response.json();
-                
-                if (!Array.isArray(channels) || channels.length === 0) {
-                    throw new Error('No channels found for this region');
-                }
+            async function checkSystemStatus() {
+                try {
+                    const response = await fetch('/api/getChannels', {
+                        method: 'GET',
+                        cache: 'no-store'
+                    });
 
-                const total = channels.length;
-                let onlineCount = 0;
+                    if (!response.ok) throw new Error('Channel API unreachable');
 
-                await Promise.all(channels.map(async (channel) => {
-                    try {
-                        const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
-                        if (!dataRes.ok) return;
-                        
-                        const data = await dataRes.json();
-                        if (!data.manifestUri) return;
+                    const channels = await response.json();
 
-                        const pingRes = await fetch(data.manifestUri, { 
-                            method: 'HEAD',
-                            cache: 'no-store' 
-                        });
-                        
-                        if (pingRes.ok) {
-                            onlineCount++;
-                        }
-                    } catch (err) {
-                        console.debug(`[Status] ${channel.name} appears offline.`);
+                    if (!Array.isArray(channels) || channels.length === 0) {
+                        throw new Error('No channels found for this region');
                     }
-                }));
 
-                const percent = (onlineCount / total) * 100;
+                    const total = channels.length;
+                    let onlineCount = 0;
 
-                if (percent >= 95) {
-                    updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
-                } else if (percent >= 75) {
-                    updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or unreachable.");
-                } else if (percent >= 30) {
-                    updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channel sources are offline. Our team is working on it.");
-                } else {
-                    updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple providers.");
+                    await Promise.all(channels.map(async (channel) => {
+                        try {
+                            const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
+                            if (!dataRes.ok) return;
+
+                            const data = await dataRes.json();
+                            if (!data.manifestUri) return;
+
+                            const pingRes = await fetch(data.manifestUri, {
+                                method: 'HEAD',
+                                cache: 'no-store'
+                            });
+
+                            if (pingRes.ok) {
+                                onlineCount++;
+                            }
+                        } catch (err) {
+                            console.debug(`[Status] ${channel.name} appears offline.`);
+                        }
+                    }));
+
+                    const percent = (onlineCount / total) * 100;
+
+                    if (percent >= 95) {
+                        updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
+                    } else if (percent >= 75) {
+                        updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or unreachable.");
+                    } else if (percent >= 30) {
+                        updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channel sources are offline. Our team is working on it.");
+                    } else {
+                        updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple providers.");
+                    }
+
+                } catch (error) {
+                    console.error('Status Error:', error);
+                    updateUI('#FF1744', "Connection Unstable", "Unable to reach the server. Please check your internet connection.");
                 }
-                
-            } catch (error) {
-                console.error('Status Error:', error);
-                updateUI('#FF1744', "Connection Unstable", "Unable to reach the server. Please check your internet connection.");
             }
-        }
 
-        function updateUI(color, text, desc) {
-            statusDot.style.backgroundColor = color;
-            statusDot.style.boxShadow = `0 0 10px ${color}`;
-            statusText.textContent = text;
-            statusText.style.color = color;
-            serviceDescText.textContent = desc;
-        }
+            function updateUI(color, text, desc) {
+                statusDot.style.backgroundColor = color;
+                statusDot.style.boxShadow = `0 0 10px ${color}`;
+                statusText.textContent = text;
+                statusText.style.color = color;
+                serviceDescText.textContent = desc;
+            }
 
-        checkSystemStatus();
-        
-        setInterval(checkSystemStatus, 120000); 
-    });
-</script>
+            checkSystemStatus();
+            setInterval(checkSystemStatus, 120000);
+        });
+    </script>
 </body>
 </html>
