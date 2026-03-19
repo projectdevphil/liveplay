@@ -13,7 +13,9 @@
     <link rel="manifest" href="/assets/site.webmanifest" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
-        
+    </style>
+
+    <style>
         :root {
             --theme-color: #ffffff; 
             --background-color: #000000;
@@ -36,7 +38,7 @@
             margin: 0;
             text-align: center;
             flex-direction: column;
-            padding: 30px;
+            padding: 30px 30px 80px 30px; 
             -webkit-tap-highlight-color: transparent;
             -webkit-user-select: none;
             user-select: none;
@@ -51,7 +53,7 @@
         .logo {
             font-weight: 800;
             font-size: 2rem;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
             display: block;
             text-transform: lowercase;
             letter-spacing: -0.5px;
@@ -86,26 +88,23 @@
         }
 
         a {
-            display: inline-block;
-            padding: 14px 25px;
-            background-color: var(--theme-color);
-            color: var(--background-color);
+            color: var(--theme-color);
             text-decoration: none;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            cursor: pointer;
+            font-weight: 800;
+            transition: opacity 0.2s ease, text-decoration 0.2s ease;
+        }
+
+        a:hover, a:active {
+            opacity: 0.8;
+            text-decoration: underline;
         }
 
         .footer {
             position: absolute;
-            bottom: 20px;
+            bottom: 30px;
             width: 100%;
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.6rem;
             color: var(--text-secondary);
             opacity: 0.6;
         }
@@ -119,18 +118,21 @@
 <body>
     <div class="container">
         <div class="logo">liveplay</div>
+        
         <h1>503</h1>
+        
         <h2>System Maintenance</h2>
         <p>
-            liveplay is under maintenance. Fixing some not working channels and unknown issues. We sure that we provide you a smoother viewing experience.
+            Liveplay is currently under maintenance. We are fixing non-working channels and resolving unknown issues to ensure we provide you with a smoother viewing experience.
             <br><br>
-            Please keep updated on PHCorner for more info. Also follow us on PHCorner @buzzybees for more updates.
+            Please stay tuned on PHCorner for more information. You can also follow us on PHCorner 
+            <a href="https://phcorner.org/members/buzzybees.2661880/" target="_blank" rel="noopener noreferrer">@buzzybees</a> 
+            for the latest updates.
         </p>
-        <a id="direct-btn" href="https://phcorner.org/members/buzzybees.2661880/">Go to PHCorner</a>
     </div>
 
     <div class="footer">
-        ©2026 Project Dev, All Right Reserved.
+        ©2026 Project Dev, All Rights Reserved.
     </div>
 </body>
 </html>
