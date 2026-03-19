@@ -647,9 +647,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    // ==========================================
-    // NEW: Background active channel status checker
-    // ==========================================
     function updateChannelSensor(slug, isOffline) {
         const listIcon = document.getElementById(`sensor-${slug}`);
         if (listIcon) {
@@ -660,15 +657,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 listIcon.classList.remove('status-offline');
             }
         }
-        // Update main player status instantly if it happens to be the active one
         if (currentActiveChannelSlug === slug) {
             updateOfflineState(isOffline);
         }
     }
 
     async function startBackgroundStatusCheck() {
-        // Run in small batches (3 streams at a time) to prevent stalling the browser and throttling the backend 
-        const BATCH_SIZE = 3;
+        const BATCH_SIZE = 10;
         const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
         for (let i = 0; i < allStreams.length; i += BATCH_SIZE) {
@@ -678,23 +673,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const slug = createSlug(stream.name);
                 
                 try {
-                    // 1. Fetch channel info (keys + MPD URL)
                     const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(stream.name)}`);
                     if (!res.ok) throw new Error("API Data failed");
                     
                     const secureData = await res.json();
                     if (!secureData.manifestUri) throw new Error("No MPD URI returned");
 
-                    // 2. Ping the MPD directly to verify the stream is reachable 
-                    // Using AbortController to quickly timeout channels that don't reply within 5 seconds.
                     const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 5000); 
+                    const timeoutId = setTimeout(() => controller.abort(), 3000); 
 
-                    // Sending a normal GET request instead of HEAD to safely bypass strict CORS setups.
                     const mpdRes = await fetch(secureData.manifestUri, {
                         method: 'GET',
                         signal: controller.signal
-                    }).catch(() => null); // Catch unreachable/CORS issues silently 
+                    }).catch(() => null); 
 
                     clearTimeout(timeoutId);
 
@@ -702,14 +693,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                         throw new Error("MPD ping returned error status");
                     }
 
-                    // SUCCESS: The channel is fully online.
+                    if (mpdRes && mpdRes.ok) {
+                        controller.abort();
+                    }
+
                     if (offlineChannels.has(slug)) {
                         offlineChannels.delete(slug);
                         updateChannelSensor(slug, false);
                     }
                     
                 } catch (error) {
-                    // FAILED: Add to offline channels 
                     if (!offlineChannels.has(slug)) {
                         offlineChannels.add(slug);
                         updateChannelSensor(slug, true);
@@ -717,14 +710,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }));
             
-            // Wait 1 second before checking the next batch
-            await delay(1000);
+            await delay(300);
         }
 
-        // Keep running checks continuously every 2 minutes for active status updating
         setTimeout(startBackgroundStatusCheck, 120000);
     }
-    // ==========================================
 
     setResponsivePoster();
     window.addEventListener('resize', setResponsivePoster);
@@ -778,7 +768,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     renderTopWatch();
     
-    // NEW: Initiate the background checker after streams are rendered
     startBackgroundStatusCheck();
 
     const urlParams = new URLSearchParams(window.location.search);
