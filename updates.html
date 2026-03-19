@@ -121,92 +121,56 @@
         </main>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const protectAll = document.querySelectorAll('a, button, img, .channel-logo-link, .news-btn, .combined-status-box');
-            protectAll.forEach(el => {
-                el.addEventListener('contextmenu', (e) => { 
-                    e.preventDefault(); 
-                    return false; 
-                });
-            });
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+ 
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const serviceDescText = document.getElementById('service-desc-text');
 
-            const header = document.querySelector(".static-header");
-            window.addEventListener("scroll", () => {
-                header.classList.toggle("scrolled", window.scrollY > 10);
-            });
-
-            const statusDot = document.getElementById('statusDot');
-            const statusText = document.getElementById('statusText');
-            const serviceDescText = document.getElementById('service-desc-text');
-
-            async function checkSystemStatus() {
-                try {
-                    // Fetch the channels from the API to check their health
-                    const response = await fetch('/api/getData', { method: 'GET', cache: 'no-store' });
-                    
-                    if (!response.ok) throw new Error('API unreachable');
-                    
-                    const channels = await response.json();
-                    
-                    if (!Array.isArray(channels) || channels.length === 0) {
-                        throw new Error('No channels available');
-                    }
-
-                    const totalChannels = channels.length;
-                    // Count a channel as online if it doesn't explicitly have an offline/inactive status
-                    const onlineChannels = channels.filter(c => c.status !== 'offline' && c.active !== false).length;
-                    
-                    const percentOnline = (onlineChannels / totalChannels) * 100;
-
-                    // Update UI based on percentages
-                    if (percentOnline >= 95) {
-                        // Green (95 - 100%)
-                        statusDot.style.backgroundColor = '#00E676';
-                        statusDot.style.boxShadow = '0 0 10px #00E676';
-                        statusText.textContent = `All Systems Operational (${Math.round(percentOnline)}% Online)`;
-                        statusText.style.color = "#00E676";
-                        serviceDescText.textContent = "All systems and channels are currently running optimally.";
-                    } 
-                    else if (percentOnline >= 75) {
-                        // Yellow (75 - 94%)
-                        statusDot.style.backgroundColor = '#FFEA00';
-                        statusDot.style.boxShadow = '0 0 10px #FFEA00';
-                        statusText.textContent = `Minor Issues Detected (${Math.round(percentOnline)}% Online)`;
-                        statusText.style.color = "#FFEA00";
-                        serviceDescText.textContent = "Some channels are experiencing downtime. Platform is degraded but functioning.";
-                    } 
-                    else if (percentOnline >= 20) {
-                        // Orange (20 - 74%)
-                        statusDot.style.backgroundColor = '#FF9100';
-                        statusDot.style.boxShadow = '0 0 10px #FF9100';
-                        statusText.textContent = `Partial Outage (${Math.round(percentOnline)}% Online)`;
-                        statusText.style.color = "#FF9100";
-                        serviceDescText.textContent = "Multiple channels are currently offline. We are working on a fix.";
-                    } 
-                    else {
-                        // Red (0 - 19%)
-                        statusDot.style.backgroundColor = '#FF1744';
-                        statusDot.style.boxShadow = '0 0 10px #FF1744';
-                        statusText.textContent = `Major Outage (${Math.round(percentOnline)}% Online)`;
-                        statusText.style.color = "#FF1744";
-                        serviceDescText.textContent = "Almost all channels are offline. We are experiencing a major service disruption.";
-                    }
-                    
-                } catch (error) {
-                    // Fallback to Server Offline (Red) if fetch fails completely
-                    console.error('Status Check Error:', error);
-                    statusDot.style.backgroundColor = '#FF1744';
-                    statusDot.style.boxShadow = '0 0 10px #FF1744';
-                    statusText.textContent = "Connection Unstable / Server Offline";
-                    statusText.style.color = "#FF1744";
-                    serviceDescText.textContent = "Unable to connect to the backend server to check channel statuses.";
+        async function checkSystemStatus() {
+            try {
+                const response = await fetch('/api/getChannels', { method: 'GET', cache: 'no-store' });
+                
+                if (!response.ok) throw new Error('API unreachable');
+                
+                const channels = await response.json();
+                
+                if (!Array.isArray(channels) || channels.length === 0) {
+                    throw new Error('No channels found');
                 }
-            }
 
-            checkSystemStatus();
-            setInterval(checkSystemStatus, 30000);
-        });
-    </script>
+                const total = channels.length;
+                const online = channels.filter(c => c.status !== 'offline' && c.active !== false).length;
+                const percent = (online / total) * 100;
+
+                if (percent >= 95) {
+                    updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
+                } else if (percent >= 75) {
+                    updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down for maintenance.");
+                } else if (percent >= 30) {
+                    updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channel sources are offline. Our team is working on it.");
+                } else {
+                    updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple providers.");
+                }
+                
+            } catch (error) {
+                console.error('Status Error:', error);
+                updateUI('#FF1744', "Connection Unstable", "Unable to reach the server. Please check your internet connection.");
+            }
+        }
+
+        function updateUI(color, text, desc) {
+            statusDot.style.backgroundColor = color;
+            statusDot.style.boxShadow = `0 0 10px ${color}`;
+            statusText.textContent = text;
+            statusText.style.color = color;
+            serviceDescText.textContent = desc;
+        }
+
+        checkSystemStatus();
+        setInterval(checkSystemStatus, 60000);
+    });
+</script>
 </body>
 </html>
