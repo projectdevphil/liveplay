@@ -1,7 +1,8 @@
 {
   "version": 2,
   "redirects": [
-    { "source": "/:path*.html", "destination": "/404", "permanent": false }
+    { "source": "/:path*.html", "destination": "/404", "permanent": false },
+    { "source": "/((?!system-maintenance).*)", "destination": "/system-maintenance", "permanent": false }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
