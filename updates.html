@@ -127,6 +127,11 @@
         const statusText = document.getElementById('statusText');
         const serviceDescText = document.getElementById('service-desc-text');
 
+        const header = document.querySelector(".static-header");
+            window.addEventListener("scroll", () => {
+                header.classList.toggle("scrolled", window.scrollY > 10);
+            });
+
         async function checkSystemStatus() {
             try {
                 const response = await fetch('/api/getChannels', { method: 'GET', cache: 'no-store' });
