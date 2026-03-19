@@ -33,16 +33,24 @@
                 </summary>
 
                 <div class="details-content">
-                    <span class="update-date" style="display:block; margin-top:10px;">Latest Build: v1.0.7</span>
+                    <span class="update-date" style="display:block; margin-top:10px;">Latest Build: v1.0.8</span>
 
+                    <!-- NEW VERSION ADDED HERE -->
                     <div class="version-block" style="margin-top: 15px;">
-                        <h3 style="margin-bottom: 10px;">Version 1.0.7 <span class="advisory-tag" style="background-color: #ffffff; margin-left: 8px;">CURRENT</span></h3>
+                        <h3 style="margin-bottom: 10px;">Version 1.0.8 <span class="advisory-tag" style="background-color: #ffffff; color: #000000; margin-left: 8px; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">CURRENT</span></h3>
                         <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
-                            <li style="margin-bottom: 8px;"><strong>New Integration:</strong> Implemented a native <strong>Litestream Speed Test</strong> utility, effectively replacing the external 'SpeedUp' platform. Powered by <strong>Project Dev</strong> and utilizing <strong>Netflix's fast.com API</strong>, this built-in feature provides users with a seamless, accurate assessment of their internet connection, specifically optimized to gauge streaming performance and stability.</li>
+                            <li style="margin-bottom: 8px;"><strong>System Enhancement:</strong> Upgraded the <strong>Service Status</strong> module to actively calculate real-time platform health. The system now dynamically evaluates the percentage of operational channels and displays a color-coded indicator (Green, Yellow, Orange, Red) reflecting exact platform stability.</li>
                         </ul>
                     </div>
 
                     <div style="opacity: 0.85;">
+                        <div class="version-block">
+                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.7</h4>
+                            <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                                <li style="margin-bottom: 8px;"><strong>New Integration:</strong> Implemented a native <strong>Litestream Speed Test</strong> utility, effectively replacing the external 'SpeedUp' platform. Powered by <strong>Project Dev</strong> and utilizing <strong>Netflix's fast.com API</strong>, this built-in feature provides users with a seamless, accurate assessment of their internet connection, specifically optimized to gauge streaming performance and stability.</li>
+                            </ul>
+                        </div>
+
                         <div class="version-block">
                             <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.6</h4>
                             <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
@@ -89,11 +97,11 @@
 
             <section>
                 <h2>Service Status</h2>
-                <p>All other systems and channels are currently operational.</p>
+                <p id="service-desc-text">Analyzing platform availability and channel health...</p>
 
                 <div class="combined-status-box">
                     <div class="status-header">
-                        <span class="status-dot" id="statusDot"></span>
+                        <span class="status-dot" id="statusDot" style="transition: all 0.3s ease;"></span>
                         <span id="statusText">Checking Connection...</span>
                     </div>
 
@@ -130,24 +138,69 @@
 
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
+            const serviceDescText = document.getElementById('service-desc-text');
 
             async function checkSystemStatus() {
                 try {
-                    const response = await fetch(window.location.href, { method: 'HEAD', cache: 'no-store' });
+                    // Fetch the channels from the API to check their health
+                    const response = await fetch('/api/getChannels', { method: 'GET', cache: 'no-store' });
                     
-                    if (response.ok) {
-                        statusDot.classList.remove('down');
-                        statusDot.classList.add('operational');
-                        statusText.textContent = "All Systems Operational";
-                        statusText.style.color = "#ccc";
-                    } else {
-                        throw new Error('Server error');
+                    if (!response.ok) throw new Error('API unreachable');
+                    
+                    const channels = await response.json();
+                    
+                    if (!Array.isArray(channels) || channels.length === 0) {
+                        throw new Error('No channels available');
                     }
+
+                    const totalChannels = channels.length;
+                    // Count a channel as online if it doesn't explicitly have an offline/inactive status
+                    const onlineChannels = channels.filter(c => c.status !== 'offline' && c.active !== false).length;
+                    
+                    const percentOnline = (onlineChannels / totalChannels) * 100;
+
+                    // Update UI based on percentages
+                    if (percentOnline >= 95) {
+                        // Green (95 - 100%)
+                        statusDot.style.backgroundColor = '#00E676';
+                        statusDot.style.boxShadow = '0 0 10px #00E676';
+                        statusText.textContent = `All Systems Operational (${Math.round(percentOnline)}% Online)`;
+                        statusText.style.color = "#00E676";
+                        serviceDescText.textContent = "All systems and channels are currently running optimally.";
+                    } 
+                    else if (percentOnline >= 75) {
+                        // Yellow (75 - 94%)
+                        statusDot.style.backgroundColor = '#FFEA00';
+                        statusDot.style.boxShadow = '0 0 10px #FFEA00';
+                        statusText.textContent = `Minor Issues Detected (${Math.round(percentOnline)}% Online)`;
+                        statusText.style.color = "#FFEA00";
+                        serviceDescText.textContent = "Some channels are experiencing downtime. Platform is degraded but functioning.";
+                    } 
+                    else if (percentOnline >= 20) {
+                        // Orange (20 - 74%)
+                        statusDot.style.backgroundColor = '#FF9100';
+                        statusDot.style.boxShadow = '0 0 10px #FF9100';
+                        statusText.textContent = `Partial Outage (${Math.round(percentOnline)}% Online)`;
+                        statusText.style.color = "#FF9100";
+                        serviceDescText.textContent = "Multiple channels are currently offline. We are working on a fix.";
+                    } 
+                    else {
+                        // Red (0 - 19%)
+                        statusDot.style.backgroundColor = '#FF1744';
+                        statusDot.style.boxShadow = '0 0 10px #FF1744';
+                        statusText.textContent = `Major Outage (${Math.round(percentOnline)}% Online)`;
+                        statusText.style.color = "#FF1744";
+                        serviceDescText.textContent = "Almost all channels are offline. We are experiencing a major service disruption.";
+                    }
+                    
                 } catch (error) {
-                    statusDot.classList.remove('operational');
-                    statusDot.classList.add('down');
-                    statusText.textContent = "Connection Unstable";
-                    statusText.style.color = "#ff6666";
+                    // Fallback to Server Offline (Red) if fetch fails completely
+                    console.error('Status Check Error:', error);
+                    statusDot.style.backgroundColor = '#FF1744';
+                    statusDot.style.boxShadow = '0 0 10px #FF1744';
+                    statusText.textContent = "Connection Unstable / Server Offline";
+                    statusText.style.color = "#FF1744";
+                    serviceDescText.textContent = "Unable to connect to the backend server to check channel statuses.";
                 }
             }
 
