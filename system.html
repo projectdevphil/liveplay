@@ -11,8 +11,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Liveplay" />
     <link rel="manifest" href="/assets/site.webmanifest" />
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
         
@@ -42,6 +40,7 @@
             -webkit-tap-highlight-color: transparent;
             -webkit-user-select: none;
             user-select: none;
+            position: relative;
         }
         
         .container {
@@ -52,116 +51,86 @@
         .logo {
             font-weight: 800;
             font-size: 2rem;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             display: block;
             text-transform: lowercase;
             letter-spacing: -0.5px;
         }
 
-        .status-tag {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--background-color);
-            background: var(--theme-color);
-            padding: 6px 14px;
-            border-radius: 6px;
-            margin-bottom: 30px;
-            display: inline-block;
-        }
-
-        .main-icon {
-            font-family: 'Material Symbols Rounded';
-            font-size: clamp(6rem, 25vw, 9rem);
+        h1 {
+            font-size: 7rem;
+            margin: 0;
+            font-weight: 800;
             color: var(--theme-color);
-            margin: 10px 0;
-            line-height: 1;
-            display: block;
+            line-height: 0.9;
+            letter-spacing: -4px;
         }
 
         h2 {
-            font-size: 1.2rem;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-weight: 700;
-            letter-spacing: 0.2px;
+            font-size: 1rem;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
         }
 
         p {
             color: var(--text-secondary);
-            margin-bottom: 45px;
+            margin-bottom: 40px;
             font-size: 0.95rem;
             line-height: 1.6;
             font-weight: 400;
-            padding: 0 20px;
-        }
-
-        .footer-info {
-            margin-top: 60px;
-            font-size: 0.75rem;
-            color: #444;
-            border-top: 1px solid #222;
-            padding-top: 30px;
-            letter-spacing: 0.3px;
+            padding: 0 10px;
         }
 
         a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 16px 32px;
+            display: inline-block;
+            padding: 14px 25px;
             background-color: var(--theme-color);
             color: var(--background-color);
             text-decoration: none;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            cursor: pointer;
         }
 
-        a:hover {
-            transform: scale(1.03);
-        }
-
-        a:active {
-            transform: scale(0.96);
-        }
-
-        .btn-icon {
-            font-size: 1.2rem;
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
         }
 
         @media (max-width: 768px) {
-            .logo { margin-bottom: 30px; }
-            h2 { font-size: 1.1rem; }
+            h1 { font-size: 6rem; }
+            .logo { margin-bottom: 40px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">liveplay</div>
-        
-        <div class="status-tag">System Maintenance</div>
-        
-        <span class="main-icon">construction</span>
-        
-        <h2>Upgrading the Experience</h2>
-        
+        <h1>503</h1>
+        <h2>System Maintenance</h2>
         <p>
-            Liveplay is currently under maintenance. We are rolling out major UI improvements and performance optimizations.
+            liveplay is under maintenance. Fixing some not working channels and unknown issues. We sure that we provide you a smoother viewing experience.
             <br><br>
-            Stay updated on <b>PHCorner</b> for further details.
+            Please keep updated on PHCorner for more info. Also follow us on PHCorner @buzzybees for more updates.
         </p>
+        <a id="direct-btn" href="https://phcorner.org/members/buzzybees.2661880/">Go to PHCorner</a>
+    </div>
 
-        <a href="https://phcorner.net" target="_blank">
-            Follow us on PHCorner
-            <span class="material-symbols-rounded btn-icon">trending_up</span>
-        </a>
-
-        <div class="footer-info">
-            &copy; 2026 Project Dev, All Right Reserved.
-        </div>
+    <div class="footer">
+        ©2026 Project Dev, All Right Reserved.
     </div>
 </body>
 </html>
