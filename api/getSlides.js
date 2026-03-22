@@ -58,7 +58,7 @@ export default function handler(req, res) {
         },      
         {
             title: "It's Showtime",
-            ph_description: "<strong>MON-FRI| 10:15PM</strong><br>Kapamilya Channel, A2Z <br>and Catch-Up Livestream",
+            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z <br>and Catch-Up Livestream",
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "Catch-Up TV • Variety",
@@ -111,7 +111,7 @@ export default function handler(req, res) {
             overlay: "show"
         },
         {
-            title: "Your Face Sounds Familiar",
+            title: "Your Face Sounds<br>Familiar",
             ph_description: "<strong>SAT-SUN | 7:15PM</strong><br>Kapamilya Channel, A2Z<br>and Catch-Up Livestream",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/yourfacesoundsfamiliar.herobg-tv.JPG",
