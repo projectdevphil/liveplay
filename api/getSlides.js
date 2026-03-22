@@ -102,6 +102,15 @@ export default function handler(req, res) {
             //overlay: "show"
         //},
         {
+            title: "Rainbow Rumble",
+            ph_description: "<strong>SAT-SUN | 6:15PM</strong><br>Kapamilya Channel and A2Z",
+            nonph_description: "<strong>on TFC</strong>",
+            image: "https://pql-static.abs-cbn.com/images/rainbowrumble.herobg-tv.v2.JPG",
+            badge: "Catch-Up TV • Gameshow",
+            link: null,
+            overlay: "show"
+        },
+        {
             title: "Your Face Sounds Familiar",
             ph_description: "<strong>SAT-SUN | 7:15PM</strong><br>Kapamilya Channel, A2Z<br>and Catch-Up Livestream",
             nonph_description: "<strong>on TFC</strong>",
