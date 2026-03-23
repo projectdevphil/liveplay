@@ -201,7 +201,7 @@ export default function handler(req, res) {
             case 'EMEAA x PH':
                 return EMEAA_COUNTRIES.includes(country) && !isPH;
             case 'EMEAANA x PH':
-                return EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country) && !isPH;
+                return (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country)) && !isPH;
             default:
                 return true;
         }
