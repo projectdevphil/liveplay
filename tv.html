@@ -123,7 +123,7 @@
         .top-rank-number { display: block; height: 55px; width: 65px; margin-right: -36.5px; z-index: 1; position: relative; pointer-events: none; }
         .top-watch-logo-container { background-color: var(--card-background); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; z-index: 5; transition: all 0.2s; padding: 4px; box-sizing: border-box;}
         .top-watch-item.focusable.focused .top-watch-logo-container { background-color: var(--focus-bg); }
-        .top-watch-item.focusable.focused .top-watch-logo { display: block; filter: drop-shadow(8px 8px 10px gray); }
+        .top-watch-item.focusable.focused .top-watch-logo { display: block; filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6)); }
         .top-watch-logo { width: 80%; height: 50%; object-fit: contain; pointer-events: none; }
         
         .tv-slider-container { margin-bottom: 10px; position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border-radius: 15px; overflow: hidden; border: 1px solid var(--border-color); background: #111; }
@@ -149,8 +149,9 @@
         .text-details h1 { font-size: 2.2rem; margin: 0 0 5px 0; font-weight: 800; }
         .meta-row { display: flex; align-items: center; gap: 10px; font-size: 1rem; color: #ccc; }
         .live-tag { background: #ffffff; color: #000000; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 4px; transition: background 0.3s, color 0.3s; }
-        .live-tag.offline { background: #ff3b30; color: #ffffff; }        .channel-sensor { color: #fff ; opacity: 0.7; font-size: 22px; }
-        .channel-sensor.offline { color: #ff3b30; }
+        .live-tag.offline { background: #ff0000; color: #ffffff; }
+        .channel-sensor { color: #fff ; opacity: 0.7; font-size: 22px; }
+        .channel-sensor.offline { color: #ff0000; }
 
         .d-pad { position: relative; width: 140px; height: 140px; background: rgba(30, 30, 30, 0.6); border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); }
         .d-btn { position: absolute; width: 45px; height: 45px; border-radius: 50%; background: transparent; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; outline: none; }
