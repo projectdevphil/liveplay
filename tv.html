@@ -342,7 +342,6 @@
                             liveTag.classList.add('offline');
                             liveIcon.textContent = 'sensors_off';
                             liveText.textContent = 'OFFLINE';
-                            els.name.textContent = "Stream Offline";
                         } else {
                             liveTag.classList.remove('offline');
                             liveIcon.textContent = 'sensors';
@@ -478,12 +477,17 @@
 
                 } catch(e) { 
                     console.error(e); 
-                    els.name.textContent = "Stream Offline"; 
                     els.loader.classList.add('hidden'); 
                     
-                    liveTag.classList.add('offline');
-                    liveIcon.textContent = 'sensors_off';
-                    liveText.textContent = 'OFFLINE';
+                    const liveTag = document.getElementById('info-live-tag');
+                    const liveIcon = document.getElementById('info-live-icon');
+                    const liveText = document.getElementById('info-live-text');
+
+                    if(liveTag && liveIcon && liveText) {
+                        liveTag.classList.add('offline');
+                        liveIcon.textContent = 'sensors_off';
+                        liveText.textContent = 'OFFLINE';
+                    }
 
                     updateChannelListUI(idx, 'offline');
                 }
