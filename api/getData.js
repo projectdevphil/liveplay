@@ -8,6 +8,21 @@ export default function handler(req, res) {
     const country = req.headers['x-vercel-ip-country'] || 'XX';
     const isPH = country === 'PH';
     const SEA_COUNTRIES =['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
+    const NA_COUNTRIES =[
+        'US', 'CA', 'MX', 'BZ', 'CR', 'SV', 'GT', 'HN', 'NI', 'PA', 
+        'AG', 'BS', 'BB', 'CU', 'DM', 'DO', 'GD', 'HT', 'JM', 'KN', 
+        'LC', 'VC', 'TT', 'PR', 'VI', 'BM', 'KY', 'TC', 'VG', 'AI', 'MS'
+    ];
+    const EMEAA_COUNTRIES =[
+        // Europe
+        'AL', 'AD', 'AM', 'AT', 'AZ', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'GE', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'KZ', 'XK', 'LV', 'LI', 'LT', 'LU', 'MT', 'MD', 'MC', 'ME', 'NL', 'MK', 'NO', 'PL', 'PT', 'RO', 'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SE', 'CH', 'TR', 'UA', 'GB', 'VA',
+        // Middle East
+        'BH', 'IR', 'IQ', 'IL', 'JO', 'KW', 'LB', 'OM', 'PS', 'QA', 'SA', 'SY', 'AE', 'YE',
+        // Africa
+        'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CV', 'CM', 'CF', 'TD', 'KM', 'CD', 'CG', 'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'YT', 'MA', 'MZ', 'NA', 'NE', 'NG', 'RE', 'RW', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW',
+        // Asia
+        'AF', 'BD', 'BT', 'BN', 'KH', 'CN', 'HK', 'MO', 'IN', 'ID', 'JP', 'KP', 'KR', 'KG', 'LA', 'MY', 'MV', 'MN', 'MM', 'NP', 'PK', 'PH', 'SG', 'LK', 'TW', 'TJ', 'TH', 'TM', 'UZ', 'VN'
+    ];
 
     const channels =[
         // General
@@ -20,8 +35,8 @@ export default function handler(req, res) {
         { name: 'RPTV', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/5b/RPTV_%282024%29.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cnn_rptv_prod_hd/default/index.mpd', clearKey: { '1917f4caf2364e6d9b1507326a85ead6': 'a1340a251a5aa63a9b0ea5d9d7f67595' }, group: 'General', access: 'PH' },
         { name: 'PTV4', logo: 'https://static.wikia.nocookie.net/russel/images/e/ed/PTV_4_Logo_June_2017.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_ptv4_sd/default/index.mpd', clearKey: { '71a130a851b9484bb47141c8966fb4a3': 'ad1f003b4f0b31b75ea4593844435600' }, group: 'General', access: 'PH' },
         //{ name: 'IBC 13', logo: 'https://static.wikia.nocookie.net/tv5network/images/6/62/IBC.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/ibc13_sd_new/default1/index.mpd', clearKey: { '16ecd238c0394592b8d3559c06b1faf5': '05b47ae3be1368912ebe28f87480fc84' }, group: 'General', access: 'PH' },
-        { name: 'TFC', logo: 'https://img.mytfc.com/cmsroot/abscms/media/mytfctv/channels/tfc/logos/tfc_logo_800px.png?ext=.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/index.mpd', clearKey: { '9568cc84e1d944f38eac304517eab6fd': '2c8306892361e3fba18cb142f31ec775' }, group: 'General', access: 'Non-PH' },
-        //{ name: 'TFC NA', logo: 'https://img.mytfc.com/cmsroot/abscms/media/mytfctv/channels/tfc/logos/tfc_logo_800px.png?ext=.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcna-dash-abscbnono/index.mpd', group: 'General', access: 'Non-PH' },
+        { name: 'TFC', logo: 'https://img.mytfc.com/cmsroot/abscms/media/mytfctv/channels/tfc/logos/tfc_logo_800px.png?ext=.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/index.mpd', clearKey: { '9568cc84e1d944f38eac304517eab6fd': '2c8306892361e3fba18cb142f31ec775' }, group: 'General', access: 'SEA' },
+        { name: 'TFC NA', logo: 'https://img.mytfc.com/cmsroot/abscms/media/mytfctv/channels/tfc/logos/tfc_logo_800px.png?ext=.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcna-dash-abscbnono/index.mpd',clearKey: { '9c700e42ffc64d9b82d94cf57a2302fa': 'c27dc8263779ee9d555aa07598357db4' }, group: 'General', access: 'Non-SEA' },
         { name: 'GMA Pinoy TV', logo: 'https://static.wikia.nocookie.net/logopedia/images/6/6b/GMA_Pinoy_TV_%282024%29.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2099522/gmapt3/manifest.mpd', clearKey: { '7b5d15a7385546768aca9fd505ad5e16': 'f534393c84c1a9c17fa36bc3a4380981' }, group: 'General', access: 'Non-PH' },
     
         // News
@@ -179,10 +194,15 @@ export default function handler(req, res) {
         let isAllowed = true;
         
         if (foundChannel.access) {
-            if (foundChannel.access === 'PH' && !isPH) isAllowed = false;
-            else if (foundChannel.access === 'Non-PH' && isPH) isAllowed = false;
-            else if (foundChannel.access === 'US' && country !== 'US') isAllowed = false;
-            else if (foundChannel.access === 'SEA' && !SEA_COUNTRIES.includes(country)) isAllowed = false;
+            const access = foundChannel.access;
+
+            if (access === 'PH' && !isPH) isAllowed = false;
+            else if (access === 'Non-PH' && isPH) isAllowed = false;
+            else if (access === 'US' && country !== 'US') isAllowed = false;
+            else if (access === 'SEA' && !SEA_COUNTRIES.includes(country)) isAllowed = false;
+            else if (access === 'NA' && !NA_COUNTRIES.includes(country)) isAllowed = false;
+            else if (access === 'EMEAA' && !EMEAA_COUNTRIES.includes(country)) isAllowed = false;
+            else if (access === 'EMEAA x PH' && (!EMEAA_COUNTRIES.includes(country) || isPH)) isAllowed = false;
         }
 
         if (!isAllowed) {
