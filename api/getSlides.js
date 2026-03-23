@@ -8,9 +8,24 @@ export default function handler(req, res) {
 
     const country = req.headers['x-vercel-ip-country'] || 'XX';
     const isPH = country === 'PH';
-
     const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
-
+    const NA_COUNTRIES = [
+        'US', 'CA', 'MX', 'BZ', 'CR', 'SV', 'GT', 'HN', 'NI', 'PA', 
+        'AG', 'BS', 'BB', 'CU', 'DM', 'DO', 'GD', 'HT', 'JM', 'KN', 
+        'LC', 'VC', 'TT', 'PR', 'VI', 'BM', 'KY', 'TC', 'VG', 'AI', 'MS'
+    ];
+    
+    const EMEAA_COUNTRIES = [
+        // Europe
+        'AL', 'AD', 'AM', 'AT', 'AZ', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'GE', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'KZ', 'XK', 'LV', 'LI', 'LT', 'LU', 'MT', 'MD', 'MC', 'ME', 'NL', 'MK', 'NO', 'PL', 'PT', 'RO', 'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SE', 'CH', 'TR', 'UA', 'GB', 'VA',
+        // Middle East
+        'BH', 'IR', 'IQ', 'IL', 'JO', 'KW', 'LB', 'OM', 'PS', 'QA', 'SA', 'SY', 'AE', 'YE',
+        // Africa
+        'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CV', 'CM', 'CF', 'TD', 'KM', 'CD', 'CG', 'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'YT', 'MA', 'MZ', 'NA', 'NE', 'NG', 'RE', 'RW', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW',
+        // Asia
+        'AF', 'BD', 'BT', 'BN', 'KH', 'CN', 'HK', 'MO', 'IN', 'ID', 'JP', 'KP', 'KR', 'KG', 'LA', 'MY', 'MV', 'MN', 'MM', 'NP', 'PK', 'PH', 'SG', 'LK', 'TW', 'TJ', 'TH', 'TM', 'UZ', 'VN'
+    ];
+    
     const slidesData = [
         //{
             //title: "",
@@ -92,7 +107,7 @@ export default function handler(req, res) {
             //link: null,
             //overlay: "show"
         //},
-       //{
+        //{
             //title: "House of Lies",
             //ph_description: "<strong>MON-FRI | 3:20PM</strong><br>GMA7",
             //nonph_description: "<strong>on GMA Pinoy TV</strong>",
@@ -119,29 +134,13 @@ export default function handler(req, res) {
             link: null,
             overlay: "show"
         },        
-        //{
-            //title: "PBB Celebrity<br>Collab Edition 2.0",
-            //ph_description: "<strong>MON-FRI | 9:40PM<br>SAT-SUN | 6:15PM</strong><br>GMA7 and PBB Catch-Up Livestream",
-            //nonph_description: "<strong>MON-FRI | 9:40PM PHT<br>SAT | 6:15PM PHT<br>SUN | 10:05PM PHT</strong><br>PBB Catch-Up Livestream",
-            //image: "https://pql-static.abs-cbn.com/images/pbbcelebritycollab.herobg-tv.V4.JPG?im_policy=landscapeHero_tv_hd",
-            //badge: "Catch-Up TV • Reality",
-            //link: null,
-            //overlay: "show"
-        //},
-        //{
-            //title: "Formula 1",
-            //description: "on BeIN Sports 1, Sky Sports and Sky Sports F1",
-            //image: "https://cdn-6.motorsport.com/images/amp/2wB91X80/s1200/2025-drivers-hero-shot-3.webp",
-            //badge: "Catch-Up TV • Sports",
-            //link: null,
-            //overlay: "show"
-        //},
         {
             title: "New K-Pop",
             description: "",
             image: "https://i8.amplience.net/i/naras/ATEEZ-k-pop-summer-tours-2024",
             badge: "Watch Now • Music",
             link: "/home?channel=new-k-pop",
+            access: "SEA",
             overlay: "show"
         },
         {
@@ -153,15 +152,15 @@ export default function handler(req, res) {
             access: "PH",
             overlay: "show"
         },
-        {
-            title: "NBA TV",
-            description: "",
-            image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
-            badge: "Watch Now • Sports",
-            link: "/home?channel=nba-tv",
-            access: "Non-PH",
-            overlay: "show"
-        },
+        //{
+            //title: "NBA TV",
+            //description: "",
+            //image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
+            //badge: "Watch Now • Sports",
+            //link: "/home?channel=nba-tv",
+            //access: "EMEAANA",
+            //overlay: "show"
+        //},
         //{
             //title: "Premier League",
             //description: "",
@@ -186,6 +185,11 @@ export default function handler(req, res) {
         if (slide.access === 'Non-PH' && !isPH) return true;
         if (slide.access === 'US' && country === 'US') return true;
         if (slide.access === 'SEA' && SEA_COUNTRIES.includes(country)) return true;
+        if (slide.access === 'EMEAA' && EMEAA_COUNTRIES.includes(country)) return true; 
+        if (slide.access === 'EMEAA x PH' && EMEAA_COUNTRIES.includes(country) && !isPH) return true;
+        if (slide.access === 'EMEAANA' && (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country))) return true;
+        if (slide.access === 'EMEAANA x PH' && (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country)) && !isPH) return true;
+        
         return false;
     }).map(slide => {
         let finalDescription = slide.description;
