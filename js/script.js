@@ -150,7 +150,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (shakaP) await shakaP.unload();
         if (shakaUI) shakaUI.setEnabled(false);
         
-        if (statusCallback) statusCallback("Advertisement", "yellow"); 
+        // Changed: Removed "Advertisement" and "yellow" to use callback cleanly
+        if (statusCallback) statusCallback(); 
 
         adContainer.style.display = 'flex';
         adTimerDisplay.style.display = 'block';
@@ -535,10 +536,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
-        await playVideoAd(videoElement, playerWrapper, player, ui, (text, color) => {
+        // Changed: We now use the group title and white text during advertisements
+        await playVideoAd(videoElement, playerWrapper, player, ui, () => {
              if(mainPlayerStatus) {
-                mainPlayerStatus.textContent = text;
-                mainPlayerStatus.style.color = color;
+                mainPlayerStatus.textContent = groupTitle;
+                mainPlayerStatus.style.color = "#ffffff";
              }
         });
 
