@@ -324,8 +324,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Update Main Player Indicator Box
         if(mainPlayerIcon) {
             mainPlayerIcon.textContent = iconName;
-            if(isOffline) mainPlayerIcon.classList.add(colorClass);
-            else mainPlayerIcon.classList.remove(colorClass);
 
             const liveIndicator = mainPlayerIcon.parentElement;
             if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
@@ -356,8 +354,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Update Mini Player Indicator Box (If present)
         if(miniPlayerIcon) {
             miniPlayerIcon.textContent = iconName;
-            if(isOffline) miniPlayerIcon.classList.add(colorClass);
-            else miniPlayerIcon.classList.remove(colorClass);
 
             const miniIndicator = miniPlayerIcon.parentElement;
             if (miniIndicator && miniIndicator.classList.contains('live-indicator')) {
