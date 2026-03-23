@@ -345,11 +345,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         }
-        
-        if(mainPlayerStatus) {
-            mainPlayerStatus.textContent = isOffline ? "Stream Offline" : "Now Playing";
-            mainPlayerStatus.style.color = isOffline ? "red" : "var(--theme-color)";
-        }
 
         // Update Mini Player Indicator Box (If present)
         if(miniPlayerIcon) {
@@ -367,11 +362,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 }
             }
-        }
-        
-        if(miniPlayerStatus) {
-            miniPlayerStatus.textContent = isOffline ? "Stream Offline" : "Now Playing";
-            miniPlayerStatus.style.color = isOffline ? "red" : "var(--theme-color)";
         }
 
         // Standard List Icons remain purely icon-based
@@ -523,18 +513,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateOfflineState(offlineChannels.has(currentActiveChannelSlug));
         
-        if(mainPlayerStatus) {
-            mainPlayerStatus.textContent = "Loading Stream...";
-            mainPlayerStatus.style.color = "var(--theme-color)";
-        }
-
         mainPlayerName.textContent = publicStreamInfo.name;
         const groupTitle = publicStreamInfo.group || "Live Stream"; 
         
         if(miniPlayerName) miniPlayerName.textContent = publicStreamInfo.name;
+        if(miniPlayerStatus) miniPlayerStatus.textContent = groupTitle;
+        
         if(miniPlayerLogo) {
             miniPlayerLogo.src = publicStreamInfo.logo || '/assets/favicon.svg';
             miniPlayerLogo.style.display = 'block'; 
+        }
+
+        if(mainPlayerStatus) {
+            mainPlayerStatus.textContent = "Loading Stream...";
+            mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
         const newUrl = `${BASE_URL_PATH}?channel=${currentActiveChannelSlug}`;
@@ -581,12 +573,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             offlineChannels.delete(currentActiveChannelSlug);
             updateOfflineState(false); 
-            if(mainPlayerStatus) mainPlayerStatus.textContent = groupTitle;
+            
+            // Successfully loaded: set text back to group title
+            if(mainPlayerStatus) {
+                mainPlayerStatus.textContent = groupTitle;
+                mainPlayerStatus.style.color = "var(--theme-color)";
+            }
 
         } catch (e) {
             console.error(e);
             offlineChannels.add(currentActiveChannelSlug);
             updateOfflineState(true);
+            
+            // Dead/offline stream: set text back to group title anyway
+            if(mainPlayerStatus) {
+                mainPlayerStatus.textContent = groupTitle;
+                mainPlayerStatus.style.color = "var(--theme-color)";
+            }
         }
     };
 
