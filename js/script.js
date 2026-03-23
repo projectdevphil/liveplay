@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_GET_CHANNELS = '/api/getChannels';
     const API_GET_DATA = '/api/getData';
     const API_GET_SLIDES = '/api/getSlides';
-    //const API_GET_ADS = '/api/getAds';
+    const API_GET_ADS = '/api/getAds';
     const API_INCREMENT_VIEW = '/api/incrementView'; 
     const API_GET_TOP_CHANNELS = '/api/getTopChannels'; 
 
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let player = null;
     let ui = null;
-    let allStreams = [];
+    let allStreams =[];
     let currentFilteredStreams =[];
     let currentlyDisplayedCount = 0;
     let currentActiveChannelSlug = null; 
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         if (shakaP) await shakaP.unload();
         if (shakaUI) shakaUI.setEnabled(false);
-        if (statusCallback) statusCallback("Advertisement", "yellow");
+        if (statusCallback) statusCallback(); // Executing callback without text to trigger Ad UI logic
 
         adContainer.style.display = 'flex';
         adTimerDisplay.style.display = 'block';
@@ -323,6 +323,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Update Main Player Indicator Box
         if(mainPlayerIcon) {
+            mainPlayerIcon.style.display = ''; // Restore icon visibility from Ad state
             mainPlayerIcon.textContent = iconName;
 
             const liveIndicator = mainPlayerIcon.parentElement;
@@ -348,6 +349,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Update Mini Player Indicator Box (If present)
         if(miniPlayerIcon) {
+            miniPlayerIcon.style.display = ''; // Restore icon visibility
             miniPlayerIcon.textContent = iconName;
 
             const miniIndicator = miniPlayerIcon.parentElement;
@@ -533,15 +535,42 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
-        await playVideoAd(videoElement, playerWrapper, player, ui, (text, color) => {
+        // The callback function fires ONLY when an ad starts playing
+        await playVideoAd(videoElement, playerWrapper, player, ui, () => {
+             // Blank out the "Group Name" during the ad
              if(mainPlayerStatus) {
-                mainPlayerStatus.textContent = text;
-                mainPlayerStatus.style.color = color;
+                mainPlayerStatus.textContent = ""; 
+             }
+
+             // Change Indicator to "Ad" (Yellow background, Black Text, No Icon)
+             if(mainPlayerIcon) {
+                 mainPlayerIcon.style.display = 'none'; // Hide the sensor icon
+                 const liveIndicator = mainPlayerIcon.parentElement;
+                 if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
+                     liveIndicator.style.backgroundColor = 'yellow';
+                     liveIndicator.style.color = 'black';
+                     
+                     for (let i = 0; i < liveIndicator.childNodes.length; i++) {
+                         const node = liveIndicator.childNodes[i];
+                         if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
+                             node.nodeValue = 'Ad'; // Set text precisely to "Ad"
+                         }
+                     }
+                 }
              }
         });
 
         if (!playerView.classList.contains('active')) return;
         
+        // As soon as the Ad finishes (or is skipped), restore the LIVE/OFFLINE state
+        updateOfflineState(offlineChannels.has(currentActiveChannelSlug));
+        
+        // Ensure "Loading Stream..." is put back momentarily before we actually load the manifest
+        if(mainPlayerStatus) {
+            mainPlayerStatus.textContent = "Loading Stream...";
+            mainPlayerStatus.style.color = "var(--theme-color)";
+        }
+
         videoElement.removeAttribute('src'); 
         videoElement.load(); 
 
