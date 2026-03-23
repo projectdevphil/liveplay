@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_GET_DATA = '/api/getData';
     const API_GET_SLIDES = '/api/getSlides';
     const API_GET_ADS = '/api/getAds';
-    const API_INCREMENT_VIEW = '/api/incrementView'; 
-    const API_GET_TOP_CHANNELS = '/api/getTopChannels'; 
+    const API_INCREMENT_VIEW = '/api/incrementView';
+    const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
     const CHANNELS_PER_PAGE = 40;
     const BASE_URL_PATH = '/home';
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const channelSkeleton = document.getElementById("channel-skeleton");
     const loadMoreContainer = document.getElementById("load-more-container");
     const loadMoreBtn = document.getElementById("load-more-btn");
-    const channelHeader = document.getElementById("channel-list-header") || document.querySelector(".section-header h2"); 
+    const channelHeader = document.getElementById("channel-list-header") || document.querySelector(".section-header h2");
 
     const playerView = document.getElementById('player-view');
     const videoElement = document.getElementById('video');
@@ -52,21 +52,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const mainPlayerName = document.getElementById('player-channel-name');
     const mainPlayerStatus = document.getElementById('player-channel-status');
-    const mainPlayerIcon = document.getElementById('main-live-icon'); 
+    const mainPlayerIcon = document.getElementById('main-live-icon');
     
     const miniPlayerName = document.getElementById('minimized-player-name');
     const miniPlayerStatus = document.getElementById('minimized-player-status');
     const miniPlayerLogo = document.getElementById("minimized-player-logo");
-    const miniPlayerIcon = document.querySelector(".live-sensor-mini"); 
+    const miniPlayerIcon = document.querySelector(".live-sensor-mini");
 
     let player = null;
     let ui = null;
-    let allStreams = [];
+    let allStreams =[];
     let currentFilteredStreams =[];
     let currentlyDisplayedCount = 0;
-    let currentActiveChannelSlug = null; 
-    const defaultPageTitle = document.title; 
-    const offlineChannels = new Set(); 
+    let currentActiveChannelSlug = null;
+    const defaultPageTitle = document.title;
+    const offlineChannels = new Set();
 
     let adContainer = null;
     let adTimerDisplay = null;
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(API_GET_ADS);
             if (!response.ok) throw new Error('Failed to load ads');
             const data = await response.json();
-            if(Array.isArray(data) && data.length > 0) return data;
+            if (Array.isArray(data) && data.length > 0) return data;
             return null;
         } catch (error) {
             console.error(error);
@@ -94,9 +94,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function createAdUI() {
-        if(playerWrapper) {
+        if (playerWrapper) {
             const style = window.getComputedStyle(playerWrapper);
-            if(style.position === 'static') playerWrapper.style.position = 'relative';
+            if (style.position === 'static') playerWrapper.style.position = 'relative';
         }
 
         if (!adContainer) {
@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 btn.onmouseover = () => { btn.style.transform = "scale(1.1)"; btn.style.backgroundColor = "#f0f0f0"; };
                 btn.onmouseout = () => { btn.style.transform = "scale(1)"; btn.style.backgroundColor = "#FFFFFF"; };
             };
+            
             addHover(adVisitBtn);
             addHover(adSkipBtn);
 
@@ -150,8 +151,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (shakaP) await shakaP.unload();
         if (shakaUI) shakaUI.setEnabled(false);
         
-        // Changed: Removed "Advertisement" and "yellow" to use callback cleanly
-        if (statusCallback) statusCallback(); 
+        if (statusCallback) statusCallback();
 
         adContainer.style.display = 'flex';
         adTimerDisplay.style.display = 'block';
@@ -177,14 +177,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             const onError = (e) => { finishAd(); };
-            const onSkipClicked = (e) => { if(e) e.stopPropagation(); finishAd(); };
+            
+            const onSkipClicked = (e) => { 
+                if (e) e.stopPropagation(); 
+                finishAd(); 
+            };
+            
             const onVisitClicked = (e) => {
-                if(e) e.stopPropagation();
+                if (e) e.stopPropagation();
                 if (currentAd.linkUrl && currentAd.linkUrl !== '#') window.open(currentAd.linkUrl, '_blank');
             };
 
             const onTimeUpdate = () => {
-                if(vidElem.duration && vidElem.currentTime > 0) {
+                if (vidElem.duration && vidElem.currentTime > 0) {
                     const remaining = vidElem.duration - vidElem.currentTime;
                     adTimerDisplay.textContent = "Ad • " + formatAdTime(remaining);
                 }
@@ -207,11 +212,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function stopVideoAd() {
-        if(adContainer) adContainer.style.display = 'none';
-        if(adTimerDisplay) adTimerDisplay.style.display = 'none';
-        if(videoElement) {
+        if (adContainer) adContainer.style.display = 'none';
+        if (adTimerDisplay) adTimerDisplay.style.display = 'none';
+        if (videoElement) {
             videoElement.pause();
-            videoElement.removeAttribute('src'); 
+            videoElement.removeAttribute('src');
             videoElement.load();
         }
     }
@@ -315,25 +320,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const setResponsivePoster = () => {
         if (!videoElement) return;
-        const isDesktop = window.innerWidth > 1024; 
+        const isDesktop = window.innerWidth > 1024;
         videoElement.poster = isDesktop ? POSTER_DESKTOP : POSTER_MOBILE;
     };
     
     function updateOfflineState(isOffline) {
         const iconName = isOffline ? 'sensors_off' : 'sensors';
-        const colorClass = 'status-offline'; // You can keep this class if it handles any secondary styling
-        const textColor = isOffline ? 'red' : '#ffffff'; // explicitly white when online, red when offline
+        const colorClass = 'status-offline';
+        const textColor = isOffline ? 'red' : '#ffffff';
         const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
 
-        if(mainPlayerIcon) {
+        if (mainPlayerIcon) {
             mainPlayerIcon.textContent = iconName;
-            if(isOffline) mainPlayerIcon.classList.add(colorClass);
+            if (isOffline) mainPlayerIcon.classList.add(colorClass);
             else mainPlayerIcon.classList.remove(colorClass);
 
             const liveIndicator = mainPlayerIcon.parentElement;
             if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
-                liveIndicator.style.backgroundColor = 'transparent'; // Remove any background colors
-                liveIndicator.style.color = textColor; // Apply text color
+                liveIndicator.style.backgroundColor = 'transparent';
+                liveIndicator.style.color = textColor;
                 
                 let textUpdated = false;
                 for (let i = 0; i < liveIndicator.childNodes.length; i++) {
@@ -349,9 +354,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        if(miniPlayerIcon) {
+        if (miniPlayerIcon) {
             miniPlayerIcon.textContent = iconName;
-            if(isOffline) miniPlayerIcon.classList.add(colorClass);
+            if (isOffline) miniPlayerIcon.classList.add(colorClass);
             else miniPlayerIcon.classList.remove(colorClass);
 
             const miniIndicator = miniPlayerIcon.parentElement;
@@ -368,11 +373,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        if(currentActiveChannelSlug) {
+        if (currentActiveChannelSlug) {
             const listIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
-            if(listIcon) {
+            if (listIcon) {
                 listIcon.textContent = iconName;
-                if(isOffline) listIcon.classList.add(colorClass);
+                if (isOffline) listIcon.classList.add(colorClass);
                 else listIcon.classList.remove(colorClass);
             }
         }
@@ -410,7 +415,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function renderTopWatch() {
         if (!topWatchSection || !topWatchList) return;
 
-        if(topWatchSkeleton && topWatchList.innerHTML === '') {
+        if (topWatchSkeleton && topWatchList.innerHTML === '') {
             topWatchSkeleton.style.display = 'flex';
             topWatchList.style.display = 'none';
         }
@@ -419,7 +424,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const res = await fetch(API_GET_TOP_CHANNELS);
             const topSlugs = await res.json();
 
-            if(topWatchSkeleton) topWatchSkeleton.style.display = 'none';
+            if (topWatchSkeleton) topWatchSkeleton.style.display = 'none';
             
             if (!Array.isArray(topSlugs) || topSlugs.length === 0) {
                 topWatchSection.style.display = 'none';
@@ -460,7 +465,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (e) {
             console.error("Failed to load top channels:", e);
-            if(topWatchSkeleton) topWatchSkeleton.style.display = 'none';
+            if (topWatchSkeleton) topWatchSkeleton.style.display = 'none';
             topWatchSection.style.display = 'none';
         }
     }
@@ -482,11 +487,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             player.addEventListener('error', (event) => {
                 console.error(event.detail.code);
                 
-                if(currentActiveChannelSlug) {
+                if (currentActiveChannelSlug) {
                     offlineChannels.add(currentActiveChannelSlug);
                 }
                 
-                updateOfflineState(true); 
+                updateOfflineState(true);
             });
             return true;
         } else {
@@ -498,9 +503,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const openPlayer = async (publicStreamInfo) => {
         trackChannelView(publicStreamInfo);
 
-        if(currentActiveChannelSlug && !offlineChannels.has(currentActiveChannelSlug)) {
+        if (currentActiveChannelSlug && !offlineChannels.has(currentActiveChannelSlug)) {
             const prevIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
-            if(prevIcon) {
+            if (prevIcon) {
                 prevIcon.textContent = 'sensors';
                 prevIcon.classList.remove('status-offline');
             }
@@ -517,17 +522,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateOfflineState(offlineChannels.has(currentActiveChannelSlug));
         
         mainPlayerName.textContent = publicStreamInfo.name;
-        const groupTitle = publicStreamInfo.group || "Live Stream"; 
+        const groupTitle = publicStreamInfo.group || "Live Stream";
         
-        if(miniPlayerName) miniPlayerName.textContent = publicStreamInfo.name;
-        if(miniPlayerStatus) miniPlayerStatus.textContent = groupTitle;
+        if (miniPlayerName) miniPlayerName.textContent = publicStreamInfo.name;
+        if (miniPlayerStatus) miniPlayerStatus.textContent = groupTitle;
         
-        if(miniPlayerLogo) {
+        if (miniPlayerLogo) {
             miniPlayerLogo.src = publicStreamInfo.logo || '/assets/favicon.svg';
-            miniPlayerLogo.style.display = 'block'; 
+            miniPlayerLogo.style.display = 'block';
         }
 
-        if(mainPlayerStatus) {
+        if (mainPlayerStatus) {
             mainPlayerStatus.textContent = "Loading Stream...";
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
@@ -536,9 +541,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
-        // Changed: We now use the group title and white text during advertisements
         await playVideoAd(videoElement, playerWrapper, player, ui, () => {
-             if(mainPlayerStatus) {
+             if (mainPlayerStatus) {
                 mainPlayerStatus.textContent = groupTitle;
                 mainPlayerStatus.style.color = "#ffffff";
              }
@@ -546,13 +550,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!playerView.classList.contains('active')) return;
         
-        if(mainPlayerStatus) {
+        if (mainPlayerStatus) {
             mainPlayerStatus.textContent = "Loading Stream...";
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
-        videoElement.removeAttribute('src'); 
-        videoElement.load(); 
+        videoElement.removeAttribute('src');
+        videoElement.load();
 
         try {
             const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(publicStreamInfo.name)}`);
@@ -581,9 +585,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             videoElement.play().catch(() => console.log("Stream Auto-play blocked"));
             
             offlineChannels.delete(currentActiveChannelSlug);
-            updateOfflineState(false); 
+            updateOfflineState(false);
             
-            if(mainPlayerStatus) {
+            if (mainPlayerStatus) {
                 mainPlayerStatus.textContent = groupTitle;
                 mainPlayerStatus.style.color = "var(--theme-color)";
             }
@@ -593,7 +597,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             offlineChannels.add(currentActiveChannelSlug);
             updateOfflineState(true);
             
-            if(mainPlayerStatus) {
+            if (mainPlayerStatus) {
                 mainPlayerStatus.textContent = groupTitle;
                 mainPlayerStatus.style.color = "var(--theme-color)";
             }
@@ -604,14 +608,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (playerView.classList.contains('active')) {
             playerView.classList.remove('active');
             document.body.classList.remove('no-scroll');
-            setTimeout(() => { if(minimizedPlayer) minimizedPlayer.classList.add('active'); }, 300);
+            setTimeout(() => { if (minimizedPlayer) minimizedPlayer.classList.add('active'); }, 300);
         }
     };
 
     const restorePlayer = (e) => {
-        if (e.target.closest('#exit-player-btn')) return; 
-        if(minimizedPlayer) minimizedPlayer.classList.remove('active');
-        if(playerView) playerView.classList.add('active');
+        if (e.target.closest('#exit-player-btn')) return;
+        if (minimizedPlayer) minimizedPlayer.classList.remove('active');
+        if (playerView) playerView.classList.add('active');
         document.body.classList.add('no-scroll');
     };
 
@@ -619,13 +623,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         stopVideoAd();
         if (player) await player.unload();
         
-        if(playerView) playerView.classList.remove('active');
-        if(minimizedPlayer) minimizedPlayer.classList.remove('active');
+        if (playerView) playerView.classList.remove('active');
+        if (minimizedPlayer) minimizedPlayer.classList.remove('active');
         document.body.classList.remove('no-scroll');
 
-        if(currentActiveChannelSlug) {
+        if (currentActiveChannelSlug) {
             const listIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
-            if(listIcon && !offlineChannels.has(currentActiveChannelSlug)) {
+            if (listIcon && !offlineChannels.has(currentActiveChannelSlug)) {
                 listIcon.textContent = 'sensors';
                 listIcon.classList.remove('status-offline');
             }
@@ -722,12 +726,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (!secureData.manifestUri) throw new Error("No MPD URI returned");
 
                     const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 3000); 
+                    const timeoutId = setTimeout(() => controller.abort(), 3000);
 
                     const mpdRes = await fetch(secureData.manifestUri, {
                         method: 'GET',
                         signal: controller.signal
-                    }).catch(() => null); 
+                    }).catch(() => null);
 
                     clearTimeout(timeoutId);
 
@@ -766,11 +770,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.stopPropagation();
         floatingMenu.classList.toggle("active");
     });
+    
     document.addEventListener("click", () => floatingMenu.classList.remove("active"));
 
     searchToggle.addEventListener("click", () => {
         searchContainer.classList.toggle("active");
-        if(searchContainer.classList.contains("active")) searchInput.focus();
+        if (searchContainer.classList.contains("active")) searchInput.focus();
     });
 
     searchInput.addEventListener("input", (e) => {
@@ -781,17 +786,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             return nameMatch || groupMatch;
         });
 
-        if(channelHeader) {
+        if (channelHeader) {
             channelHeader.textContent = query === '' ? 
                 "All Channels" : `Search Results (${currentFilteredStreams.length})`;
         }
         renderChannels(true);
     });
 
-    if(minimizeBtn) minimizeBtn.addEventListener('click', minimizePlayer);
-    if(minimizedPlayer) minimizedPlayer.addEventListener('click', restorePlayer);
-    if(exitBtn) exitBtn.addEventListener('click', closePlayer);
-    if(loadMoreBtn) loadMoreBtn.addEventListener('click', () => renderChannels(false));
+    if (minimizeBtn) minimizeBtn.addEventListener('click', minimizePlayer);
+    if (minimizedPlayer) minimizedPlayer.addEventListener('click', restorePlayer);
+    if (exitBtn) exitBtn.addEventListener('click', closePlayer);
+    if (loadMoreBtn) loadMoreBtn.addEventListener('click', () => renderChannels(false));
 
     window.addEventListener("scroll", () => {
         header.classList.toggle("scrolled", window.scrollY > 10);
@@ -801,9 +806,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderSlider(slidesData);
 
     allStreams = await fetchChannels();
-    currentFilteredStreams =[...allStreams];
+    currentFilteredStreams = [...allStreams];
     
-    if(channelSkeleton) channelSkeleton.style.display = 'none';
+    if (channelSkeleton) channelSkeleton.style.display = 'none';
     channelListingsContainer.style.display = 'flex';
     
     renderChannels(true);
@@ -834,7 +839,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (mainPlayerName) mainPlayerName.textContent = "Select a Channel";
         if (mainPlayerStatus) mainPlayerStatus.textContent = "";
         updateOfflineState(false);
-        if(videoElement) videoElement.poster = POSTER_DESKTOP;
+        if (videoElement) videoElement.poster = POSTER_DESKTOP;
     }
 
     const headerLogo = document.querySelector('.header-left .logo');
