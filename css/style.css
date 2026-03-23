@@ -814,10 +814,10 @@ video::cue {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.65rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    gap: 4px;
-    padding: 4px 4px;
+    gap: 3.5px;
+    padding: 4px 3px;
     border-radius: 5px;
     background-color: #ffffff;
     color: #000000;
