@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let player = null;
     let ui = null;
-    let allStreams = [];
+    let allStreams =[];
     let currentFilteredStreams =[];
     let currentlyDisplayedCount = 0;
     let currentActiveChannelSlug = null; 
@@ -344,11 +344,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if(currentActiveChannelSlug) {
-            const listIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
-            if(listIcon) {
-                listIcon.textContent = iconName;
-                if(isOffline) listIcon.classList.add(colorClass);
-                else listIcon.classList.remove(colorClass);
+            const badge = document.getElementById(`sensor-${currentActiveChannelSlug}`);
+            if(badge) {
+                const iconEl = badge.querySelector('.icon');
+                const textEl = badge.querySelector('.text');
+                
+                if (iconEl && textEl) {
+                    iconEl.textContent = iconName;
+                    textEl.textContent = isOffline ? 'OFFLINE' : 'LIVE';
+                    badge.style.backgroundColor = isOffline ? '#ff0000' : '#ffffff';
+                    badge.style.color = isOffline ? '#ffffff' : '#000000';
+                }
+                
+                if(isOffline) badge.classList.add(colorClass);
+                else badge.classList.remove(colorClass);
             }
         }
     }
@@ -474,10 +483,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         trackChannelView(publicStreamInfo);
 
         if(currentActiveChannelSlug && !offlineChannels.has(currentActiveChannelSlug)) {
-            const prevIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
-            if(prevIcon) {
-                prevIcon.textContent = 'sensors';
-                prevIcon.classList.remove('status-offline');
+            const badge = document.getElementById(`sensor-${currentActiveChannelSlug}`);
+            if(badge) {
+                const iconEl = badge.querySelector('.icon');
+                const textEl = badge.querySelector('.text');
+                if (iconEl) iconEl.textContent = 'sensors';
+                if (textEl) textEl.textContent = 'LIVE';
+                badge.style.backgroundColor = '#ffffff';
+                badge.style.color = '#000000';
+                badge.classList.remove('status-offline');
             }
         }
 
@@ -582,10 +596,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.body.classList.remove('no-scroll');
 
         if(currentActiveChannelSlug) {
-            const listIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
-            if(listIcon && !offlineChannels.has(currentActiveChannelSlug)) {
-                listIcon.textContent = 'sensors';
-                listIcon.classList.remove('status-offline');
+            const badge = document.getElementById(`sensor-${currentActiveChannelSlug}`);
+            if(badge && !offlineChannels.has(currentActiveChannelSlug)) {
+                const iconEl = badge.querySelector('.icon');
+                const textEl = badge.querySelector('.text');
+                if (iconEl) iconEl.textContent = 'sensors';
+                if (textEl) textEl.textContent = 'LIVE';
+                badge.style.backgroundColor = '#ffffff';
+                badge.style.color = '#000000';
+                badge.classList.remove('status-offline');
             }
             currentActiveChannelSlug = null;
         }
@@ -624,6 +643,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const isOffline = offlineChannels.has(slug);
             const iconName = isOffline ? 'sensors_off' : 'sensors';
+            const statusText = isOffline ? 'OFFLINE' : 'LIVE';
+            const bgColor = isOffline ? '#ff0000' : '#ffffff';
+            const textColor = isOffline ? '#ffffff' : '#000000';
             const colorClass = isOffline ? 'status-offline' : '';
 
             item.innerHTML = `
@@ -632,7 +654,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <span class="channel-name">${stream.name}</span>
                 </div>
                 <div class="channel-info-right">
-                    <span id="sensor-${slug}" class="material-symbols-rounded ${colorClass}">${iconName}</span>
+                    <div id="sensor-${slug}" class="status-badge ${colorClass}" style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; background-color: ${bgColor}; color: ${textColor}; transition: all 0.2s;">
+                        <span class="material-symbols-rounded icon" style="font-size: 16px;">${iconName}</span>
+                        <span class="text">${statusText}</span>
+                    </div>
                 </div>`;
             
             item.addEventListener('click', () => openPlayer(stream));
@@ -648,13 +673,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     function updateChannelSensor(slug, isOffline) {
-        const listIcon = document.getElementById(`sensor-${slug}`);
-        if (listIcon) {
-            listIcon.textContent = isOffline ? 'sensors_off' : 'sensors';
+        const badge = document.getElementById(`sensor-${slug}`);
+        if (badge) {
+            const iconEl = badge.querySelector('.icon');
+            const textEl = badge.querySelector('.text');
+            
+            if (iconEl) iconEl.textContent = isOffline ? 'sensors_off' : 'sensors';
+            if (textEl) textEl.textContent = isOffline ? 'OFFLINE' : 'LIVE';
+            
+            badge.style.backgroundColor = isOffline ? '#ff0000' : '#ffffff';
+            badge.style.color = isOffline ? '#ffffff' : '#000000';
+            
             if (isOffline) {
-                listIcon.classList.add('status-offline');
+                badge.classList.add('status-offline');
             } else {
-                listIcon.classList.remove('status-offline');
+                badge.classList.remove('status-offline');
             }
         }
         if (currentActiveChannelSlug === slug) {
