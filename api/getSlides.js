@@ -137,6 +137,14 @@ export default function handler(req, res) {
             //overlay: "show"
         //},
         {
+            title: "New K-Pop",
+            description: "",
+            image: "https://i8.amplience.net/i/naras/ATEEZ-k-pop-summer-tours-2024",
+            badge: "Watch Now • Music",
+            link: "/home?channel=new-k-pop",
+            overlay: "show"
+        },
+        {
             title: "NBA TV Philippines",
             description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
