@@ -148,8 +148,8 @@
         #info-logo { height: 70px; width: 70px; object-fit: contain; background-color: var(--card-background); border-radius: 12px; padding: 8px; border: 1px solid var(--border-color); }
         .text-details h1 { font-size: 2.2rem; margin: 0 0 5px 0; font-weight: 800; }
         .meta-row { display: flex; align-items: center; gap: 10px; font-size: 1rem; color: #ccc; }
-        .live-tag { background: #ffffff; color: #000000; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 4px; }
-        .channel-sensor { color: #fff ; opacity: 0.7; font-size: 22px; }
+        .live-tag { background: #ffffff; color: #000000; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 4px; transition: background 0.3s, color 0.3s; }
+        .live-tag.offline { background: #ff3b30; color: #ffffff; }        .channel-sensor { color: #fff ; opacity: 0.7; font-size: 22px; }
         .channel-sensor.offline { color: #ff3b30; }
 
         .d-pad { position: relative; width: 140px; height: 140px; background: rgba(30, 30, 30, 0.6); border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); }
@@ -180,7 +180,10 @@
                 <div class="meta-row">
                     <span id="info-group">TV</span>
                     <span>•</span>
-                    <div class="live-tag"><span class="material-symbols-rounded" style="font-size: 16px;">sensors</span> LIVE</div>
+                    <div class="live-tag" id="info-live-tag">
+                        <span class="material-symbols-rounded" id="info-live-icon" style="font-size: 16px;">sensors</span> 
+                        <span id="info-live-text">LIVE</span>
+                    </div>
                     <span>•</span>
                     <span id="info-time">00:00</span>
                 </div>
@@ -313,8 +316,49 @@
             setInterval(updateTime, 1000);
             updateTime();
             updateCaptionCSS();
-            const createSlug = (name) => name ? name.toString().toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '') : '';
+            const createSlug = (name) => name ? name.toString().toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '') : '';            
 
+            function updateChannelListUI(idx, status) {
+                if(allChannels[idx]) allChannels[idx].status = status;
+                const sensorEl = document.getElementById(`sensor-${idx}`);
+                if(sensorEl) {
+                    if(status === 'offline') {
+                        sensorEl.classList.add('offline');
+                        sensorEl.textContent = 'sensors_off';
+                    } else {
+                        sensorEl.classList.remove('offline');
+                        sensorEl.textContent = 'sensors';
+                    }
+                }
+            }
+
+            async function pingChannelsBackground() {
+                for (let i = 0; i < allChannels.length; i++) {
+                    checkSingleChannel(i);
+                    await new Promise(r => setTimeout(r, 200)); 
+                }
+            }
+
+            async function checkSingleChannel(idx) {
+                const ch = allChannels[idx];
+                try {
+                    const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(ch.name)}`);
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
+                    if (!data.manifestUri) throw new Error();
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 6000);
+                    const mpdRes = await fetch(data.manifestUri, { method: 'GET', signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    
+                    if (!mpdRes.ok) throw new Error();
+                    updateChannelListUI(idx, 'online');
+                } catch (e) {
+                    updateChannelListUI(idx, 'offline');
+                }
+            }
+            
             async function init() {
                 els.video.style.objectFit = 'fill'; 
                 shaka.polyfill.installAll();
@@ -335,12 +379,15 @@
                     const [channels, slides, topData] = await Promise.all([
                         fetch(API_GET_CHANNELS).then(r => r.json()),
                         fetch(API_GET_SLIDES).then(r => r.json()).catch(() => []),
-                        fetch(API_GET_TOP_CHANNELS).then(r => r.json()).catch(() => [])
+                        fetch(API_GET_TOP_CHANNELS).then(r => r.json()).catch(() =>[])
                     ]);
-                    allChannels = Array.isArray(channels) ? channels : [];
+                    allChannels = Array.isArray(channels) ? channels :[];
                     renderGuide(allChannels, slides, topData);
                     if(allChannels.length) playChannel(0);
                     else els.loader.classList.add('hidden');
+                    
+                    pingChannelsBackground();
+
                 } catch(e) { console.error(e); els.loader.classList.add('hidden'); }
             }
 
@@ -370,6 +417,14 @@
                 els.group.textContent = ch.group || 'Live TV';
                 els.logo.src = ch.logo || '/assets/favicon.svg';
                 
+                const liveTag = document.getElementById('info-live-tag');
+                const liveIcon = document.getElementById('info-live-icon');
+                const liveText = document.getElementById('info-live-text');
+                
+                liveTag.classList.remove('offline');
+                liveIcon.textContent = 'sensors';
+                liveText.textContent = 'LIVE';
+                
                 els.info.classList.add('visible');
                 clearTimeout(infoTimeout);
                 infoTimeout = setTimeout(() => els.info.classList.remove('visible'), 5000);
@@ -384,15 +439,28 @@
                     const data = await res.json();
                     
                     let manifestUri = data.manifestUri;
+                    if(!manifestUri) throw new Error("Stream Offline");
+
                     let clearKeys = null;
                     if(data.ClearKey?.k1 && data.ClearKey?.k2) {
                         clearKeys = {};
                         clearKeys[data.ClearKey.k1] = data.ClearKey.k2;
                     }
 
-                    loadStream(manifestUri, clearKeys);
+                    await loadStream(manifestUri, clearKeys);
+                    updateChannelListUI(idx, 'online');
 
-                } catch(e) { console.error(e); els.name.textContent = "Stream Offline"; els.loader.classList.add('hidden'); }
+                } catch(e) { 
+                    console.error(e); 
+                    els.name.textContent = "Stream Offline"; 
+                    els.loader.classList.add('hidden'); 
+                    
+                    liveTag.classList.add('offline');
+                    liveIcon.textContent = 'sensors_off';
+                    liveText.textContent = 'OFFLINE';
+
+                    updateChannelListUI(idx, 'offline');
+                }
             }
 
             function renderGuide(channels, slides, topData) {
@@ -458,7 +526,10 @@
                     row.className = 'list-item focusable is-list-item';
                     row.dataset.index = idx;
                     const isOffline = ch.status === 'offline';
-                    row.innerHTML = `<div class="list-item-left"><img src="${ch.logo || '/assets/favicon.svg'}" onerror="this.style.opacity=0"><span>${ch.name}</span></div><span class="material-symbols-rounded channel-sensor ${isOffline ? 'offline' : ''}">sensors</span>`;
+                    const sensorIcon = isOffline ? 'sensors_off' : 'sensors';
+                    
+                    row.innerHTML = `<div class="list-item-left"><img src="${ch.logo || '/assets/favicon.svg'}" onerror="this.style.opacity=0"><span>${ch.name}</span></div><span class="material-symbols-rounded channel-sensor ${isOffline ? 'offline' : ''}" id="sensor-${idx}">${sensorIcon}</span>`;
+                    
                     row.onclick = () => { playChannel(idx); toggleGuide(false); };
                     els.channelList.appendChild(row);
                 });
