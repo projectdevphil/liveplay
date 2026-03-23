@@ -320,6 +320,7 @@
 
             function updateChannelListUI(idx, status) {
                 if(allChannels[idx]) allChannels[idx].status = status;
+                
                 const sensorEl = document.getElementById(`sensor-${idx}`);
                 if(sensorEl) {
                     if(status === 'offline') {
@@ -328,6 +329,25 @@
                     } else {
                         sensorEl.classList.remove('offline');
                         sensorEl.textContent = 'sensors';
+                    }
+                }
+                
+                if (idx === currentChannelIndex) {
+                    const liveTag = document.getElementById('info-live-tag');
+                    const liveIcon = document.getElementById('info-live-icon');
+                    const liveText = document.getElementById('info-live-text');
+                    
+                    if (liveTag && liveIcon && liveText) {
+                        if (status === 'offline') {
+                            liveTag.classList.add('offline');
+                            liveIcon.textContent = 'sensors_off';
+                            liveText.textContent = 'OFFLINE';
+                            els.name.textContent = "Stream Offline";
+                        } else {
+                            liveTag.classList.remove('offline');
+                            liveIcon.textContent = 'sensors';
+                            liveText.textContent = 'LIVE';
+                        }
                     }
                 }
             }
@@ -369,10 +389,12 @@
                         streaming: { bufferingGoal: 60, rebufferingGoal: 2, jumpLargeGaps: true, lowLatencyMode: false },
                         abr: { enabled: true, defaultBandwidthEstimate: 500000 }
                     });
-                    player.addEventListener('error', e => { console.error(e); if(e.severity === 2) els.loader.classList.add('hidden'); });
-                    player.addEventListener('buffering', (event) => {
-                        if (event.buffering) els.loader.classList.remove('hidden');
-                        else els.loader.classList.add('hidden');
+                    player.addEventListener('error', e => { 
+                        console.error(e); 
+                        if(e.severity === 2) {
+                            els.loader.classList.add('hidden'); 
+                            updateChannelListUI(currentChannelIndex, 'offline');
+                        }
                     });
                 }
                 try {
@@ -404,7 +426,11 @@
                     await player.load(uri);
                     await els.video.play();
                     els.loader.classList.add('hidden');
-                 } catch(e) { console.error(e); els.loader.classList.add('hidden'); }
+                 } catch(e) { 
+                     console.error(e); 
+                     els.loader.classList.add('hidden'); 
+                     throw e;
+                 }
             }
 
             async function playChannel(idx) {
