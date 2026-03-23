@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let player = null;
     let ui = null;
-    let allStreams =[];
+    let allStreams = [];
     let currentFilteredStreams =[];
     let currentlyDisplayedCount = 0;
     let currentActiveChannelSlug = null; 
@@ -149,7 +149,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         if (shakaP) await shakaP.unload();
         if (shakaUI) shakaUI.setEnabled(false);
-        if (statusCallback) statusCallback(); // Executing callback without text to trigger Ad UI logic
+        
+        if (statusCallback) statusCallback("Advertisement", "yellow"); 
 
         adContainer.style.display = 'flex';
         adTimerDisplay.style.display = 'block';
@@ -319,54 +320,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     function updateOfflineState(isOffline) {
         const iconName = isOffline ? 'sensors_off' : 'sensors';
-        const colorClass = 'status-offline';
+        const colorClass = 'status-offline'; // You can keep this class if it handles any secondary styling
+        const textColor = isOffline ? 'red' : '#ffffff'; // explicitly white when online, red when offline
+        const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
 
-        // Update Main Player Indicator Box
         if(mainPlayerIcon) {
-            mainPlayerIcon.style.display = ''; // Restore icon visibility from Ad state
             mainPlayerIcon.textContent = iconName;
+            if(isOffline) mainPlayerIcon.classList.add(colorClass);
+            else mainPlayerIcon.classList.remove(colorClass);
 
             const liveIndicator = mainPlayerIcon.parentElement;
             if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
-                // Change background and text colors
-                liveIndicator.style.backgroundColor = isOffline ? '#ff0000' : '#ffffff';
-                liveIndicator.style.color = isOffline ? '#ffffff' : '#000000';
+                liveIndicator.style.backgroundColor = 'transparent'; // Remove any background colors
+                liveIndicator.style.color = textColor; // Apply text color
                 
-                // Safely update the "LIVE"/"OFFLINE" text without overwriting the span
                 let textUpdated = false;
                 for (let i = 0; i < liveIndicator.childNodes.length; i++) {
                     const node = liveIndicator.childNodes[i];
                     if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
-                        node.nodeValue = isOffline ? ' OFFLINE' : ' LIVE';
+                        node.nodeValue = textStatus;
                         textUpdated = true;
                     }
                 }
                 if (!textUpdated) {
-                    liveIndicator.appendChild(document.createTextNode(isOffline ? ' OFFLINE' : ' LIVE'));
+                    liveIndicator.appendChild(document.createTextNode(textStatus));
                 }
             }
         }
 
-        // Update Mini Player Indicator Box (If present)
         if(miniPlayerIcon) {
-            miniPlayerIcon.style.display = ''; // Restore icon visibility
             miniPlayerIcon.textContent = iconName;
+            if(isOffline) miniPlayerIcon.classList.add(colorClass);
+            else miniPlayerIcon.classList.remove(colorClass);
 
             const miniIndicator = miniPlayerIcon.parentElement;
             if (miniIndicator && miniIndicator.classList.contains('live-indicator')) {
-                miniIndicator.style.backgroundColor = isOffline ? '#ff0000' : '#ffffff';
-                miniIndicator.style.color = isOffline ? '#ffffff' : '#000000';
+                miniIndicator.style.backgroundColor = 'transparent';
+                miniIndicator.style.color = textColor;
                 
                 for (let i = 0; i < miniIndicator.childNodes.length; i++) {
                     const node = miniIndicator.childNodes[i];
                     if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
-                        node.nodeValue = isOffline ? ' OFFLINE' : ' LIVE';
+                        node.nodeValue = textStatus;
                     }
                 }
             }
         }
 
-        // Standard List Icons remain purely icon-based
         if(currentActiveChannelSlug) {
             const listIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
             if(listIcon) {
@@ -535,37 +535,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
-        // The callback function fires ONLY when an ad starts playing
-        await playVideoAd(videoElement, playerWrapper, player, ui, () => {
-             // Blank out the "Group Name" during the ad
+        await playVideoAd(videoElement, playerWrapper, player, ui, (text, color) => {
              if(mainPlayerStatus) {
-                mainPlayerStatus.textContent = ""; 
-             }
-
-             // Change Indicator to "Ad" (Yellow background, Black Text, No Icon)
-             if(mainPlayerIcon) {
-                 mainPlayerIcon.style.display = 'none'; // Hide the sensor icon
-                 const liveIndicator = mainPlayerIcon.parentElement;
-                 if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
-                     liveIndicator.style.backgroundColor = 'yellow';
-                     liveIndicator.style.color = 'black';
-                     
-                     for (let i = 0; i < liveIndicator.childNodes.length; i++) {
-                         const node = liveIndicator.childNodes[i];
-                         if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
-                             node.nodeValue = 'Ad'; // Set text precisely to "Ad"
-                         }
-                     }
-                 }
+                mainPlayerStatus.textContent = text;
+                mainPlayerStatus.style.color = color;
              }
         });
 
         if (!playerView.classList.contains('active')) return;
         
-        // As soon as the Ad finishes (or is skipped), restore the LIVE/OFFLINE state
-        updateOfflineState(offlineChannels.has(currentActiveChannelSlug));
-        
-        // Ensure "Loading Stream..." is put back momentarily before we actually load the manifest
         if(mainPlayerStatus) {
             mainPlayerStatus.textContent = "Loading Stream...";
             mainPlayerStatus.style.color = "var(--theme-color)";
@@ -603,7 +581,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             offlineChannels.delete(currentActiveChannelSlug);
             updateOfflineState(false); 
             
-            // Successfully loaded: set text back to group title
             if(mainPlayerStatus) {
                 mainPlayerStatus.textContent = groupTitle;
                 mainPlayerStatus.style.color = "var(--theme-color)";
@@ -614,7 +591,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             offlineChannels.add(currentActiveChannelSlug);
             updateOfflineState(true);
             
-            // Dead/offline stream: set text back to group title anyway
             if(mainPlayerStatus) {
                 mainPlayerStatus.textContent = groupTitle;
                 mainPlayerStatus.style.color = "var(--theme-color)";
