@@ -203,7 +203,7 @@ export default function handler(req, res) {
             else if (access === 'NA' && !NA_COUNTRIES.includes(country)) isAllowed = false;
             else if (access === 'EMEAA' && !EMEAA_COUNTRIES.includes(country)) isAllowed = false;
             else if (access === 'EMEAA x PH' && (!EMEAA_COUNTRIES.includes(country) || isPH)) isAllowed = false;
-            else if (access === 'EMEAANA x PH' &&(!EMEAA_COUNTRIES.includes(country) && !NA_COUNTRIES.includes(country) || isPH)) isAllowed = false;
+            else if (access === 'EMEAANA x PH' && (!EMEAA_COUNTRIES.includes(country) && !NA_COUNTRIES.includes(country) || isPH)) isAllowed = false;
         }
 
         if (!isAllowed) {
