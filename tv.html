@@ -427,19 +427,30 @@
 
                 els.topList.innerHTML = '';
                 if(topData && topData.length > 0) {
-                    els.topSection.style.display = 'block';
-                    topData.slice(0, 10).forEach((topSlug, i) => {
-                        let channelData = channels.find(c => createSlug(c.name) === topSlug) || { name: topSlug, logo: '' };
+                    let validRank = 0;
+                    
+                    topData.forEach((topSlug) => {
+                        let channelData = channels.find(c => createSlug(c.name) === topSlug);
+                        
+                        if (!channelData || validRank >= 10) return; 
+
                         const originalIndex = channels.indexOf(channelData);
                         const item = document.createElement('div');
                         item.className = 'top-watch-item focusable is-top-item';
-                        item.dataset.channelIndex = originalIndex > -1 ? originalIndex : 0;
-                        item.innerHTML = `<img src="/assets/ranks/${i + 1}.svg" class="top-rank-number"><div class="top-watch-logo-container"><img src="${channelData.logo || '/assets/favicon.svg'}" class="top-watch-logo"></div>`;
-                        item.onclick = () => { if(originalIndex > -1) { playChannel(originalIndex); toggleGuide(false); } };
+                        item.dataset.channelIndex = originalIndex;
+                        item.innerHTML = `<img src="/assets/ranks/${validRank + 1}.svg" class="top-rank-number"><div class="top-watch-logo-container"><img src="${channelData.logo || '/assets/favicon.svg'}" class="top-watch-logo"></div>`;
+                        
+                        item.onclick = () => { playChannel(originalIndex); toggleGuide(false); };
                         els.topList.appendChild(item);
+                        
+                        validRank++;
                     });
-                } else els.topSection.style.display = 'none';
 
+                    els.topSection.style.display = validRank > 0 ? 'block' : 'none';
+                } else {
+                    els.topSection.style.display = 'none';
+                }
+                
                 els.channelList.innerHTML = '';
                 channels.forEach((ch, idx) => {
                     const row = document.createElement('div');
