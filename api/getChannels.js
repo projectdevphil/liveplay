@@ -130,7 +130,7 @@ export default function handler(req, res) {
 
         // Music
         { name: 'MYX', logo: 'https://assets-myxglobal.abs-cbn.com/wp-content/uploads/2022/07/MYX_New_Logo_Web1.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-myxnola-dash-abscbnono/index.mpd', clearKey: { 'f40a52a3ac9b4702bdd5b735d910fd2f': '35e4893c6e76546085941be3010932d4' }, group: 'Music' },
-        { name: 'New K-Pop', logo: '//assets/new_k-pop_logo.png', manifestUri: 'https://newidco-newkid-1-eu.xiaomi.wurl.tv/playlist.m3u8', group: 'Music' }, 
+        { name: 'New K-Pop', logo: '/assets/new_k-pop_logo.png', manifestUri: 'https://newidco-newkid-1-eu.xiaomi.wurl.tv/playlist.m3u8', group: 'Music' }, 
         { name: 'Vevo Pop', logo: '/assets/vevopop_logo.svg', manifestUri: 'https://amg00056-amg00056c6-rakuten-uk-3235.playouts.now.amagi.tv/playlist.m3u8', group: 'Music' },    
 
         // Action + Crime
