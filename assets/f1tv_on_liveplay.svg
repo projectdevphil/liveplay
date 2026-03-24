@@ -17,7 +17,7 @@
   <rect x="170" y="13" width="1" height="26" fill="#fff" />
 
   <!-- liveplay Logo (Shrunk to Height 24, Width 79, Y position moved to 13 to align with everything else) -->
-  <svg x="187" y="13" width="79" height="24" viewBox="0 0 219.75 66.75">
+  <svg x="187" y="11" width="92" height="28" viewBox="0 0 219.75 66.75">
     <defs>
       <clipPath id="8396c6a091"><path d="M 0.285156 4 L 11 4 L 11 51 L 0.285156 51 Z M 0.285156 4" clip-rule="nonzero"/></clipPath>
       <clipPath id="316db45e9c"><path d="M 185 15 L 219.214844 15 L 219.214844 66.5 L 185 66.5 Z M 185 15" clip-rule="nonzero"/></clipPath>
