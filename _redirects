@@ -7,7 +7,7 @@
 /tv          /tv.html          200
 /updates     /updates.html     200
 
-/home        /index.html       301
+/home        /    301
 
 /503         /503.html         503
 
