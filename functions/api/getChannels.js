@@ -1,6 +1,9 @@
-export default function handler(req, res) {
-    const country = req.headers['x-vercel-ip-country'] || 'XX';
+export async function onRequestGet(context) {
+    const { request } = context;
+
+    const country = (request.cf && request.cf.country) || request.headers.get('cf-ipcountry') || 'XX';
     const isPH = country === 'PH';
+    
     const SEA_COUNTRIES =['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
     const NA_COUNTRIES =[
         'US', 'CA', 'MX', 'BZ', 'CR', 'SV', 'GT', 'HN', 'NI', 'PA', 
@@ -17,7 +20,7 @@ export default function handler(req, res) {
         'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CV', 'CM', 'CF', 'TD', 'KM', 'CD', 'CG', 'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'YT', 'MA', 'MZ', 'NA', 'NE', 'NG', 'RE', 'RW', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW',
         // Asia
         'AF', 'BD', 'BT', 'BN', 'KH', 'CN', 'HK', 'MO', 'IN', 'ID', 'JP', 'KP', 'KR', 'KG', 'LA', 'MY', 'MV', 'MN', 'MM', 'NP', 'PK', 'PH', 'SG', 'LK', 'TW', 'TJ', 'TH', 'TM', 'UZ', 'VN'
-    ];
+    ];    
     
     const channels = [
         // General
@@ -218,5 +221,11 @@ export default function handler(req, res) {
         group: channel.group
     }));
 
-    res.status(200).json(publicData);
+    return new Response(JSON.stringify(publicData), {
+        status: 200,
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*" // Helpful if you access the API locally during dev
+        }
+    });
 }
