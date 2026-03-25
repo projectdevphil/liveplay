@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () => {
     
-    const API_GET_CHANNELS = '/functions/api/getChannels';
-    const API_GET_DATA = '/functions/api/getData';
-    const API_GET_SLIDES = '/functions/api/getSlides';
+    const API_GET_CHANNELS = '/api/getChannels';
+    const API_GET_DATA = '/api/getData';
+    const API_GET_SLIDES = '/api/getSlides';
     //const API_GET_ADS = '/api/getAds';
-    const API_INCREMENT_VIEW = '/functions/api/incrementView';
-    const API_GET_TOP_CHANNELS = '/functions/api/getTopChannels';
+    const API_INCREMENT_VIEW = '/api/incrementView';
+    const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
     const CHANNELS_PER_PAGE = 40;
     const BASE_URL_PATH = '/home';
