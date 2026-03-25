@@ -12,8 +12,8 @@ export default async function handler(request) {
     if (!channel) return new Response('Missing channel', { status: 400 });
 
     const redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_KV_REST_API_URL,
-      token: process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN,
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
     });
 
     await redis.zincrby('global_top_watch', 1, channel);
