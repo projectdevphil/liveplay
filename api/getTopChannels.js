@@ -7,8 +7,8 @@ export const config = {
 export default async function handler(request) {
   try {
     const redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_KV_REST_API_URL,
-      token: process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN,
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
     });
 
     const topChannels = await redis.zrange('global_top_watch', 0, 49, { rev: true });
