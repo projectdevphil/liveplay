@@ -7,14 +7,22 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/home/about", "destination": "/about-us.html" },
+    { "source": "/home/menu/about", "destination": "/about-us.html" },
     { "source": "/home/faq", "destination": "/faq.html" },
+    { "source": "/home/menu/faq", "destination": "/faq.html" },
     { "source": "/home/privacy", "destination": "/privacy.html" },
+    { "source": "/home/menu/privacy", "destination": "/privacy.html" },
     { "source": "/home/speed", "destination": "/speed-test.html" },
+    { "source": "/home/menu/speed", "destination": "/speed-test.html" },
     { "source": "/home/terms", "destination": "/terms.html" },
+    { "source": "/home/menu/terms", "destination": "/terms.html" },
     { "source": "/home/paste-token", "destination": "/token.html" }, 
+    { "source": "/home/menu/paste-token", "destination": "/token.html" }, 
     { "source": "/tv", "destination": "/tv.html" },    
     { "source": "/home/updates", "destination": "/updates.html" },
+    { "source": "/home/menu/updates", "destination": "/updates.html" },
     { "source": "/home", "destination": "/index.html" },
+    { "source": "/home/menu", "destination": "#menu" },
     { "source": "/", "destination": "/home" }
   ],
   "headers": [
