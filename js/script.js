@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchToggle = document.getElementById("search-toggle");
     const searchInput = document.getElementById("search-input");
     
+    const navHome = document.getElementById('nav-home');
+    const navMenu = document.getElementById('nav-menu');
+    const homeView = document.getElementById('home-view');
+    const menuView = document.getElementById('menu-view');
+
     let searchClear = document.getElementById("search-clear");
     if (searchClear) {
         searchClear.addEventListener("click", (e) => {
@@ -384,23 +389,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const renderMenu = () => {
-        if (!floatingMenu) return;
-        floatingMenu.innerHTML = `
-        <ul>
-            <li><a href="/home/updates"><span class="material-symbols-rounded">notifications_active</span> Updates</a></li>
-            <li><a href="https://projectdevphil.github.io/stream-tester"><span class="material-symbols-rounded">experiment</span> Stream Tester</a></li>            
-            <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>            
-            <li><a href="/home/about"><span class="material-symbols-rounded">info</span> About Us</a></li>
-            <li><a href="/home/faq"><span class="material-symbols-rounded">quiz</span> FAQ</a></li>
-            <li><a href="/home/privacy"><span class="material-symbols-rounded">shield</span> Privacy Policy</a></li>
-            <li><a href="/home/terms"><span class="material-symbols-rounded">gavel</span> Terms of Service</a></li>
-        </ul>`;
-        
-        const menuLinks = floatingMenu.querySelectorAll('a');
-        menuLinks.forEach(link => {
-            link.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
-            link.style.userSelect = 'none';              
-        });
+        if (floatingMenu) {
+            floatingMenu.innerHTML = `
+            <ul>
+                <li><a href="/home/updates"><span class="material-symbols-rounded">notifications_active</span> Updates</a></li>
+                <li><a href="https://projectdevphil.github.io/stream-tester"><span class="material-symbols-rounded">experiment</span> Stream Tester</a></li>            
+                <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>            
+                <li><a href="/home/about"><span class="material-symbols-rounded">info</span> About Us</a></li>
+                <li><a href="/home/faq"><span class="material-symbols-rounded">quiz</span> FAQ</a></li>
+                <li><a href="/home/privacy"><span class="material-symbols-rounded">shield</span> Privacy Policy</a></li>
+                <li><a href="/home/terms"><span class="material-symbols-rounded">gavel</span> Terms of Service</a></li>
+            </ul>`;
+            
+            const menuLinks = floatingMenu.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
+                link.style.userSelect = 'none';              
+            });
+        }
+
+        const mobileMenuList = document.getElementById("mobile-menu-list");
+        if (mobileMenuList) {
+            mobileMenuList.innerHTML = `
+                <a href="/home/updates" class="menu-list-item"><span class="material-symbols-rounded">notifications_active</span> Updates</a>
+                <a href="https://projectdevphil.github.io/stream-tester" class="menu-list-item"><span class="material-symbols-rounded">experiment</span> Stream Tester</a>            
+                <a href="/home/speed" class="menu-list-item"><span class="material-symbols-rounded">speed</span> Speed Test</a>            
+                <a href="/home/about" class="menu-list-item"><span class="material-symbols-rounded">info</span> About Us</a>
+                <a href="/home/faq" class="menu-list-item"><span class="material-symbols-rounded">quiz</span> FAQ</a>
+                <a href="/home/privacy" class="menu-list-item"><span class="material-symbols-rounded">shield</span> Privacy Policy</a>
+                <a href="/home/terms" class="menu-list-item"><span class="material-symbols-rounded">gavel</span> Terms of Service</a>
+            `;
+            const mobileLinks = mobileMenuList.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
+                link.style.userSelect = 'none';              
+            });
+        }
     };
 
     async function trackChannelView(channel) {
@@ -766,12 +790,43 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('resize', setResponsivePoster);
     renderMenu();
     
-    menuBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        floatingMenu.classList.toggle("active");
-    });
+    if (navHome && navMenu) {
+        navHome.addEventListener('click', () => {
+            navHome.classList.add('active');
+            navMenu.classList.remove('active');
+            
+            homeView.classList.add('active');
+            menuView.classList.remove('active');
+            
+            document.body.classList.remove("menu-active");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        navMenu.addEventListener('click', () => {
+            navMenu.classList.add('active');
+            navHome.classList.remove('active');
+            
+            menuView.classList.add('active');
+            homeView.classList.remove('active');
+            
+            document.body.classList.add("menu-active");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            if (floatingMenu) floatingMenu.classList.remove("active");
+            if (searchContainer) searchContainer.classList.remove("active");
+        });
+    }
+
+    if (menuBtn) {
+        menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (floatingMenu) floatingMenu.classList.toggle("active");
+        });
+    }
     
-    document.addEventListener("click", () => floatingMenu.classList.remove("active"));
+    document.addEventListener("click", () => {
+        if (floatingMenu) floatingMenu.classList.remove("active");
+    });
 
     searchToggle.addEventListener("click", () => {
         searchContainer.classList.toggle("active");
