@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
     const CHANNELS_PER_PAGE = 40;
+    const BASE_URL_PATH = '/home';
     const POSTER_MOBILE = '/assets/poster/mobile_v3.png';
     const POSTER_DESKTOP = '/assets/poster/desktop_v3.png';
 
@@ -18,11 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchToggle = document.getElementById("search-toggle");
     const searchInput = document.getElementById("search-input");
     
-    const navHome = document.getElementById('nav-home');
-    const navMenu = document.getElementById('nav-menu');
-    const homeView = document.getElementById('home-view');
-    const menuView = document.getElementById('menu-view');
-
     let searchClear = document.getElementById("search-clear");
     if (searchClear) {
         searchClear.addEventListener("click", (e) => {
@@ -76,10 +72,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let adTimerDisplay = null;
     let adSkipBtn = null;
     let adVisitBtn = null;
-
-    function getBaseUrlPath() {
-        return window.location.pathname.includes('/menu') ? '/home/menu' : '/home';
-    }
 
     async function fetchAds() {
         try {
@@ -392,42 +384,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const renderMenu = () => {
-        if (floatingMenu) {
-            floatingMenu.innerHTML = `
-            <ul>
-                <li><a href="/home/updates"><span class="material-symbols-rounded">notifications_active</span> Updates</a></li>
-                <li><a href="https://projectdevphil.github.io/stream-tester"><span class="material-symbols-rounded">experiment</span> Stream Tester</a></li>            
-                <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>            
-                <li><a href="/home/about"><span class="material-symbols-rounded">info</span> About Us</a></li>
-                <li><a href="/home/faq"><span class="material-symbols-rounded">quiz</span> FAQ</a></li>
-                <li><a href="/home/privacy"><span class="material-symbols-rounded">shield</span> Privacy Policy</a></li>
-                <li><a href="/home/terms"><span class="material-symbols-rounded">gavel</span> Terms of Service</a></li>
-            </ul>`;
-            
-            const menuLinks = floatingMenu.querySelectorAll('a');
-            menuLinks.forEach(link => {
-                link.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
-                link.style.userSelect = 'none';              
-            });
-        }
-
-        const mobileMenuList = document.getElementById("mobile-menu-list");
-        if (mobileMenuList) {
-            mobileMenuList.innerHTML = `
-                <a href="/home/menu/updates" class="menu-list-item"><span class="material-symbols-rounded">notifications_active</span> Updates</a>
-                <a href="https://projectdevphil.github.io/stream-tester" class="menu-list-item"><span class="material-symbols-rounded">experiment</span> Stream Tester</a>            
-                <a href="/home/menu/speed" class="menu-list-item"><span class="material-symbols-rounded">speed</span> Speed Test</a>            
-                <a href="/home/menu/about" class="menu-list-item"><span class="material-symbols-rounded">info</span> About Us</a>
-                <a href="/home/menu/faq" class="menu-list-item"><span class="material-symbols-rounded">quiz</span> FAQ</a>
-                <a href="/home/menu/privacy" class="menu-list-item"><span class="material-symbols-rounded">shield</span> Privacy Policy</a>
-                <a href="/home/menu/terms" class="menu-list-item"><span class="material-symbols-rounded">gavel</span> Terms of Service</a>
-            `;
-            const mobileLinks = mobileMenuList.querySelectorAll('a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
-                link.style.userSelect = 'none';              
-            });
-        }
+        if (!floatingMenu) return;
+        floatingMenu.innerHTML = `
+        <ul>
+            <li><a href="/home/updates"><span class="material-symbols-rounded">notifications_active</span> Updates</a></li>
+            <li><a href="https://projectdevphil.github.io/stream-tester"><span class="material-symbols-rounded">experiment</span> Stream Tester</a></li>            
+            <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>            
+            <li><a href="/home/about"><span class="material-symbols-rounded">info</span> About Us</a></li>
+            <li><a href="/home/faq"><span class="material-symbols-rounded">quiz</span> FAQ</a></li>
+            <li><a href="/home/privacy"><span class="material-symbols-rounded">shield</span> Privacy Policy</a></li>
+            <li><a href="/home/terms"><span class="material-symbols-rounded">gavel</span> Terms of Service</a></li>
+        </ul>`;
+        
+        const menuLinks = floatingMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
+            link.style.userSelect = 'none';              
+        });
     };
 
     async function trackChannelView(channel) {
@@ -564,7 +537,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
-        const newUrl = `${getBaseUrlPath()}?channel=${currentActiveChannelSlug}`;
+        const newUrl = `${BASE_URL_PATH}?channel=${currentActiveChannelSlug}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
@@ -663,7 +636,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentActiveChannelSlug = null;
         }
 
-        window.history.pushState({}, '', getBaseUrlPath());
+        window.history.pushState({}, '', BASE_URL_PATH);
         document.title = defaultPageTitle;
     };
 
@@ -793,67 +766,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('resize', setResponsivePoster);
     renderMenu();
     
-    function switchTab(tab) {
-        if (!navHome || !navMenu) return;
-
-        if (tab === 'menu') {
-            navMenu.classList.add('active');
-            navHome.classList.remove('active');
-            
-            menuView.classList.add('active');
-            homeView.classList.remove('active');
-            
-            document.body.classList.add("menu-active");
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            if (floatingMenu) floatingMenu.classList.remove("active");
-            if (searchContainer) searchContainer.classList.remove("active");
-        } else {
-            navHome.classList.add('active');
-            navMenu.classList.remove('active');
-            
-            homeView.classList.add('active');
-            menuView.classList.remove('active');
-            
-            document.body.classList.remove("menu-active");
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
-    if (navHome && navMenu) {
-        navHome.addEventListener('click', () => {
-            if (!window.location.pathname.endsWith('/home')) {
-                window.history.pushState({}, '', '/home');
-            }
-            switchTab('home');
-        });
-
-        navMenu.addEventListener('click', () => {
-            if (!window.location.pathname.includes('/menu')) {
-                window.history.pushState({}, '', '/home/menu');
-            }
-            switchTab('menu');
-        });
-    }
-
-    window.addEventListener('popstate', () => {
-        if (window.location.pathname.includes('/menu')) {
-            switchTab('menu');
-        } else {
-            switchTab('home');
-        }
+    menuBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        floatingMenu.classList.toggle("active");
     });
-
-    if (menuBtn) {
-        menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (floatingMenu) floatingMenu.classList.toggle("active");
-        });
-    }
     
-    document.addEventListener("click", () => {
-        if (floatingMenu) floatingMenu.classList.remove("active");
-    });
+    document.addEventListener("click", () => floatingMenu.classList.remove("active"));
 
     searchToggle.addEventListener("click", () => {
         searchContainer.classList.toggle("active");
@@ -898,10 +816,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderTopWatch();
     
     startBackgroundStatusCheck();
-
-    if (window.location.pathname.includes('/menu')) {
-        switchTab('menu');
-    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const channelSlug = urlParams.get('channel');
