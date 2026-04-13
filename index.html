@@ -20,11 +20,11 @@
             });
 
             if (isTV) {
-                if (path !== "/tv" && path !== "/tv/") {
+                if (!path.startsWith("/tv")) {
                     window.location.replace("/tv");
                 }
             } else {
-                if (path !== "/home" && path !== "/home/") {
+                if (!path.startsWith("/home")) {
                     window.location.replace("/home");
                 }
             }
