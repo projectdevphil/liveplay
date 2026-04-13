@@ -45,8 +45,16 @@ export default function handler(req, res) {
             //overlay: "show"
         //},        
         {
-            title: "The Alibi",
+            title: "Blood Vs. Duty",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
+            nonph_description: "<strong>on TFC</strong>",
+            image: "https://pql-static.abs-cbn.com/images/bloodvsduty.herobg-tv.JPG",
+            badge: "Catch-Up TV • Action",
+            link: null,
+            overlay: "show"
+        },        {
+            title: "The Alibi",
+            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
             badge: "Catch-Up TV • Drama",
@@ -62,15 +70,6 @@ export default function handler(req, res) {
             access: "PH",
             overlay: "show"
         },
-        {
-            title: "The Forbidden Flower",
-            ph_description: "<strong>MON-FRI | 10:15PM</strong><br>Kapamilya Channel and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/forbiddenflower.herobg-tv.jpg",
-            badge: "Catch-Up TV • Romance",
-            link: null,
-            access: "PH",
-            overlay: "show"
-        },      
         {
             title: "It's Showtime",
             ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z <br>and Catch-Up Livestream",
@@ -125,15 +124,6 @@ export default function handler(req, res) {
             link: null,
             overlay: "show"
         },
-        {
-            title: "Your Face Sounds<br>Familiar",
-            ph_description: "<strong>SAT-SUN | 7:15PM</strong><br>Kapamilya Channel, A2Z<br>and Catch-Up Livestream",
-            nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/yourfacesoundsfamiliar.herobg-tv.JPG",
-            badge: "Catch-Up TV • Variety",
-            link: null,
-            overlay: "show"
-        },        
         {
             title: "New K-Pop",
             description: "",
