@@ -1026,16 +1026,19 @@ body.menu-active #header-menu-title {
 .menu-list {
     display: flex;
     flex-direction: column;
-    padding: 0 20px;
-    margin-top: 10px;
+    margin: 20px;
+    background-color: var(--card-background);
+    border: var(--glass-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
 }
 
 .menu-list-item {
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Softer divider */
     color: var(--text-color);
     font-size: 1rem;
     font-weight: 500;
