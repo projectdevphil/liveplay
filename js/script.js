@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
     const CHANNELS_PER_PAGE = 40;
-    const BASE_URL_PATH = '/home';
     const POSTER_MOBILE = '/assets/poster/mobile_v3.png';
     const POSTER_DESKTOP = '/assets/poster/desktop_v3.png';
 
@@ -77,6 +76,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     let adTimerDisplay = null;
     let adSkipBtn = null;
     let adVisitBtn = null;
+
+    function getBaseUrlPath() {
+        return window.location.pathname.includes('/menu') ? '/home/menu' : '/home';
+    }
 
     async function fetchAds() {
         try {
@@ -411,13 +414,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const mobileMenuList = document.getElementById("mobile-menu-list");
         if (mobileMenuList) {
             mobileMenuList.innerHTML = `
-                <a href="/home/updates" class="menu-list-item"><span class="material-symbols-rounded">notifications_active</span> Updates</a>
+                <a href="/home/menu/updates" class="menu-list-item"><span class="material-symbols-rounded">notifications_active</span> Updates</a>
                 <a href="https://projectdevphil.github.io/stream-tester" class="menu-list-item"><span class="material-symbols-rounded">experiment</span> Stream Tester</a>            
-                <a href="/home/speed" class="menu-list-item"><span class="material-symbols-rounded">speed</span> Speed Test</a>            
-                <a href="/home/about" class="menu-list-item"><span class="material-symbols-rounded">info</span> About Us</a>
-                <a href="/home/faq" class="menu-list-item"><span class="material-symbols-rounded">quiz</span> FAQ</a>
-                <a href="/home/privacy" class="menu-list-item"><span class="material-symbols-rounded">shield</span> Privacy Policy</a>
-                <a href="/home/terms" class="menu-list-item"><span class="material-symbols-rounded">gavel</span> Terms of Service</a>
+                <a href="/home/menu/speed" class="menu-list-item"><span class="material-symbols-rounded">speed</span> Speed Test</a>            
+                <a href="/home/menu/about" class="menu-list-item"><span class="material-symbols-rounded">info</span> About Us</a>
+                <a href="/home/menu/faq" class="menu-list-item"><span class="material-symbols-rounded">quiz</span> FAQ</a>
+                <a href="/home/menu/privacy" class="menu-list-item"><span class="material-symbols-rounded">shield</span> Privacy Policy</a>
+                <a href="/home/menu/terms" class="menu-list-item"><span class="material-symbols-rounded">gavel</span> Terms of Service</a>
             `;
             const mobileLinks = mobileMenuList.querySelectorAll('a');
             mobileLinks.forEach(link => {
@@ -561,7 +564,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
-        const newUrl = `${BASE_URL_PATH}?channel=${currentActiveChannelSlug}`;
+        const newUrl = `${getBaseUrlPath()}?channel=${currentActiveChannelSlug}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
@@ -660,7 +663,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentActiveChannelSlug = null;
         }
 
-        window.history.pushState({}, '', BASE_URL_PATH);
+        window.history.pushState({}, '', getBaseUrlPath());
         document.title = defaultPageTitle;
     };
 
@@ -790,19 +793,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('resize', setResponsivePoster);
     renderMenu();
     
-    if (navHome && navMenu) {
-        navHome.addEventListener('click', () => {
-            navHome.classList.add('active');
-            navMenu.classList.remove('active');
-            
-            homeView.classList.add('active');
-            menuView.classList.remove('active');
-            
-            document.body.classList.remove("menu-active");
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+    function switchTab(tab) {
+        if (!navHome || !navMenu) return;
 
-        navMenu.addEventListener('click', () => {
+        if (tab === 'menu') {
             navMenu.classList.add('active');
             navHome.classList.remove('active');
             
@@ -814,8 +808,41 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (floatingMenu) floatingMenu.classList.remove("active");
             if (searchContainer) searchContainer.classList.remove("active");
+        } else {
+            navHome.classList.add('active');
+            navMenu.classList.remove('active');
+            
+            homeView.classList.add('active');
+            menuView.classList.remove('active');
+            
+            document.body.classList.remove("menu-active");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    if (navHome && navMenu) {
+        navHome.addEventListener('click', () => {
+            if (!window.location.pathname.endsWith('/home')) {
+                window.history.pushState({}, '', '/home');
+            }
+            switchTab('home');
+        });
+
+        navMenu.addEventListener('click', () => {
+            if (!window.location.pathname.includes('/menu')) {
+                window.history.pushState({}, '', '/home/menu');
+            }
+            switchTab('menu');
         });
     }
+
+    window.addEventListener('popstate', () => {
+        if (window.location.pathname.includes('/menu')) {
+            switchTab('menu');
+        } else {
+            switchTab('home');
+        }
+    });
 
     if (menuBtn) {
         menuBtn.addEventListener("click", (e) => {
@@ -871,6 +898,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderTopWatch();
     
     startBackgroundStatusCheck();
+
+    if (window.location.pathname.includes('/menu')) {
+        switchTab('menu');
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const channelSlug = urlParams.get('channel');
