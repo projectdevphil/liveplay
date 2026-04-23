@@ -214,20 +214,6 @@ export async function onRequest(context) {
         }
 
         if (!isAllowed) {
-            return new Response(JSON.stringify({ error: "Channel Not Found" }), {
-                status: 404,
-                headers: { "Content-Type": "application/json" }
-            });
-        }
-
-        let type = 'mpd';
-        if (foundChannel.manifestUri.includes('.m3u8')) {
-            type = 'm3u8';
-        }
-
-        const keyId = (foundChannel.clearKey && Object.keys(foundChannel.clearKey)[0]) || '';
-        const key = (foundChannel.clearKey && Object.values(foundChannel.clearKey)[0]) || '';
-
         return new Response(JSON.stringify({
             manifestUri: foundChannel.manifestUri,
             ClearKey: {
@@ -245,3 +231,5 @@ export async function onRequest(context) {
             headers: { "Content-Type": "application/json" }
         });
     }
+
+} 
