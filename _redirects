@@ -10,9 +10,9 @@
 /tv /tv.html 200
 /home/updates /updates.html 200
 
-# Handle /home both with and without the slash
-/home/ /index.html 200
-/home /index.html 200
+# Load the newly named home.html without triggering Cloudflare's loop
+/home/ /home.html 200
+/home /home.html 200
 
-# Use 302 (Temporary) instead of 301 to prevent browser cache bugs!
+# Redirect the main domain to /home
 / /home 302
