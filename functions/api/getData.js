@@ -194,7 +194,8 @@ export async function onRequest(context) {
         { name: 'Pilipinas Live 10', logo: 'https://cignal-web-assets-2.b-cdn.net/images/pilipinas-live/hero/pilipinas-live-logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/pl_sdi10/default/index.mpd', clearKey: { '63055a8904644407a64a57874703f71e': '0fd611777d37a7ff8afce19d9cee2e91'}, group: 'Livestream', access: 'PH' }
    ];
 
-
+    const foundChannel = channels.find(c => c.name === channelName);
+    
     if (foundChannel) {
         let isAllowed = true;
         
