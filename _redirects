@@ -1,6 +1,6 @@
 /503 /404 302
 
-/api/* /api/:splat 200
+/functions/api/* /functions/api/:splat 200
 /home/about /about-us.html 200
 /home/faq /faq.html 200
 /home/privacy /privacy.html 200
