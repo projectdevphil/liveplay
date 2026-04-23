@@ -1,21 +1,17 @@
-export default function handler(req, res) {
-    const country = req.headers['x-vercel-ip-country'] || 'XX';
+export async function onRequest(context) {
+    const country = context.request.cf?.country || 'XX';
     const isPH = country === 'PH';
+    
     const SEA_COUNTRIES =['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
     const NA_COUNTRIES =[
         'US', 'CA', 'MX', 'BZ', 'CR', 'SV', 'GT', 'HN', 'NI', 'PA', 
         'AG', 'BS', 'BB', 'CU', 'DM', 'DO', 'GD', 'HT', 'JM', 'KN', 
         'LC', 'VC', 'TT', 'PR', 'VI', 'BM', 'KY', 'TC', 'VG', 'AI', 'MS'
     ];
-    
     const EMEAA_COUNTRIES =[
-        // Europe
         'AL', 'AD', 'AM', 'AT', 'AZ', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'GE', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'KZ', 'XK', 'LV', 'LI', 'LT', 'LU', 'MT', 'MD', 'MC', 'ME', 'NL', 'MK', 'NO', 'PL', 'PT', 'RO', 'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SE', 'CH', 'TR', 'UA', 'GB', 'VA',
-        // Middle East
         'BH', 'IR', 'IQ', 'IL', 'JO', 'KW', 'LB', 'OM', 'PS', 'QA', 'SA', 'SY', 'AE', 'YE',
-        // Africa
         'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CV', 'CM', 'CF', 'TD', 'KM', 'CD', 'CG', 'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'YT', 'MA', 'MZ', 'NA', 'NE', 'NG', 'RE', 'RW', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW',
-        // Asia
         'AF', 'BD', 'BT', 'BN', 'KH', 'CN', 'HK', 'MO', 'IN', 'ID', 'JP', 'KP', 'KR', 'KG', 'LA', 'MY', 'MV', 'MN', 'MM', 'NP', 'PK', 'PH', 'SG', 'LK', 'TW', 'TJ', 'TH', 'TM', 'UZ', 'VN'
     ];
     
@@ -188,30 +184,19 @@ export default function handler(req, res) {
         { name: 'Pilipinas Live 10', logo: 'https://cignal-web-assets-2.b-cdn.net/images/pilipinas-live/hero/pilipinas-live-logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/pl_sdi10/default/index.mpd', clearKey: { '63055a8904644407a64a57874703f71e': '0fd611777d37a7ff8afce19d9cee2e91'}, group: 'Livestream', access: 'PH' }
     ];
 
-    const filteredChannels = channels.filter(channel => {
-        if (!channel.access) return true;
+    if (!channel.access) return true;
         
         switch (channel.access) {
-            case 'PH':
-                return isPH;
-            case 'Non-PH':
-                return !isPH;
-            case 'US':
-                return country === 'US';
-            case 'SEA':
-                return SEA_COUNTRIES.includes(country);
-            case 'NA':
-                return NA_COUNTRIES.includes(country);
-            case 'EMEAA':
-                return EMEAA_COUNTRIES.includes(country);
-            case 'EMEAA x PH':
-                return EMEAA_COUNTRIES.includes(country) && !isPH;
-            case 'EMEAANA':
-                return (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country));   
-            case 'EMEAANA x PH':
-                return (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country)) && !isPH;
-            default:
-                return true;
+            case 'PH': return isPH;
+            case 'Non-PH': return !isPH;
+            case 'US': return country === 'US';
+            case 'SEA': return SEA_COUNTRIES.includes(country);
+            case 'NA': return NA_COUNTRIES.includes(country);
+            case 'EMEAA': return EMEAA_COUNTRIES.includes(country);
+            case 'EMEAA x PH': return EMEAA_COUNTRIES.includes(country) && !isPH;
+            case 'EMEAANA': return (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country));   
+            case 'EMEAANA x PH': return (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country)) && !isPH;
+            default: return true;
         }
     });
 
@@ -221,5 +206,8 @@ export default function handler(req, res) {
         group: channel.group
     }));
 
-    res.status(200).json(publicData);
+    return new Response(JSON.stringify(publicData), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+    });
 }
