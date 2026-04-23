@@ -3,6 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script>
+        (function() {
+            var ua = navigator.userAgent;
+            var isTV = /SmartTV|Tizen|Web0S|webOS|Android TV|GoogleTV|BRAVIA|Roku|AppleTV|Vizio|Chromecast|NetCast|Xbox|PlayStation|HbbTV|VIDAA|FireTV|AFT/i.test(ua);
+            
+            if (isTV && window.location.pathname !== '/home/tv') {
+                window.location.replace('/home/tv');
+            }
+        })();
+    </script>
     <title>Liveplay by Project Dev</title>
     <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
