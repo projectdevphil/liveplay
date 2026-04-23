@@ -1,4 +1,5 @@
 /503 /404 302
+/*  /404.html  404
 
 /functions/api/* /api/:splat 301
 
@@ -11,4 +12,5 @@
 /home/tv /tv.html 200
 /home/updates /updates.html 200
 /home /index.html 200
-/ /index.html 200
+
+/* /index.html 200
