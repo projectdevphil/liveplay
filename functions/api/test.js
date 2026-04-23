@@ -1,42 +1,45 @@
-const https = require('https');
+export async function onRequest(context) {
+    const { request } = context;
+    const url = new URL(request.url);
 
-export default async function handler(req, res) {
-    const hasVerify = req.query.verify === 'true';
-    const isDirectVisit = req.headers['sec-fetch-dest'] === 'document';
-    const referer = req.headers.referer || '';
+    const hasVerify = url.searchParams.get('verify') === 'true';
+    const isDirectVisit = request.headers.get('sec-fetch-dest') === 'document';
+    const referer = request.headers.get('referer') || '';
     const isFromSite = referer.includes('liveplayphil.pages.dev');
     
     if (!hasVerify || isDirectVisit || !isFromSite) {
-        res.setHeader('Content-Type', 'text/plain');
-        res.status(200).send("Thank you, but nothing here");
-        return;
+        return new Response("Thank you, but nothing here", {
+            status: 200,
+            headers: { 'Content-Type': 'text/plain' }
+        });
     }
 
     const FAST_TOKEN = 'YXNkZmFzZGxmbnNkYWZoYXNkZmhrYWxm'; 
     const API_URL = `https://api.fast.com/netflix/speedtest/v2?https=true&token=${FAST_TOKEN}&urlCount=5`;
 
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-
     try {
-        const servers = await new Promise((resolve, reject) => {
-            https.get(API_URL, (resp) => {
-                let data = '';
-                resp.on('data', (chunk) => data += chunk);
-                resp.on('end', () => resolve(JSON.parse(data).targets));
-                resp.on('error', reject);
-            });
-        });
+        const apiResponse = await fetch(API_URL);
+        const data = await apiResponse.json();
+        const servers = data.targets;
 
-        if (!servers || servers.length === 0) return res.status(500).end();
+        if (!servers || servers.length === 0) {
+            return new Response(null, { status: 500 });
+        }
 
         const downloadUrl = servers[0].url;
 
-        https.get(downloadUrl, (stream) => {
-            stream.pipe(res);
+        const streamResponse = await fetch(downloadUrl);
+
+        return new Response(streamResponse.body, {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/octet-stream',
+                'Cache-Control': 'no-cache'
+            }
         });
 
     } catch (error) {
-        res.status(500).end();
+        console.error("Error:", error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 }
