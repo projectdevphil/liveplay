@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
     const CHANNELS_PER_PAGE = 40;
-    const BASE_URL_PATH = '/home';
+    const BASE_URL_PATH = '/watch';
     const POSTER_MOBILE = '/assets/poster/mobile_v3.png';
     const POSTER_DESKTOP = '/assets/poster/desktop_v3.png';
 
