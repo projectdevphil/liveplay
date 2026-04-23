@@ -210,10 +210,24 @@ export async function onRequest(context) {
             else if (access === 'EMEAA' && !EMEAA_COUNTRIES.includes(country)) isAllowed = false;
             else if (access === 'EMEAA x PH' && (!EMEAA_COUNTRIES.includes(country) || isPH)) isAllowed = false;
             else if (access === 'EMEAANA' && (!EMEAA_COUNTRIES.includes(country) && !NA_COUNTRIES.includes(country))) isAllowed = false;
-            else if (access === 'EMEAANA x PH' && (!EMEAA_COUNTRIES.includes(country) && !NA_COUNTRIES.includes(country) || isPH)) isAllowed = false;
+            else if (access === 'EMEAANA x PH' && ((!EMEAA_COUNTRIES.includes(country) && !NA_COUNTRIES.includes(country)) || isPH)) isAllowed = false;
         }
 
         if (!isAllowed) {
+            return new Response(JSON.stringify({ error: "Channel Not Available in your Region" }), {
+                status: 403,
+                headers: { "Content-Type": "application/json" }
+            });
+        }
+
+        let type = 'mpd';
+        if (foundChannel.manifestUri.includes('.m3u8')) {
+            type = 'm3u8';
+        }
+
+        const keyId = (foundChannel.clearKey && Object.keys(foundChannel.clearKey)[0]) || '';
+        const key = (foundChannel.clearKey && Object.values(foundChannel.clearKey)[0]) || '';
+
         return new Response(JSON.stringify({
             manifestUri: foundChannel.manifestUri,
             ClearKey: {
@@ -225,11 +239,11 @@ export async function onRequest(context) {
             status: 200,
             headers: { "Content-Type": "application/json" }
         });
+
     } else {
         return new Response(JSON.stringify({ error: "Channel Not Found" }), {
             status: 404,
             headers: { "Content-Type": "application/json" }
         });
     }
-
-} 
+}
