@@ -635,7 +635,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentActiveChannelSlug = null;
         }
 
-        // Return safely to original path without specific query params
         window.history.pushState({}, '', window.location.pathname);
         document.title = defaultPageTitle;
     };
