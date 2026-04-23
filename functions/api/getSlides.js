@@ -73,14 +73,23 @@ export async function onRequest(context) {
             overlay: "show"
         },
         {
-            title: "Rainbow Rumble",
-            ph_description: "<strong>SAT-SUN | 6:15PM</strong><br>Kapamilya Channel and A2Z",
+            title: "Rated Korina",
+            ph_description: "<strong>SUN | 6:30PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/rainbowrumble.herobg-tv.v2.JPG",
-            badge: "Catch-Up TV • Gameshow",
+            image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
+            badge: "Catch-Up TV • Lifestyle",
             link: null,
             overlay: "show"
         },
+        //{
+            //title: "Kapamilya<br>Deal or No Deal",
+            //ph_description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel and A2Z",
+            //nonph_description: "<strong>on TFC</strong>",
+            //image: "https://pql-static.abs-cbn.com/images/rainbowrumble.herobg-tv.v2.JPG",
+            //badge: "Catch-Up TV • Gameshow",
+            //link: null,
+            //overlay: "show"
+        //},
         {
             title: "New K-Pop",
             description: "",
