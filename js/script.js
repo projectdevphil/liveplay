@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
     const CHANNELS_PER_PAGE = 40;
-    const BASE_URL_PATH = '/watch';
     const POSTER_MOBILE = '/assets/poster/mobile_v3.png';
     const POSTER_DESKTOP = '/assets/poster/desktop_v3.png';
 
@@ -537,7 +536,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
-        const newUrl = `${BASE_URL_PATH}?channel=${currentActiveChannelSlug}`;
+        // Updated pushState to safely append query parameters without creating a fake 404 path
+        const newUrl = `${window.location.pathname}?channel=${currentActiveChannelSlug}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
@@ -636,7 +636,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentActiveChannelSlug = null;
         }
 
-        window.history.pushState({}, '', BASE_URL_PATH);
+        // Return safely to original path without specific query params
+        window.history.pushState({}, '', window.location.pathname);
         document.title = defaultPageTitle;
     };
 
