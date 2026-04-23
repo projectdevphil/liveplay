@@ -6,10 +6,15 @@
     <script>
         (function() {
             var ua = navigator.userAgent;
+            var path = window.location.pathname;
             var isTV = /SmartTV|Tizen|Web0S|webOS|Android TV|GoogleTV|BRAVIA|Roku|AppleTV|Vizio|Chromecast|NetCast|Xbox|PlayStation|HbbTV|VIDAA|FireTV|AFT/i.test(ua);
-            
-            if (isTV && window.location.pathname !== '/home/tv') {
+            var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(ua) && !isTV;
+
+            if (isTV && !path.startsWith('/home')) {
                 window.location.replace('/home/tv');
+            } 
+            else if (isMobile && path.startsWith('/tv')) {
+                window.location.replace('/home');
             }
         })();
     </script>
