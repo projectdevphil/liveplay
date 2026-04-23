@@ -1,21 +1,19 @@
 export async function onRequest(context) {
     try {
-        const url = new URL(context.request.url);
-        const channel = url.searchParams.get('channel');
-        
-        if (!channel) return new Response('Missing channel', { status: 400 });
+        const query = `SELECT slug FROM views_leaderboard ORDER BY count DESC LIMIT 50`;
+        const { results } = await context.env.DB.prepare(query).all();
 
-        const id = context.env.TOP_CHANNELS_DO.idFromName('global_top_watch');
-        const stub = context.env.TOP_CHANNELS_DO.get(id);
-
-        const response = await stub.fetch(`http://do/increment?channel=${encodeURIComponent(channel)}`);
+        const topChannels = results.map(row => row.slug);
         
-        return new Response(JSON.stringify({ success: response.ok }), {
-            status: response.status,
-            headers: { 'Content-Type': 'application/json' }
+        return new Response(JSON.stringify(topChannels), {
+            status: 200,
+            headers: { 
+                'Content-Type': 'application/json',
+                'Cache-Control': 's-maxage=5, stale-while-revalidate=10' 
+            }
         });
     } catch (error) {
-        console.error("Durable Object Error:", error);
+        console.error("D1 Database Error:", error);
         return new Response(JSON.stringify({ error: error.message }), { 
             status: 500,
             headers: { 'Content-Type': 'application/json' }
