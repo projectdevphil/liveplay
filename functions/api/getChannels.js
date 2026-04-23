@@ -181,6 +181,7 @@ export async function onRequest(context) {
         { name: 'Pilipinas Live 7', logo: 'https://cignal-web-assets-2.b-cdn.net/images/pilipinas-live/hero/pilipinas-live-logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/pl_sdi7/default/index.mpd', clearKey: { '40bed7f7948e4e5792982cf5b7ee4d78': '1fbfd2e3be51aae857f2f24306e5fc41'}, group: 'Livestream', access: 'PH' },
         { name: 'Pilipinas Live 8', logo: 'https://cignal-web-assets-2.b-cdn.net/images/pilipinas-live/hero/pilipinas-live-logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/pl_sdi8/default/index.mpd', clearKey: { '5a8dbf3b9c2c43079a40fb5d0068f9ef': '1778ac6e22527ee2efd6886d8d509c2d'}, group: 'Livestream', access: 'PH' },
         { name: 'Pilipinas Live 9', logo: 'https://cignal-web-assets-2.b-cdn.net/images/pilipinas-live/hero/pilipinas-live-logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/pl_sdi9/default/index.mpd', clearKey: { '1c7b9a2af9ad4076b155f06269b6adc2': 'ed6a8b11738cd27c0bee2d9e3fee178a'}, group: 'Livestream', access: 'PH' },
+        { name: 'Pilipinas Live 10', logo: 'https://cignal-web-assets-2.b-cdn.net/images/pilipinas-live/hero/pilipinas-live-logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/pl_sdi10/default/index.mpd', clearKey: { '63055a8904644407a64a57874703f71e': '0fd611777d37a7ff8afce19d9cee2e91'}, group: 'Livestream', access: 'PH' }
     ];
 
     const filteredChannels = channels.filter(channel => {
