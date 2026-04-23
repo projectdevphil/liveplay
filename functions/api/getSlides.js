@@ -1,21 +1,30 @@
-export default function handler(req, res) {
-    const referer = req.headers.referer || req.headers.referrer;
-    const host = req.headers.host;
+export async function onRequest(context) {
+    const request = context.request;
+    const url = new URL(request.url);
     
-    if (!referer || !referer.includes(host)) {
-        return res.status(403).json({ error: "Access Denied" });
+    const referer = request.headers.get("referer") || request.headers.get("referrer");
+    const host = url.host;
+    
+    if (url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') {
+        if (!referer || !referer.includes(host)) {
+            return new Response(JSON.stringify({ error: "Access Denied" }), {
+                status: 403,
+                headers: { "Content-Type": "application/json" }
+            });
+        }
     }
 
-    const country = req.headers['x-vercel-ip-country'] || 'XX';
+    const country = request.cf?.country || 'XX';
     const isPH = country === 'PH';
-    const SEA_COUNTRIES = ['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
-    const NA_COUNTRIES = [
+    
+    const SEA_COUNTRIES =['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
+    const NA_COUNTRIES =[
         'US', 'CA', 'MX', 'BZ', 'CR', 'SV', 'GT', 'HN', 'NI', 'PA', 
         'AG', 'BS', 'BB', 'CU', 'DM', 'DO', 'GD', 'HT', 'JM', 'KN', 
         'LC', 'VC', 'TT', 'PR', 'VI', 'BM', 'KY', 'TC', 'VG', 'AI', 'MS'
     ];
     
-    const EMEAA_COUNTRIES = [
+    const EMEAA_COUNTRIES =[
         // Europe
         'AL', 'AD', 'AM', 'AT', 'AZ', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'GE', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'KZ', 'XK', 'LV', 'LI', 'LT', 'LU', 'MT', 'MD', 'MC', 'ME', 'NL', 'MK', 'NO', 'PL', 'PT', 'RO', 'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SE', 'CH', 'TR', 'UA', 'GB', 'VA',
         // Middle East
@@ -26,24 +35,7 @@ export default function handler(req, res) {
         'AF', 'BD', 'BT', 'BN', 'KH', 'CN', 'HK', 'MO', 'IN', 'ID', 'JP', 'KP', 'KR', 'KG', 'LA', 'MY', 'MV', 'MN', 'MM', 'NP', 'PK', 'PH', 'SG', 'LK', 'TW', 'TJ', 'TH', 'TM', 'UZ', 'VN'
     ];
     
-    const slidesData = [
-        //{
-            //title: "",
-            //description: "",
-            //image: "/assets/poster/m7_champion_rora.png",
-            //badge: "Watch Replay • Events • E-Games",
-            //link: "https://m.youtube.com/watch?v=I-6flm9RfFg",
-            //overlay: "none"
-        //},
-        //{
-            //title: "<span style='font-size: 26px;'>Channel<br>Advisory</span>",
-            //ph_description: "Please tap the banner for more details.",
-            //image: "https://img.freepik.com/free-vector/vector-background-gradient-black-white-abstract-design_779267-2579.jpg",
-            //badge: "",
-            //link: "https://phcorner.org/threads/liveplay-by-project-dev-updates.2477294/post-31236017",
-            //access: "PH",
-            //overlay: "show"
-        //},        
+    const slidesData =[       
         {
             title: "Blood Vs. Duty",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
@@ -52,7 +44,8 @@ export default function handler(req, res) {
             badge: "Catch-Up TV • Action",
             link: null,
             overlay: "show"
-        },        {
+        },        
+        {
             title: "The Alibi",
             ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
@@ -79,42 +72,6 @@ export default function handler(req, res) {
             link: null,
             overlay: "show"
         },
-        //{
-            //title: "Never Say Die",
-            //ph_description: "<strong>MON-FRI | 8:55PM</strong><br>GMA7",
-            //nonph_description: "<strong>on GMA Pinoy TV</strong>",
-            //image: "https://pql-static.abs-cbn.com/images/neversaydie.herobg-tv.JPG",
-            //badge: "Catch-Up TV • Action",
-            //link: null,
-            //overlay: "show"
-        //},        
-        //{
-            //title: "The Secrets of Hotel 88",
-            //ph_description: "<strong>MON-FRI | 9:35PM</strong><br>GMA7",
-            //nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
-            //image: "https://pql-static.abs-cbn.com/images/thesecretsofhotel88.herobg-tv.JPG",
-            //badge: "Catch-Up TV • Drama",
-            //link: null,
-            //overlay: "show"
-        //},
-        //{
-            //title: "Hating Kapatid",
-            //ph_description: "Final Week<br><strong>MON-SAT | 2:30PM</strong><br>GMA7",
-            //nonph_description: "<strong>on GMA Pinoy TV</strong>",
-            //image: "https://pql-static.abs-cbn.com/images/hatingkapatid.herobg-tv.JPG",
-            //badge: "Catch-Up TV • Drama",
-            //link: null,
-            //overlay: "show"
-        //},
-        //{
-            //title: "House of Lies",
-            //ph_description: "<strong>MON-FRI | 3:20PM</strong><br>GMA7",
-            //nonph_description: "<strong>on GMA Pinoy TV</strong>",
-            //image: "https://pql-static.abs-cbn.com/images/houseoflies.herobg-tv.JPG",
-            //badge: "Catch-Up TV • Drama",
-            //link: null,
-            //overlay: "show"
-        //},
         {
             title: "Rainbow Rumble",
             ph_description: "<strong>SAT-SUN | 6:15PM</strong><br>Kapamilya Channel and A2Z",
@@ -151,14 +108,6 @@ export default function handler(req, res) {
             access: "EMEAANA x PH",
             overlay: "show"
         },
-        //{
-            //title: "Premier League",
-            //description: "",
-            //image: "https://www.peacocktv.com/dam/growth/assets/sportslandingpages/premier-league/23-24/week24/PREMIERLEAGUE.jpg",
-            //badge: "Watch Now • Sports",
-            //link: "/home?channel=premier-league",
-            //overlay: "show"
-        //},
         {
             title: "NFL Network",
             description: "",
@@ -199,5 +148,8 @@ export default function handler(req, res) {
         };
     });
 
-    res.status(200).json(filteredSlides);
+    return new Response(JSON.stringify(filteredSlides), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+    });
 }
