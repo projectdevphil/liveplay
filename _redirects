@@ -1,6 +1,7 @@
 /503 /404 302
 
 /functions/api/* /api/:splat 301
+
 /home/about /about-us.html 200
 /home/faq /faq.html 200
 /home/privacy /privacy.html 200
@@ -9,5 +10,7 @@
 /home/paste-token /token.html 200
 /tv /tv.html 200
 /home/updates /updates.html 200
+
 /home /index.html 200
-/ /index.html 200
+
+/ /home 301
