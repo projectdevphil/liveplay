@@ -387,8 +387,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         floatingMenu.innerHTML = `
         <ul>
             <li><a href="/home/updates"><span class="material-symbols-rounded">notifications_active</span> Updates</a></li>
-            <li><a href="https://projectdevphil.github.io/stream-tester"><span class="material-symbols-rounded">experiment</span> Stream Tester</a></li>            
-            <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>            
+            <!-- <li><a href="https://projectdevphil.github.io/stream-tester"><span class="material-symbols-rounded">experiment</span> Stream Tester</a></li> -->         
+            <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>           
             <li><a href="/home/about"><span class="material-symbols-rounded">info</span> About Us</a></li>
             <li><a href="/home/faq"><span class="material-symbols-rounded">quiz</span> FAQ</a></li>
             <li><a href="/home/privacy"><span class="material-symbols-rounded">shield</span> Privacy Policy</a></li>
@@ -536,7 +536,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
-        // Updated pushState to safely append query parameters without creating a fake 404 path
         const newUrl = `${window.location.pathname}?channel=${currentActiveChannelSlug}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
