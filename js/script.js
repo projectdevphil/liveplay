@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
-        const newUrl = `${window.location.pathname}?channel=${currentActiveChannelSlug}`;
+        const newUrl = `/watch?channel=${currentActiveChannelSlug}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
@@ -634,7 +634,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentActiveChannelSlug = null;
         }
 
-        window.history.pushState({}, '', window.location.pathname);
+        window.history.pushState({}, '', '/');
         document.title = defaultPageTitle;
     };
 
