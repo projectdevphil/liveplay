@@ -95,138 +95,131 @@
             <hr>
 
             <section>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h2 style="margin: 0;">Channels Status</h2>
-                    <span id="checkingProgress" style="font-size: 0.95rem; font-weight: bold; color: #aaa; display: none;">0%</span>
-                </div>
-                <p id="service-desc-text">Analyzing channel availability and stream health...</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h2 style="margin: 0;">Channels Status</h2>
+        <span id="checkingProgress" style="font-size: 0.95rem; font-weight: bold; color: #aaa; display: none;">0%</span>
+    </div>
+    <p id="service-desc-text">Analyzing channel availability and stream health...</p>
 
-                <div class="combined-status-box">
-                    <div class="status-header">
-                        <span class="status-dot" id="statusDot" style="transition: all 0.3s ease;"></span>
-                        <span id="statusText">Checking Connection...</span>
-                    </div>
-
-                    <hr class="status-divider">
-
-                    <div class="stream-tips-small">
-                        <span class="material-symbols-rounded tip-icon-small">wifi_tethering</span>
-                        <div>
-                            <strong>Stream Quality Tip:</strong>
-                            Slow internet? Switch to <span class="tip-highlight">360p</span> or <span class="tip-highlight">480p</span>.<br>
-                            Fast internet? Switch to <span class="tip-highlight">720p</span> or <span class="tip-highlight">1080p</span>.
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <div class="combined-status-box">
+        <div class="status-header">
+            <span class="status-dot" id="statusDot" style="transition: all 0.3s ease;"></span>
+            <span id="statusText">Checking Connection...</span>
+        </div>
+    </div>
+</section>
         </main>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const statusDot = document.getElementById('statusDot');
-            const statusText = document.getElementById('statusText');
-            const serviceDescText = document.getElementById('service-desc-text');
-            const checkingProgress = document.getElementById('checkingProgress');
+    document.addEventListener('DOMContentLoaded', () => {
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const serviceDescText = document.getElementById('service-desc-text');
+        const checkingProgress = document.getElementById('checkingProgress');
 
-            const header = document.querySelector(".static-header");
-            window.addEventListener("scroll", () => {
-                header.classList.toggle("scrolled", window.scrollY > 10);
-            });
+        async function checkSystemStatus() {
+            try {
+                if (checkingProgress) {
+                    checkingProgress.style.display = 'inline-block';
+                    checkingProgress.textContent = '0%';
+                }
+                updateUI('#aaa', 'Initializing...', 'Fetching available channel list...');
 
-            async function checkSystemStatus() {
-                try {
-                    if (checkingProgress) {
-                        checkingProgress.style.display = 'inline-block';
-                        checkingProgress.textContent = '0%';
-                    }
-                    statusText.textContent = "Checking Channels...";
-                    statusText.style.color = '#aaa';
-                    statusDot.style.backgroundColor = '#aaa';
-                    statusDot.style.boxShadow = 'none';
+                const response = await fetch('/api/getChannels', { method: 'GET', cache: 'no-store' });
+                if (!response.ok) throw new Error('API Unreachable');
 
-                    const response = await fetch('/api/getChannels', {
-                        method: 'GET',
-                        cache: 'no-store'
-                    });
+                const channels = await response.json();
+                const totalInList = channels.length;
+                
+                let onlineCount = 0;
+                let checkedCount = 0;
+                let restrictedCount = 0;
 
-                    if (!response.ok) throw new Error('Channel API unreachable');
+                for (const channel of channels) {
+                    serviceDescText.textContent = `Pinging: ${channel.name}...`;
 
-                    const channels = await response.json();
+                    try {
+                        const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
+                        
+                        if (dataRes.status === 403) {
+                            restrictedCount++;
+                            console.log(`[Status] ${channel.name} is restricted in your region.`);
+                        } 
+                        else if (dataRes.ok) {
+                            const data = await dataRes.json();
+                            if (data.manifestUri) {
+                                const controller = new AbortController();
+                                const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-                    if (!Array.isArray(channels) || channels.length === 0) {
-                        throw new Error('No channels found for this region');
-                    }
-
-                    const total = channels.length;
-                    let onlineCount = 0;
-                    let checkedCount = 0;
-
-                    for (const channel of channels) {
-                        try {
-                            const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
-                            if (dataRes.ok) {
-                                const data = await dataRes.json();
-                                if (data.manifestUri) {
+                                try {
                                     const pingRes = await fetch(data.manifestUri, {
                                         method: 'GET',
-                                        cache: 'no-store'
+                                        cache: 'no-store',
+                                        signal: controller.signal
                                     });
+                                    clearTimeout(timeoutId);
 
                                     if (pingRes.ok) {
-                                        onlineCount++;
-                                    } else {
-                                        console.warn(`[Status] ${channel.name} returned status: ${pingRes.status}`);
+                                        const content = await pingRes.text();
+                                        if (content.includes('#EXTM3U') || content.includes('<MPD') || content.includes('<?xml')) {
+                                            onlineCount++;
+                                        }
                                     }
+                                } catch (e) {
+                                    clearTimeout(timeoutId);
                                 }
                             }
-                        } catch (err) {
-                            console.warn(`[Status] ${channel.name} fetch failed:`, err.message);
                         }
-
-                        checkedCount++;
-                        if (checkingProgress) {
-                            const percentDone = Math.round((checkedCount / total) * 100);
-                            checkingProgress.textContent = `${percentDone}%`;
-                        }
+                    } catch (err) {
+                        console.error("Ping Error", err);
                     }
 
+                    checkedCount++;
                     if (checkingProgress) {
-                        setTimeout(() => {
-                            checkingProgress.style.display = 'none';
-                        }, 2000);
+                        checkingProgress.textContent = `${Math.round((checkedCount / totalInList) * 100)}%`;
                     }
 
-                    const percent = (onlineCount / total) * 100;
+                    const scannableTotal = checkedCount - restrictedCount;
+                    const currentHealth = scannableTotal > 0 ? (onlineCount / scannableTotal) * 100 : 100;
+                    
+                    let currentColor = '#00E676';
+                    if (currentHealth < 50) currentColor = '#FF1744';
+                    else if (currentHealth < 80) currentColor = '#FF9100';
+                    else if (currentHealth < 95) currentColor = '#FFEA00';
 
-                    if (percent >= 95) {
-                        updateUI('#00E676', `All Channels Operational (${Math.round(percent)}%)`, "All channels are currently streaming optimally.");
-                    } else if (percent >= 75) {
-                        updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or buffering.");
-                    } else if (percent >= 30) {
-                        updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channels are offline. Our team is working on it.");
-                    } else {
-                        updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple channels.");
-                    }
-
-                } catch (error) {
-                    console.error('Status Error:', error);
-                    updateUI('#FF1744', "Connection Unstable", "Unable to reach the server to verify channel status.");
-                    if (checkingProgress) checkingProgress.style.display = 'none';
+                    updateUI(currentColor, `Evaluating... (${Math.round(currentHealth)}%)`, `Checking: ${channel.name}...`);
                 }
-            }
 
-            function updateUI(color, text, desc) {
-                statusDot.style.backgroundColor = color;
-                statusDot.style.boxShadow = `0 0 10px ${color}`;
-                statusText.textContent = text;
-                statusText.style.color = color;
-                serviceDescText.textContent = desc;
-            }
+                const finalScannable = totalInList - restrictedCount;
+                const finalPercent = finalScannable > 0 ? (onlineCount / finalScannable) * 100 : 0;
 
-            checkSystemStatus();
-            setInterval(checkSystemStatus, 120000); // Re-run check every 2 minutes
-        });
-    </script>
+                setTimeout(() => { if (checkingProgress) checkingProgress.style.display = 'none'; }, 2000);
+
+                if (finalPercent >= 95) {
+                    updateUI('#00E676', `All Channels Operational (${Math.round(finalPercent)}%)`, `All ${onlineCount} accessible channels are running optimally.`);
+                } else if (finalPercent >= 75) {
+                    updateUI('#FFEA00', `Minor Issues (${Math.round(finalPercent)}%)`, "A few channels are currently unreachable.");
+                } else {
+                    updateUI('#FF1744', `Partial Outage (${Math.round(finalPercent)}%)`, "Multiple stream sources are currently offline.");
+                }
+
+            } catch (error) {
+                updateUI('#FF1744', "Offline", "Unable to reach the status server.");
+            }
+        }
+
+        function updateUI(color, text, desc) {
+            statusDot.style.backgroundColor = color;
+            statusDot.style.boxShadow = color === '#aaa' ? 'none' : `0 0 10px ${color}`;
+            statusText.textContent = text;
+            statusText.style.color = color;
+            serviceDescText.textContent = desc;
+        }
+
+        checkSystemStatus();
+        setInterval(checkSystemStatus, 180000);
+    });
+</script>
 </body>
 </html>
