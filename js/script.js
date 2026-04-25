@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
-        const newUrl = `/watch?channel=${currentActiveChannelSlug}`;
+        const newUrl = `/home/watch?channel=${currentActiveChannelSlug}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
