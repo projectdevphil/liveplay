@@ -63,15 +63,6 @@ export async function onRequest(context) {
             overlay: "show"
         },
         {
-            title: "Love Scout",
-            ph_description: "<strong>MON-FRI | 9:30PM</strong><br>Kapamilya Channel and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/lovescouttag.herobg-tv.JPG",
-            badge: "Catch-Up TV • Romance",
-            link: null,
-            access: "PH",
-            overlay: "show"
-        },
-        {
             title: "It's Showtime",
             ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z <br>and Catch-Up Livestream",
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
