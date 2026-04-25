@@ -53,7 +53,7 @@ export async function onRequest(context) {
         }
     }
 
-ñ    const country = request.cf?.country || 'XX';
+    const country = request.cf?.country || 'XX';
     const isPH = country === 'PH';
     
     const SEA_COUNTRIES =['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
@@ -83,7 +83,7 @@ export async function onRequest(context) {
             link: null, 
             live_link: "/?channel=tv5", 
             overlay: "show",
-            schedule: { days: "SAT", start: "4:48pm", end: "8:45pm" }
+            schedule: { days: "SAT", start: "4:49pm", end: "8:45pm" }
         },
         {
             title: "Blood Vs. Duty",
