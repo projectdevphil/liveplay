@@ -37,6 +37,15 @@ export async function onRequest(context) {
     
     const slidesData =[       
         {
+            title: "The Secret In Prague",
+            ph_description: "<strong>MON-FRI | 8PM</strong><br>TV5",
+            nonph_description: "<strong>on TFC</strong>",
+            image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
+            badge: "Catch-Up TV • Romance",
+            link: null,
+            overlay: "show"
+        },
+        {
             title: "Blood Vs. Duty",
             ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
             nonph_description: "<strong>on TFC</strong>",
