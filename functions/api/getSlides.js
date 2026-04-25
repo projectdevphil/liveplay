@@ -1,3 +1,42 @@
+function parseTime(timeStr) {
+    const match = timeStr.toLowerCase().match(/(\d{1,2}):(\d{2})\s*(am|pm)/);
+    if (!match) return 0;
+    let[_, hours, minutes, period] = match;
+    hours = parseInt(hours);
+    minutes = parseInt(minutes);
+    
+    if (period === 'pm' && hours !== 12) hours += 12;
+    if (period === 'am' && hours === 12) hours = 0;
+    
+    return hours * 60 + minutes;
+}
+
+function parseDays(dayStr) {
+    const dayMap = { 'SUN': 0, 'MON': 1, 'TUE': 2, 'WED': 3, 'THU': 4, 'FRI': 5, 'SAT': 6 };
+    let days = new Set();
+    
+    const parts = dayStr.toUpperCase().split(',');
+    for (let part of parts) {
+        part = part.trim();
+        if (part.includes('-')) {
+            const[startDay, endDay] = part.split('-').map(d => d.trim());
+            let start = dayMap[startDay];
+            let end = dayMap[endDay];
+            if (start !== undefined && end !== undefined) {
+                let curr = start;
+                while (true) {
+                    days.add(curr);
+                    if (curr === end) break;
+                    curr = (curr + 1) % 7;
+                }
+            }
+        } else if (dayMap[part] !== undefined) {
+            days.add(dayMap[part]);
+        }
+    }
+    return Array.from(days);
+}
+
 export async function onRequest(context) {
     const request = context.request;
     const url = new URL(request.url);
@@ -14,7 +53,7 @@ export async function onRequest(context) {
         }
     }
 
-    const country = request.cf?.country || 'XX';
+ñ    const country = request.cf?.country || 'XX';
     const isPH = country === 'PH';
     
     const SEA_COUNTRIES =['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
@@ -23,17 +62,17 @@ export async function onRequest(context) {
         'AG', 'BS', 'BB', 'CU', 'DM', 'DO', 'GD', 'HT', 'JM', 'KN', 
         'LC', 'VC', 'TT', 'PR', 'VI', 'BM', 'KY', 'TC', 'VG', 'AI', 'MS'
     ];
-    
     const EMEAA_COUNTRIES =[
-        // Europe
         'AL', 'AD', 'AM', 'AT', 'AZ', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'GE', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'KZ', 'XK', 'LV', 'LI', 'LT', 'LU', 'MT', 'MD', 'MC', 'ME', 'NL', 'MK', 'NO', 'PL', 'PT', 'RO', 'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SE', 'CH', 'TR', 'UA', 'GB', 'VA',
-        // Middle East
         'BH', 'IR', 'IQ', 'IL', 'JO', 'KW', 'LB', 'OM', 'PS', 'QA', 'SA', 'SY', 'AE', 'YE',
-        // Africa
         'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CV', 'CM', 'CF', 'TD', 'KM', 'CD', 'CG', 'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'YT', 'MA', 'MZ', 'NA', 'NE', 'NG', 'RE', 'RW', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW',
-        // Asia
         'AF', 'BD', 'BT', 'BN', 'KH', 'CN', 'HK', 'MO', 'IN', 'ID', 'JP', 'KP', 'KR', 'KG', 'LA', 'MY', 'MV', 'MN', 'MM', 'NP', 'PK', 'PH', 'SG', 'LK', 'TW', 'TJ', 'TH', 'TM', 'UZ', 'VN'
     ];
+
+    const manilaTimeString = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
+    const manilaDate = new Date(manilaTimeString);
+    const currentDay = manilaDate.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+    const currentMinutes = manilaDate.getHours() * 60 + manilaDate.getMinutes();
     
     const slidesData =[       
         {
@@ -41,8 +80,10 @@ export async function onRequest(context) {
             ph_description: "<strong>MON-FRI | 8PM</strong><br>TV5",
             image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
             badge: "Catch-Up TV • Romance",
-            link: null,
-            overlay: "show"
+            link: null, 
+            live_link: "/?channel=tv5", 
+            overlay: "show",
+            schedule: { days: "SAT", start: "4:48pm", end: "8:45pm" }
         },
         {
             title: "Blood Vs. Duty",
@@ -50,8 +91,10 @@ export async function onRequest(context) {
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/bloodvsduty.herobg-tv.JPG",
             badge: "Catch-Up TV • Action",
-            link: null,
-            overlay: "show"
+            link: null, 
+            live_link: "/?channel=kapamilya-channel", 
+            overlay: "show",
+            schedule: { days: "MON-FRI", start: "8:00pm", end: "8:45pm" }
         },        
         {
             title: "The Alibi",
@@ -60,7 +103,9 @@ export async function onRequest(context) {
             image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
             badge: "Catch-Up TV • Drama",
             link: null,
-            overlay: "show"
+            live_link: "/?channel=kapamilya-channel", 
+            overlay: "show",
+            schedule: { days: "MON-FRI", start: "8:45pm", end: "9:30pm" } 
         },
         {
             title: "Love Scout",
@@ -68,8 +113,10 @@ export async function onRequest(context) {
             image: "https://pql-static.abs-cbn.com/images/lovescouttag.herobg-tv.JPG",
             badge: "Catch-Up TV • Romance",
             link: null,
+            live_link: "/?channel=kapamilya-channel", 
             access: "PH",
-            overlay: "show"
+            overlay: "show",
+            schedule: { days: "MON-FRI", start: "9:30pm", end: "10:15pm" }
         },
         {
             title: "It's Showtime",
@@ -78,7 +125,9 @@ export async function onRequest(context) {
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "Catch-Up TV • Variety",
             link: null,
-            overlay: "show"
+            live_link: "/?channel=kapamilya-channel", 
+            overlay: "show",
+            schedule: { days: "MON-SAT", start: "12:00pm", end: "2:30pm" }
         },
         {
             title: "Rated Korina",
@@ -87,17 +136,10 @@ export async function onRequest(context) {
             image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
             badge: "Catch-Up TV • Lifestyle",
             link: null,
-            overlay: "show"
+            live_link: "/?channel=kapamilya-channel", 
+            overlay: "show",
+            schedule: { days: "SUN", start: "6:30pm", end: "7:30pm" } 
         },
-        //{
-            //title: "Kapamilya<br>Deal or No Deal",
-            //ph_description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel and A2Z",
-            //nonph_description: "<strong>on TFC</strong>",
-            //image: "https://pql-static.abs-cbn.com/images/rainbowrumble.herobg-tv.v2.JPG",
-            //badge: "Catch-Up TV • Gameshow",
-            //link: null,
-            //overlay: "show"
-        //},
         {
             title: "New K-Pop",
             description: "",
@@ -115,23 +157,6 @@ export async function onRequest(context) {
             link: "/?channel=nba-tv-philippines",
             access: "PH",
             overlay: "show"
-        },
-        {
-            title: "NBA TV",
-            description: "",
-            image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
-            badge: "Watch Now • Sports",
-            link: "/?channel=nba-tv",
-            access: "EMEAANA x PH",
-            overlay: "show"
-        },
-        {
-            title: "NFL Network",
-            description: "",
-            image: "https://images.t-online.de/2025/08/CKDB6tmOYvGL/0x0:3150x1772/fit-in/__WIDTH__x0/minneapolis-mn-december-08-minnesota-vikings-wide-receiver-justin-jefferson-18-catches-a-52-yard-pass-for-a-touchdown-during-the-third-quarter-of-a-nfl-american-football-herren-usa-game-between-the-minnesota-vikings-and-atlanta-falcons-on-december-8-2024-at-u-s-bank-stadium-in-minneapolis-mn-photo-by-nick-wosika-icon-sportswire-nfl-dec-08-falcons-at-vikings-editorial-use-only-icon20241208097.jpg",
-            badge: "Watch Now • Sports",
-            link: "/?channel=nfl-network",
-            overlay: "show"
         }
     ];
 
@@ -147,7 +172,27 @@ export async function onRequest(context) {
         if (slide.access === 'EMEAANA x PH' && (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country)) && !isPH) return true;
         
         return false;
-    }).map(slide => {
+    }).map(originalSlide => {
+        const slide = { ...originalSlide };
+
+        if (isPH && slide.schedule) {
+            const activeDays = parseDays(slide.schedule.days);
+            const startMins = parseTime(slide.schedule.start);
+            const endMins = parseTime(slide.schedule.end);
+            
+            if (activeDays.includes(currentDay) && currentMinutes >= startMins && currentMinutes < endMins) {
+                if (slide.ph_description) {
+                    slide.ph_description = slide.ph_description.replace(/<strong>.*?<\/strong>/, "<strong>NOW AIRING</strong>");
+                }
+                if (slide.badge) {
+                    slide.badge = slide.badge.replace("Catch-Up TV", "Watch Now");
+                }
+                if (slide.live_link) {
+                    slide.link = slide.live_link;
+                }
+            }
+        }
+
         let finalDescription = slide.description;
         
         if (isPH && slide.ph_description) {
@@ -161,7 +206,9 @@ export async function onRequest(context) {
             description: finalDescription,
             ph_description: undefined,
             nonph_description: undefined, 
-            access: undefined
+            access: undefined,
+            schedule: undefined, 
+            live_link: undefined 
         };
     });
 
