@@ -817,6 +817,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const channelSlug = urlParams.get('channel');
+    const isWatchRoute = window.location.pathname.startsWith('/watch');
     let hasPlayedLink = false;
 
     if (channelSlug) {
@@ -827,6 +828,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
              window.location.href = '/404.html';
         }
+    } else if (isWatchRoute) {
+        window.location.replace('/');
+        return;
     }
 
     if (!hasPlayedLink && window.innerWidth > 1024) {
