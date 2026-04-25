@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    
-    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-        window.history.replaceState({}, '', '/home');
-    }
-    
+     
     const API_GET_CHANNELS = '/api/getChannels';
     const API_GET_DATA = '/api/getData';
     const API_GET_SLIDES = '/api/getSlides';
@@ -539,7 +535,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
-        const newUrl = `/home/watch?channel=${currentActiveChannelSlug}`;
+        const newUrl = `/watch?channel=${currentActiveChannelSlug}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
@@ -821,7 +817,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const channelSlug = urlParams.get('channel');
-    const isWatchRoute = window.location.pathname.startsWith('/home/watch');
+    const isWatchRoute = window.location.pathname.startsWith('/watch');
     let hasPlayedLink = false;
 
     if (channelSlug) {
