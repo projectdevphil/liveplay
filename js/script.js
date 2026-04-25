@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
     
+    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+        window.history.replaceState({}, '', '/home');
+    }
+    
     const API_GET_CHANNELS = '/api/getChannels';
     const API_GET_DATA = '/api/getData';
     const API_GET_SLIDES = '/api/getSlides';
