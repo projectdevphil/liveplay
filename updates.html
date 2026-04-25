@@ -148,26 +148,28 @@
                     const total = channels.length;
                     let onlineCount = 0;
 
-                    await Promise.all(channels.map(async (channel) => {
+                    for (const channel of channels) {
                         try {
                             const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
-                            if (!dataRes.ok) return;
+                            if (!dataRes.ok) continue;
 
                             const data = await dataRes.json();
-                            if (!data.manifestUri) return;
+                            if (!data.manifestUri) continue;
 
                             const pingRes = await fetch(data.manifestUri, {
-                                method: 'HEAD',
+                                method: 'GET',
                                 cache: 'no-store'
                             });
 
                             if (pingRes.ok) {
                                 onlineCount++;
+                            } else {
+                                console.warn(`[Status] ${channel.name} returned status: ${pingRes.status}`);
                             }
                         } catch (err) {
-                            console.debug(`[Status] ${channel.name} appears offline.`);
+                            console.warn(`[Status] ${channel.name} fetch failed:`, err.message);
                         }
-                    }));
+                    }
 
                     const percent = (onlineCount / total) * 100;
 
