@@ -248,24 +248,41 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (data.link) {
                 slide = document.createElement('a');
                 slide.href = data.link;
-                
+
+                let isChannelLink = false;
+                try {
+                    const url = new URL(data.link, window.location.origin);
+                    if (url.searchParams.has('channel')) {
+                        isChannelLink = true;
+                    }
+                } catch (err) {
+                    console.error("Invalid URL format in slide data", err);
+                }
+
+                if (!isChannelLink) {
+                    slide.target = "_blank";
+                    slide.rel = "noopener noreferrer";
+                }
+
                 slide.addEventListener('click', (e) => {
-                    try {
-                        const url = new URL(data.link, window.location.origin);
-                        const channelSlug = url.searchParams.get('channel');
-                        
-                        if (channelSlug) {
-                            e.preventDefault();
+                    if (isChannelLink) {
+                        try {
+                            const url = new URL(data.link, window.location.origin);
+                            const channelSlug = url.searchParams.get('channel');
                             
-                            const foundChannel = allStreams.find(s => createSlug(s.name) === channelSlug);
-                            if (foundChannel) {
-                                openPlayer(foundChannel);
-                            } else {
-                                window.location.href = data.link; 
+                            if (channelSlug) {
+                                e.preventDefault();
+                                
+                                const foundChannel = allStreams.find(s => createSlug(s.name) === channelSlug);
+                                if (foundChannel) {
+                                    openPlayer(foundChannel);
+                                } else {
+                                    window.location.href = data.link; 
+                                }
                             }
+                        } catch (err) {
+                            console.error("Error parsing slide link", err);
                         }
-                    } catch (err) {
-                        console.error("Error parsing slide link", err);
                     }
                 });
 
