@@ -38,7 +38,7 @@ export async function onRequest(context) {
     const slidesData =[       
         {
             title: "Blood Vs. Duty",
-            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/bloodvsduty.herobg-tv.JPG",
             badge: "Catch-Up TV • Action",
@@ -55,7 +55,7 @@ export async function onRequest(context) {
         },
         {
             title: "The Alibi",
-            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
             badge: "Catch-Up TV • Drama",
@@ -64,7 +64,7 @@ export async function onRequest(context) {
         },
         {
             title: "It's Showtime",
-            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z <br>and Catch-Up Livestream",
+            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z, GMA7 <br>and Catch-Up Livestream",
             nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "Catch-Up TV • Variety",
@@ -73,7 +73,7 @@ export async function onRequest(context) {
         },
         {
             title: "Rated Korina",
-            ph_description: "<strong>SUN | 6:30PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "<strong>SUN | 6:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
             badge: "Catch-Up TV • Lifestyle",
@@ -82,7 +82,7 @@ export async function onRequest(context) {
         },
         {
             title: "Kapamilya<br>Deal or No Deal",
-            ph_description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel and A2Z",
+            ph_description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/kapamilyadealornodeal.herobg-tv.JPG",
             badge: "Catch-Up TV • Gameshow",
