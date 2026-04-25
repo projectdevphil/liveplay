@@ -817,7 +817,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const channelSlug = urlParams.get('channel');
-    const isWatchRoute = window.location.pathname.startsWith('/watch');
+    const isWatchRoute = window.location.pathname.startsWith('/home/watch');
     let hasPlayedLink = false;
 
     if (channelSlug) {
