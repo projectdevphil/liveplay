@@ -95,8 +95,11 @@
             <hr>
 
             <section>
-                <h2>Service Status</h2>
-                <p id="service-desc-text">Analyzing platform availability and channel health...</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h2 style="margin: 0;">Channels Status</h2>
+                    <span id="checkingProgress" style="font-size: 0.95rem; font-weight: bold; color: #aaa; display: none;">0%</span>
+                </div>
+                <p id="service-desc-text">Analyzing channel availability and stream health...</p>
 
                 <div class="combined-status-box">
                     <div class="status-header">
@@ -124,6 +127,7 @@
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
             const serviceDescText = document.getElementById('service-desc-text');
+            const checkingProgress = document.getElementById('checkingProgress');
 
             const header = document.querySelector(".static-header");
             window.addEventListener("scroll", () => {
@@ -132,6 +136,15 @@
 
             async function checkSystemStatus() {
                 try {
+                    if (checkingProgress) {
+                        checkingProgress.style.display = 'inline-block';
+                        checkingProgress.textContent = '0%';
+                    }
+                    statusText.textContent = "Checking Channels...";
+                    statusText.style.color = '#aaa';
+                    statusDot.style.backgroundColor = '#aaa';
+                    statusDot.style.boxShadow = 'none';
+
                     const response = await fetch('/api/getChannels', {
                         method: 'GET',
                         cache: 'no-store'
@@ -147,45 +160,59 @@
 
                     const total = channels.length;
                     let onlineCount = 0;
+                    let checkedCount = 0;
 
                     for (const channel of channels) {
                         try {
                             const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
-                            if (!dataRes.ok) continue;
+                            if (dataRes.ok) {
+                                const data = await dataRes.json();
+                                if (data.manifestUri) {
+                                    const pingRes = await fetch(data.manifestUri, {
+                                        method: 'GET',
+                                        cache: 'no-store'
+                                    });
 
-                            const data = await dataRes.json();
-                            if (!data.manifestUri) continue;
-
-                            const pingRes = await fetch(data.manifestUri, {
-                                method: 'GET',
-                                cache: 'no-store'
-                            });
-
-                            if (pingRes.ok) {
-                                onlineCount++;
-                            } else {
-                                console.warn(`[Status] ${channel.name} returned status: ${pingRes.status}`);
+                                    if (pingRes.ok) {
+                                        onlineCount++;
+                                    } else {
+                                        console.warn(`[Status] ${channel.name} returned status: ${pingRes.status}`);
+                                    }
+                                }
                             }
                         } catch (err) {
                             console.warn(`[Status] ${channel.name} fetch failed:`, err.message);
                         }
+
+                        checkedCount++;
+                        if (checkingProgress) {
+                            const percentDone = Math.round((checkedCount / total) * 100);
+                            checkingProgress.textContent = `${percentDone}%`;
+                        }
+                    }
+
+                    if (checkingProgress) {
+                        setTimeout(() => {
+                            checkingProgress.style.display = 'none';
+                        }, 2000);
                     }
 
                     const percent = (onlineCount / total) * 100;
 
                     if (percent >= 95) {
-                        updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
+                        updateUI('#00E676', `All Channels Operational (${Math.round(percent)}%)`, "All channels are currently streaming optimally.");
                     } else if (percent >= 75) {
-                        updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or unreachable.");
+                        updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or buffering.");
                     } else if (percent >= 30) {
-                        updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channel sources are offline. Our team is working on it.");
+                        updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channels are offline. Our team is working on it.");
                     } else {
-                        updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple providers.");
+                        updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple channels.");
                     }
 
                 } catch (error) {
                     console.error('Status Error:', error);
-                    updateUI('#FF1744', "Connection Unstable", "Unable to reach the server. Please check your internet connection.");
+                    updateUI('#FF1744', "Connection Unstable", "Unable to reach the server to verify channel status.");
+                    if (checkingProgress) checkingProgress.style.display = 'none';
                 }
             }
 
@@ -198,7 +225,7 @@
             }
 
             checkSystemStatus();
-            setInterval(checkSystemStatus, 120000);
+            setInterval(checkSystemStatus, 120000); // Re-run check every 2 minutes
         });
     </script>
 </body>
