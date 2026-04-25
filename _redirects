@@ -1,17 +1,16 @@
-/503 /404 302
-/*  /404.html  404
+/503             /404           302
 
-/functions/api/* /api/:splat 301
+/functions/api/* /api/:splat    301
 
-/home/about /about-us.html 200
-/home/faq /faq.html 200
-/home/privacy /privacy.html 200
-/home/speed /speed-test.html 200
-/home/terms /terms.html 200
-/home/tv /tv.html 200
-/home/updates /updates.html 200
-/home /index.html 200
+/home/about      /about-us.html 200
+/home/faq        /faq.html      200
+/home/privacy    /privacy.html  200
+/home/speed      /speed-test.html 200
+/home/terms      /terms.html    200
+/home/tv         /tv.html       200
+/home/updates    /updates.html  200
+/home            /index.html    200
 
-/watch   /index.html   200
+/watch           /index.html    200
 
-/* /index.html 200
+/*               /index.html    200
