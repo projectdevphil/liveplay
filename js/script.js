@@ -248,6 +248,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (data.link) {
                 slide = document.createElement('a');
                 slide.href = data.link;
+                
+                slide.addEventListener('click', (e) => {
+                    try {
+                        const url = new URL(data.link, window.location.origin);
+                        const channelSlug = url.searchParams.get('channel');
+                        
+                        if (channelSlug) {
+                            e.preventDefault();
+                            
+                            const foundChannel = allStreams.find(s => createSlug(s.name) === channelSlug);
+                            if (foundChannel) {
+                                openPlayer(foundChannel);
+                            } else {
+                                window.location.href = data.link; 
+                            }
+                        }
+                    } catch (err) {
+                        console.error("Error parsing slide link", err);
+                    }
+                });
+
                 slide.addEventListener('contextmenu', e => e.preventDefault());
                 slide.addEventListener('dragstart', e => e.preventDefault());
             } else {
