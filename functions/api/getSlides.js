@@ -51,6 +51,7 @@ export async function onRequest(context) {
             image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
             badge: "Catch-Up TV • Romance",
             link: null,
+            access: "PH",
             overlay: "show"
         },
         {
