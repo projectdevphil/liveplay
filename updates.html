@@ -145,12 +145,19 @@
                         throw new Error('No channels found for this region');
                     }
 
-                    const total = channels.length;
+                    let validTotal = 0; 
                     let onlineCount = 0;
 
                     await Promise.all(channels.map(async (channel) => {
                         try {
                             const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
+                            
+                            if (dataRes.status === 403) {
+                                return;
+                            }
+
+                            validTotal++;
+
                             if (!dataRes.ok) return;
 
                             const data = await dataRes.json();
@@ -169,7 +176,12 @@
                         }
                     }));
 
-                    const percent = (onlineCount / total) * 100;
+                    if (validTotal === 0) {
+                        updateUI('#FF1744', "Service Unavailable", "No available channels in your region.");
+                        return;
+                    }
+
+                    const percent = (onlineCount / validTotal) * 100;
 
                     if (percent >= 95) {
                         updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
