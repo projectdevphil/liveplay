@@ -837,6 +837,7 @@ video::cue {
 
 .minimized-player-wrapper {
     align-items: stretch;
+    height: 60px;
     bottom: 20px;
     display: flex;
     gap: 12px; 
@@ -884,10 +885,10 @@ video::cue {
     background: transparent;
     filter: none;
     border-radius: 50%;
-    height: 50px;
+    height: 30px;
     pointer-events: none;
     object-fit: contain;
-    width: 50px;
+    width: 30px;
     border: var(--glass-border);
     display: block;
     overflow: hidden;
@@ -947,8 +948,8 @@ video::cue {
     background: var(--glass-bg);
     border: var(--glass-border);
     border-radius: 50%;
-    width: 75px;
-    height: 75px;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
