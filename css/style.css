@@ -635,6 +635,7 @@ header nav {
 
 .channel-logo {
     flex-shrink: 0;
+    box-sizing: border-box;
     height: 40px;
     filter: none;
     object-fit: contain;
@@ -642,8 +643,15 @@ header nav {
     width: 40px;
     background: transparent;
     border: var(--glass-border);
-    border-radius: 5.5px;
-    padding: 2px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.channel-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .channel-name {
@@ -870,7 +878,7 @@ video::cue {
 }
 
 .minimized-logo {
-    flex-shrink: 0;
+    box-sizing: border-box;
     background: transparent;
     filter: none;
     border-radius: 50%;
@@ -880,7 +888,14 @@ video::cue {
     width: 50px;
     border: var(--glass-border);
     display: block;
-    padding: 2px;
+    overflow: hidden;
+}
+
+.minimized-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .minimized-info {
