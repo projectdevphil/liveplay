@@ -336,11 +336,11 @@ header nav {
   position: absolute;
   inset: 0;
   
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   
-  mask-image: radial-gradient(circle at top right, black 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle at top right, black 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+  mask-image: radial-gradient(circle at bottom left, black 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at bottom left, black 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
 }
 
 
