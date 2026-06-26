@@ -333,16 +333,16 @@ header nav {
 }
 
 .slide-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-    mask-image: radial-gradient(circle at 85% 15%, transparent 40%, black 75%);
-  -webkit-mask-image: radial-gradient(circle at 85% 15%, transparent 40%, black 75%);}
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+      mask-image: radial-gradient(circle at 90% 15%, transparent 40%, black 75%);
+    -webkit-mask-image: radial-gradient(circle at 90% 10%, transparent 45%, black 80%);}
 
 .slide-content {
     bottom: 15px;
