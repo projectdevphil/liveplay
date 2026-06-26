@@ -594,7 +594,7 @@ header nav {
 }
 
 .channel-listings {
-    padding: 15px 20px;
+    padding: 20px;
     padding-top: 0;
 }
 
@@ -614,7 +614,7 @@ header nav {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    padding: 12px 15px;
+    padding: 10px 15px;
     transition: background-color 0.2s ease;
 }
 
@@ -636,8 +636,8 @@ header nav {
 .channel-logo-container {
     flex-shrink: 0;
     box-sizing: border-box;
-    height: 45px;
-    width: 45px;
+    height: 50px;
+    width: 50px;
     background: var(--card-background);
     border: var(--glass-border);
     border-radius: 50%;
@@ -645,7 +645,7 @@ header nav {
     display: flex;
     justify-content: center;
     align-items: center; 
-    padding: 6px;
+    padding: 3px;
 }
 
 .channel-logo {
@@ -892,10 +892,11 @@ video::cue {
     align-items: center;
     overflow: hidden;
     flex-shrink: 0;
+    padding: 3px;
 }
 
 .minimized-logo {
-    width: 90%;
+    width: 100%;
     height: 100%;
     object-fit: contain;
     pointer-events: none;
