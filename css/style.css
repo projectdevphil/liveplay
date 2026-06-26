@@ -636,11 +636,11 @@ header nav {
 .channel-logo {
     flex-shrink: 0;
     box-sizing: border-box;
-    height: 40px;
+    height: 45px;
     filter: none;
     object-fit: contain;
     pointer-events: none;
-    width: 40px;
+    width: 45px;
     background: transparent;
     border: var(--glass-border);
     border-radius: 50px;
@@ -885,10 +885,10 @@ video::cue {
     background: transparent;
     filter: none;
     border-radius: 50%;
-    height: 30px;
+    height: 40px;
     pointer-events: none;
     object-fit: contain;
-    width: 30px;
+    width: 40px;
     border: var(--glass-border);
     display: block;
     overflow: hidden;
@@ -939,7 +939,7 @@ video::cue {
     align-items: center;
     display: flex;
     padding-left: 20px;
-    gap: 10px;
+    gap: 7px;
 }
 
 #exit-player-btn {
