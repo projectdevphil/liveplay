@@ -910,6 +910,10 @@ video::cue {
     font-weight: 400;
 }
 
+.live-sensor-mini {
+    padding: 20px;
+}
+
 .minimized-player-right {
     align-items: center;
     display: flex;
