@@ -710,7 +710,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             item.innerHTML = `
                 <div class="channel-info-left">
-                    <img src="${logo}" class="channel-logo" onerror="this.style.opacity=0">
+                    <div class="channel-logo-container">
+                        <img src="${logo}" class="channel-logo" onerror="this.style.opacity=0">
+                    </div>
                     <span class="channel-name">${stream.name}</span>
                 </div>
                 <div class="channel-info-right">
