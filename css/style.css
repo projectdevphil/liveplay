@@ -333,24 +333,16 @@ header nav {
 }
 
 .slide-overlay {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top right, transparent 35%, rgba(0, 0, 0, 0.85) 100%);
-    z-index: 2;
+  position: absolute;
+  inset: 0;
+  
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  
+  mask-image: radial-gradient(circle at top right, black 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at top right, black 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
 }
 
-.slide-overlay::before {
-    content: "";
-    position: absolute;
-    inset: -100px; 
-    z-index: -1; 
-  
-    -webkit-backdrop-filter: blur(100px);
-    backdrop-filter: blur(100px);
-  
-    -webkit-mask-image: radial-gradient(circle at top right, transparent 20%, black 85%);
-    mask-image: radial-gradient(circle at top right, transparent 20%, black 85%);
-}
 
 .slide-content {
     bottom: 15px;
