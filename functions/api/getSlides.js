@@ -47,7 +47,7 @@ export async function onRequest(context) {
         },
         {
             title: "A Secret In Prague",
-            ph_description: "<strong>MON-FRI | 8PM</strong><br>TV5, Kapatid Channel and Kapatid Live",
+            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>TV5, Kapatid Channel and Kapatid Live",
             image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
             badge: "Catch-Up TV • Action • Romance",
             link: null,
