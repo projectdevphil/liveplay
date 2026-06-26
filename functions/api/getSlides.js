@@ -37,8 +37,26 @@ export async function onRequest(context) {
     
     const slidesData =[       
         {
+            title: "Sigabo",
+            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
+            nonph_description: "<strong>on TFC</strong>",
+            image: "https://pql-static.abs-cbn.com/images/sigabo.herobg-tv.JPG",
+            badge: "Catch-Up TV • Action • Comedy",
+            link: null,
+            overlay: "show"
+        },
+        {
+            title: "A Secret In Prague",
+            ph_description: "<strong>MON-FRI | 8PM</strong><br>TV5, Kapatid Channel and Kapatid Live",
+            image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
+            badge: "Catch-Up TV • Action • Romance",
+            link: null,
+            access: "PH",
+            overlay: "show"
+        },
+       {
             title: "Blood Vs. Duty",
-            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/bloodvsduty.herobg-tv.JPG",
             badge: "Catch-Up TV • Action",
@@ -46,17 +64,8 @@ export async function onRequest(context) {
             overlay: "show"
         },
         {
-            title: "The Secret In Prague",
-            ph_description: "<strong>MON-FRI | 8PM</strong><br>TV5",
-            image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
-            badge: "Catch-Up TV • Romance",
-            link: null,
-            access: "PH",
-            overlay: "show"
-        },
-        {
             title: "The Alibi",
-            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            ph_description: "<strong>MON-FRI | 9:15PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
             badge: "Catch-Up TV • Drama",
