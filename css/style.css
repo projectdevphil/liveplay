@@ -338,13 +338,11 @@ header nav {
   left: 0;
   width: 100%;
   height: 100%;
-  
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  
-  mask-image: radial-gradient(circle at 61% 53%, transparent 28%, black 29%);
-  -webkit-mask-image: radial-gradient(circle at 61% 53%, transparent 28%, black 29%);
-}
+  background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+    mask-image: radial-gradient(circle at 85% 15%, transparent 40%, black 75%);
+  -webkit-mask-image: radial-gradient(circle at 85% 15%, transparent 40%, black 75%);}
 
 .slide-content {
     bottom: 15px;
