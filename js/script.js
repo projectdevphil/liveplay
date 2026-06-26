@@ -806,14 +806,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     menuBtn.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (searchContainer.classList.contains("active")) {
+            searchContainer.classList.remove("active");
+            searchInput.blur();
+        }
         floatingMenu.classList.toggle("active");
     });
-    
-    document.addEventListener("click", () => floatingMenu.classList.remove("active"));
 
-    searchToggle.addEventListener("click", () => {
+    searchToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        floatingMenu.classList.remove("active");
+        
         searchContainer.classList.toggle("active");
-        if (searchContainer.classList.contains("active")) searchInput.focus();
+        if (searchContainer.classList.contains("active")) {
+            searchInput.focus();
+        }
+    });
+
+    document.addEventListener("click", (e) => {
+        floatingMenu.classList.remove("active");
+
+        if (searchContainer.classList.contains("active") && !searchContainer.contains(e.target)) {
+            searchContainer.classList.remove("active");
+            searchInput.blur();
+        }
     });
 
     searchInput.addEventListener("input", (e) => {
