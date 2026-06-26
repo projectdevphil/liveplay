@@ -527,7 +527,7 @@ header nav {
     border: 1px solid rgba(255,255,255,0.1); 
     overflow: hidden;
     position: relative;
-    padding: 8px; 
+    padding: 10px; 
     z-index: 5; 
     box-sizing: border-box;
 }
@@ -645,7 +645,7 @@ header nav {
     display: flex;
     justify-content: center;
     align-items: center; 
-    padding: 6.5px;
+    padding: 7px;
 }
 
 .channel-logo {
@@ -892,7 +892,7 @@ video::cue {
     align-items: center;
     overflow: hidden;
     flex-shrink: 0;
-    padding: 3px;
+    padding: 5px;
 }
 
 .minimized-logo {
