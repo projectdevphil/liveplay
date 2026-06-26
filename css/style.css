@@ -335,20 +335,18 @@ header nav {
 .slide-overlay {
   position: absolute;
   inset: 0;
-  background: 
-    linear-gradient(to right, 
-      rgba(15, 15, 15, 1) 0%, 
-      rgba(15, 15, 15, 0.98) 25%, 
-      rgba(15, 15, 15, 0.8) 40%, 
-      rgba(15, 15, 15, 0) 70%
-    ),
-    linear-gradient(to top, 
-      rgba(15, 15, 15, 1) 0%, 
-      rgba(15, 15, 15, 0.95) 20%, 
-      rgba(15, 15, 15, 0.5) 45%, 
-      rgba(15, 15, 15, 0) 70%
-    ),
-    rgba(15, 15, 15, 0.2); 
+  
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  background: linear-gradient(to top right, 
+    rgba(15, 15, 15, 0.82) 0%, 
+    rgba(15, 15, 15, 0.6) 30%, 
+    rgba(15, 15, 15, 0) 70%
+  );
+  
+  mask-image: linear-gradient(to top right, black 0%, rgba(0, 0, 0, 0.8) 30%, transparent 70%);
+  -webkit-mask-image: linear-gradient(to top right, black 0%, rgba(0, 0, 0, 0.8) 30%, transparent 70%);
 }
 
 .slide-content {
