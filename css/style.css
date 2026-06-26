@@ -854,7 +854,7 @@ video::cue {
     background: var(--glass-bg);
     border: var(--glass-border);
     /* Rounded left side */
-    border-radius: 35px var(--border-radius) var(--border-radius) 35px;
+    border-radius: 50px;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -928,8 +928,8 @@ video::cue {
     border: var(--glass-border);
     border-radius: 50%; /* Perfect circle */
     /*aspect-ratio: 1; /* Forces the width to match the dynamic height */
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
