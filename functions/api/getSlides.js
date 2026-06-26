@@ -65,7 +65,7 @@ export async function onRequest(context) {
         },
         {
             title: "The Alibi",
-            ph_description: "<strong>MON-FRI | 9:15PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            ph_description: "<strong>MON-FRI | 9:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
             badge: "Catch-Up TV • Drama",
@@ -83,7 +83,7 @@ export async function onRequest(context) {
         },
         {
             title: "Rated Korina",
-            ph_description: "<strong>SUN | 6:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            ph_description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             nonph_description: "<strong>on TFC</strong>",
             image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
             badge: "Catch-Up TV • Lifestyle",
