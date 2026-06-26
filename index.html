@@ -155,20 +155,23 @@
         </div>
     </main>
     
-    <div id="minimized-player" class="minimized-player">
-        <div class="minimized-player-left">
-            <img id="minimized-player-logo" src="" alt="Channel Logo" class="minimized-logo">
-            <div class="minimized-info">
-                <h4 id="minimized-player-name">Channel Name</h4>
-                <p id="minimized-player-status">Now Playing</p>
+    <div id="minimized-player" class="minimized-player-wrapper">
+        <div class="minimized-player-main">
+            <div class="minimized-player-left">
+                <img id="minimized-player-logo" src="" alt="Channel Logo" class="minimized-logo">
+                <div class="minimized-info">
+                    <h4 id="minimized-player-name">Channel Name</h4>
+                    <p id="minimized-player-status">Now Playing</p>
+                </div>
+            </div>
+            <div class="minimized-player-right">
+                <span class="material-symbols-rounded live-sensor-mini">sensors</span>
             </div>
         </div>
-        <div class="minimized-player-right">
-            <span class="material-symbols-rounded live-sensor-mini">sensors</span>
-            <button id="exit-player-btn" class="icon-link-mini">
-                <span class="material-symbols-rounded">close</span>
-            </button>
-        </div>
+
+        <button id="exit-player-btn" class="icon-link-mini">
+            <span class="material-symbols-rounded">close</span>
+        </button>
     </div>
     
     <script src="/js/script.js"></script>
