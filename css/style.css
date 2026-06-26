@@ -637,23 +637,23 @@ header nav {
     flex-shrink: 0;
     box-sizing: border-box;
     height: 45px;
-    filter: none;
-    object-fit: contain;
-    pointer-events: none;
     width: 45px;
-    background: transparent;
+    background: var(--card-background);
     border: var(--glass-border);
-    border-radius: 50px;
+    border-radius: 50%;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center; 
+    padding: 5px;
 }
 
+.channel-logo-container img,
 .channel-logo img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    border-radius: 0 !important;
 }
 
 .channel-name {
@@ -880,27 +880,26 @@ video::cue {
     overflow: hidden;
 }
 
-.minimized-logo {
+.minimized-logo-container {
     box-sizing: border-box;
     background: transparent;
-    filter: none;
     border-radius: 50%;
     height: 40px;
-    pointer-events: none;
-    object-fit: contain;
     width: 40px;
     border: var(--glass-border);
-    display: block;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
-.minimized-logo img {
+.minimized-logo {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    pointer-events: none;
+    display: block;
 }
 
 .minimized-info {
