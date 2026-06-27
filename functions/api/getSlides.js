@@ -14,27 +14,6 @@ export async function onRequest(context) {
         }
     }
 
-    const country = request.cf?.country || 'XX';
-    const isPH = country === 'PH';
-    
-    const SEA_COUNTRIES =['PH', 'SG', 'MY', 'ID', 'TH', 'VN', 'BN', 'KH', 'LA', 'MM', 'TL'];
-    const NA_COUNTRIES =[
-        'US', 'CA', 'MX', 'BZ', 'CR', 'SV', 'GT', 'HN', 'NI', 'PA', 
-        'AG', 'BS', 'BB', 'CU', 'DM', 'DO', 'GD', 'HT', 'JM', 'KN', 
-        'LC', 'VC', 'TT', 'PR', 'VI', 'BM', 'KY', 'TC', 'VG', 'AI', 'MS'
-    ];
-    
-    const EMEAA_COUNTRIES =[
-        // Europe
-        'AL', 'AD', 'AM', 'AT', 'AZ', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'GE', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'KZ', 'XK', 'LV', 'LI', 'LT', 'LU', 'MT', 'MD', 'MC', 'ME', 'NL', 'MK', 'NO', 'PL', 'PT', 'RO', 'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SE', 'CH', 'TR', 'UA', 'GB', 'VA',
-        // Middle East
-        'BH', 'IR', 'IQ', 'IL', 'JO', 'KW', 'LB', 'OM', 'PS', 'QA', 'SA', 'SY', 'AE', 'YE',
-        // Africa
-        'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CV', 'CM', 'CF', 'TD', 'KM', 'CD', 'CG', 'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'YT', 'MA', 'MZ', 'NA', 'NE', 'NG', 'RE', 'RW', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW',
-        // Asia
-        'AF', 'BD', 'BT', 'BN', 'KH', 'CN', 'HK', 'MO', 'IN', 'ID', 'JP', 'KP', 'KR', 'KG', 'LA', 'MY', 'MV', 'MN', 'MM', 'NP', 'PK', 'PH', 'SG', 'LK', 'TW', 'TJ', 'TH', 'TM', 'UZ', 'VN'
-    ];
-    
     const slidesData =[       
         {
             title: "Sigabo",
@@ -118,37 +97,7 @@ export async function onRequest(context) {
         }
     ];
 
-    const filteredSlides = slidesData.filter(slide => {
-        if (!slide.access) return true;
-        if (slide.access === 'PH' && isPH) return true;
-        if (slide.access === 'Non-PH' && !isPH) return true;
-        if (slide.access === 'US' && country === 'US') return true;
-        if (slide.access === 'SEA' && SEA_COUNTRIES.includes(country)) return true;
-        if (slide.access === 'EMEAA' && EMEAA_COUNTRIES.includes(country)) return true; 
-        if (slide.access === 'EMEAA x PH' && EMEAA_COUNTRIES.includes(country) && !isPH) return true;
-        if (slide.access === 'EMEAANA' && (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country))) return true;
-        if (slide.access === 'EMEAANA x PH' && (EMEAA_COUNTRIES.includes(country) || NA_COUNTRIES.includes(country)) && !isPH) return true;
-        
-        return false;
-    }).map(slide => {
-        let finalDescription = slide.description;
-        
-        if (isPH && slide.ph_description) {
-            finalDescription = slide.ph_description;
-        } else if (!isPH && slide.nonph_description) {
-            finalDescription = slide.nonph_description;
-        }
-
-        return {
-            ...slide,
-            description: finalDescription,
-            ph_description: undefined,
-            nonph_description: undefined, 
-            access: undefined
-        };
-    });
-
-    return new Response(JSON.stringify(filteredSlides), {
+    return new Response(JSON.stringify(slidesData), {
         status: 200,
         headers: { "Content-Type": "application/json" }
     });
