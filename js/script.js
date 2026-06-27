@@ -425,6 +425,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         floatingMenu.innerHTML = `
         <ul>
             <li><a href="/home/updates"><span class="material-symbols-rounded">notifications_active</span> Updates</a></li>
+            <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>
             <li><a href="/home/about"><span class="material-symbols-rounded">info</span> About Us</a></li>
             <li><a href="/home/faq"><span class="material-symbols-rounded">quiz</span> FAQ</a></li>
             <li><a href="/home/privacy"><span class="material-symbols-rounded">shield</span> Privacy Policy</a></li>
