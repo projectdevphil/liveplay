@@ -85,7 +85,7 @@ body.no-scroll {
 
 .content-card {
     background-color: var(--card-background, #1a1a1a);
-    border-radius: 15px; 
+    border-radius: 25px; 
     border: 1px solid rgba(255, 255, 255, 0.05); 
     padding: 25px;
     margin-top: 10px; 
