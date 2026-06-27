@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="1360.563"
+   height="378.64401"
+   viewBox="0 0 1360.563 378.64401"
+   enable-background="new 0 0 1380 580"
+   xml:space="preserve"
+   sodipodi:docname="ANC Logo (2015, without full name).svg"
+   inkscape:version="1.2.1 (9c6d41e4, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs6877" /><sodipodi:namedview
+   id="namedview6875"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   showgrid="false"
+   inkscape:zoom="0.31922284"
+   inkscape:cx="731.46394"
+   inkscape:cy="292.89884"
+   inkscape:window-width="1390"
+   inkscape:window-height="1205"
+   inkscape:window-x="0"
+   inkscape:window-y="25"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<polygon
+   fill="#fbb03b"
+   points=""
+   id="polygon6856"
+   transform="translate(-9.007,-28)" />
+
+
+<g
+   id="g7007"><path
+     fill="#174659"
+     d="m 974.069,0 h -0.076 v 0.077 l -124.924,374.972 -1.116,3.387 -0.056,0.188 c 128.859,-0.021 257.725,-0.084 386.608,0.02 l 0.071,-0.207 1.128,-3.387 L 1357.414,9.458 1360.563,0 Z"
+     id="path6812" /><path
+     fill="#174659"
+     d="m 549.636,0 h 0.357 v 0.077 l -125.142,374.972 -1.224,3.387 -0.111,0.188 c 128.861,-0.021 257.698,-0.084 386.582,0.02 l 0.057,-0.207 1.122,-3.387 L 932.983,9.457 936.129,0 Z"
+     id="path6814" /><path
+     fill="#174659"
+     d="m 126.189,0 h -0.196 V 0.077 L 1.128,375.049 0.042,378.436 0,378.624 c 128.861,-0.021 257.733,-0.084 386.617,0.02 l 0.075,-0.207 1.13,-3.387 L 509.533,9.457 512.683,0 Z"
+     id="path6816" /><polygon
+     fill="#ffffff"
+     points="675.261,143 626.587,143.494 574,290.908 574,290.961 630.016,290.564 658.365,210.942 699.437,291 700,291 699.98,290.94 700.012,291 751.503,291 770.008,239.594 804.314,144 804.275,144 761.407,143 748.623,143 722.478,223.403 702.782,185.562 680.623,143 678.281,143 678.271,143 "
+     id="polygon6858"
+     transform="translate(-9.007,-28)" /><g
+     id="g6862"
+     transform="translate(-9.007,-28)">
+	<path
+   fill="#ffffff"
+   d="m 1157.32,226.788 c -4.557,6.155 -11.123,11.743 -19.227,15.829 -20.723,10.443 -43.591,7.131 -51.072,-7.4 -7.486,-14.531 3.246,-34.779 23.965,-45.223 20.719,-10.444 43.592,-7.131 51.075,7.4 1.106,2.148 1.805,4.425 2.142,6.774 l 0.24,-0.13 57.495,-23.57 c -0.771,-2.672 -1.735,-5.297 -2.958,-7.852 -17.386,-36.307 -74.767,-45.467 -128.137,-20.456 -53.363,25.007 -82.551,74.722 -65.16,111.03 17.38,36.307 74.751,45.463 128.126,20.455 19.262,-9.025 35.348,-21.277 47.254,-34.945 z"
+   id="path6860" />
+</g><g
+     id="g6872"
+     transform="translate(-9.007,-28)">
+	<polygon
+   fill="none"
+   points="282.269,183.072 244.524,232 283.397,232 "
+   id="polygon6864" />
+	<polygon
+   fill="#b3b3b3"
+   points="283.353,291.009 283.354,291.014 284.985,291.014 "
+   id="polygon6866" />
+	<path
+   fill="#ffffff"
+   d="m 327.915,143 h -9.171 v 0 h -54.818 l -121.47,146.662 -0.862,0.928 0.271,-0.11 -0.002,0.005 1.354,-0.555 0.029,-0.012 v 0 L 283.398,232.432 284.985,291 h 60.003 z m -83.391,89 37.745,-48.928 1.128,48.928 z"
+   id="path6868" />
+	<polygon
+   fill="#b1000f"
+   points="143.173,289.947 141.594,290.59 141.863,290.586 204.819,290.774 283.348,291.009 284.98,291.014 283.393,231.997 "
+   id="polygon6870" />
+</g></g>
+</svg>
