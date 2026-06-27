@@ -58,23 +58,23 @@ export async function onRequest(context) {
 
         // Kids
         { name: 'Cartoon Channel PH', logo: '/assets/logos/cartoon_ch_ph_logo.png', manifestUri: 'https://live20.bozztv.com/giatv/giatv-cartoonchannelph/cartoonchannelph/chunks.m3u8', group: 'Fan-Made • Kids', access: 'PH' },
-        { name: 'Cartoon Network', logo: '/assets/logos/cartoon_net_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cartoonnetworkhd/default/index.mpd', clearKey: { 'a2d1f552ff9541558b3296b5a932136b': 'cdd48fa884dc0c3a3f85aeebca13d444' }, group: 'Kids', access: 'PH' },
+        { name: 'Cartoon Network', logo: '/assets/logos/cartoon_net_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cartoonnetworkhd/default/index.mpd', clearKey: { 'a2d1f552ff9541558b3296b5a932136b': 'cdd48fa884dc0c3a3f85aeebca13d444' }, group: 'Kids', access: 'PH' },
         { name: 'DreamWorks (Tagalized)', logo: '/assets/logos/dreamworks_ch_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_dreamworktag/default/index.mpd', clearKey: { '564b3b1c781043c19242c66e348699c5': 'd3ad27d7fe1f14fb1a2cd5688549fbab' }, group: 'Kids', access: 'PH' },
 
         // Infotainment
-        { name: 'Knowledge Channel', logo: '/assets/knowledge_ch_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/kc/manifest.mpd', clearKey: { 'bd1f88dd3b254514bf7a113188c10dc2': 'ea86da60f0116f3b92a86acf45b8e071' }, group: 'Infotainment', access: 'PH' },
+        { name: 'Knowledge Channel', logo: '/assets/logos/knowledge_ch_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/kc/manifest.mpd', clearKey: { 'bd1f88dd3b254514bf7a113188c10dc2': 'ea86da60f0116f3b92a86acf45b8e071' }, group: 'Infotainment', access: 'PH' },
         //{ name: 'Knowledge Channel', logo: '/assets/knowledge_ch_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/knowledge_channel/default/index.mpd', clearKey: { 'c7d2b1e94f8a4d6c8a106b3d1f9c2e55': '2052f6b844aa53144bb32f0e41295106' }, group: 'Infotainment', access: 'PH' },
 
         // Music
         { name: 'MYX', logo: '/assets/logos/myx_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-myxnola-dash-abscbnono/index.mpd', clearKey: { 'f40a52a3ac9b4702bdd5b735d910fd2f': '35e4893c6e76546085941be3010932d4' }, group: 'Music', access: 'PH' },
-        { name: 'New K-Pop', logo: '/assets/new_kpop_logo.png', manifestUri: 'https://newidco-newkid-1-eu.xiaomi.wurl.tv/playlist.m3u8', group: 'Music', access: 'SEA' }, 
+        { name: 'New K-Pop', logo: '/assets/logos/new_kpop_logo.png', manifestUri: 'https://newidco-newkid-1-eu.xiaomi.wurl.tv/playlist.m3u8', group: 'Music', access: 'SEA' }, 
 
         // Livestream
-        { name: 'ASAP Catch-Up Livestream', logo: '/assets/logos/asap_xp_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/asap/manifest.mpd', clearKey: { '6379f85c61d84b5db3be564bf59f4e13': 'd9a1f47f7a58f5a9598a452081155df4' }, group: 'Livestream', access: 'PH' },
+        { name: 'ASAP XP Catch-Up Livestream', logo: '/assets/logos/asap_xp_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/asap/manifest.mpd', clearKey: { '6379f85c61d84b5db3be564bf59f4e13': 'd9a1f47f7a58f5a9598a452081155df4' }, group: 'Livestream', access: 'PH' },
         { name: "It's Showtime Catch-Up Livestream", logo: '/assets/logos/its_showtime_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/itsshowtime/manifest.mpd', clearKey: { '3cdb78338a104ed594175a49532c823d': '9c7810c46873053be29d26bf6f753664' }, group: 'Livestream', access: 'PH' },
         { name: 'The Healing Eucharist Catch-Up Livestream', logo: '/assets/logos/the_healing_eucharist_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/healingeucharist3/manifest.mpd', clearKey: { 'b84ec93eb33c48e58718e99cd4096c15': '9e3a9aee29cbd0375e02c55e0b7b5945' }, group: 'Livestream', access: 'PH' },
         { name: 'TV Patrol Catch-Up Livestream', logo: '/assets/logos/tv_patrol_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/tvp-ph/manifest.mpd', clearKey: { 'a14583678b4d40b4a267c5845f673263': '98252f8318d84c55b10dd7a112622bd4' }, group: 'Livestream', access: 'PH' }
-   ];
+  ];
     
    const filteredChannels = channels.filter(channel => {
 
