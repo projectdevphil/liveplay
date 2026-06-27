@@ -38,63 +38,56 @@ export async function onRequest(context) {
     const slidesData =[       
         {
             title: "Sigabo",
-            ph_description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
-            nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/sigabo.herobg-tv.JPG",
+            description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
+            image: "/assets/poster/slides/sigabo_slide.png",
             badge: "Catch-Up TV • Action • Comedy",
             link: null,
             overlay: "show"
         },
         {
             title: "A Secret In Prague",
-            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>TV5, Kapatid Channel and Kapatid Live",
-            image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
+            description: "<strong>MON-FRI | 8:45PM</strong><br>TV5 and Kapatid Channel",
+            image: "/assets/poster/slides/a_secret_in_prague_slide.png",
             badge: "Catch-Up TV • Action • Romance",
             link: null,
-            access: "PH",
             overlay: "show"
         },
        {
             title: "Blood Vs. Duty",
-            ph_description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
-            nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/bloodvsduty.herobg-tv.JPG",
+            description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            image: "/assets/poster/slides/blood_vs_duty_slide.png",
             badge: "Catch-Up TV • Action",
             link: null,
             overlay: "show"
         },
         {
             title: "The Alibi",
-            ph_description: "<strong>MON-FRI | 9:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
-            nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
+            description: "<strong>MON-FRI | 9:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            image: "/assets/poster/slides/the_alibi_slide.png",
             badge: "Catch-Up TV • Drama",
             link: null,
             overlay: "show"
         },
         {
             title: "It's Showtime",
-            ph_description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and Catch-Up Livestream",
-            nonph_description: "<strong>on TFC and GMA Pinoy TV</strong>",
-            image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
+            description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and Catch-Up Livestream",
+            image: "/assets/poster/slides/its_showtime_slide.png",
             badge: "Catch-Up TV • Variety",
             link: null,
             overlay: "show"
         },
         {
             title: "Rated Korina",
-            ph_description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
-            nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
+            description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            image: "/assets/poster/slides/rated_korina_slide.png",
             badge: "Catch-Up TV • Lifestyle",
             link: null,
             overlay: "show"
         },
         {
             title: "Kapamilya<br>Deal or No Deal",
-            ph_description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
-            nonph_description: "<strong>on TFC</strong>",
-            image: "https://pql-static.abs-cbn.com/images/kapamilyadealornodeal.herobg-tv.JPG",
+            description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            image: "/assets/poster/slides/kdond_slide.png",
             badge: "Catch-Up TV • Gameshow",
             link: null,
             overlay: "show"
@@ -102,36 +95,17 @@ export async function onRequest(context) {
         {
             title: "New K-Pop",
             description: "",
-            image: "https://i8.amplience.net/i/naras/ATEEZ-k-pop-summer-tours-2024",
+            image: "/assets/poster/slides/new_kpop_slide.png",
             badge: "Watch Now • Music",
             link: "/?channel=new-k-pop",
-            access: "SEA",
             overlay: "show"
         },
         {
             title: "NBA TV Philippines",
             description: "",
-            image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
+            image: "/assets/poster/slides/nba_tv_ph_slide.png",
             badge: "Watch Now • Sports",
             link: "/?channel=nba-tv-philippines",
-            access: "PH",
-            overlay: "show"
-        },
-        {
-            title: "NBA TV",
-            description: "",
-            image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
-            badge: "Watch Now • Sports",
-            link: "/?channel=nba-tv",
-            access: "EMEAANA x PH",
-            overlay: "show"
-        },
-        {
-            title: "NFL Network",
-            description: "",
-            image: "https://images.t-online.de/2025/08/CKDB6tmOYvGL/0x0:3150x1772/fit-in/__WIDTH__x0/minneapolis-mn-december-08-minnesota-vikings-wide-receiver-justin-jefferson-18-catches-a-52-yard-pass-for-a-touchdown-during-the-third-quarter-of-a-nfl-american-football-herren-usa-game-between-the-minnesota-vikings-and-atlanta-falcons-on-december-8-2024-at-u-s-bank-stadium-in-minneapolis-mn-photo-by-nick-wosika-icon-sportswire-nfl-dec-08-falcons-at-vikings-editorial-use-only-icon20241208097.jpg",
-            badge: "Watch Now • Sports",
-            link: "/?channel=nfl-network",
             overlay: "show"
         }
     ];
