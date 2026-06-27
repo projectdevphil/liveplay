@@ -5,7 +5,7 @@ export async function onRequest(context) {
     const hasVerify = url.searchParams.get('verify') === 'true';
     const isDirectVisit = request.headers.get('sec-fetch-dest') === 'document';
     const referer = request.headers.get('referer') || '';
-    const isFromSite = referer.includes('liveplayphil.pages.dev');
+    const isFromSite = referer.includes('liveplayph.pages.dev');
     
     if (!hasVerify || isDirectVisit || !isFromSite) {
         return new Response("Thank you, but nothing here", {
