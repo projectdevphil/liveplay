@@ -126,9 +126,9 @@ function getBlockedHTML() {
         <div class="logo">liveplay</div>
         <h1>Oops! Sorry po!</h1>
         <p>
-            Liveplay is a free Live TV Streaming platform that's only available in the Philippines.
-            <br><br>
-            Unfortunately, we're not currently available in your area.
+            Liveplay is a free live TV streaming platform available exclusively in the Philippines.
+        <br><br>
+            Unfortunately, our service is not available in your region.
         </p>
     </div>
 </body>
