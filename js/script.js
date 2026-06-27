@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
     const CHANNELS_PER_PAGE = 40;
-    const POSTER_MOBILE = '/assets/poster/mobile_v4.png';
-    const POSTER_DESKTOP = '/assets/poster/desktop_v4.png';
+    const POSTER_MOBILE = '/assets/poster/mobile_v5.png';
+    const POSTER_DESKTOP = '/assets/poster/desktop_v5.png';
 
     const header = document.querySelector("header");
     const menuBtn = document.getElementById("menu-btn");
