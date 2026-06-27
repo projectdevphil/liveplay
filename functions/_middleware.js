@@ -21,7 +21,7 @@ export async function onRequest(context) {
     "contabo", "gcore", "ovh", "choopa", "leaseweb", "servers", 
     "zenlayer", "datacamp", "sharktech", "microsoft", "cloudflare",
     "cogent", "pccw", "akamai", "fastly", "biznet", "equinix", "he.net",
-    "hurricane electric", "host", "hosting", "datacenter", "server", "cloud"
+    "hurricane electric", "host", "hosting", "datacenter", "server", "cloud", "xyz"
   ];
 
   const isVpnHost = vpnNetworks.some(net => asnOrg.includes(net));
