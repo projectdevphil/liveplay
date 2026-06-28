@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Updates - Liveplay</title>
+    <title>Changelog - Liveplay</title>
     <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <link rel="shortcut icon" href="/assets/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link class="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Liveplay" />
     <link rel="manifest" href="/assets/site.webmanifest" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -21,182 +21,104 @@
             <a href="/home" class="back-button" aria-label="Back to Liveplay">
                 <span class="material-symbols-rounded">arrow_back</span>
             </a>
-            <h1>Updates</h1>
+            <h1>Changelog</h1>
         </header>
 
         <main class="content-card">
-            <details>
-                <summary>
-                    <h2>Version Details</h2>
-                    <span class="material-symbols-rounded dropdown-arrow">expand_more</span>
-                </summary>
+            <h2 style="margin-bottom: 15px;">Version Details</h2>
 
-                <div class="details-content">
-                    <span class="update-date" style="display:block; margin-top:10px;">Latest Build: v1.0.8</span>
+            <div class="details-content">
+                <span class="update-date" style="display:block; margin-top:10px;">Latest Build: v1.0.9</span>
 
-                    <div class="version-block" style="margin-top: 15px;">
-                        <h3 style="margin-bottom: 10px;">Version 1.0.8 <span class="advisory-tag" style="background-color: #ffffff; color: #000000; margin-left: 8px; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">CURRENT</span></h3>
-                        <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
+                <div class="version-block" style="margin-top: 15px;">
+                    <h3 style="margin-bottom: 10px;">Version 1.0.9 <span class="advisory-tag" style="background-color: #ffffff; color: #000000; margin-left: 8px; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">CURRENT</span></h3>
+                    <ul style="padding-left: 20px; line-height: 1.6; opacity: 0.9;">
+                        <li style="margin-bottom: 8px;"><strong>Visual Update:</strong> Updated the channels logo container aspect ratio from Square with rounded corners to a clean Circle aspect ratio.</li>
+                        <li style="margin-bottom: 8px;"><strong>Minimize Player Enhancement:</strong> Updated the Mobile/Tablet minimize player exit button to a standalone design, ensuring a cleaner interface and easier navigation control.</li>
+                        <li style="margin-bottom: 8px;"><strong>Border Refinements:</strong> Adjusted the border radius of containers within <strong>Channel Lists</strong>, <strong>Featured Slides</strong>, <strong>Floating Menu</strong>, and <strong>Subpages</strong> from 15px to 25px.</li>
+                        <li style="margin-bottom: 8px;"><strong>Platform Rebranding & Cleanup:</strong> Rebranded the "Updates" section to "Changelog" to prioritize feature release history, and removed the Service Status module.</li>
+                        <li style="margin-bottom: 8px;"><strong>Service Discontinuation:</strong> Removed the <strong>Stream Tester</strong> shortcut. The <strong>Stream Tester</strong> utility has been permanently discontinued, with no current plans to bring the utility back online.</li>
+                    </ul>
+                </div>
+
+                <div style="opacity: 0.85;">
+                    <div class="version-block">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.8</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
                             <li style="margin-bottom: 8px;"><strong>System Enhancement:</strong> Upgraded real-time status monitoring. Channel indicators now automatically turn red if a stream is down. The new <strong>Service Status</strong> module dynamically calculates platform health by evaluating the percentage of operational channels and displaying a color-coded indicator (Green, Yellow, Orange, Red) to reflect real-time stability.</li>
                             <li style="margin-bottom: 8px;"><strong>Mobile Search Gesture:</strong> Optimized the mobile search layout. The search container now dynamically appears directly below the search bar for improved visibility and ease of use.</li>
                         </ul>
                     </div>
 
-                    <div style="opacity: 0.85;">
-                        <div class="version-block">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.7</h4>
-                            <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
-                                <li style="margin-bottom: 8px;"><strong>New Integration:</strong> Implemented a native <strong>Liveplay Speed Test</strong> utility, effectively replacing the external 'SpeedUp' platform. Powered by <strong>Project Dev</strong> and utilizing <strong>Netflix's fast.com API</strong>, this built-in feature provides users with a seamless, accurate assessment of their internet connection, specifically optimized to gauge streaming performance and stability.</li>
-                            </ul>
-                        </div>
+                    <div class="version-block">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.7</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                            <li style="margin-bottom: 8px;"><strong>New Integration:</strong> Implemented a native <strong>Liveplay Speed Test</strong> utility, effectively replacing the external 'SpeedUp' platform. Powered by <strong>Project Dev</strong> and utilizing <strong>Netflix's fast.com API</strong>, this built-in feature provides users with a seamless, accurate assessment of their internet connection, specifically optimized to gauge streaming performance and stability.</li>
+                        </ul>
+                    </div>
 
-                        <div class="version-block">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.6</h4>
-                            <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
-                                <li style="margin-bottom: 5px;"><strong>UI Optimization:</strong> Refined the visual dynamics of the Featured Slider with advanced transition logic.</li>
-                                <li style="margin-bottom: 5px;"><strong>New Feature:</strong> Introduced the **Top 10 Live TV Channels** ranking system powered by Redis.</li>
-                                <li style="margin-bottom: 5px;"><strong>Documentation:</strong> Incorporated a comprehensive **Version Details** log.</li>
-                            </ul>
-                        </div>
+                    <div class="version-block">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.6</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;"><strong>UI Optimization:</strong> Refined the visual dynamics of the Featured Slider with advanced transition logic.</li>
+                            <li style="margin-bottom: 5px;"><strong>New Feature:</strong> Introduced the <strong>Top 10 Live TV Channels</strong> ranking system powered by Redis.</li>
+                            <li style="margin-bottom: 5px;"><strong>Documentation:</strong> Incorporated a comprehensive <strong>Version Details</strong> log.</li>
+                        </ul>
+                    </div>
 
-                        <div class="version-block">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.5</h4>
-                            <p style="font-size: 0.95rem;">Integrated a real-time <strong>Stream Status</strong> monitor. The "Live" sensor utilizes active health-checking to automatically turn the indicator red, visually alerting users immediately if a specific stream source is offline or experiencing downtime.</p>
-                        </div>
+                    <div class="version-block">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.5</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;"><strong>Stream Status:</strong> Integrated a real-time stream status monitor that utilizes active health-checking to automatically turn the indicator red, alerting users immediately if a specific stream source is offline.</li>
+                        </ul>
+                    </div>
 
-                        <div class="version-block">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.4</h4>
-                            <p style="font-size: 0.95rem;">Deployed a centralized <strong>Updates</strong> tab within the main navigation menu. This hub provides users with critical information, including channel advisories, system notifications, and overall platform status reports.</p>
-                        </div>
+                    <div class="version-block">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.4</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;"><strong>Platform Directory:</strong> Deployed a centralized Updates hub within the main navigation <strong>menu</strong>, consolidating channel advisories, system notifications, and status reports.</li>
+                        </ul>
+                    </div>
 
-                        <div class="version-block">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.3</h4>
-                            <p style="font-size: 0.95rem;">Incorporated network diagnostic tools. This integration allows users to seamlessly access tools for testing latency (ping), upload bandwidth, and download speeds without leaving the ecosystem.</p>
-                        </div>
+                    <div class="version-block">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.3</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;"><strong>Diagnostics:</strong> Incorporated utility tools for testing network latency (ping), upload bandwidth, and download speeds directly inside the application.</li>
+                        </ul>
+                    </div>
 
-                        <div class="version-block">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.2</h4>
-                            <p style="font-size: 0.95rem;">Added a gateway to the <strong>Stream Tester</strong>, a specialized sister platform utility created by <strong>Project Dev</strong>. This feature enables advanced users and developers to validate external stream links (supporting HLS and MPD with DRM keys) or upload and execute playlist configurations directly.</p>
-                        </div>
+                    <div class="version-block">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.2</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;"><strong>Stream Tester:</strong> Implemented a gateway to validate external streaming configurations (supporting HLS/MPD with DRM keys) and execute custom playlists.</li>
+                        </ul>
+                    </div>
 
-                        <div class="version-block">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.1</h4>
-                            <p style="font-size: 0.95rem;">Implemented a monetization framework featuring pre-roll advertisement functionality, allowing short promotional content to display prior to the initialization of the live channel stream.</p>
-                        </div>
+                    <div class="version-block">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.1</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;"><strong>Ad Integration:</strong> Implemented monetization framework capabilities supporting short pre-roll advertisement playbacks before loading live channel feeds.</li>
+                        </ul>
+                    </div>
 
-                        <div class="version-block" style="border:none;">
-                            <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.0 (Initial Release)</h4>
-                            <p style="font-size: 0.95rem;">Official platform launch introducing core capabilities from Project Dev. Features include comprehensive channel and genre search engines, curated featured slides, and a streamlined navigation architecture for live content viewing.</p>
-                        </div>
+                    <div class="version-block" style="border:none;">
+                        <h4 style="margin-bottom: 5px; color: #ddd;">Version 1.0.0 (Initial Release)</h4>
+                        <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;"><strong>Official Launch:</strong> Released core framework utilities including specialized search interfaces, genre filters, interactive featured content carousels, and main media playback configurations.</li>
+                        </ul>
                     </div>
                 </div>
-            </details>
-
-            <hr>
-
-            <section>
-                <h2>Service Status</h2>
-                <p id="service-desc-text">Analyzing platform availability and channel health...</p>
-
-                <div class="combined-status-box">
-                    <div class="status-header">
-                        <span class="status-dot" id="statusDot" style="transition: all 0.3s ease;"></span>
-                        <span id="statusText">Checking Connection...</span>
-                    </div>
-
-                    <hr class="status-divider">
-
-                    <div class="stream-tips-small">
-                        <span class="material-symbols-rounded tip-icon-small">wifi_tethering</span>
-                        <div>
-                            <strong>Stream Quality Tip:</strong>
-                            Slow internet? Switch to <span class="tip-highlight">360p</span> or <span class="tip-highlight">480p</span>.<br>
-                            Fast internet? Switch to <span class="tip-highlight">720p</span> or <span class="tip-highlight">1080p</span>.
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </main>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const statusDot = document.getElementById('statusDot');
-            const statusText = document.getElementById('statusText');
-            const serviceDescText = document.getElementById('service-desc-text');
-
             const header = document.querySelector(".static-header");
+            
             window.addEventListener("scroll", () => {
                 header.classList.toggle("scrolled", window.scrollY > 10);
             });
-
-            async function checkSystemStatus() {
-                try {
-                    const response = await fetch('/api/getChannels', {
-                        method: 'GET',
-                        cache: 'no-store'
-                    });
-
-                    if (!response.ok) throw new Error('Channel API unreachable');
-
-                    const channels = await response.json();
-
-                    if (!Array.isArray(channels) || channels.length === 0) {
-                        throw new Error('No channels found for this region');
-                    }
-
-                    const total = channels.length;
-                    let onlineCount = 0;
-
-                    await Promise.all(channels.map(async (channel) => {
-                        try {
-                            const dataRes = await fetch(`/api/getData?channel=${encodeURIComponent(channel.name)}`);
-                            if (!dataRes.ok) return;
-
-                            const data = await dataRes.json();
-                            if (!data.manifestUri) return;
-
-                            const pingRes = await fetch(data.manifestUri, {
-                                method: 'HEAD',
-                                cache: 'no-store'
-                            });
-
-                            if (pingRes.ok) {
-                                onlineCount++;
-                            }
-                        } catch (err) {
-                            console.debug(`[Status] ${channel.name} appears offline.`);
-                        }
-                    }));
-
-                    const percent = (onlineCount / total) * 100;
-
-                    if (percent >= 95) {
-                        updateUI('#00E676', `All Systems Operational (${Math.round(percent)}%)`, "All systems and channels are currently running optimally.");
-                    } else if (percent >= 75) {
-                        updateUI('#FFEA00', `Minor Issues Detected (${Math.round(percent)}%)`, "A small number of channels are currently down or unreachable.");
-                    } else if (percent >= 30) {
-                        updateUI('#FF9100', `Partial Outage (${Math.round(percent)}%)`, "Several channel sources are offline. Our team is working on it.");
-                    } else {
-                        updateUI('#FF1744', `Major Outage (${Math.round(percent)}%)`, "Major service disruption detected across multiple providers.");
-                    }
-
-                } catch (error) {
-                    console.error('Status Error:', error);
-                    updateUI('#FF1744', "Connection Unstable", "Unable to reach the server. Please check your internet connection.");
-                }
-            }
-
-            function updateUI(color, text, desc) {
-                statusDot.style.backgroundColor = color;
-                statusDot.style.boxShadow = `0 0 10px ${color}`;
-                statusText.textContent = text;
-                statusText.style.color = color;
-                serviceDescText.textContent = desc;
-            }
-
-            checkSystemStatus();
-            setInterval(checkSystemStatus, 120000);
         });
     </script>
 </body>
