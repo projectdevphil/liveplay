@@ -105,7 +105,7 @@
         align-items: center;
         justify-content: center;
         background: #000;
-        border-radius: 15px;
+        border-radius: 25px;
         z-index: 11;
         overflow: hidden;
     }
