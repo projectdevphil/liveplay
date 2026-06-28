@@ -65,7 +65,7 @@ export async function onRequest(context) {
         },
         {
             title: "Kapamilya<br>Deal or No Deal",
-            description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/kapamilyadealornodeal.herobg-tv.JPG",
             badge: "Catch-Up TV • Gameshow",
             link: null,
@@ -73,7 +73,7 @@ export async function onRequest(context) {
         },
         {
             title: "Everybody, Sing!",
-            description: "<strong>SAT-SUN | 8:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            description: "<strong>SAT-SUN | 8:30PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/everybodysing.herobg-tv.v3.JPG",
             badge: "Catch-Up TV • Gameshow",
             link: null,
