@@ -765,7 +765,7 @@ a, img, button,
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 15px;
+    border-radius: 25px;
     padding: 20px;
     opacity: 0; visibility: hidden;
     transform: translateY(-10px);
