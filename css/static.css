@@ -85,8 +85,8 @@ body.no-scroll {
 
 .content-card {
     background-color: var(--card-background, #1a1a1a);
-    border-radius: 25px; 
-    border: 1px solid rgba(255, 255, 255, 0.05); 
+    border: var(--glass-border);
+    border-radius: var(--border-radius); 
     padding: 25px;
     margin-top: 10px; 
     margin-bottom: 20px;
@@ -764,8 +764,8 @@ a, img, button,
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 25px;
+    border: var(--glass-border);
+    border-radius: var(--border-radius);
     padding: 20px;
     opacity: 0; visibility: hidden;
     transform: translateY(-10px);
