@@ -442,12 +442,12 @@ header nav {
 }
 
 .skeleton-list-container {
-    margin-top: 10px;
+    margin-top: 15px;
     background-color: var(--card-background);
     border-radius: var(--border-radius);
     border: var(--glass-border);
     width: 100%;
-    height: 2600px; 
+    height: 2595px; 
     background-image: repeating-linear-gradient(
         to bottom,
         transparent 0px,
