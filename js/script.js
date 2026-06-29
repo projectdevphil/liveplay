@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_GET_CHANNELS = '/api/getChannels';
     const API_GET_DATA = '/api/getData';
     const API_GET_SLIDES = '/api/getSlides';
-    //const API_GET_ADS = '/api/getAds';
     const API_INCREMENT_VIEW = '/api/incrementView';
     const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
@@ -66,159 +65,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentActiveChannelSlug = null;
     const defaultPageTitle = document.title;
     const offlineChannels = new Set();
-
-    let adContainer = null;
-    let adTimerDisplay = null;
-    let adSkipBtn = null;
-    let adVisitBtn = null;
-
-    async function fetchAds() {
-        try {
-            const response = await fetch(API_GET_ADS);
-            if (!response.ok) throw new Error('Failed to load ads');
-            const data = await response.json();
-            if (Array.isArray(data) && data.length > 0) return data;
-            return null;
-        } catch (error) {
-            console.error(error);
-            return null;
-        }
-    }
-
-    function formatAdTime(seconds) {
-        if (!seconds || isNaN(seconds) || seconds < 0) return "0:00";
-        const m = Math.floor(seconds / 60);
-        const s = Math.floor(seconds % 60);
-        return `${m}:${s < 10 ? '0' : ''}${s}`;
-    }
-
-    function createAdUI() {
-        if (playerWrapper) {
-            const style = window.getComputedStyle(playerWrapper);
-            if (style.position === 'static') playerWrapper.style.position = 'relative';
-        }
-
-        if (!adContainer) {
-            adContainer = document.createElement("div");
-            adContainer.id = "ad-controls-right";
-            adContainer.style.cssText = `position: absolute; bottom: 20px; right: 20px; display: none; gap: 10px; z-index: 9999; align-items: center;`;
-
-            const btnStyle = `background-color: #FFFFFF; color: #000000; border: none; border-radius: 50%; width: 38px; height: 38px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: transform 0.2s ease, background-color 0.2s;`;
-
-            adVisitBtn = document.createElement("button");
-            adVisitBtn.innerHTML = '<span class="material-symbols-rounded" style="font-size: 22px; line-height: 0;">open_in_new</span>';
-            adVisitBtn.style.cssText = btnStyle;
-            adVisitBtn.title = "Visit Link";
-            
-            adSkipBtn = document.createElement("button");
-            adSkipBtn.innerHTML = '<span class="material-symbols-rounded" style="font-size: 26px; line-height: 0;">skip_next</span>';
-            adSkipBtn.style.cssText = btnStyle;
-            adSkipBtn.title = "Skip Ad";
-
-            const addHover = (btn) => {
-                btn.onmouseover = () => { btn.style.transform = "scale(1.1)"; btn.style.backgroundColor = "#f0f0f0"; };
-                btn.onmouseout = () => { btn.style.transform = "scale(1)"; btn.style.backgroundColor = "#FFFFFF"; };
-            };
-            
-            addHover(adVisitBtn);
-            addHover(adSkipBtn);
-
-            adContainer.appendChild(adVisitBtn);
-            adContainer.appendChild(adSkipBtn);
-            playerWrapper.appendChild(adContainer);
-        }
-
-        if (!adTimerDisplay) {
-            adTimerDisplay = document.createElement("div");
-            adTimerDisplay.id = "ad-timer-left";
-            adTimerDisplay.textContent = "Ad • 0:00";
-            adTimerDisplay.style.cssText = `position: absolute; bottom: 20px; left: 20px; display: none; background-color: rgba(0, 0, 0, 0.6); color: #FFFFFF; padding: 8px; border-radius: 15px; font-weight: 700; font-size: 14px; font-family: inherit; pointer-events: none; z-index: 9999; box-shadow: 0 2px 4px rgba(0,0,0,0.3);`;
-            playerWrapper.appendChild(adTimerDisplay);
-        }
-    }
-
-    async function playVideoAd(vidElem, wrapper, shakaP, shakaUI, statusCallback) {
-        createAdUI();
-
-        const adPlaylist = await fetchAds();
-        if (!adPlaylist) {
-            return;
-        }
-
-        const currentAd = adPlaylist[Math.floor(Math.random() * adPlaylist.length)];
-        
-        if (shakaP) await shakaP.unload();
-        if (shakaUI) shakaUI.setEnabled(false);
-        
-        if (statusCallback) statusCallback();
-
-        adContainer.style.display = 'flex';
-        adTimerDisplay.style.display = 'block';
-        adTimerDisplay.textContent = "Loading Ad...";
-
-        const preventContextMenu = (e) => { e.preventDefault(); e.stopPropagation(); return false; };
-        vidElem.addEventListener('contextmenu', preventContextMenu);
-        vidElem.setAttribute('controlsList', 'nodownload');
-
-        return new Promise((resolve) => {
-            const finishAd = () => {
-                vidElem.removeEventListener('ended', finishAd);
-                vidElem.removeEventListener('error', onError);
-                vidElem.removeEventListener('timeupdate', onTimeUpdate);
-                vidElem.removeEventListener('contextmenu', preventContextMenu);
-
-                if (adSkipBtn) adSkipBtn.onclick = null;
-                if (adVisitBtn) adVisitBtn.onclick = null;
-
-                adContainer.style.display = 'none';
-                adTimerDisplay.style.display = 'none';
-                resolve();
-            };
-
-            const onError = (e) => { finishAd(); };
-            
-            const onSkipClicked = (e) => { 
-                if (e) e.stopPropagation(); 
-                finishAd(); 
-            };
-            
-            const onVisitClicked = (e) => {
-                if (e) e.stopPropagation();
-                if (currentAd.linkUrl && currentAd.linkUrl !== '#') window.open(currentAd.linkUrl, '_blank');
-            };
-
-            const onTimeUpdate = () => {
-                if (vidElem.duration && vidElem.currentTime > 0) {
-                    const remaining = vidElem.duration - vidElem.currentTime;
-                    adTimerDisplay.textContent = "Ad • " + formatAdTime(remaining);
-                }
-            };
-
-            vidElem.src = currentAd.videoUrl;
-            vidElem.loop = false;
-            vidElem.controls = false;
-            vidElem.muted = false;
-
-            vidElem.addEventListener('ended', finishAd);
-            vidElem.addEventListener('error', onError);
-            vidElem.addEventListener('timeupdate', onTimeUpdate);
-
-            adSkipBtn.onclick = onSkipClicked;
-            adVisitBtn.onclick = onVisitClicked;
-
-            vidElem.play().catch(e => { finishAd(); });
-        });
-    }
-
-    function stopVideoAd() {
-        if (adContainer) adContainer.style.display = 'none';
-        if (adTimerDisplay) adTimerDisplay.style.display = 'none';
-        if (videoElement) {
-            videoElement.pause();
-            videoElement.removeAttribute('src');
-            videoElement.load();
-        }
-    }
 
     const fetchSlides = async () => {
         try {
@@ -577,13 +423,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
-        await playVideoAd(videoElement, playerWrapper, player, ui, () => {
-             if (mainPlayerStatus) {
-                mainPlayerStatus.textContent = groupTitle;
-                mainPlayerStatus.style.color = "#ffffff";
-             }
-        });
-
         if (!playerView.classList.contains('active')) return;
         
         if (mainPlayerStatus) {
@@ -656,7 +495,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const closePlayer = async () => {
-        stopVideoAd();
         if (player) await player.unload();
         
         if (playerView) playerView.classList.remove('active');
