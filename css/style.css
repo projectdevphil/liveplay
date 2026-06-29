@@ -130,7 +130,6 @@ header nav {
 .search-container.active {
     background: transparent;
     border-color: transparent;
-    box-shadow: 0 20px rgba(0,0,0,0.6);
     padding-left: 0;
 }
 
@@ -443,7 +442,7 @@ header nav {
 }
 
 .skeleton-list-container {
-    margin-top: 15px;
+    margin-top: 10px;
     background-color: var(--card-background);
     border-radius: var(--border-radius);
     border: var(--glass-border);
