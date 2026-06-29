@@ -123,6 +123,7 @@ header nav {
     align-items: center;
     background: transparent;
     border-radius: 50px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid transparent;
 }
@@ -205,6 +206,7 @@ header nav {
     background: var(--glass-bg);
     border: var(--glass-border);
     border-radius: var(--border-radius);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     opacity: 0;
     padding: 10px;
     position: fixed;
