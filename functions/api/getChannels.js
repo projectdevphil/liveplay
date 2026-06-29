@@ -41,7 +41,6 @@ export async function onRequest(context) {
         { name: 'NBA TV Philippines', logo: '/assets/logos/nba_tv_ph_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cgnl_nba/default/index.mpd', group: 'Sports' },
 
         // Kids
-        { name: 'Cartoon Channel PH', logo: '/assets/logos/cartoon_ch_ph_logo.png', manifestUri: 'https://live20.bozztv.com/giatv/giatv-cartoonchannelph/cartoonchannelph/chunks.m3u8', group: 'Fan-Made • Kids' },
         { name: 'Cartoon Network', logo: '/assets/logos/cartoon_net_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cartoonnetworkhd/default/index.mpd', group: 'Kids' },
         { name: 'DreamWorks (Tagalized)', logo: '/assets/logos/dreamworks_ch_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_dreamworktag/default/index.mpd', group: 'Kids' },
 
