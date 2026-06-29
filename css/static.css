@@ -27,8 +27,8 @@ body.no-scroll {
 .static-header.scrolled {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    background: var(--glass-bg, rgba(25, 25, 25, 0.8));
-    border-bottom: var(--glass-border, 1px solid rgba(255, 255, 255, 0.1));
+    background: var(--glass-bg);
+    border-bottom: var(--glass-border);
 }
 
 .static-header h1 {
