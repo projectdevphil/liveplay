@@ -375,8 +375,8 @@ details.compact-dropdown summary h3 {
 }
 
 .version-block {
-    margin-bottom: 15px;
-    padding-bottom: 10px;
+    margin-bottom: 5px;
+    padding-bottom: 15px;
     border-bottom: var(--glass-border);
 }
 
