@@ -231,25 +231,19 @@ hr {
 .news-btn {
     display: inline-flex;
     align-items: center;
-    background-color: #333;
-    color: #e0e0e0;
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #ffffff;
     text-decoration: none;
     padding: 8px 8px;
     border-radius: 50px;
     font-size: 0.8rem;
     margin-right: 10px;
     margin-bottom: 10px;
-    transition: background-color 0.2s, transform 0.1s;
-    border: 1px solid #444;
+    border: var(--glass-border);
 }
 
 .news-btn:hover {
-    background-color: #444;
-    color: #fff;
-}
-
-.news-btn:active {
-    transform: scale(0.98);
+    background-color: #282828;
 }
 
 .news-icon {
@@ -759,6 +753,5 @@ a, img, button,
 }
 
 .news-btn.faq-btn.secondary {
-    background-color: #282828;
-    border-color: var(--glass-border);
+    background-color: rgba(255, 255, 255, 0.03);
 }
