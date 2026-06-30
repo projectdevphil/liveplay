@@ -25,7 +25,7 @@ export async function onRequest(context) {
 
         // Entertainment
         { name: 'Jeepney TV', logo: '/assets/logos/jeepney_tv_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/jeepneytv/manifest.mpd', group: 'Entertainment' },
-        { name: 'Kapatid Channel', logo: '/assets/logos/kapatid_ch_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/kapatid_hd/default/index.mpd', group: 'General' },
+        { name: 'Kapatid Channel', logo: '/assets/logos/kapatid_ch_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/kapatid_hd/default/index.mpd', group: 'General' },
         { name: 'TVN Premium', logo: '/assets/logos/tvn_logo.svg', type: 'mpegdash', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_tvnpre/default/index.mpd', group: 'Entertainment' },
 
         // Movies
