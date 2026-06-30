@@ -19,7 +19,7 @@ export async function onRequest(context) {
             title: "Sigabo",
             description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/sigabo.herobg-tv.JPG",
-            badge: "Catch-Up TV • Action • Comedy",
+            badge: "SPG | Action • Comedy • Romance",
             link: null,
             overlay: "show"
         },
@@ -27,7 +27,7 @@ export async function onRequest(context) {
             title: "A Secret In Prague",
             description: "<strong>MON-FRI | 8:45PM</strong><br>TV5 and Kapatid Channel",
             image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
-            badge: "Catch-Up TV • Action • Romance",
+            badge: "PG | Action • Romance",
             link: null,
             overlay: "show"
         },
@@ -35,7 +35,7 @@ export async function onRequest(context) {
             title: "Blood Vs. Duty",
             description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/bloodvsduty.herobg-tv.JPG",
-            badge: "Catch-Up TV • Action",
+            badge: "SPG | Action • Drama",
             link: null,
             overlay: "show"
         },
@@ -43,7 +43,7 @@ export async function onRequest(context) {
             title: "The Alibi",
             description: "<strong>MON-FRI | 9:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
-            badge: "Catch-Up TV • Drama",
+            badge: "SPG | Drama • Mystery • Romance",
             link: null,
             overlay: "show"
         },
@@ -51,7 +51,7 @@ export async function onRequest(context) {
             title: "It's Showtime",
             description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and Catch-Up Livestream",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
-            badge: "Catch-Up TV • Variety",
+            badge: "PG | Variety • Comedy",
             link: null,
             overlay: "show"
         },
@@ -59,7 +59,7 @@ export async function onRequest(context) {
             title: "Rated Korina",
             description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
-            badge: "Catch-Up TV • Lifestyle",
+            badge: "PG | News Magazine • Lifestyle",
             link: null,
             overlay: "show"
         },
@@ -67,7 +67,7 @@ export async function onRequest(context) {
             title: "Kapamilya<br>Deal or No Deal",
             description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/kapamilyadealornodeal.herobg-tv.JPG",
-            badge: "Catch-Up TV • Gameshow",
+            badge: "PG | Gameshow",
             link: null,
             overlay: "show"
         },
@@ -75,7 +75,7 @@ export async function onRequest(context) {
             title: "Everybody, Sing!",
             description: "<strong>SAT-SUN | 8:30PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/everybodysing.herobg-tv.v3.JPG",
-            badge: "Catch-Up TV • Gameshow",
+            badge: "PG | Gameshow",
             link: null,
             overlay: "show"
         },
