@@ -1,23 +1,33 @@
 let garbageChunk = null;
-const CHUNK_SIZE = 256 * 1024;
+const CHUNK_SIZE = 2 * 1024 * 1024;
 
 export async function onRequest(context) {
     const { request } = context;
     const url = new URL(request.url);
 
-    const hasVerify = url.searchParams.get('verify') === 'true';
-    const isDirectVisit = request.headers.get('sec-fetch-dest') === 'document';
     const referer = request.headers.get('referer') || '';
-    
     const isFromSite = referer.includes('liveplayph.pages.dev') || 
                        referer.includes('localhost') || 
                        referer.includes('127.0.0.1');
     
-    if (!hasVerify || isDirectVisit || !isFromSite) {
-        return new Response("Thank you, but nothing here", {
+    if (!isFromSite) {
+        return new Response("Unauthorized", { status: 403 });
+    }
+
+    if (url.searchParams.get('ping') === 'true') {
+        return new Response("pong", {
             status: 200,
-            headers: { 'Content-Type': 'text/plain' }
+            headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0' }
         });
+    }
+
+    if (request.method === 'POST') {
+        try {
+            await request.body?.pipeTo(new WritableStream());
+            return new Response("OK", { status: 200 });
+        } catch (e) {
+            return new Response("Upload Error", { status: 500 });
+        }
     }
 
     if (!garbageChunk) {
@@ -25,15 +35,7 @@ export async function onRequest(context) {
         crypto.getRandomValues(garbageChunk);
     }
 
-    const sizeParam = url.searchParams.get('size');
-    let totalBytes = 100 * 1024 * 1024;
-    if (sizeParam) {
-        const parsed = parseInt(sizeParam, 10);
-        if (!isNaN(parsed) && parsed > 0 && parsed <= 500) {
-            totalBytes = parsed * 1024 * 1024;
-        }
-    }
-
+    const totalBytes = 50 * 1024 * 1024;
     let bytesSent = 0;
 
     const stream = new ReadableStream({
@@ -42,7 +44,6 @@ export async function onRequest(context) {
                 controller.close();
                 return;
             }
-            
             const remaining = totalBytes - bytesSent;
             if (remaining >= CHUNK_SIZE) {
                 controller.enqueue(garbageChunk);
