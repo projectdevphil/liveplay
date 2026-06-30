@@ -33,7 +33,7 @@ export async function onRequest(context) {
         { name: 'Cinemo!', logo: '/assets/logos/cinemo_logo.png', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-73/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ4MzkyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.MeQn2ED5Hxb8k3WbD0IyaBXzbCoz-v-wb329Okl-f-w', group: 'Movies' },
         //{ name: 'Cinemo! Global', logo: '/assets/logos/cinemo_logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemo-dash-abscbnono/index.mpd', clearKey: { 'aa8aebe35ccc4541b7ce6292efcb1bfb': 'f06b6031a3604cc6708c14d83f1a1b27' }, group: 'Movies' },
         { name: 'PBO', logo: '/assets/logos/pbo_logo.svg', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-3/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ4MzkyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.MeQn2ED5Hxb8k3WbD0IyaBXzbCoz-v-wb329Okl-f-w', group: 'Movies' },
-        { name: 'Viva Cinema', logo: '/assets/logos/viva_cinema_logo.png', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-4/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ4MzkyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.MeQn2ED5Hxb8k3WbD0IyaBXzbCoz-v-wb329Okl-f-w', group: 'Movies' },
+        { name: 'Viva Cinema', logo: '/assets/logos/viva_cinema_logo.svg', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-4/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ4MzkyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.MeQn2ED5Hxb8k3WbD0IyaBXzbCoz-v-wb329Okl-f-w', group: 'Movies' },
         { name: 'HBO', logo: '/assets/logos/hbo_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_hbohd/default/index.mpd', group: 'Movies' },
 
         // Sports
@@ -43,7 +43,7 @@ export async function onRequest(context) {
 
         // Kids
         { name: 'Cartoon Network', logo: '/assets/logos/cartoon_net_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cartoonnetworkhd/default/index.mpd', group: 'Kids' },
-        { name: 'DreamWorks (Tagalized)', logo: '/assets/logos/dreamworks_ch_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_dreamworktag/default/index.mpd', group: 'Kids' },
+        { name: 'DreamWorks (Tagalized)', logo: '/assets/logos/dreamworks_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_dreamworktag/default/index.mpd', group: 'Kids' },
 
         // Infotainment
         { name: 'Knowledge Channel', logo: '/assets/logos/knowledge_ch_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/kc/manifest.mpd', group: 'Infotainment' },
