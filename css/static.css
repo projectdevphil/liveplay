@@ -759,6 +759,6 @@ a, img, button,
 }
 
 .news-btn.faq-btn.secondary {
-    background-color: #2a2a2a;
-    border-color: #444;
+    background-color: #282828;
+    border-color: var(--glass-border);
 }
