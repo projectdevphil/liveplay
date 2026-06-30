@@ -37,14 +37,14 @@ body.no-scroll {
     font-weight: 700;
     margin: 0;
     text-align: center;
-    color: var(--text-color, #fff);
+    color: var(--text-color);
 }
 
 .back-button {
     align-items: center;
     background: transparent;
     border-radius: 50%;
-    color: var(--text-color, #fff);
+    color: var(--text-color);
     cursor: pointer;
     display: flex;
     height: 40px;
@@ -66,7 +66,7 @@ body.no-scroll {
     align-items: center;
     background: transparent;
     border-radius: 50%;
-    color: #fff;
+    color: var(--text-color);
     cursor: pointer;
     display: flex;
     height: 40px; width: 40px;
@@ -84,7 +84,7 @@ body.no-scroll {
 }
 
 .content-card {
-    background-color: var(--card-background, #1a1a1a);
+    background-color: var(--card-background);
     border: var(--glass-border);
     border-radius: var(--border-radius); 
     padding: 25px;
@@ -98,7 +98,7 @@ body.no-scroll {
 
 .content-card h2 {
     align-items: center;
-    color: var(--text-color, #fff);
+    color: var(--text-color);
     display: flex;
     font-size: 1.1rem;
     font-weight: 700;
@@ -108,7 +108,7 @@ body.no-scroll {
 }
 
 .content-card h3 {
-    color: var(--theme-color, #fff);
+    color: var(--text-color);
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 10px;
@@ -117,14 +117,14 @@ body.no-scroll {
 
 .content-card p, 
 .content-card li {
-    color: var(--text-secondary, #ccc);
+    color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 15px;
 }
 
 .content-card a {
-    color: var(--theme-color, #fff);
+    color: var(--text-color);
     font-weight: 600;
     text-decoration: none;
 }
@@ -161,12 +161,12 @@ summary::-webkit-details-marker {
 .dropdown-arrow {
     transition: transform 0.3s ease;
     font-size: 1.5rem;
-    color: #888;
+    color: var(--text-secondary);
 }
 
 details[open] summary .dropdown-arrow {
     transform: rotate(180deg);
-    color: #fff;
+    color: var(--text-color);
 }
 
 .details-content {
@@ -194,7 +194,7 @@ details.compact-dropdown summary h3 {
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.4;
-    color: var(--text-color, #fff);
+    color: var(--text-color);
 }
 
 hr {
@@ -206,14 +206,14 @@ hr {
 
 .update-date {
     font-size: 0.85rem;
-    color: #888;
+    color: ;
     margin-bottom: 20px;
     display: block;
 }
 
 .advisory-tag {
-    background-color: var(--theme-color, #666);
-    color: var(--card-background, #000);
+    background-color: var(--theme-color);
+    color: var(--background-color);
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 0.75rem;
@@ -223,8 +223,8 @@ hr {
 }
 
 .advisory-tag.current {
-    background-color: #fff;
-    color: #000;
+    background-color: var(--theme-color);
+    color: var(--backgroung-color);
     padding: 2px 6px;
 }
 
@@ -232,7 +232,7 @@ hr {
     display: inline-flex;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.03);
-    color: #fff;
+    color: var(--text-color);
     text-decoration: none;
     padding: 8px 8px;
     border-radius: 50px;
@@ -261,7 +261,7 @@ hr {
 
 .social-icon-links a {
     align-items: center;
-    background-color: #fff;
+    background-color: var(--theme-color);
     border-radius: 50%;
     display: flex;
     height: 45px;
@@ -320,7 +320,7 @@ hr {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: var(--glass-bg); 
     -webkit-backdrop-filter: blur(30px);
     backdrop-filter: blur(30px);
     z-index: 9999;
@@ -359,7 +359,7 @@ hr {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #fff;
+    color: var(--text-color);
     font-size: 1rem;
     font-weight: 500;
 }
@@ -372,7 +372,7 @@ hr {
 .close-hint {
     position: absolute;
     bottom: 40px;
-    color: #666;
+    color: var(--text-secondary);
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -467,7 +467,7 @@ a, img, button,
     font-size: 4.5rem;
     font-weight: 500;
     line-height: 1;
-    color: #fff;
+    color: var(--text-color);
     font-variant-numeric: tabular-nums;
     text-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
@@ -521,7 +521,7 @@ a, img, button,
 .metric-val { 
     font-size: 0.95rem; 
     font-weight: 600; 
-    color: #fff; 
+    color: var(--text-color); 
 }
 
 .note-box {
@@ -553,8 +553,8 @@ a, img, button,
 }
 
 .start-btn {
-    background-color: #fff;
-    color: #000;
+    background-color: var(--theme-color);
+    color: var(--background-color);
     font-family: 'Onest', sans-serif;
     font-size: 0.95rem;
     font-weight: 700;
@@ -663,7 +663,7 @@ a, img, button,
 
 .net-value { 
     font-size: 0.85rem; 
-    color: #fff; 
+    color: var(--text-color); 
     margin-top: 2px; 
 }
 
