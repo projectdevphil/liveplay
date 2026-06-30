@@ -447,7 +447,7 @@ header nav {
     border-radius: var(--border-radius);
     border: var(--glass-border);
     width: 100%;
-    height: 26000px; 
+    height: 2600px; 
     background-image: repeating-linear-gradient(
         to bottom,
         transparent 0px,
