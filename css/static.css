@@ -396,6 +396,10 @@ details.compact-dropdown summary h3 {
     line-height: 1.6;
 }
 
+.version-block li {
+    margin-bottom: 10px;
+}
+
 .version-tag {
     background-color: var(--theme-color);
     color: var(--background-color);
