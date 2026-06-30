@@ -120,7 +120,7 @@ body.no-scroll {
     color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.6;
-    margin-bottom: 5px;
+    /** margin-bottom: 15px;*/
 }
 
 .content-card a {
