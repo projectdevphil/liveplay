@@ -120,7 +120,7 @@ body.no-scroll {
     color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.6;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .content-card a {
@@ -266,18 +266,12 @@ hr {
     display: flex;
     height: 45px;
     justify-content: center;
-    transition: transform 0.2s ease;
     width: 45px;
-}
-
-.social-icon-links a:active {
-    transform: scale(0.95);
 }
 
 .social-icon-links img {
     height: 24px;
     width: 24px;
-    filter: grayscale(100%);
     pointer-events: none;
 }
 
@@ -293,7 +287,7 @@ hr {
 .donate-qr {
     width: 100%;
     max-width: 200px;
-    border-radius: 20px;
+    border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     pointer-events: none;
