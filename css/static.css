@@ -223,8 +223,8 @@ hr {
 }
 
 .advisory-tag.current {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #fff;
+    color: #000;
     padding: 2px 6px;
 }
 
@@ -232,7 +232,7 @@ hr {
     display: inline-flex;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.03);
-    color: #ffffff;
+    color: #fff;
     text-decoration: none;
     padding: 8px 8px;
     border-radius: 50px;
@@ -261,7 +261,7 @@ hr {
 
 .social-icon-links a {
     align-items: center;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 50%;
     display: flex;
     height: 45px;
@@ -576,8 +576,9 @@ a, img, button,
 }
 
 .start-btn:disabled { 
-    background-color: #333; 
-    color: #555; 
+    background-color: #333;
+    border: var(--glass-border);
+    color: #555;
     cursor: default; 
     box-shadow: none; 
 }
@@ -745,8 +746,4 @@ a, img, button,
 .news-btn.faq-btn {
     width: fit-content;
     padding-right: 15px;
-}
-
-.news-btn.faq-btn.secondary {
-    background-color: rgba(255, 255, 255, 0.03);
 }
