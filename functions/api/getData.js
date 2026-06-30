@@ -35,7 +35,7 @@ export async function onRequest(context) {
 
         // Entertainment
         { name: 'Jeepney TV', logo: '/assets/logos/jeepney_tv_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/jeepneytv/manifest.mpd', clearKey: { 'dc9fec234a5841bb8d06e92042c741ec': '225676f32612dc803cb4d0f950d063d0' }, group: 'Entertainment' },
-        { name: 'Kapatid Channel', logo: '/assets/logos/kapatid_ch_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/kapatid_hd/default/index.mpd', clearKey: { '045d103180f64562b1db7c932741c3ba': 'c3380548b9075c767a6ae2006ef4bff8' }, group: 'General' },
+        { name: 'Kapatid Channel', logo: '/assets/logos/kapatid_ch_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/kapatid_hd/default/index.mpd', clearKey: { '045d103180f64562b1db7c932741c3ba': 'c3380548b9075c767a6ae2006ef4bff8' }, group: 'General' },
         { name: 'TVN Premium', logo: '/assets/logos/tvn_logo.svg', type: 'mpegdash', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_tvnpre/default/index.mpd', clearKey: { 'e1bde543e8a140b38d3f84ace746553e': 'b712c4ec307300043333a6899a402c10' }, group: 'Entertainment' },
 
         // Movies
