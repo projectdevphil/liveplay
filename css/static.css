@@ -662,8 +662,8 @@ a, img, button,
 }
 
 .version-block {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
+    /*margin-bottom: 0px;
+    padding-bottom: 15px;*/
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
