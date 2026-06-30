@@ -1000,7 +1000,7 @@ video::cue {
 
 .load-more-btn {
     background-color: var(--card-background);
-    border: 1px solid #333;
+    border: var(--glass-border);
     border-radius: 50px;
     color: var(--text-color);
     font-family: 'Onest', sans-serif;
