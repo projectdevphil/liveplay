@@ -485,7 +485,7 @@ details.compact-dropdown summary h3 {
 #speedValue {
     font-family: 'Onest', sans-serif;
     font-size: 4.5rem;
-    font-weight: 800;
+    font-weight: 600;
     line-height: 1;
     letter-spacing: -2px;
     color: var(--text-color);
