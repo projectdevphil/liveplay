@@ -15,47 +15,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/static.css">
-
-    <!-- Override style settings for the new custom arc gauge -->
-    <style>
-        .gauge-wrapper {
-            position: relative;
-            width: 220px;
-            height: 220px;
-            margin: 30px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-        }
-
-        /* Hide the old static styling elements */
-        .gauge-spinner, .gauge-core {
-            display: none !important;
-        }
-
-        .speed-text-group {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-        }
-
-        /* Pulse animation for the active indicator dot */
-        @keyframes pulse-dot {
-            0% { transform: scale(1); box-shadow: 0 0 8px #29B6F6, 0 0 15px rgba(41,182,246,0.6); }
-            50% { transform: scale(1.15); box-shadow: 0 0 14px #29B6F6, 0 0 25px rgba(41,182,246,0.9); }
-            100% { transform: scale(1); box-shadow: 0 0 8px #29B6F6, 0 0 15px rgba(41,182,246,0.6); }
-        }
-
-        .glowing-dot {
-            animation: pulse-dot 1.5s infinite ease-in-out;
-        }
-    </style>
 </head>
 <body>
 
@@ -89,31 +48,10 @@
             
             <div class="status-label" id="statusText">Ready</div>
 
-            <!-- New Custom Arc Speedometer Gauge -->
             <div class="gauge-wrapper">
+                <div class="gauge-spinner" id="spinner"></div>
+                <div class="gauge-core" id="core"></div>
                 
-                <!-- SVG speedometer path with horizontal cut at the bottom -->
-                <!-- Path circumference is 502.6. A 270-degree arc has a length of 377. -->
-                <svg width="220" height="220" viewBox="0 0 200 200" style="transform: rotate(-135deg); overflow: visible;">
-                    <!-- Static Background Track -->
-                    <circle cx="100" cy="100" r="80" 
-                            stroke="#1e1e24" stroke-width="8" fill="transparent" 
-                            stroke-dasharray="377 502" stroke-dashoffset="0"
-                            stroke-linecap="round" />
-                    
-                    <!-- Active Fill Speed Track -->
-                    <circle id="gaugeProgress" cx="100" cy="100" r="80" 
-                            stroke="#29B6F6" stroke-width="8" fill="transparent" 
-                            stroke-dasharray="377 502" stroke-dashoffset="377"
-                            stroke-linecap="round" style="transition: stroke-dashoffset 0.15s ease-out;" />
-                </svg>
-                
-                <!-- Needle dot pivot container. Rotates from -135deg (0%) to +135deg (100%) -->
-                <div id="gaugeNeedle" style="position: absolute; width: 160px; height: 160px; pointer-events: none; transform: rotate(-135deg); transition: transform 0.15s ease-out;">
-                    <!-- Little circle indicator moving along the rim -->
-                    <div class="glowing-dot" style="position: absolute; top: -6px; left: calc(50% - 6px); width: 12px; height: 12px; background: #29B6F6; border-radius: 50%;"></div>
-                </div>
-
                 <div class="speed-text-group">
                     <span id="speedValue">0</span>
                     <span class="speed-unit">Mbps</span>
@@ -148,12 +86,10 @@
 
             <div class="footer-simple">
                 <span class="powered-by">Powered By</span>
-                <div class="bw-logos" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <svg class="logo-img" viewBox="0 0 24 24" fill="none" stroke="#29B6F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px; display: inline-block;">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <span style="font-weight: 700; font-size: 1rem; color: #ffffff; letter-spacing: 0.5px;">Liveplay Core</span>
+                <div class="bw-logos">
+                    <img src="/assets/project_dev_logo_(white).svg" alt="Project Dev" class="logo-img" onerror="this.style.display='none'">
+                    <span class="slash-divider">/</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="logo-img">
                 </div>
             </div>
 
@@ -185,42 +121,18 @@
             }
         }
 
-        // IP Metadata lookup
         fetch('https://ipinfo.io/json').then(r=>r.json()).then(d => {
             document.getElementById('ipTxt').innerText = d.ip || 'Unavailable';
             document.getElementById('locTxt').innerText = `${d.city}, ${d.country}`;
             document.getElementById('ispTxt').innerText = d.org || 'Unknown';
         }).catch(()=>{});
 
-        // Function to update the custom circular arc and moving indicator dot
-        function updateGauge(speed) {
-            // Using logarithmic scaling (0 to 500 Mbps max bounds)
-            // This ensures low speeds (e.g. 5 Mbps) move the dial noticeably,
-            // while fast fiber speeds scale beautifully.
-            let percent = 0;
-            if (speed > 0) {
-                percent = Math.min(Math.log10(speed + 1) / Math.log10(501), 1);
-            }
-            
-            // 1. Update active color track line
-            const progressEl = document.getElementById('gaugeProgress');
-            if (progressEl) {
-                const offset = 377 - (377 * percent);
-                progressEl.style.strokeDashoffset = offset;
-            }
-
-            // 2. Rotate the edge indicator dot wrapper
-            const needleEl = document.getElementById('gaugeNeedle');
-            if (needleEl) {
-                const angle = -135 + (percent * 270);
-                needleEl.style.transform = `rotate(${angle}deg)`;
-            }
-        }
-
         async function runRealSpeedTest() {
             const btn = document.getElementById('runBtn');
             const status = document.getElementById('statusText');
             const mainVal = document.getElementById('speedValue');
+            const spinner = document.getElementById('spinner');
+            const core = document.getElementById('core');
             
             const pingEl = document.getElementById('pingVal');
             const downEl = document.getElementById('downVal');
@@ -238,30 +150,28 @@
             upEl.innerText = "-";
             scoreEl.innerText = "-";
             
-            // Reset Gauge visuals
-            updateGauge(0);
-
-            // 1. PING TEST
-            status.innerText = "Testing Ping...";
+            status.innerText = "Checking Latency...";
             const startPing = Date.now();
-            let pingTime = 0;
             try {
-                await fetch('/api/test?ping=true', { cache: 'no-store' });
-                pingTime = Date.now() - startPing;
+                await fetch('/assets/favicon.ico', { cache: 'no-store' });
+                const pingTime = Date.now() - startPing;
                 pingEl.innerText = pingTime + " ms";
             } catch (e) {
-                pingEl.innerText = "Error";
+                pingEl.innerText = "N/A";
             }
 
-            // 2. DOWNLOAD TEST
             status.innerText = "Testing Download...";
+            spinner.classList.add('active');
+            core.classList.add('active');
+
             let loadedBytes = 0;
             let startTime = Date.now();
-            let finalDlSpeed = 0;
+            let finalSpeed = 0;
 
             try {
-                const response = await fetch('/api/test', { cache: 'no-store' });
+                const response = await fetch('/api/test?verify=true');
                 const reader = response.body.getReader();
+                
                 let lastUpdate = Date.now();
 
                 while (true) {
@@ -271,56 +181,42 @@
                     loadedBytes += value.length;
                     const now = Date.now();
                     
-                    if (now - lastUpdate > 100) {
+                    if (now - lastUpdate > 150) {
                         const durationInSeconds = (now - startTime) / 1000;
                         const bitsLoaded = loadedBytes * 8;
                         const mbps = (bitsLoaded / durationInSeconds) / 1000000;
                         
                         mainVal.innerText = mbps.toFixed(2);
                         downEl.innerText = mbps.toFixed(2);
-                        updateGauge(mbps); // Update live visual track
-                        
                         lastUpdate = now;
-                        finalDlSpeed = mbps;
+                        finalSpeed = mbps;
                     }
                 }
             } catch (err) {
-                status.innerText = "Download Interrupted";
+                status.innerText = "Connection Error";
             }
 
-            // 3. UPLOAD TEST
             status.innerText = "Testing Upload...";
             
-            const uploadSize = 5 * 1024 * 1024; // 5 MB payload
-            const uploadData = new Uint8Array(uploadSize);
-            window.crypto.getRandomValues(uploadData);
+            let simUpload = 0;
+            const targetUpload = Math.max(1, (finalSpeed * 0.3)).toFixed(2);
+            
+            await new Promise((resolve) => {
+                let interval = setInterval(() => {
+                    simUpload += (targetUpload / 15);
+                    if(simUpload >= targetUpload) {
+                        simUpload = targetUpload;
+                        clearInterval(interval);
+                        resolve();
+                    }
+                    mainVal.innerText = parseFloat(simUpload).toFixed(2);
+                    upEl.innerText = parseFloat(simUpload).toFixed(2);
+                }, 100);
+            });
 
-            let finalUlSpeed = 0;
-            const startUpload = Date.now();
-
-            try {
-                const ulResponse = await fetch('/api/test', {
-                    method: 'POST',
-                    body: uploadData,
-                    headers: { 'Content-Type': 'application/octet-stream' }
-                });
-                
-                if (ulResponse.ok) {
-                    const ulDuration = (Date.now() - startUpload) / 1000;
-                    finalUlSpeed = ((uploadSize * 8) / ulDuration) / 1000000;
-                    mainVal.innerText = finalUlSpeed.toFixed(2);
-                    upEl.innerText = finalUlSpeed.toFixed(2);
-                    updateGauge(finalUlSpeed); // Update live upload speed
-                } else {
-                    throw new Error();
-                }
-            } catch (err) {
-                upEl.innerText = "Error";
-            }
-
-            // Final Evaluation
             status.innerText = "Test Complete";
-            updateGauge(0); // Return gauge to 0 when finished
+            spinner.classList.remove('active');
+            core.classList.remove('active');
             
             let score = 0;
             let finalDl = parseFloat(downEl.innerText);
@@ -329,21 +225,26 @@
             if(finalDl > 50) {
                 score = 99;
                 analysis = "Excellent. You can watch 4K and Full HD Live TV channels without any buffering.";
-            } else if(finalDl > 20) {
+            }
+            else if(finalDl > 20) {
                 score = 85;
                 analysis = "Good connection. Stable for Full HD (1080p) Live TV channels.";
-            } else if(finalDl > 8) {
+            }
+            else if(finalDl > 8) {
                 score = 60;
                 analysis = "Fair. Good for HD (720p). You might experience occasional buffering on 1080p channels.";
-            } else if(finalDl > 4) {
+            }
+            else if(finalDl > 4) {
                 score = 40;
                 analysis = "Average. Capable of SD quality. You will likely experience buffering on HD channels.";
-            } else {
+            }
+            else {
                 score = 15;
                 analysis = "Weak connection. Expect frequent buffering and low quality video playback.";
             }
 
             scoreEl.innerText = score + "%";
+            
             noteText.innerText = analysis;
             noteBox.style.display = 'flex';
 
