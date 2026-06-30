@@ -565,15 +565,10 @@ a, img, button,
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: transform 0.2s, box-shadow 0.2s;
     margin-top: 5px;
     display: block; 
     margin-left: auto;
     margin-right: auto;
-}
-
-.start-btn:active { 
-    transform: scale(0.98); 
 }
 
 .start-btn:hover { 
