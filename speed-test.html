@@ -87,12 +87,11 @@
             <div class="footer-simple">
                 <span class="powered-by">Powered By</span>
                 <div class="bw-logos" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <!-- LibreSpeed Speedometer/Gauge SVG Icon -->
                     <svg class="logo-img" viewBox="0 0 24 24" fill="none" stroke="#29B6F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px; display: inline-block;">
-                        <path d="M12 2a10 10 0 0 0-10 10c0 2.45.88 4.7 2.33 6.47l1.41-1.42A8 8 0 0 1 4 12a8 8 0 0 1 8-8 8 8 0 0 1 8 8c0 1.93-.68 3.7-1.82 5.08l1.41 1.42A10 10 0 0 0 12 2z"/>
-                        <path d="M12 9a3 3 0 0 0-3 3c0 .8.31 1.53.82 2.07l-3.5 3.5 1.41 1.41 3.5-3.5A3 3 0 0 0 15 12a3 3 0 0 0-3-3z"/>
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
                     </svg>
-                    <span style="font-weight: 700; font-size: 1rem; color: #ffffff; letter-spacing: 0.5px;">LibreSpeed</span>
+                    <span style="font-weight: 700; font-size: 1rem; color: #ffffff; letter-spacing: 0.5px;">Liveplay Core</span>
                 </div>
             </div>
 
@@ -153,28 +152,28 @@
             upEl.innerText = "-";
             scoreEl.innerText = "-";
             
-            status.innerText = "Checking Latency...";
-            const startPing = Date.now();
-            try {
-                await fetch('/assets/favicon.ico', { cache: 'no-store' });
-                const pingTime = Date.now() - startPing;
-                pingEl.innerText = pingTime + " ms";
-            } catch (e) {
-                pingEl.innerText = "N/A";
-            }
-
-            status.innerText = "Testing Download...";
             spinner.classList.add('active');
             core.classList.add('active');
 
+            status.innerText = "Testing Ping...";
+            const startPing = Date.now();
+            let pingTime = 0;
+            try {
+                await fetch('/api/test?ping=true', { cache: 'no-store' });
+                pingTime = Date.now() - startPing;
+                pingEl.innerText = pingTime + " ms";
+            } catch (e) {
+                pingEl.innerText = "Error";
+            }
+
+            status.innerText = "Testing Download...";
             let loadedBytes = 0;
             let startTime = Date.now();
-            let finalSpeed = 0;
+            let finalDlSpeed = 0;
 
             try {
-                const response = await fetch('/api/test?verify=true');
+                const response = await fetch('/api/test', { cache: 'no-store' });
                 const reader = response.body.getReader();
-                
                 let lastUpdate = Date.now();
 
                 while (true) {
@@ -184,7 +183,7 @@
                     loadedBytes += value.length;
                     const now = Date.now();
                     
-                    if (now - lastUpdate > 150) {
+                    if (now - lastUpdate > 120) {
                         const durationInSeconds = (now - startTime) / 1000;
                         const bitsLoaded = loadedBytes * 8;
                         const mbps = (bitsLoaded / durationInSeconds) / 1000000;
@@ -192,30 +191,40 @@
                         mainVal.innerText = mbps.toFixed(2);
                         downEl.innerText = mbps.toFixed(2);
                         lastUpdate = now;
-                        finalSpeed = mbps;
+                        finalDlSpeed = mbps;
                     }
                 }
             } catch (err) {
-                status.innerText = "Connection Error";
+                status.innerText = "Download Interrupted";
             }
 
             status.innerText = "Testing Upload...";
             
-            let simUpload = 0;
-            const targetUpload = Math.max(1, (finalSpeed * 0.3)).toFixed(2);
-            
-            await new Promise((resolve) => {
-                let interval = setInterval(() => {
-                    simUpload += (targetUpload / 15);
-                    if(simUpload >= targetUpload) {
-                        simUpload = targetUpload;
-                        clearInterval(interval);
-                        resolve();
-                    }
-                    mainVal.innerText = parseFloat(simUpload).toFixed(2);
-                    upEl.innerText = parseFloat(simUpload).toFixed(2);
-                }, 100);
-            });
+            const uploadSize = 5 * 1024 * 1024;
+            const uploadData = new Uint8Array(uploadSize);
+            window.crypto.getRandomValues(uploadData);
+
+            let finalUlSpeed = 0;
+            const startUpload = Date.now();
+
+            try {
+                const ulResponse = await fetch('/api/test', {
+                    method: 'POST',
+                    body: uploadData,
+                    headers: { 'Content-Type': 'application/octet-stream' }
+                });
+                
+                if (ulResponse.ok) {
+                    const ulDuration = (Date.now() - startUpload) / 1000;
+                    finalUlSpeed = ((uploadSize * 8) / ulDuration) / 1000000;
+                    mainVal.innerText = finalUlSpeed.toFixed(2);
+                    upEl.innerText = finalUlSpeed.toFixed(2);
+                } else {
+                    throw new Error("Upload non-200 response");
+                }
+            } catch (err) {
+                upEl.innerText = "Error";
+            }
 
             status.innerText = "Test Complete";
             spinner.classList.remove('active');
@@ -228,26 +237,21 @@
             if(finalDl > 50) {
                 score = 99;
                 analysis = "Excellent. You can watch 4K and Full HD Live TV channels without any buffering.";
-            }
-            else if(finalDl > 20) {
+            } else if(finalDl > 20) {
                 score = 85;
                 analysis = "Good connection. Stable for Full HD (1080p) Live TV channels.";
-            }
-            else if(finalDl > 8) {
+            } else if(finalDl > 8) {
                 score = 60;
                 analysis = "Fair. Good for HD (720p). You might experience occasional buffering on 1080p channels.";
-            }
-            else if(finalDl > 4) {
+            } else if(finalDl > 4) {
                 score = 40;
                 analysis = "Average. Capable of SD quality. You will likely experience buffering on HD channels.";
-            }
-            else {
+            } else {
                 score = 15;
                 analysis = "Weak connection. Expect frequent buffering and low quality video playback.";
             }
 
             scoreEl.innerText = score + "%";
-            
             noteText.innerText = analysis;
             noteBox.style.display = 'flex';
 
