@@ -1,68 +1,45 @@
-let garbageChunk = null;
-const CHUNK_SIZE = 2 * 1024 * 1024;
-
 export async function onRequest(context) {
     const { request } = context;
     const url = new URL(request.url);
 
+    const hasVerify = url.searchParams.get('verify') === 'true';
+    const isDirectVisit = request.headers.get('sec-fetch-dest') === 'document';
     const referer = request.headers.get('referer') || '';
-    const isFromSite = referer.includes('liveplayph.pages.dev') || 
-                       referer.includes('localhost') || 
-                       referer.includes('127.0.0.1');
+    const isFromSite = referer.includes('liveplayph.pages.dev');
     
-    if (!isFromSite) {
-        return new Response("Unauthorized", { status: 403 });
-    }
-
-    if (url.searchParams.get('ping') === 'true') {
-        return new Response("pong", {
+    if (!hasVerify || isDirectVisit || !isFromSite) {
+        return new Response("Thank you, but nothing here", {
             status: 200,
-            headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0' }
+            headers: { 'Content-Type': 'text/plain' }
         });
     }
 
-    if (request.method === 'POST') {
-        try {
-            await request.body?.pipeTo(new WritableStream());
-            return new Response("OK", { status: 200 });
-        } catch (e) {
-            return new Response("Upload Error", { status: 500 });
+    const FAST_TOKEN = 'YXNkZmFzZGxmbnNkYWZoYXNkZmhrYWxm'; 
+    const API_URL = `https://api.fast.com/netflix/speedtest/v2?https=true&token=${FAST_TOKEN}&urlCount=5`;
+
+    try {
+        const apiResponse = await fetch(API_URL);
+        const data = await apiResponse.json();
+        const servers = data.targets;
+
+        if (!servers || servers.length === 0) {
+            return new Response(null, { status: 500 });
         }
-    }
 
-    if (!garbageChunk) {
-        garbageChunk = new Uint8Array(CHUNK_SIZE);
-        crypto.getRandomValues(garbageChunk);
-    }
+        const downloadUrl = servers[0].url;
 
-    const totalBytes = 50 * 1024 * 1024;
-    let bytesSent = 0;
+        const streamResponse = await fetch(downloadUrl);
 
-    const stream = new ReadableStream({
-        pull(controller) {
-            if (bytesSent >= totalBytes) {
-                controller.close();
-                return;
+        return new Response(streamResponse.body, {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/octet-stream',
+                'Cache-Control': 'no-cache'
             }
-            const remaining = totalBytes - bytesSent;
-            if (remaining >= CHUNK_SIZE) {
-                controller.enqueue(garbageChunk);
-                bytesSent += CHUNK_SIZE;
-            } else {
-                controller.enqueue(garbageChunk.subarray(0, remaining));
-                bytesSent += remaining;
-            }
-        }
-    });
+        });
 
-    return new Response(stream, {
-        status: 200,
-        headers: {
-            'Content-Type': 'application/octet-stream',
-            'Content-Length': totalBytes.toString(),
-            'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-            'Pragma': 'no-cache',
-            'Expires': '0'
-        }
-    });
+    } catch (error) {
+        console.error("Error:", error);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 }
