@@ -685,7 +685,7 @@ a, img, button,
 }
 
 .version-block li {
-    margin-bottom: 8px;
+    /**margin-bottom: 8px;*/
 }
 
 .changelog-latest-build {
