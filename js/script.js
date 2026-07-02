@@ -59,12 +59,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let player = null;
     let ui = null;
-    let allStreams =[];
-    let currentFilteredStreams =[];
+    let allStreams = [];
+    let currentFilteredStreams = [];
     let currentlyDisplayedCount = 0;
     let currentActiveChannelSlug = null;
     const defaultPageTitle = document.title;
     const offlineChannels = new Set();
+
+    const langNames = {
+        'en': 'English',
+        'fil': 'Filipino (Tagalog)',
+        'ceb': 'Cebuano',
+        'ilo': 'Ilocano',
+        'bcl': 'Bicolano (Bikol)',
+        'hil': 'Hiligaynon',
+        'pam': 'Kapampangan',
+        'pag': 'Pangasinan',
+        'war': 'Waray'
+    };
 
     const fetchSlides = async () => {
         try {
@@ -73,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return await response.json();
         } catch (error) {
             console.error(error);
-            return[];
+            return [];
         }
     };
 
@@ -270,12 +282,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!floatingMenu) return;
         floatingMenu.innerHTML = `
         <ul>
-            <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>
-            <li><a href="/home/about"><span class="material-symbols-rounded">info</span> About Us</a></li>
-            <li><a href="/home/faq"><span class="material-symbols-rounded">quiz</span> FAQ</a></li>
-            <li><a href="/home/privacy"><span class="material-symbols-rounded">shield</span> Privacy Policy</a></li>
-            <li><a href="/home/terms"><span class="material-symbols-rounded">gavel</span> Terms of Service</a></li>
-            <li><a href="/home/changelog"><span class="material-symbols-rounded">list_alt</span> Changelog</a></li>
+            <li><a href="/home/speed"><span class="material-symbols-rounded notranslate" translate="no">speed</span> Speed Test</a></li>
+            <li><a href="/home/about"><span class="material-symbols-rounded notranslate" translate="no">info</span> About Us</a></li>
+            <li><a href="/home/faq"><span class="material-symbols-rounded notranslate" translate="no">quiz</span> FAQ</a></li>
+            <li><a href="/home/privacy"><span class="material-symbols-rounded notranslate" translate="no">shield</span> Privacy Policy</a></li>
+            <li><a href="/home/terms"><span class="material-symbols-rounded notranslate" translate="no">gavel</span> Terms of Service</a></li>
+            <li><a href="/home/changelog"><span class="material-symbols-rounded notranslate" translate="no">list_alt</span> Changelog</a></li>
        </ul>`;
         
         const menuLinks = floatingMenu.querySelectorAll('a');
@@ -423,7 +435,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
-        if (!playerView.classList.contains('active')) return;
+        if (!playerView || !playerView.classList.contains('active')) return;
         
         if (mainPlayerStatus) {
             mainPlayerStatus.textContent = "Loading Stream...";
@@ -480,7 +492,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const minimizePlayer = () => {
-        if (playerView.classList.contains('active')) {
+        if (playerView && playerView.classList.contains('active')) {
             playerView.classList.remove('active');
             document.body.classList.remove('no-scroll');
             setTimeout(() => { if (minimizedPlayer) minimizedPlayer.classList.add('active'); }, 300);
@@ -521,11 +533,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             return channels;
         } catch (error) {
             console.error(error);
-            return[];
+            return [];
         }
     }
 
     const renderChannels = (reset = false) => {
+        if (!channelListingsContainer) return;
         if (reset) {
             channelListingsContainer.innerHTML = '';
             currentlyDisplayedCount = 0;
@@ -554,7 +567,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <span class="channel-name">${stream.name}</span>
                 </div>
                 <div class="channel-info-right">
-                    <span id="sensor-${slug}" class="material-symbols-rounded ${colorClass}">${iconName}</span>
+                    <span id="sensor-${slug}" class="material-symbols-rounded notranslate ${colorClass}" translate="no">${iconName}</span>
                 </div>`;
             
             item.addEventListener('click', () => openPlayer(stream));
@@ -562,10 +575,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         currentlyDisplayedCount += slice.length;
-        if (currentlyDisplayedCount >= currentFilteredStreams.length) {
-            loadMoreContainer.style.display = 'none';
-        } else {
-            loadMoreContainer.style.display = 'block';
+        if (loadMoreContainer) {
+            if (currentlyDisplayedCount >= currentFilteredStreams.length) {
+                loadMoreContainer.style.display = 'none';
+            } else {
+                loadMoreContainer.style.display = 'block';
+            }
         }
     };
 
@@ -585,6 +600,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function startBackgroundStatusCheck() {
+        if (allStreams.length === 0) return;
         const BATCH_SIZE = 10;
         const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
@@ -638,52 +654,168 @@ document.addEventListener('DOMContentLoaded', async () => {
         setTimeout(startBackgroundStatusCheck, 120000);
     }
 
+    const getActiveLanguage = () => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; googtrans=`);
+        if (parts.length === 2) {
+            const cookieVal = parts.pop().split(';').shift();
+            const lang = cookieVal.split('/').pop();
+            return lang || 'en';
+        }
+        return 'en';
+    };
+
+    const setLanguageCookie = (langCode) => {
+        const domain = window.location.hostname;
+        const baseDomain = domain.replace(/^www\./, '');
+        if (langCode === 'en') {
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain}`;
+            document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${baseDomain}`;
+        } else {
+            document.cookie = `googtrans=/en/${langCode}; path=/;`;
+            document.cookie = `googtrans=/en/${langCode}; path=/; domain=${domain}`;
+            document.cookie = `googtrans=/en/${langCode}; path=/; domain=.${baseDomain}`;
+        }
+        window.location.reload();
+    };
+
+    const renderLanguageSelector = () => {
+        const footerContent = document.querySelector('.footer-content');
+        if (!footerContent) return;
+
+        let selectorContainer = document.getElementById('custom-language-selector');
+        if (!selectorContainer) {
+            selectorContainer = document.createElement('div');
+            selectorContainer.id = 'custom-language-selector';
+            selectorContainer.className = 'language-selector-container';
+            footerContent.insertBefore(selectorContainer, footerContent.firstChild);
+        }
+
+        const activeLang = getActiveLanguage();
+        const activeName = langNames[activeLang] || 'English';
+
+        selectorContainer.innerHTML = `
+            <button id="lang-btn" class="lang-btn">
+                <span class="material-symbols-rounded notranslate" translate="no">language</span>
+                <span id="active-lang-text">${activeName}</span>
+                <span class="material-symbols-rounded notranslate" translate="no" style="font-size: 1rem; margin-left: 4px;">arrow_drop_up</span>
+            </button>
+            <div id="lang-dropup" class="lang-dropup">
+                ${Object.entries(langNames).map(([code, name]) => `
+                    <button class="lang-option ${activeLang === code ? 'active' : ''}" data-lang="${code}">
+                        ${name}
+                    </button>
+                `).join('')}
+            </div>
+        `;
+
+        const langBtn = document.getElementById('lang-btn');
+        const langDropup = document.getElementById('lang-dropup');
+
+        if (langBtn && langDropup) {
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langDropup.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                langDropup.classList.remove('show');
+            });
+
+            const options = langDropup.querySelectorAll('.lang-option');
+            options.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    const selectedLang = opt.getAttribute('data-lang');
+                    setLanguageCookie(selectedLang);
+                });
+            });
+        }
+    };
+
+    const initGoogleTranslate = () => {
+        if (!document.getElementById('google_translate_element')) {
+            const translateDiv = document.createElement('div');
+            translateDiv.id = 'google_translate_element';
+            translateDiv.style.display = 'none';
+            document.body.appendChild(translateDiv);
+        }
+
+        window.googleTranslateElementInit = function() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'fil,ceb,ilo,bcl,hil,pam,pag,war',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        };
+
+        if (!document.querySelector('script[src*="translate.google.com"]')) {
+            const gtScript = document.createElement('script');
+            gtScript.type = 'text/javascript';
+            gtScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.head.appendChild(gtScript);
+        }
+    };
+
+    injectLanguageSelectorStyles();
+    renderLanguageSelector();
+    initGoogleTranslate();
+
     setResponsivePoster();
     window.addEventListener('resize', setResponsivePoster);
     renderMenu();
     
-    menuBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (searchContainer.classList.contains("active")) {
-            searchContainer.classList.remove("active");
-            searchInput.blur();
-        }
-        floatingMenu.classList.toggle("active");
-    });
+    if (menuBtn) {
+        menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (searchContainer && searchContainer.classList.contains("active")) {
+                searchContainer.classList.remove("active");
+                searchInput.blur();
+            }
+            if (floatingMenu) floatingMenu.classList.toggle("active");
+        });
+    }
 
-    searchToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        floatingMenu.classList.remove("active");
-        
-        searchContainer.classList.toggle("active");
-        if (searchContainer.classList.contains("active")) {
-            searchInput.focus();
-        }
-    });
+    if (searchToggle) {
+        searchToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (floatingMenu) floatingMenu.classList.remove("active");
+            
+            if (searchContainer) {
+                searchContainer.classList.toggle("active");
+                if (searchContainer.classList.contains("active") && searchInput) {
+                    searchInput.focus();
+                }
+            }
+        });
+    }
 
     document.addEventListener("click", (e) => {
-        floatingMenu.classList.remove("active");
+        if (floatingMenu) floatingMenu.classList.remove("active");
 
-        if (searchContainer.classList.contains("active") && !searchContainer.contains(e.target)) {
+        if (searchContainer && searchContainer.classList.contains("active") && !searchContainer.contains(e.target)) {
             searchContainer.classList.remove("active");
-            searchInput.blur();
+            if (searchInput) searchInput.blur();
         }
     });
 
-    searchInput.addEventListener("input", (e) => {
-        const query = e.target.value.toLowerCase();
-        currentFilteredStreams = allStreams.filter(s => {
-            const nameMatch = s.name.toLowerCase().includes(query);
-            const groupMatch = s.group ? s.group.toLowerCase().includes(query) : false;
-            return nameMatch || groupMatch;
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            currentFilteredStreams = allStreams.filter(s => {
+                const nameMatch = s.name.toLowerCase().includes(query);
+                const groupMatch = s.group ? s.group.toLowerCase().includes(query) : false;
+                return nameMatch || groupMatch;
+            });
+
+            if (channelHeader) {
+                channelHeader.textContent = query === '' ? 
+                    "All Channels" : `Search Results (${currentFilteredStreams.length})`;
+            }
+            renderChannels(true);
         });
-
-        if (channelHeader) {
-            channelHeader.textContent = query === '' ? 
-                "All Channels" : `Search Results (${currentFilteredStreams.length})`;
-        }
-        renderChannels(true);
-    });
+    }
 
     if (minimizeBtn) minimizeBtn.addEventListener('click', minimizePlayer);
     if (minimizedPlayer) minimizedPlayer.addEventListener('click', restorePlayer);
@@ -691,7 +823,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (loadMoreBtn) loadMoreBtn.addEventListener('click', () => renderChannels(false));
 
     window.addEventListener("scroll", () => {
-        header.classList.toggle("scrolled", window.scrollY > 10);
+        if (header) header.classList.toggle("scrolled", window.scrollY > 10);
     });
 
     const slidesData = await fetchSlides();
@@ -701,7 +833,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     currentFilteredStreams = [...allStreams];
     
     if (channelSkeleton) channelSkeleton.style.display = 'none';
-    channelListingsContainer.style.display = 'flex';
+    if (channelListingsContainer) channelListingsContainer.style.display = 'flex';
     
     renderChannels(true);
 
@@ -713,7 +845,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const channelSlug = urlParams.get('channel');
     let hasPlayedLink = false;
 
-    if (channelSlug) {
+    if (channelSlug && allStreams.length > 0) {
         const foundChannel = allStreams.find(s => createSlug(s.name) === channelSlug);
         if (foundChannel) {
             openPlayer(foundChannel);
