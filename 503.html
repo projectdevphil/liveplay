@@ -5,121 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>System Maintenance - Liveplay</title>
     <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <link rel="shortcut icon" href="/assets/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Liveplay" />
     <link rel="manifest" href="/assets/site.webmanifest" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
-    </style>
-
-    <style>
-        :root {
-            --theme-color: #ffffff; 
-            --background-color: #000000;
-            --text-color: #ffffff;
-            --text-secondary: #888888;
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Onest', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            flex-direction: column;
-            padding: 30px 30px 80px 30px; 
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
-            position: relative;
-        }
-        
-        .container {
-            max-width: 600px;
-            width: 100%;
-        }
-        
-        .logo {
-            font-weight: 800;
-            font-size: 2rem;
-            margin-bottom: 50px;
-            display: block;
-            text-transform: lowercase;
-            letter-spacing: -0.5px;
-        }
-
-        h1 {
-            font-size: 7rem;
-            margin: 0;
-            font-weight: 800;
-            color: var(--theme-color);
-            line-height: 0.9;
-            letter-spacing: -4px;
-        }
-
-        h2 {
-            font-size: 1rem;
-            margin-top: 10px;
-            margin-bottom: 25px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.8;
-        }
-
-        p {
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            font-weight: 400;
-            padding: 0 10px;
-        }
-
-        a {
-            color: var(--theme-color);
-            text-decoration: none;
-            font-weight: 800;
-            transition: opacity 0.2s ease, text-decoration 0.2s ease;
-        }
-
-        a:hover, a:active {
-            opacity: 0.8;
-            text-decoration: underline;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 30px;
-            width: 100%;
-            text-align: center;
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            opacity: 0.6;
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 6rem; }
-            .logo { margin-bottom: 40px; }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/status.css">
 </head>
-<body>
+<body class="has-footer">
     <div class="container">
         <div class="logo">liveplay</div>
         
-        <h1>503</h1>
+        <h1 class="error-code">503</h1>
         
         <h2>System Maintenance</h2>
         <p>
