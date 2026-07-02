@@ -1032,8 +1032,8 @@ video::cue {
 .switch-container {
     position: relative;
     display: inline-block;
-    width: 45px;
-    height: 30px;
+    width: 40px;
+    height: 20px;
     flex-shrink: 0;
     margin-top: 2px;
 }
@@ -1049,18 +1049,19 @@ video::cue {
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
     background-color: #333;
-    transition: .3s;
     border: var(--glass-border);
+    transition: .3s;
     border-radius: 20px;
 }
 
 .switch-slider:before {
     position: absolute;
     content: "";
-    height: 25px;
-    width: 25px;
-    margin: 3px;
-    background-color: white;
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--theme-color);
     transition: .3s;
     border-radius: 50%;
 }
