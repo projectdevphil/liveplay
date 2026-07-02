@@ -13,8 +13,8 @@
     <meta name="apple-mobile-web-app-title" content="Liveplay" />
     <link rel="manifest" href="/assets/site.webmanifest" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/static.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/subpage.css">
 </head>
 <body>
     <div class="static-page-container">
@@ -86,21 +86,7 @@
             </section>
         </main>
     </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const protectedElements = document.querySelectorAll('.back-button, img, a');
-            protectedElements.forEach(el => {
-                el.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
-            });
 
-            const header = document.querySelector(".static-header");
-            window.addEventListener("scroll", () => {
-                if(header) {
-                    header.classList.toggle("scrolled", window.scrollY > 10);
-                }
-            });
-        });
-    </script>
+    <script src="/js/subpage.js"></script>
 </body>
 </html>
