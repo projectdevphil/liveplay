@@ -1,0 +1,186 @@
+@media screen and (max-width: 1024px) {
+    .player-view {
+        -webkit-backdrop-filter: blur(30px);
+        backdrop-filter: blur(30px);
+        background: var(--glass-bg);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        left: 0;
+        position: fixed;
+        top: 0;
+        transform: translateY(100%);
+        visibility: hidden;
+        transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.5s;
+        z-index: 2000;
+    }
+
+    .player-view.active {
+        transform: translateY(0);
+        visibility: visible;
+        transition-delay: 0s;
+    }
+
+    .minimized-player-wrapper {
+        align-items: stretch;
+        height: 60px;
+        bottom: 20px;
+        display: flex;
+        gap: 12px; 
+        left: 20px;
+        right: 20px;
+        opacity: 0;
+        position: fixed;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        visibility: hidden;
+        z-index: 1999;
+    }
+
+    .minimized-player-wrapper.active {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .player-view {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+    }
+
+    #search-input {
+        position: absolute;
+        top: 65px;
+        left: 20px;
+        right: 20px;
+        width: calc(100vw - 40px);
+        height: 55px;
+        padding: 0 60px 0 20px;
+        opacity: 0;
+        visibility: hidden;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        border: var(--glass-border);
+        border-radius: 50px;
+        color: white;
+        font-size: 1rem;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-sizing: border-box;
+        z-index: 999;
+        margin: 0;
+        outline: none;
+        font-family: 'Onest', sans-serif;
+    }
+
+    .search-container.active #search-input {
+        width: calc(100vw - 40px); 
+        margin-right: 0;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        border: var(--glass-border);
+    }
+
+    #search-clear {
+        position: absolute;
+        top: 75px;
+        right: 30px;
+        z-index: 1000;
+        opacity: 0;
+        color: white;
+        visibility: hidden;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 25px;
+        background: none;
+        border-radius: 50%;
+        padding: 4px;
+        margin: 0;
+        display: flex; 
+    }
+
+    .search-container.active #search-clear {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    #search-input {
+        position: absolute;
+        top: 65px;
+        right: 20px;
+        width: 350px;
+        height: 50px;
+        padding: 0 50px 0 20px;
+        opacity: 0;
+        visibility: hidden;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: var(--glass-border);
+        border-radius: 50px;
+        color: white;
+        font-size: 0.95rem;
+        transform: translateY(-5px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-sizing: border-box;
+        z-index: 999;
+        margin: 0;
+        outline: none;
+    }
+
+    .search-container.active #search-input {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    #search-clear {
+        position: absolute;
+        top: 75px;
+        right: 30px;
+        z-index: 1000;
+        opacity: 0;
+        color: white;
+        visibility: hidden;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-5px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 22px;
+        background: none;
+        border-radius: 50%;
+        padding: 4px;
+        margin: 0;
+        display: flex; 
+    }
+
+    .search-container.active #search-clear {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .player-view {
+        width: 100%;
+        height: 100%;
+        padding: 40px;
+    }
+
+    .video-player-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
