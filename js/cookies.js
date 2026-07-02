@@ -46,7 +46,7 @@
                     <button id="cookie-btn-reject" class="cookie-btn btn-danger">Reject All</button>
                     <button id="cookie-btn-accept" class="cookie-btn btn-primary">Accept All</button>
                     <button id="cookie-btn-save" class="cookie-btn btn-primary" style="display: none;">Save Preferences</button>
-                    <button id="cookie-btn-details" class="cookie-btn btn-secondary" style="display: none;">More Details</button>
+                    <button id="cookie-btn-details" class="cookie-btn btn-secondary" style="display: none;">Read More</button>
                 </div>
             </div>
         `;
@@ -108,7 +108,7 @@
 
         if (btnDetails) {
             btnDetails.addEventListener('click', () => {
-                window.location.href = '/home/cookie';
+                window.location.href = '/home/cookies';
             });
         }
     }
