@@ -4,6 +4,8 @@
             return;
         }
 
+        document.body.classList.add('no-scroll');
+
         const overlay = document.createElement('div');
         overlay.id = 'cookie-consent-overlay';
         overlay.className = 'cookie-overlay';
@@ -44,7 +46,7 @@
                     <button id="cookie-btn-reject" class="cookie-btn btn-danger">Reject All</button>
                     <button id="cookie-btn-accept" class="cookie-btn btn-primary">Accept All</button>
                     <button id="cookie-btn-save" class="cookie-btn btn-primary" style="display: none;">Save Preferences</button>
-                    <button id="cookie-btn-details" class="cookie-btn btn-secondary" style="display: none;">Read More</button>
+                    <button id="cookie-btn-details" class="cookie-btn btn-secondary" style="display: none;">More Details</button>
                 </div>
             </div>
         `;
@@ -61,6 +63,9 @@
 
         const handleCookieConsent = (consentData) => {
             localStorage.setItem('cookie_consent', JSON.stringify(consentData));
+            
+            document.body.classList.remove('no-scroll');
+            
             overlay.classList.remove('active');
             setTimeout(() => {
                 overlay.remove();
@@ -103,7 +108,7 @@
 
         if (btnDetails) {
             btnDetails.addEventListener('click', () => {
-                window.location.href = '/home/cookies';
+                window.location.href = '/home/cookie';
             });
         }
     }
