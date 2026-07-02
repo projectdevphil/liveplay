@@ -103,7 +103,7 @@
 
         if (btnDetails) {
             btnDetails.addEventListener('click', () => {
-                window.location.href = '/home/cookie';
+                window.location.href = '/home/cookies';
             });
         }
     }
