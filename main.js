@@ -59,12 +59,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let player = null;
     let ui = null;
-    let allStreams =[];
-    let currentFilteredStreams =[];
+    let allStreams = [];
+    let currentFilteredStreams = [];
     let currentlyDisplayedCount = 0;
     let currentActiveChannelSlug = null;
     const defaultPageTitle = document.title;
     const offlineChannels = new Set();
+
+    const protectIcons = () => {
+        const iconClasses = ['.material-symbols-rounded', '.material-icons', '.material-icons-round'];
+        iconClasses.forEach(selector => {
+            document.querySelectorAll(selector).forEach(element => {
+                element.classList.add('notranslate');
+            });
+        });
+    };
 
     const fetchSlides = async () => {
         try {
@@ -73,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return await response.json();
         } catch (error) {
             console.error(error);
-            return[];
+            return [];
         }
     };
 
@@ -142,15 +151,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             slide.style.setProperty('--slide-bg', `url('${data.image}')`);
 
             const overlayStyle = (data.overlay === 'none') ? 'display: none;' : '';
-
+            
             slide.innerHTML = `
                 <div class="slide-wipe-wrapper">
                     <img src="${data.image}" alt="${data.title}" class="slide-bg">
                     <div class="slide-overlay" style="${overlayStyle}"></div>
                     <div class="slide-content">
-                        <h2 class="slide-title">${data.title}</h2>
-                        <p class="slide-description">${data.description}</p>
-                        <div class="slide-badge visit-badge">${data.badge}</div>
+                        <h2 class="slide-title notranslate" translate="no">${data.title}</h2>
+                        <p class="slide-description notranslate" translate="no">${data.description}</p>
+                        <div class="slide-badge visit-badge notranslate" translate="no">${data.badge}</div>
                     </div>
                 </div>
             `;
@@ -264,18 +273,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 else listIcon.classList.remove(colorClass);
             }
         }
+        protectIcons();
     }
 
     const renderMenu = () => {
         if (!floatingMenu) return;
         floatingMenu.innerHTML = `
         <ul>
-            <li><a href="/home/speed"><span class="material-symbols-rounded">speed</span> Speed Test</a></li>
-            <li><a href="/home/about"><span class="material-symbols-rounded">info</span> About Us</a></li>
-            <li><a href="/home/faq"><span class="material-symbols-rounded">quiz</span> FAQ</a></li>
-            <li><a href="/home/privacy"><span class="material-symbols-rounded">shield</span> Privacy Policy</a></li>
-            <li><a href="/home/terms"><span class="material-symbols-rounded">gavel</span> Terms of Service</a></li>
-            <li><a href="/home/changelog"><span class="material-symbols-rounded">list_alt</span> Changelog</a></li>
+            <li><a href="/home/speed"><span class="material-symbols-rounded notranslate">speed</span> Speed Test</a></li>
+            <li><a href="/home/about"><span class="material-symbols-rounded notranslate">info</span> About Us</a></li>
+            <li><a href="/home/faq"><span class="material-symbols-rounded notranslate">quiz</span> FAQ</a></li>
+            <li><a href="/home/privacy"><span class="material-symbols-rounded notranslate">shield</span> Privacy Policy</a></li>
+            <li><a href="/home/terms"><span class="material-symbols-rounded notranslate">gavel</span> Terms of Service</a></li>
+            <li><a href="/home/changelog"><span class="material-symbols-rounded notranslate">list_alt</span> Changelog</a></li>
        </ul>`;
         
         const menuLinks = floatingMenu.querySelectorAll('a');
@@ -283,6 +293,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             link.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
             link.style.userSelect = 'none';              
         });
+        protectIcons();
     };
 
     async function trackChannelView(channel) {
@@ -521,7 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return channels;
         } catch (error) {
             console.error(error);
-            return[];
+            return [];
         }
     }
 
@@ -551,12 +562,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="channel-logo-container">
                         <img src="${logo}" class="channel-logo" onerror="this.style.opacity=0">
                     </div>
-                    <span class="channel-name">${stream.name}</span>
+                    <span class="channel-name notranslate" translate="no">${stream.name}</span>
                 </div>
                 <div class="channel-info-right">
-                    <span id="sensor-${slug}" class="material-symbols-rounded ${colorClass}">${iconName}</span>
-                </div>`;
-            
+                    <span id="sensor-${slug}" class="material-symbols-rounded notranslate ${colorClass}">${iconName}</span>
+                </div>
+            `;
             item.addEventListener('click', () => openPlayer(stream));
             channelListingsContainer.appendChild(item);
         });
@@ -567,6 +578,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             loadMoreContainer.style.display = 'block';
         }
+        protectIcons();
     };
 
     function updateChannelSensor(slug, isOffline) {
@@ -582,6 +594,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (currentActiveChannelSlug === slug) {
             updateOfflineState(isOffline);
         }
+        protectIcons();
     }
 
     async function startBackgroundStatusCheck() {
@@ -742,4 +755,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         headerLogo.style.userSelect = 'none';
     }
 
+    protectIcons();
 });
