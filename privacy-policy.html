@@ -26,7 +26,7 @@
         </header>
 
         <main class="content-card">
-            <span class="update-date">Last Updated: June 29, 2026</span>
+            <span class="update-date">Last Updated: July 2, 2026</span>
 
             <section>
                 <p>Welcome to Liveplay. This Privacy Policy outlines how <strong>Project Dev</strong> ("we," "our," or "us") manages and processes information on the Liveplay platform. We are dedicated to respecting your privacy and ensuring a highly secure, non-intrusive environment.</p>
@@ -35,6 +35,7 @@
 
                 <h2>1. Data Minimization & Non-Collection Policy</h2>
                 <p>We operate under a strict principle of data minimization. Liveplay is completely free and <strong>does not require account registration or user login</strong>. We do not collect, store, or process Personal Identifiable Information (PII), such as your name, email address, physical address, or phone number.</p>
+                <p>We utilize local browser storage and essential preference configurations strictly to remember user state settings. For detailed information regarding our use of cookies and how to manage your privacy settings, please consult our dedicated <a href="/home/cookie-policy">Cookie Policy</a>.</p>
 
                 <hr>
 
@@ -45,8 +46,8 @@
                 <hr>
 
                 <h2>3. Database Aggregation (Top 10 Rankings)</h2>
-                <p>To populate the <strong>"Top 10 Live TV Channels"</strong> popularity index, our platform registers when a stream is selected. This interaction increments a numerical view counter stored within <strong>Cloudflare's D1 SQLite Database</strong>.</p>
-                <p>These analytics are entirely aggregated and anonymous. We do not attach channel selection data to unique browser fingerprints, cookie profiles, or device identifiers. We only track the total volume of channel hits to maintain our real-time popularity rankings.</p>
+                <p>To populate the <strong>"Top 10 Live TV Channels"</strong> popularity index, our platform registers when a stream is selected. To protect the integrity of the leaderboard and prevent artificial view manipulation, our database secures these logs using a cryptographic one-way SHA-256 hash of the client's public IP address inside <strong>Cloudflare's D1 SQLite Database</strong>.</p>
+                <p>This hash is irreversible, ensuring we cannot reconstruct your original IP address, while allowing us to identify and record unique visits accurately. This analytics process is entirely aggregated. Most importantly, this tracking is completely optional and respects your preferences; if you opt out of Analytics & Performance cookies, no view event or IP hash is recorded.</p>
 
                 <hr>
 
