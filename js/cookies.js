@@ -12,7 +12,7 @@
         overlay.innerHTML = `
             <div id="cookie-consent-banner" class="cookie-banner">
                 <div class="cookie-content">
-                    <span class="material-symbols-rounded cookie-icon notranslate">cookie</span>
+                    <span class="material-symbols-rounded cookie-icon">cookie</span>
                     <h3>Cookie Settings</h3>
                     <p>We use cookies to improve your user experience, analyze site performance, and personalize details. Choose your preferences before entering our home page.</p>
                     
@@ -44,6 +44,7 @@
                     <button id="cookie-btn-reject" class="cookie-btn btn-danger">Reject All</button>
                     <button id="cookie-btn-accept" class="cookie-btn btn-primary">Accept All</button>
                     <button id="cookie-btn-save" class="cookie-btn btn-primary" style="display: none;">Save Preferences</button>
+                    <button id="cookie-btn-details" class="cookie-btn btn-secondary" style="display: none;">Read More</button>
                 </div>
             </div>
         `;
@@ -54,6 +55,7 @@
         const btnReject = overlay.querySelector('#cookie-btn-reject');
         const btnCustomize = overlay.querySelector('#cookie-btn-customize');
         const btnSave = overlay.querySelector('#cookie-btn-save');
+        const btnDetails = overlay.querySelector('#cookie-btn-details');
         const cookieOptions = overlay.querySelector('#cookie-options');
         const analyticsCheckbox = overlay.querySelector('#cookie-analytics');
 
@@ -88,6 +90,7 @@
                 if (btnReject) btnReject.style.display = 'none';
                 if (btnAccept) btnAccept.style.display = 'none';
                 if (btnSave) btnSave.style.display = 'block';
+                if (btnDetails) btnDetails.style.display = 'block';
             });
         }
 
@@ -95,6 +98,12 @@
             btnSave.addEventListener('click', () => {
                 const analyticsAccepted = analyticsCheckbox ? analyticsCheckbox.checked : false;
                 handleCookieConsent({ essential: true, analytics: analyticsAccepted });
+            });
+        }
+
+        if (btnDetails) {
+            btnDetails.addEventListener('click', () => {
+                window.location.href = '/home/cookie';
             });
         }
     }
