@@ -298,6 +298,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function trackChannelView(channel) {
         try {
+            const consentData = localStorage.getItem('cookie_consent');
+            if (consentData) {
+                const consent = JSON.parse(consentData);
+                if (consent.analytics === false) {
+                    return;
+                }
+            } else {
+                return;
+            }
+
             const slug = createSlug(channel.name);
             fetch(`${API_INCREMENT_VIEW}?channel=${slug}`);
         } catch (e) {
