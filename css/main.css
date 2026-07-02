@@ -1059,7 +1059,7 @@ video::cue {
     content: "";
     height: 25px;
     width: 25px;
-    padding: 3px;
+    margin: 3px;
     background-color: white;
     transition: .3s;
     border-radius: 50%;
