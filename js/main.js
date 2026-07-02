@@ -151,15 +151,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             slide.style.setProperty('--slide-bg', `url('${data.image}')`);
 
             const overlayStyle = (data.overlay === 'none') ? 'display: none;' : '';
-
+            
             slide.innerHTML = `
                 <div class="slide-wipe-wrapper">
                     <img src="${data.image}" alt="${data.title}" class="slide-bg">
                     <div class="slide-overlay" style="${overlayStyle}"></div>
                     <div class="slide-content">
-                        <h2 class="slide-title">${data.title}</h2>
-                        <p class="slide-description">${data.description}</p>
-                        <div class="slide-badge visit-badge">${data.badge}</div>
+                        <h2 class="slide-title notranslate" translate="no">${data.title}</h2>
+                        <p class="slide-description notranslate" translate="no">${data.description}</p>
+                        <div class="slide-badge visit-badge notranslate" translate="no">${data.badge}</div>
                     </div>
                 </div>
             `;
@@ -562,12 +562,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="channel-logo-container">
                         <img src="${logo}" class="channel-logo" onerror="this.style.opacity=0">
                     </div>
-                    <span class="channel-name">${stream.name}</span>
+                    <span class="channel-name notranslate" translate="no">${stream.name}</span>
                 </div>
                 <div class="channel-info-right">
                     <span id="sensor-${slug}" class="material-symbols-rounded notranslate ${colorClass}">${iconName}</span>
-                </div>`;
-            
+                </div>
+            `;
             item.addEventListener('click', () => openPlayer(stream));
             channelListingsContainer.appendChild(item);
         });
