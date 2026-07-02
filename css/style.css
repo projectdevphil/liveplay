@@ -1011,3 +1011,113 @@ video::cue {
 .load-more-btn:hover {
     background-color: #282828;
 }
+
+.language-selector-container {
+    position: relative;
+    display: inline-block;
+    margin: 15px auto;
+}
+
+.lang-btn {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: var(--text-color);
+    border: var(--glass-border);
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-family: 'Onest', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: var(--glass-border);
+}
+
+.lang-btn span {
+    font-size: 1.1rem;
+}
+
+.lang-dropup {
+    display: none;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 20, 0.95);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: var(--glass-border);
+    border-radius: 15px;
+    min-width: 180px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    padding: 6px 0;
+    max-height: 220px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.lang-dropup::-webkit-scrollbar {
+    display: none;
+}
+
+.lang-dropup.show {
+    display: block;
+}
+
+.lang-option {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    width: 100%;
+    text-align: left;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-family: 'Onest', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: block;
+}
+
+.lang-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.lang-option.active {
+    color: var(--theme-color) !important;
+    font-weight: 700;
+}
+
+.goog-te-banner-frame, 
+.goog-te-banner-frame.skiptranslate,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+iframe.goog-te-banner-frame,
+.goog-te-gadget {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+body {
+    top: 0px !important;
+}
+
+#goog-gt-tt, .goog-te-balloon-frame {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+.goog-text-highlight {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
