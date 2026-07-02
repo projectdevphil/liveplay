@@ -284,6 +284,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <li><a href="/home/about"><span class="material-symbols-rounded notranslate">info</span> About Us</a></li>
             <li><a href="/home/faq"><span class="material-symbols-rounded notranslate">quiz</span> FAQ</a></li>
             <li><a href="/home/privacy"><span class="material-symbols-rounded notranslate">shield</span> Privacy Policy</a></li>
+            <li><a href="/home/cookies"><span class="material-symbols-rounded notranslate">cookie</span> Cookie Policy</a></li>
             <li><a href="/home/terms"><span class="material-symbols-rounded notranslate">gavel</span> Terms of Service</a></li>
             <li><a href="/home/changelog"><span class="material-symbols-rounded notranslate">list_alt</span> Changelog</a></li>
        </ul>`;
