@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const defaultPageTitle = document.title;
     const offlineChannels = new Set();
 
+    // Mapping of Philippine Languages supported by Google Translate
     const langNames = {
         'en': 'English',
         'fil': 'Filipino (Tagalog)',
@@ -654,6 +655,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         setTimeout(startBackgroundStatusCheck, 120000);
     }
 
+    /* --- GOOGLE TRANSLATE ENGINE INTEGRATION --- */
+
     const getActiveLanguage = () => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; googtrans=`);
@@ -758,9 +761,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    injectLanguageSelectorStyles();
-    renderLanguageSelector();
-    initGoogleTranslate();
+    /* --- END GOOGLE TRANSLATE ENGINE INTEGRATION --- */
 
     setResponsivePoster();
     window.addEventListener('resize', setResponsivePoster);
@@ -771,7 +772,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             e.stopPropagation();
             if (searchContainer && searchContainer.classList.contains("active")) {
                 searchContainer.classList.remove("active");
-                searchInput.blur();
+                if (searchInput) searchInput.blur();
             }
             if (floatingMenu) floatingMenu.classList.toggle("active");
         });
@@ -826,21 +827,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (header) header.classList.toggle("scrolled", window.scrollY > 10);
     });
 
+    // 1. Fetch content APIs & Render DOM dynamically first
     const slidesData = await fetchSlides();
     renderSlider(slidesData);
 
     allStreams = await fetchChannels();
     currentFilteredStreams = [...allStreams];
     
+    // 2. Safely hide skeletons and display contents immediately
     if (channelSkeleton) channelSkeleton.style.display = 'none';
     if (channelListingsContainer) channelListingsContainer.style.display = 'flex';
     
     renderChannels(true);
-
     renderTopWatch();
-    
     startBackgroundStatusCheck();
 
+    // 3. Post-load initialization for URL channel parameters
     const urlParams = new URLSearchParams(window.location.search);
     const channelSlug = urlParams.get('channel');
     let hasPlayedLink = false;
@@ -872,6 +874,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         headerLogo.addEventListener('dragstart', e => e.preventDefault());
         headerLogo.style.webkitTouchCallout = 'none';
         headerLogo.style.userSelect = 'none';
+    }
+
+    // 4. Progressive Enhancement: Load language elements last in the background
+    try {
+        renderLanguageSelector();
+        initGoogleTranslate();
+    } catch (translateError) {
+        console.warn("Progressive translation load encountered a delay: ", translateError);
     }
 
 });
