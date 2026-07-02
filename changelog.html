@@ -37,6 +37,7 @@
                         <span class="version-tag current">CURRENT</span>
                     </h3>
                     <ul class="changelog-list-featured">
+                        <li><strong>Database Migration:</strong> Transitioned the backend storage for the <strong>Top 10 Live TV Channels</strong> ranking system from Vercel (Upstash Redis) to Cloudflare's D1 (SQLite) to align with our platform's infrastructure transition from Vercel to Cloudflare.</li>
                         <li><strong>Ad-Free Playback Optimization:</strong> Completely removed the pre-roll video advertisement system that previously initiated prior to loading live channel streams. This change eliminates initial playback latency, resulting in significantly faster channel load times and a more seamless, uninterrupted viewing experience.</li>
                         <li><strong>Visual Update:</strong> Updated the channels logo container aspect ratio from Square with rounded corners to a clean Circle aspect ratio.</li>
                         <li><strong>Minimize Player Enhancement:</strong> Updated the Mobile/Tablet minimize player exit button to a standalone design, ensuring a cleaner interface and easier navigation control.</li>
@@ -66,7 +67,7 @@
                         <h4>Version 1.0.6</h4>
                         <ul class="changelog-list-standard">
                             <li><strong>UI Optimization:</strong> Refined the visual dynamics of the Featured Slider with advanced transition logic.</li>
-                            <li><strong>New Feature:</strong> Introduced the <strong>Top 10 Live TV Channels</strong> ranking system powered by Redis.</li>
+                            <li><strong>New Feature:</strong> Introduced the <strong>Top 10 Live TV Channels</strong> ranking system powered by Vercel (Upstash Redis).</li>
                             <li><strong>Documentation:</strong> Incorporated a comprehensive <strong>Version Details</strong> log.</li>
                         </ul>
                     </div>
