@@ -1,3 +1,10 @@
+async function hashIP(ip) {
+    const msgBuffer = new TextEncoder().encode(ip);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 export async function onRequest(context) {
     try {
         const url = new URL(context.request.url);
@@ -5,13 +12,23 @@ export async function onRequest(context) {
         
         if (!channel) return new Response('Missing channel', { status: 400 });
 
+        const ip = context.request.headers.get('CF-Connecting-IP') || '127.0.0.1';
+        const ipHash = await hashIP(ip);
+
+        await context.env.DB.prepare(`
+            CREATE TABLE IF NOT EXISTS ip_views (
+                slug TEXT,
+                ip_hash TEXT,
+                PRIMARY KEY (slug, ip_hash)
+            )
+        `).run();
+
         const query = `
-            INSERT INTO views_leaderboard (slug, count) 
-            VALUES (?1, 1) 
-            ON CONFLICT(slug) DO UPDATE SET count = count + 1
+            INSERT OR IGNORE INTO ip_views (slug, ip_hash) 
+            VALUES (?1, ?2)
         `;
         
-        await context.env.DB.prepare(query).bind(channel).run();
+        await context.env.DB.prepare(query).bind(channel, ipHash).run();
         
         return new Response(JSON.stringify({ success: true }), {
             status: 200,
