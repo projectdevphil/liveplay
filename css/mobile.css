@@ -116,75 +116,42 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
-    .search-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        height: 40px;
+    .search-container.active {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding-left: 15px;
     }
 
     #search-input {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
-        width: 40px; 
-        height: 40px;
+        position: static;
+        width: 0;
+        height: auto;
         padding: 0;
         opacity: 0;
         visibility: hidden;
+        transform: none;
         background: transparent;
-        border: 1px solid transparent;
-        border-radius: 50px;
-        color: white;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
         font-size: 0.9rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-sizing: border-box;
-        z-index: 999;
-        margin: 0;
-        outline: none;
-        font-family: 'Onest', sans-serif;
+        transition: all 0.3s ease;
     }
 
     .search-container.active #search-input {
-        width: 280px;
-        padding: 0 75px 0 20px;
+        width: 150px;
         opacity: 1;
         visibility: visible;
-        background: var(--glass-bg);
-        border: var(--glass-border);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        margin-right: 5px;
+        transform: none;
+        border: none;
     }
 
-    #search-clear {
-        position: absolute;
-        top: 50%;
-        right: 45px;
-        transform: translateY(-50%);
-        z-index: 1000;
-        opacity: 0;
-        color: white;
-        visibility: hidden;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-size: 20px;
-        background: none;
-        border-radius: 50%;
-        padding: 4px;
-        margin: 0;
-        display: flex;
-    }
-
+    #search-clear,
     .search-container.active #search-clear {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    #search-toggle {
-        position: relative;
-        z-index: 1001;
+        display: none !important;
     }
 
     .player-view {
