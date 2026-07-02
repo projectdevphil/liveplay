@@ -38,13 +38,13 @@
         <nav>
             <div class="search-container" id="search-container">
                 <input type="text" id="search-input" placeholder="Search channel...">
-                <span id="search-clear" class="material-symbols-rounded">close</span>
+                <span id="search-clear" class="material-symbols-rounded notranslate" translate="no">close</span>
                 <button id="search-toggle" class="icon-link">
-                    <span class="material-symbols-rounded">search</span>
+                    <span class="material-symbols-rounded notranslate" translate="no">search</span>
                 </button>
             </div>
             <button id="menu-btn" class="icon-link">
-                <span class="material-symbols-rounded">menu</span>
+                <span class="material-symbols-rounded notranslate" translate="no">menu</span>
             </button>
         </nav>
     </header>
@@ -56,7 +56,7 @@
             <div id="player-view" class="player-view">
                 <div class="player-header">
                     <button id="minimize-player-btn" class="icon-link">
-                        <span class="material-symbols-rounded">expand_more</span>
+                        <span class="material-symbols-rounded notranslate" translate="no">expand_more</span>
                     </button>
                 </div>
                 
@@ -72,7 +72,7 @@
                         <p id="player-channel-status">Now Playing</p>
                     </div>
                     <div class="live-indicator">
-                        <span id="main-live-icon" class="material-symbols-rounded">sensors</span> LIVE
+                        <span id="main-live-icon" class="material-symbols-rounded notranslate" translate="no">sensors</span> LIVE
                     </div>
                 </div>
             </div>
@@ -147,6 +147,7 @@
 
                 <footer class="site-footer">
                     <div class="footer-content">
+                        <div id="custom-language-selector" class="language-selector-container"></div>
                         <p class="copyright">©2026 Project Dev, All Rights Reserved.</p>
                         <p class="version">Version 1.0.8</p>
                     </div>
@@ -169,14 +170,16 @@
             </div>
             
             <div class="minimized-player-right">
-                <span class="material-symbols-rounded live-sensor-mini">sensors</span>
+                <span class="material-symbols-rounded live-sensor-mini notranslate" translate="no">sensors</span>
             </div>
         </div>
         
         <button id="exit-player-btn" class="icon-link-mini">
-            <span class="material-symbols-rounded">close</span>
+            <span class="material-symbols-rounded notranslate" translate="no">close</span>
         </button>
     </div>
+
+    <div id="google_translate_element" style="display:none;"></div>
     
     <script src="/js/script.js"></script>
 </body>
