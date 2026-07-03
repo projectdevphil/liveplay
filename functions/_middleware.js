@@ -52,81 +52,13 @@ function getBlockedHTML() {
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Liveplay" />
     <link rel="manifest" href="/assets/site.webmanifest" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
-        
-        :root {
-            --theme-color: #ffffff; 
-            --background-color: #000000;
-            --text-color: #ffffff;
-            --text-secondary: #888888;
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Onest', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            flex-direction: column;
-            padding: 30px;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        
-        .container {
-            max-width: 600px;
-            width: 100%;
-        }
-        
-        .logo {
-            font-weight: 800;
-            font-size: 2rem;
-            margin-bottom: 60px;
-            display: block;
-            text-transform: lowercase;
-            letter-spacing: -0.5px;
-        }
-
-        h1 {
-            font-size: clamp(2.2rem, 9vw, 5rem);
-            margin: 0;
-            margin-bottom: 30px;
-            font-weight: 800;
-            color: var(--theme-color);
-            line-height: 1.1;
-            letter-spacing: -0.04em;
-            white-space: nowrap;
-        }
-
-        p {
-            color: var(--text-secondary);
-            margin-bottom: 0;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            font-weight: 400;
-            padding: 0 10px;
-        }
-
-        @media (max-width: 768px) {
-            .logo { margin-bottom: 40px; }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/status.css" />
 </head>
 <body>
     <div class="container">
         <div class="logo">liveplay</div>
-        <h1>Oops! Sorry po!</h1>
-        <p>
+        <h1 class="error-title">Oops! Sorry po!</h1>
+        <p class="small-text no-margin">
             Liveplay is a free live TV streaming platform available exclusively in the Philippines.
         <br><br>
             Unfortunately, our service is not available in your region.
