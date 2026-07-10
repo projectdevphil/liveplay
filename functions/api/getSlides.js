@@ -33,7 +33,7 @@ export async function onRequest(context) {
         },
         {
             title: "A Secret In Prague",
-            description: "<strong>MON-FRI | 8:45PM</strong><br>TV5, Kapamilya Channel, ALLTV2,<br>and A2Z",
+            description: "<strong>MON-FRI | 9:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2, and A2Z",
             image: "/assets/poster/slides/a_secret_in_prague_slide.png",
             badge: "PG | Action • Romance",
             link: null,
@@ -41,7 +41,7 @@ export async function onRequest(context) {
         },
         {
             title: "My Bespren Emman",
-            description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2,<br>and A2Z",
+            description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2, and A2Z",
             image: "/assets/poster/slides/my_bespren_emman_slide.png",
             badge: "PG | Inspirational • Family • Drama",
             link: null,
