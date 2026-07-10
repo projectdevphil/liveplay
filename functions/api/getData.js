@@ -18,6 +18,18 @@ async function generateSignature(message, secret) {
         .replace(/=/g, '');
 }
 
+function xorEncryptDecrypt(hexString, keyString) {
+    let result = '';
+    for (let i = 0; i < hexString.length; i += 2) {
+        const hexChar = hexString.substring(i, i + 2);
+        const byte = parseInt(hexChar, 16);
+        const keyChar = keyString.charCodeAt((i / 2) % keyString.length);
+        const XORed = byte ^ keyChar;
+        result += XORed.toString(16).padStart(2, '0');
+    }
+    return result;
+}
+
 export async function onRequest(context) {
     const url = new URL(context.request.url);
     const channelName = url.searchParams.get("channel");
@@ -25,18 +37,27 @@ export async function onRequest(context) {
     const allowedOrigin = "https://liveplayph.pages.dev";
     const requestOrigin = context.request.headers.get("Origin") || context.request.headers.get("Referer");
     
-    if (requestOrigin && !requestOrigin.startsWith(allowedOrigin)) {
-        return new Response(JSON.stringify({ error: "Access Denied: Unauthorized Domain" }), { 
-            status: 403, 
-            headers: { "Content-Type": "application/json" } 
-        });
+    let isAllowed = false;
+    if (!requestOrigin) {
+        isAllowed = true;
+    } else {
+        const hostname = new URL(requestOrigin).hostname;
+        if (
+            hostname === "liveplayph.pages.dev" ||
+            hostname.endsWith(".pages.dev") ||
+            hostname === "localhost" ||
+            hostname === "127.0.0.1"
+        ) {
+            isAllowed = true;
+        }
+    }
+
+    if (!isAllowed) {
+        return new Response(JSON.stringify({ error: "Access Denied" }), { status: 403 });
     }
 
     if (!channelName) {
-        return new Response(JSON.stringify({ error: "Not Found" }), { 
-            status: 404, 
-            headers: { "Content-Type": "application/json" } 
-        });
+        return new Response(JSON.stringify({ error: "Not Found" }), { status: 404 });
     }
 
     const secretKey = context.env.STREAM_SECRET || "fallback-secret-key-123";
@@ -100,27 +121,31 @@ export async function onRequest(context) {
     const foundChannel = channels.find(c => c.name === channelName);
     
     if (!foundChannel) {
-        return new Response(JSON.stringify({ error: "Channel Not Found" }), {
-            status: 404,
-            headers: { "Content-Type": "application/json" }
-        });
+        return new Response(JSON.stringify({ error: "Channel Not Found" }), { status: 404 });
     }
 
     let type = foundChannel.manifestUri.includes('.m3u8') ? 'm3u8' : 'mpd';
     let finalManifestUri = foundChannel.manifestUri;
-    let licenceServerUrl = null;
+    let encryptedKeyData = null;
+    let token = '';
 
     const isConverse = foundChannel.manifestUri.includes("converse.nathcreqtives.com");
 
     if (!isConverse) {
-        const expiry = Date.now() + 2 * 60 * 60 * 1000;
+        const expiry = Date.now() + 2 * 60 * 60 * 1000; // 2 hours
         const message = `${channelName}:${expiry}`;
-        const token = await generateSignature(message, secretKey);
+        token = await generateSignature(message, secretKey);
         
         finalManifestUri = `${url.origin}/api/proxy?channel=${encodeURIComponent(channelName)}&expires=${expiry}&token=${token}`;
         
         if (foundChannel.clearKey) {
-            licenceServerUrl = `${url.origin}/api/clearkey?channel=${encodeURIComponent(channelName)}&expires=${expiry}&token=${token}`;
+            const kid = Object.keys(foundChannel.clearKey)[0];
+            const key = Object.values(foundChannel.clearKey)[0];
+            
+            encryptedKeyData = {
+                k1: xorEncryptDecrypt(kid, token),
+                k2: xorEncryptDecrypt(key, token)
+            };
         }
     }
 
@@ -129,14 +154,15 @@ export async function onRequest(context) {
 
     return new Response(JSON.stringify({
         manifestUri: finalManifestUri,
-        licenceServerUrl: licenceServerUrl,
+        token: token,
+        encryptedKeys: encryptedKeyData,
         ClearKey: isConverse && keyId ? { k1: keyId, k2: key } : null,
         type: type
     }), {
         status: 200,
         headers: { 
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": allowedOrigin
+            "Access-Control-Allow-Origin": requestOrigin || allowedOrigin
         }
     });
 }
