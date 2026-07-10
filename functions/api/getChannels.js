@@ -57,7 +57,7 @@ export async function onRequest(context) {
         { name: 'ASAP XP Livestream', logo: '/assets/logos/asap_xp_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/asap/manifest.mpd', clearKey: { '6379f85c61d84b5db3be564bf59f4e13': 'd9a1f47f7a58f5a9598a452081155df4' }, group: 'Livestream' },
         { name: "It's Showtime Livestream", logo: '/assets/logos/its_showtime_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/itsshowtime/manifest.mpd', clearKey: { '3cdb78338a104ed594175a49532c823d': '9c7810c46873053be29d26bf6f753664' }, group: 'Livestream' },
         { name: 'The Healing Eucharist Livestream', logo: '/assets/logos/the_healing_eucharist_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/healingeucharist3/manifest.mpd', clearKey: { 'b84ec93eb33c48e58718e99cd4096c15': '9e3a9aee29cbd0375e02c55e0b7b5945' }, group: 'Livestream' },
-        { name: 'TV Patrol Livestream', logo: '/assets/logos/tv_patrol_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/tvp-ph/manifest.mpd', clearKey: { 'a14583678b4d40b4a267c5845f673263': '98252f8318d84c55b10dd7a112622bd4' }, group: 'Livestream' },
+        { name: 'TV Patrol Livestream', logo: '/assets/logos/tv_patrol_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/tvp-ph/manifest.mpd', clearKey: { 'a14583678b4d40b4a267c5845f673263': '98252f8318d84c55b10dd7a112622bd4' }, group: 'Livestream' }
     ];
 
     const publicData = channels.map(channel => ({
