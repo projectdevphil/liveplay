@@ -1,9 +1,18 @@
 async function checkYouTubeLive(channelId) {
     try {
-        const url = `https://www.youtube.com/embed/live_stream?channel=${channelId}`;
+        const url = `https://www.youtube.com/channel/${channelId}/live?_=${Date.now()}`;
+        
         const response = await fetch(url, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            },
+            cf: {
+                cacheTtl: 0,
+                cacheEverything: false
             }
         });
         
@@ -11,10 +20,21 @@ async function checkYouTubeLive(channelId) {
         
         const text = await response.text();
         
-        const hasLiveIndicator = text.includes('"isLive":true') || text.includes('"isLiveBroadcast":true') || text.includes('hqdefault_live.jpg');
-        const isUnavailable = text.includes('This video is unavailable') || text.includes('yt-playability-error-supported-renderers');
+        const hasLiveIndicator = 
+            text.includes('"isLive":true') || 
+            text.includes('"isLive": true') || 
+            text.includes('isLiveBroadcast') || 
+            text.includes('"style":"LIVE"') ||
+            text.includes('"style": "LIVE"') ||
+            text.includes('liveChatRenderer') ||
+            text.includes('activeLiveChatId');
+
+        const isOfflineOrUnavailable = 
+            text.includes('This video is unavailable') || 
+            text.includes('yt-playability-error-supported-renderers') ||
+            text.includes('upcomingEventData');
         
-        return hasLiveIndicator && !isUnavailable;
+        return hasLiveIndicator && !isOfflineOrUnavailable;
     } catch (e) {
         console.error("Error checking YouTube live status:", e);
         return false;
@@ -89,8 +109,8 @@ export async function onRequest(context) {
     
         // YouTube Livestream
         { name: 'Kapamilya Online Live', logo: '/assets/logos/abs_kol_logo.svg', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCstEtN0pgOmCf02EdXsGChw', group: 'YouTube Livestream' },
-        { name: 'Kapatid Livestream', logo: '/assets/logos/tv5_logo.svg', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCiFx0kZFjR29u0uJxTSq5MQ', group: 'YouTube Livestream' },
-        { name: 'Kapuso Stream', logo: '/assets/logos/gma_logo.png', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCKL5hAuzgFQsyrsQKgU0Qng', group: 'YouTube Livestream' }
+        { name: 'Kapatid Livestream', logo: '/assets/logos/kapatid_livestream_logo.png', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCiFx0kZFjR29u0uJxTSq5MQ', group: 'YouTube Livestream' },
+        { name: 'Kapuso Stream', logo: '/assets/logos/kapuso_stream_logo.svg', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCKL5hAuzgFQsyrsQKgU0Qng', group: 'YouTube Livestream' }
     ];
 
     const foundChannel = channels.find(c => c.name === channelName);
