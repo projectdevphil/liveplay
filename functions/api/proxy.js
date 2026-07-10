@@ -30,10 +30,24 @@ export async function onRequest(context) {
     const token = url.searchParams.get("token");
 
     const allowedOrigin = "https://liveplayph.pages.dev";
-    const secretKey = context.env.STREAM_SECRET || "fallback-secret-key-123";
+    const origin = context.request.headers.get("Origin") || context.request.headers.get("Referer");
+    
+    let isAllowed = false;
+    if (!origin) {
+        isAllowed = true;
+    } else {
+        const hostname = new URL(origin).hostname;
+        if (
+            hostname === "liveplayph.pages.dev" ||
+            hostname.endsWith(".pages.dev") ||
+            hostname === "localhost" ||
+            hostname === "127.0.0.1"
+        ) {
+            isAllowed = true;
+        }
+    }
 
-    const origin = context.request.headers.get("Origin");
-    if (origin && origin !== allowedOrigin) {
+    if (!isAllowed) {
         return new Response("Unauthorized Domain Access", { status: 403 });
     }
 
@@ -45,6 +59,7 @@ export async function onRequest(context) {
         return new Response("Stream Session Expired", { status: 403 });
     }
 
+    const secretKey = context.env.STREAM_SECRET || "fallback-secret-key-123";
     const message = `${channelName}:${expires}`;
     const isValid = await verifySignature(message, token, secretKey);
     if (!isValid) {
@@ -120,7 +135,7 @@ export async function onRequest(context) {
         }
 
         const proxyResponseHeaders = new Headers(response.headers);
-        proxyResponseHeaders.set("Access-Control-Allow-Origin", allowedOrigin);
+        proxyResponseHeaders.set("Access-Control-Allow-Origin", origin || allowedOrigin);
         proxyResponseHeaders.set("Access-Control-Allow-Methods", "GET, OPTIONS");
         proxyResponseHeaders.set("Cache-Control", "no-cache, no-store, must-revalidate");
 
