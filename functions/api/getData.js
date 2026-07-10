@@ -1,3 +1,26 @@
+async function checkYouTubeLive(channelId) {
+    try {
+        const url = `https://www.youtube.com/embed/live_stream?channel=${channelId}`;
+        const response = await fetch(url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
+        });
+        
+        if (!response.ok) return false;
+        
+        const text = await response.text();
+        
+        const hasLiveIndicator = text.includes('"isLive":true') || text.includes('"isLiveBroadcast":true') || text.includes('hqdefault_live.jpg');
+        const isUnavailable = text.includes('This video is unavailable') || text.includes('yt-playability-error-supported-renderers');
+        
+        return hasLiveIndicator && !isUnavailable;
+    } catch (e) {
+        console.error("Error checking YouTube live status:", e);
+        return false;
+    }
+}
+
 export async function onRequest(context) {
     const url = new URL(context.request.url);
     const channelName = url.searchParams.get("channel");
@@ -9,16 +32,14 @@ export async function onRequest(context) {
         });
     }
 
-    const channels =[
+    const channels = [
         // General
-        //{ name: 'Kapamilya Channel', logo: '/assets/logos/abs_kapcha_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/manifest.mpd', clearKey: { '292dee4236d04054910e9706ee22626b': 'b7c5d3220f6eb6e042a2bcb367b5c09b' }, group: 'General' },
         { name: 'Kapamilya Channel', logo: '/assets/logos/abs_kapcha_logo.svg', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-77/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjUxOTc4MywiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.Iar8XDhlACFAcIrCJA-9JhYcsHL8-WY8hVXLFrB_ScE', group: 'General' },
         { name: 'ALLTV2', logo: '/assets/logos/abs_alltv2_logo.svg', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-55/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ1MTA3NSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.Fn-2e1zktxEmSDAVTwPhcbLKZRP3pnH626Bf6JppcjU', group: 'General' },
         { name: 'TV5', logo: '/assets/logos/tv5_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/tv5_hd/default1/index.mpd', clearKey: { '9c3e7a516d824f04a9175b8c2e3d7040': '524a9c2cec98272f71c347345a3fd12e' }, group: 'General' },
         { name: 'One Sports', logo: '/assets/logos/one_sports_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_onesports_hd/default/index.mpd', clearKey: { '69f5a2318d744c609b125e3a7d8f2046': '182523c0bae912e17e916dd4283280e9' }, group: 'Sports' },
         { name: 'GMA7', logo: '/assets/logos/gma_logo.png', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-15/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ1MTA3NSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.Fn-2e1zktxEmSDAVTwPhcbLKZRP3pnH626Bf6JppcjU', group: 'General' },
         { name: 'RPTV', logo: '/assets/logos/rptv_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cnn_rptv_prod_hd/default/index.mpd', clearKey: { 'b5d7a6219c434e188f026a3d7c5e9148': '28e1244057ff6feae879c1e985ded0fb' }, group: 'General' },
-        //{ name: 'A2Z', logo: '/assets/logos/a2z_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_a2z/default/index.mpd', clearKey: { 'f3a8c9126e544d809b312c7f5a8e6140': '43f5361983896b47ff01b4f77c5dbf3f' }, group: 'General' },
         { name: 'A2Z', logo: '/assets/logos/a2z_logo.png', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-9/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ4MzkyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.MeQn2ED5Hxb8k3WbD0IyaBXzbCoz-v-wb329Okl-f-w', group: 'General' },
         { name: 'GTV', logo: '/assets/logos/gtv_logo.svg', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-34/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ1MTA3NSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.Fn-2e1zktxEmSDAVTwPhcbLKZRP3pnH626Bf6JppcjU', group: 'General' },
         { name: 'PTV4', logo: '/assets/logos/ptv_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_ptv4_sd/default/index.mpd', clearKey: { 'f8c2a6915d744b309e186a3f7c2d8049': '1ad3243b38c60312caa6ba11f150c19c' }, group: 'General' },
@@ -26,7 +47,6 @@ export async function onRequest(context) {
     
         // News
         { name: 'ABS-CBN News Channel', logo: '/assets/logos/anc_logo.svg', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/anc-ph3/manifest.mpd', clearKey: { 'b6d6e536f8fa4d8b93627af0128cf00d': 'e73c8dcfdea374ae576ced342f6c73a2' }, group: 'News' },
-        //{ name: 'Bilyonaryo News Channel', logo: '/assets/logos/bnc_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/bilyonaryoch/default/index.mpd', clearKey: { '2e7f9c518a424d30b2165c3e7a9d6041': '8c8c0ef924c982bc1dd92348e024cd4c' }, group: 'News' },
         { name: 'Bilyonaryo News Channel', logo: '/assets/logos/bnc_logo.png', manifestUri: 'https://amg19223-amg19223c11-amgplt0352.playout.now3.amagi.tv/playlist/amg19223-amg19223c11-amgplt0352/playlist.m3u8', group: 'News' },
         { name: 'DZMM Teleradyo', logo: '/assets/logos/dzmm_teleradyo_logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-teleradyo-dash-abscbnono/index.mpd', clearKey: { '47c093e0c9fd4f80839a0337da3dd876': '603248b858276f533a13e17f2f48c711' }, group: 'News' },
         { name: 'DZRH TV', logo: '/assets/logos/dzrh_tv_logo.svg', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-50/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjY5OTgyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.hYijRv3pv9RkylqoUWAAS4JR4loJ7HDryvVsH2osQ2U', group: 'News' },
@@ -42,7 +62,6 @@ export async function onRequest(context) {
         // Movies
         { name: 'Cinema One', logo: '/assets/logos/cinema_one_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/c1ph/manifest.mpd', clearKey: { '55eddd1e157e4c3b830866e4679e7032': '525030e984567ba8df0af80660952368' }, group: 'Movies' },
         { name: 'Cinemo!', logo: '/assets/logos/cinemo_logo.png', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-73/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ4MzkyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.MeQn2ED5Hxb8k3WbD0IyaBXzbCoz-v-wb329Okl-f-w', group: 'Movies' },
-        //{ name: 'Cinemo! Global', logo: '/assets/logos/cinemo_logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemo-dash-abscbnono/index.mpd', clearKey: { 'aa8aebe35ccc4541b7ce6292efcb1bfb': 'f06b6031a3604cc6708c14d83f1a1b27' }, group: 'Movies' },
         { name: 'PBO', logo: '/assets/logos/pbo_logo.svg', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-3/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ4MzkyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.MeQn2ED5Hxb8k3WbD0IyaBXzbCoz-v-wb329Okl-f-w', group: 'Movies' },
         { name: 'Viva Cinema', logo: '/assets/logos/viva_cinema_logo.svg', manifestUri: 'https://converse.nathcreqtives.com/api/proxy/ch-converge-1782315771869-4/index.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJwcm9qZWN0ZGV2cGhpbCIsImlhdCI6MTc4MjQ4MzkyMSwiZXhwIjoxNzg4NDk5MDc1LCJhY2NvdW50RXhwaXJlZCI6ZmFsc2UsImFjY291bnRFeHBpcmVzQXQiOjE3ODg0OTkwNzUsImFsbG93ZWRPcmlnaW5zIjpbImh0dHBzOi8vbGl2ZXBsYXlwaC5wYWdlcy5kZXYiXX0.MeQn2ED5Hxb8k3WbD0IyaBXzbCoz-v-wb329Okl-f-w', group: 'Movies' },
         { name: 'HBO', logo: '/assets/logos/hbo_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_hbohd/default/index.mpd', clearKey: { 'd7f3c8215a944e068b176c9d2a5f3048': '93c0a798243d6443864d1a7ff3e42c05' }, group: 'Movies' },
@@ -57,7 +76,6 @@ export async function onRequest(context) {
 
         // Infotainment
         { name: 'Knowledge Channel', logo: '/assets/logos/knowledge_ch_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/kc/manifest.mpd', clearKey: { 'bd1f88dd3b254514bf7a113188c10dc2': 'ea86da60f0116f3b92a86acf45b8e071' }, group: 'Infotainment' },
-        //{ name: 'Knowledge Channel', logo: '/assets/knowledge_ch_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/knowledge_channel/default/index.mpd', clearKey: { '84d2f6917b354c08a9163e5d8f2a7049': '192c69ef479dd7e3fccc908d6c5dbb3a' }, group: 'Infotainment' },
 
         // Music
         { name: 'MYX', logo: '/assets/logos/myx_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-myxnola-dash-abscbnono/index.mpd', clearKey: { 'f40a52a3ac9b4702bdd5b735d910fd2f': '35e4893c6e76546085941be3010932d4' }, group: 'Music' },
@@ -71,15 +89,34 @@ export async function onRequest(context) {
     
         // YouTube Livestream
         { name: 'Kapamilya Online Live', logo: '/assets/logos/abs_kol_logo.svg', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCstEtN0pgOmCf02EdXsGChw', group: 'YouTube Livestream' },
-        { name: 'Kapatid Livestream', logo: '/assets/logos/kapatid_livestream_logo.png', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCiFx0kZFjR29u0uJxTSq5MQ', group: 'YouTube Livestream' },
-        { name: 'Kapuso Stream', logo: '/assets/logos/kapuso_stream_logo.svg', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCKL5hAuzgFQsyrsQKgU0Qng', group: 'YouTube Livestream' }
+        { name: 'Kapatid Livestream', logo: '/assets/logos/tv5_logo.svg', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCiFx0kZFjR29u0uJxTSq5MQ', group: 'YouTube Livestream' },
+        { name: 'Kapuso Stream', logo: '/assets/logos/gma_logo.png', embedUri: 'https://www.youtube.com/embed/live_stream?channel=UCKL5hAuzgFQsyrsQKgU0Qng', group: 'YouTube Livestream' }
     ];
 
     const foundChannel = channels.find(c => c.name === channelName);
     
     if (foundChannel) {
+        if (foundChannel.embedUri) {
+            const channelIdMatch = foundChannel.embedUri.match(/channel=([^&]+)/);
+            const channelId = channelIdMatch ? channelIdMatch[1] : null;
+            let isLive = false;
+            
+            if (channelId) {
+                isLive = await checkYouTubeLive(channelId);
+            }
+
+            return new Response(JSON.stringify({
+                embedUri: foundChannel.embedUri,
+                type: 'youtube',
+                isLive: isLive
+            }), {
+                status: 200,
+                headers: { "Content-Type": "application/json" }
+            });
+        }
+
         let type = 'mpd';
-        if (foundChannel.manifestUri.includes('.m3u8')) {
+        if (foundChannel.manifestUri && foundChannel.manifestUri.includes('.m3u8')) {
             type = 'm3u8';
         }
 
