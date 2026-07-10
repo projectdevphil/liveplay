@@ -42,7 +42,7 @@ export async function onRequest(context) {
         {
             title: "My Bespren Emman",
             description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2,<br>and A2Z",
-            image: "/assets/poster/slides/my_brespen_emman_slide.png",
+            image: "/assets/poster/slides/my_bespren_emman_slide.png",
             badge: "PG | Inspirational • Family • Drama",
             link: null,
             overlay: "show"
