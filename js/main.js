@@ -489,6 +489,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const kid = xorEncryptDecrypt(secureData.encryptedKeys.k1, secureData.token);
                 const key = xorEncryptDecrypt(secureData.encryptedKeys.k2, secureData.token);
                 
+                console.log("=== LIVEPLAY DRM DIAGNOSTICS ===");
+                console.log("Decrypted Key ID (KID):", kid);
+                console.log("Decrypted Key:", key);
+                
                 config.drm.clearKeys[kid] = key;
             } 
             else if (secureData.ClearKey && secureData.ClearKey.k1 && secureData.ClearKey.k2) {
