@@ -472,7 +472,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             const config = { drm: { servers: {}, clearKeys: {} } };
-            if (secureData.ClearKey && secureData.ClearKey.k1 && secureData.ClearKey.k2) {
+
+            if (secureData.licenceServerUrl) {
+                config.drm.servers['org.w3.clearkey'] = secureData.licenceServerUrl;
+            } else if (secureData.ClearKey && secureData.ClearKey.k1 && secureData.ClearKey.k2) {
                 config.drm.clearKeys[secureData.ClearKey.k1] = secureData.ClearKey.k2;
             }
             player.configure(config);
@@ -609,15 +612,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function startBackgroundStatusCheck() {
-        const BATCH_SIZE = 10;
+        if (document.hidden) {
+            setTimeout(startBackgroundStatusCheck, 30000);
+            return;
+        }
+
+        const BATCH_SIZE = 5;
         const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
         for (let i = 0; i < allStreams.length; i += BATCH_SIZE) {
+            if (document.hidden) break;
+
             const batch = allStreams.slice(i, i + BATCH_SIZE);
             
             await Promise.all(batch.map(async (stream) => {
                 const slug = createSlug(stream.name);
                 
+                if (slug === currentActiveChannelSlug) return;
+
                 try {
                     const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(stream.name)}`);
                     if (!res.ok) throw new Error("API Data failed");
@@ -656,12 +668,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }));
             
-            await delay(300);
+            await delay(500);
         }
 
-        setTimeout(startBackgroundStatusCheck, 120000);
+        setTimeout(startBackgroundStatusCheck, 300000);
     }
-
+    
     setResponsivePoster();
     window.addEventListener('resize', setResponsivePoster);
     renderMenu();
