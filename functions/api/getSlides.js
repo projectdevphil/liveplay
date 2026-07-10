@@ -34,11 +34,19 @@ export async function onRequest(context) {
         {
             title: "A Secret In Prague",
             description: "<strong>MON-FRI | 8:45PM</strong><br>TV5, Kapamilya Channel, ALLTV2,<br>and A2Z",
-            image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
+            image: "/assets/poster/slides/a_secret_in_prague_slide.png",
             badge: "PG | Action • Romance",
             link: null,
             overlay: "show"
         },
+        {
+            title: "My Bespren Emman",
+            description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2,<br>and A2Z",
+            image: "/assets/poster/slides/my_brespen_emman_slide.png",
+            badge: "PG | Inspirational • Family • Drama",
+            link: null,
+            overlay: "show"
+        },        
         {
             title: "It's Showtime",
             description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and It's Showtime Livestream",
