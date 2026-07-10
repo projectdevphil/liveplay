@@ -24,32 +24,24 @@ export async function onRequest(context) {
             overlay: "show"
         },
         {
+            title: "Someone, Someday",
+            description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
+            image: "https://pql-static.abs-cbn.com/images/someonesomeday.herobg-tv.JPG",
+            badge: "PG | Romance • Mystery",
+            link: null,
+            overlay: "show"
+        },
+        {
             title: "A Secret In Prague",
-            description: "<strong>MON-FRI | 8:45PM</strong><br>TV5 and Kapatid Channel",
+            description: "<strong>MON-FRI | 8:45PM</strong><br>TV5, Kapamilya Channel, ALLTV2,<br>and A2Z",
             image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTuVENSyEUOuDVRxYnNlcJLf4RsXfFkjeVbdQ7H5jPIdaJNyLZGp0hMnwGwR-I_czHCPAILpduVsochC91V8w7vzBp79AyGZpXhpzpfMdA.webp",
             badge: "PG | Action • Romance",
             link: null,
             overlay: "show"
         },
-       {
-            title: "Blood Vs. Duty",
-            description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/bloodvsduty.herobg-tv.JPG",
-            badge: "SPG | Action • Drama",
-            link: null,
-            overlay: "show"
-        },
-        {
-            title: "The Alibi",
-            description: "<strong>MON-FRI | 9:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/thealibi.herobg-tv.JPG",
-            badge: "SPG | Drama • Mystery • Romance",
-            link: null,
-            overlay: "show"
-        },
         {
             title: "It's Showtime",
-            description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and Catch-Up Livestream",
+            description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and It's Showtime Livestream",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
             badge: "PG | Variety • Comedy",
             link: null,
