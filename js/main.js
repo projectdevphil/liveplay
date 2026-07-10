@@ -75,6 +75,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
+    const toggleShakaUI = (show) => {
+        if (!playerWrapper) return;
+        const shakaElements = playerWrapper.querySelectorAll('[class^="shaka-"], [class*=" shaka-"]');
+        shakaElements.forEach(el => {
+            el.style.display = show ? '' : 'none';
+        });
+    };
+
     const fetchSlides = async () => {
         try {
             const response = await fetch(API_GET_SLIDES);
@@ -476,6 +484,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (player) {
                     await player.unload();
                 }
+                
+                if (ui) {
+                    ui.setEnabled(false);
+                }
+                toggleShakaUI(false);
+                
                 videoElement.style.display = 'none';
 
                 const iframe = document.createElement('iframe');
@@ -507,6 +521,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!player) {
                 const success = await initPlayer();
                 if (!success) return;
+            } else {
+                if (ui) {
+                    ui.setEnabled(true);
+                }
+                toggleShakaUI(true);
             }
 
             const config = { drm: { servers: {}, clearKeys: {} } };
@@ -564,6 +583,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (videoElement) {
             videoElement.style.display = 'block';
         }
+
+        if (ui) {
+            ui.setEnabled(true);
+        }
+        toggleShakaUI(true);
         
         if (playerView) playerView.classList.remove('active');
         if (minimizedPlayer) minimizedPlayer.classList.remove('active');
