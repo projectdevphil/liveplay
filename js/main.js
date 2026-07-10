@@ -377,8 +377,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const initPlayer = async () => {
         shaka.polyfill.installAll();
         if (shaka.Player.isBrowserSupported()) {
-            player = new shaka.Player(videoElement);
+            player = new shaka.Player(); 
             try {
+               await player.attach(videoElement);
                ui = new shaka.ui.Overlay(player, playerWrapper, videoElement);
                ui.configure({ 
                   addSeekBar: true 
@@ -389,6 +390,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             player.addEventListener('error', (event) => {
+                if (event.detail && event.detail.code === shaka.util.Error.Code.OPERATION_ABORTED) {
+                    return;
+                }
+                
                 console.error(event.detail.code);
                 
                 if (currentActiveChannelSlug) {
@@ -490,6 +495,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
         } catch (e) {
+            if (e && e.code === shaka.util.Error.Code.OPERATION_ABORTED) {
+                console.log("Stream load was canceled because another stream was requested.");
+                return; 
+            }
+
             console.error(e);
             offlineChannels.add(currentActiveChannelSlug);
             updateOfflineState(true);
