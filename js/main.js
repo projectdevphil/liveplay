@@ -6,18 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_INCREMENT_VIEW = '/api/incrementView';
     const API_GET_TOP_CHANNELS = '/api/getTopChannels';
 
-    const xorEncryptDecrypt = (hexString, keyString) => {
-        let result = '';
-        for (let i = 0; i < hexString.length; i += 2) {
-            const hexChar = hexString.substring(i, i + 2);
-            const byte = parseInt(hexChar, 16);
-            const keyChar = keyString.charCodeAt((i / 2) % keyString.length);
-            const XORed = byte ^ keyChar;
-            result += XORed.toString(16).padStart(2, '0');
-        }
-        return result;
-    };
-
     const CHANNELS_PER_PAGE = 40;
     const POSTER_MOBILE = '/assets/poster/mobile_v5.png';
     const POSTER_DESKTOP = '/assets/poster/desktop_v5.png';
@@ -484,21 +472,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             const config = { drm: { servers: {}, clearKeys: {} } };
-
-            if (secureData.encryptedKeys && secureData.token) {
-                const kid = xorEncryptDecrypt(secureData.encryptedKeys.k1, secureData.token);
-                const key = xorEncryptDecrypt(secureData.encryptedKeys.k2, secureData.token);
-                
-                console.log("=== LIVEPLAY DRM DIAGNOSTICS ===");
-                console.log("Decrypted Key ID (KID):", kid);
-                console.log("Decrypted Key:", key);
-                
-                config.drm.clearKeys[kid] = key;
-            } 
-            else if (secureData.ClearKey && secureData.ClearKey.k1 && secureData.ClearKey.k2) {
+            if (secureData.ClearKey && secureData.ClearKey.k1 && secureData.ClearKey.k2) {
                 config.drm.clearKeys[secureData.ClearKey.k1] = secureData.ClearKey.k2;
             }
-
             player.configure(config);
             if (ui) ui.setEnabled(true);
 
@@ -633,24 +609,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function startBackgroundStatusCheck() {
-        if (document.hidden) {
-            setTimeout(startBackgroundStatusCheck, 30000);
-            return;
-        }
-
-        const BATCH_SIZE = 5;
+        const BATCH_SIZE = 10;
         const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
         for (let i = 0; i < allStreams.length; i += BATCH_SIZE) {
-            if (document.hidden) break;
-
             const batch = allStreams.slice(i, i + BATCH_SIZE);
             
             await Promise.all(batch.map(async (stream) => {
                 const slug = createSlug(stream.name);
                 
-                if (slug === currentActiveChannelSlug) return;
-
                 try {
                     const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(stream.name)}`);
                     if (!res.ok) throw new Error("API Data failed");
@@ -689,12 +656,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }));
             
-            await delay(500);
+            await delay(300);
         }
 
-        setTimeout(startBackgroundStatusCheck, 300000);
+        setTimeout(startBackgroundStatusCheck, 120000);
     }
-    
+
     setResponsivePoster();
     window.addEventListener('resize', setResponsivePoster);
     renderMenu();
