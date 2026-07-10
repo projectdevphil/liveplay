@@ -452,6 +452,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
 
+        const existingIframe = playerWrapper.querySelector('iframe.youtube-player');
+        if (existingIframe) {
+            existingIframe.remove();
+        }
+        videoElement.style.display = 'block';
+
         videoElement.removeAttribute('src');
         videoElement.load();
 
@@ -465,6 +471,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!res.ok) throw new Error("Channel data not found.");
             const secureData = await res.json();
+
+            if (secureData.type === 'youtube' && secureData.embedUri) {
+                if (player) {
+                    await player.unload();
+                }
+                videoElement.style.display = 'none';
+
+                const iframe = document.createElement('iframe');
+                iframe.className = 'youtube-player';
+                iframe.src = secureData.embedUri;
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = '0';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+
+                playerWrapper.appendChild(iframe);
+
+                if (secureData.isLive === false) {
+                    offlineChannels.add(currentActiveChannelSlug);
+                    updateOfflineState(true);
+                } else {
+                    offlineChannels.delete(currentActiveChannelSlug);
+                    updateOfflineState(false);
+                }
+
+                if (mainPlayerStatus) {
+                    mainPlayerStatus.textContent = groupTitle;
+                    mainPlayerStatus.style.color = "var(--theme-color)";
+                }
+                return;
+            }
 
             if (!player) {
                 const success = await initPlayer();
@@ -518,6 +556,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const closePlayer = async () => {
         if (player) await player.unload();
+        
+        const existingIframe = playerWrapper.querySelector('iframe.youtube-player');
+        if (existingIframe) {
+            existingIframe.remove();
+        }
+        if (videoElement) {
+            videoElement.style.display = 'block';
+        }
         
         if (playerView) playerView.classList.remove('active');
         if (minimizedPlayer) minimizedPlayer.classList.remove('active');
@@ -623,7 +669,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (!res.ok) throw new Error("API Data failed");
                     
                     const secureData = await res.json();
-                    if (!secureData.manifestUri) throw new Error("No MPD URI returned");
+
+                    if (secureData.type === 'youtube') {
+                        if (secureData.isLive === false) {
+                            throw new Error("YouTube stream is offline");
+                        }
+                        
+                        if (offlineChannels.has(slug)) {
+                            offlineChannels.delete(slug);
+                            updateChannelSensor(slug, false);
+                        }
+                        return;
+                    }
+                    
+                    if (!secureData.manifestUri) throw new Error("No MPD/HLS URI returned");
 
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 3000);
