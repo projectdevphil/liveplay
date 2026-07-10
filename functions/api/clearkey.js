@@ -1,4 +1,4 @@
-mmasync function generateSignature(message, secret) {
+async function generateSignature(message, secret) {
     const encoder = new TextEncoder();
     const key = await crypto.subtle.importKey(
         "raw",
