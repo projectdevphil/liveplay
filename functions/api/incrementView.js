@@ -8,27 +8,27 @@ async function hashIP(ip) {
 export async function onRequest(context) {
     try {
         const url = new URL(context.request.url);
-        const channelKey = url.searchParams.get('channel') || url.searchParams.get('id');
+        const channelId = url.searchParams.get('channel') || url.searchParams.get('id');
         
-        if (!channelKey) return new Response('Missing channel identifier', { status: 400 });
+        if (!channelId) return new Response('Missing channel ID', { status: 400 });
 
         const ip = context.request.headers.get('CF-Connecting-IP') || '127.0.0.1';
         const ipHash = await hashIP(ip);
 
         await context.env.DB.prepare(`
-            CREATE TABLE IF NOT EXISTS ip_views (
-                slug TEXT,
+            CREATE TABLE IF NOT EXISTS channel_views (
+                id TEXT,
                 ip_hash TEXT,
-                PRIMARY KEY (slug, ip_hash)
+                PRIMARY KEY (id, ip_hash)
             )
         `).run();
 
         const query = `
-            INSERT OR IGNORE INTO ip_views (slug, ip_hash) 
+            INSERT OR IGNORE INTO channel_views (id, ip_hash) 
             VALUES (?1, ?2)
         `;
         
-        await context.env.DB.prepare(query).bind(channelKey, ipHash).run();
+        await context.env.DB.prepare(query).bind(channelId, ipHash).run();
         
         return new Response(JSON.stringify({ success: true }), {
             status: 200,
