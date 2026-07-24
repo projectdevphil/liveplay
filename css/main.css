@@ -727,19 +727,19 @@ header nav {
 .live-indicator {
     display: inline-flex;                    
     align-items: center;
-    gap: 6px;                                 
+    gap: 4px;                                 
     background-color: var(--theme-color, #ff0000);
     color: var(--background-color, #ffffff);
-    padding: 6px 14px;    
+    padding: 4px 3.5px;    
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     width: fit-content;
     margin-left: auto;
 }
 
 #main-live-icon {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: inherit !important;
     background: transparent;
 }
