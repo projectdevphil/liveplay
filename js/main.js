@@ -222,30 +222,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
     
     function updateOfflineState(isOffline) {
-    function updateOfflineState(isOffline) {
-    const iconName = isOffline ? 'sensors_off' : 'sensors';
-    const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
+        const iconName = isOffline ? 'sensors_off' : 'sensors';
+        const colorClass = 'status-offline';
+        const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
 
-    if (mainPlayerIcon) {
-        mainPlayerIcon.textContent = iconName;
+        if (mainPlayerIcon) {
+            mainPlayerIcon.textContent = iconName;
 
-        const liveIndicator = mainPlayerIcon.parentElement;
-        if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
-            liveIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
-            liveIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
-            
-            let textUpdated = false;
-            for (let i = 0; i < liveIndicator.childNodes.length; i++) {
-                const node = liveIndicator.childNodes[i];
-                if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
-                    node.nodeValue = textStatus;
-                    textUpdated = true;
+            const liveIndicator = mainPlayerIcon.parentElement;
+            if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
+                liveIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
+                liveIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
+                
+                let textUpdated = false;
+                for (let i = 0; i < liveIndicator.childNodes.length; i++) {
+                    const node = liveIndicator.childNodes[i];
+                    if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
+                        node.nodeValue = textStatus;
+                        textUpdated = true;
                     }
                 }
                 if (!textUpdated) {
                     liveIndicator.appendChild(document.createTextNode(textStatus));
-                    }
-              }
+                }
+            }
         }
 
         if (miniPlayerIcon) {
@@ -255,8 +255,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const miniIndicator = miniPlayerIcon.parentElement;
             if (miniIndicator && miniIndicator.classList.contains('live-indicator')) {
-                miniIndicator.style.backgroundColor = 'transparent';
-                miniIndicator.style.color = textColor;
+                miniIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
+                miniIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
                 
                 for (let i = 0; i < miniIndicator.childNodes.length; i++) {
                     const node = miniIndicator.childNodes[i];
