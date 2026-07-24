@@ -8,9 +8,9 @@ async function hashIP(ip) {
 export async function onRequest(context) {
     try {
         const url = new URL(context.request.url);
-        const channel = url.searchParams.get('channel');
+        const channelKey = url.searchParams.get('channel') || url.searchParams.get('id');
         
-        if (!channel) return new Response('Missing channel', { status: 400 });
+        if (!channelKey) return new Response('Missing channel identifier', { status: 400 });
 
         const ip = context.request.headers.get('CF-Connecting-IP') || '127.0.0.1';
         const ipHash = await hashIP(ip);
@@ -28,7 +28,7 @@ export async function onRequest(context) {
             VALUES (?1, ?2)
         `;
         
-        await context.env.DB.prepare(query).bind(channel, ipHash).run();
+        await context.env.DB.prepare(query).bind(channelKey, ipHash).run();
         
         return new Response(JSON.stringify({ success: true }), {
             status: 200,
