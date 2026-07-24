@@ -735,7 +735,7 @@ header nav {
     padding-left: 20px;
     padding: 3px 3.5px;
     gap: 2px;
-    transition: all 0.2s ease-in-out;
+    /**transition: all 0.2s ease-in-out;*/
 }
 
 .live-indicator .material-symbols-rounded {
