@@ -26,7 +26,7 @@ export async function onRequest(context) {
         {
             title: "Someone, Someday",
             description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/someonesomeday.herobg-tv.JPG",
+            image: "https://pql-static.abs-cbn.com/images/someonesomeday.herobg-tv.v2.JPG",
             badge: "PG | Romance • Mystery",
             link: null,
             overlay: "show"
