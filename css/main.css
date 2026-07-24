@@ -726,8 +726,10 @@ header nav {
 
 .live-indicator {
     align-items: center;
-    color: var(--theme-color);
+    background-color: var(--theme-color);
+    color: var(--background-color);
     display: flex;
+    border-radius: 50px;
     font-size: 0.9rem;
     font-weight: 600;
     padding-left: 20px;
