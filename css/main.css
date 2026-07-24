@@ -725,22 +725,28 @@ header nav {
 }
 
 .live-indicator {
+    display: inline-flex;                    
     align-items: center;
-    background-color: var(--theme-color);
-    color: var(--background-color);
-    display: flex;
+    gap: 6px;                                 
+    background-color: var(--theme-color, #ff0000);
+    color: var(--background-color, #ffffff);
+    padding: 6px 14px;    
     border-radius: 50px;
     font-size: 0.9rem;
     font-weight: 600;
-    margin-left: 20px;
-    padding: 3px 3.5px;
-    gap: 2px;
-    /**transition: all 0.2s ease-in-out;*/
+    width: fit-content;
+    margin-left: auto;
 }
 
-.live-indicator .material-symbols-rounded {
-    color: inherit !important;    
+#main-live-icon {
+    font-size: 1.1rem;
+    color: inherit !important;
+    background: transparent;
 }
+
+/*.live-indicator .material-symbols-rounded {
+    color: inherit !important;    
+}*/
 
 .minimized-player-main {
     -webkit-backdrop-filter: blur(20px);
