@@ -730,9 +730,9 @@ header nav {
     gap: 4px;                                 
     background-color: var(--theme-color, #ff0000);
     color: var(--background-color, #ffffff);
-    padding: 4px 3.5px;    
+    padding: 4px 4.5px;    
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     width: fit-content;
     margin-left: auto;
