@@ -222,27 +222,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
     
     function updateOfflineState(isOffline) {
-        const iconName = isOffline ? 'sensors_off' : 'sensors';
-        const colorClass = 'status-offline';
-        const textColor = isOffline ? 'red' : '#ffffff';
-        const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
+    const iconName = isOffline ? 'sensors_off' : 'sensors';
+    const colorClass = 'status-offline';
+    const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
 
-        if (mainPlayerIcon) {
-            mainPlayerIcon.textContent = iconName;
-            if (isOffline) mainPlayerIcon.classList.add(colorClass);
-            else mainPlayerIcon.classList.remove(colorClass);
+    if (mainPlayerIcon) {
+        mainPlayerIcon.textContent = iconName;
+        if (isOffline) mainPlayerIcon.classList.add(colorClass);
+        else mainPlayerIcon.classList.remove(colorClass);
 
-            const liveIndicator = mainPlayerIcon.parentElement;
-            if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
-                liveIndicator.style.backgroundColor = 'transparent';
-                liveIndicator.style.color = textColor;
-                
-                let textUpdated = false;
-                for (let i = 0; i < liveIndicator.childNodes.length; i++) {
-                    const node = liveIndicator.childNodes[i];
-                    if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
-                        node.nodeValue = textStatus;
-                        textUpdated = true;
+        const liveIndicator = mainPlayerIcon.parentElement;
+        if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
+            
+            let textUpdated = false;
+            for (let i = 0; i < liveIndicator.childNodes.length; i++) {
+                const node = liveIndicator.childNodes[i];
+                if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
+                    node.nodeValue = textStatus;
+                    textUpdated = true;
                     }
                 }
                 if (!textUpdated) {
