@@ -40,14 +40,6 @@ export async function onRequest(context) {
             overlay: "show"
         },
         {
-            title: "My Bespren Emman",
-            description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2, and A2Z",
-            image: "/assets/poster/slides/my_bespren_emman_slide.png",
-            badge: "PG | Inspirational • Family • Drama",
-            link: null,
-            overlay: "show"
-        },        
-        {
             title: "It's Showtime",
             description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and It's Showtime Livestream",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
@@ -55,6 +47,14 @@ export async function onRequest(context) {
             link: null,
             overlay: "show"
         },
+        {
+            title: "My Bespren Emman",
+            description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2, and A2Z",
+            image: "/assets/poster/slides/my_bespren_emman_slide.png",
+            badge: "PG | Inspirational • Family • Drama",
+            link: null,
+            overlay: "show"
+        },        
         {
             title: "Rated Korina",
             description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
