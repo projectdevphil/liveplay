@@ -1,22 +1,22 @@
 export async function onRequest(context) {
     try {
         await context.env.DB.prepare(`
-            CREATE TABLE IF NOT EXISTS ip_views (
-                slug TEXT,
+            CREATE TABLE IF NOT EXISTS channel_views (
+                id TEXT,
                 ip_hash TEXT,
-                PRIMARY KEY (slug, ip_hash)
+                PRIMARY KEY (id, ip_hash)
             )
         `).run();
 
         const query = `
-            SELECT slug FROM ip_views 
-            GROUP BY slug 
+            SELECT id FROM channel_views 
+            GROUP BY id 
             ORDER BY COUNT(ip_hash) DESC 
             LIMIT 50
         `;
         const { results } = await context.env.DB.prepare(query).all();
 
-        const topChannels = results.map(row => row.slug);
+        const topChannels = results.map(row => row.id);
         
         return new Response(JSON.stringify(topChannels), {
             status: 200,
