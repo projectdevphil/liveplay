@@ -75,6 +75,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
+    const createSlug = (name) => {
+        if (!name) return '';
+        return name.toString().toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');        
+    };
+
+    const getChannelKey = (channel) => {
+        if (!channel) return '';
+        return channel.id || createSlug(channel.name);
+    };
+
     const fetchSlides = async () => {
         try {
             const response = await fetch(API_GET_SLIDES);
@@ -128,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             if (channelSlug) {
                                 e.preventDefault();
                                 
-                                const foundChannel = allStreams.find(s => createSlug(s.name) === channelSlug);
+                                const foundChannel = allStreams.find(s => s.id === channelSlug || createSlug(s.name) === channelSlug);
                                 if (foundChannel) {
                                     openPlayer(foundChannel);
                                 } else {
@@ -205,11 +215,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    const createSlug = (name) => {
-        if (!name) return '';
-        return name.toString().toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');        
-    };
-    
     const setResponsivePoster = () => {
         if (!videoElement) return;
         const isDesktop = window.innerWidth > 1024;
@@ -309,8 +314,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            const slug = createSlug(channel.name);
-            fetch(`${API_INCREMENT_VIEW}?channel=${slug}`);
+            const channelKey = getChannelKey(channel);
+            fetch(`${API_INCREMENT_VIEW}?channel=${encodeURIComponent(channelKey)}`);
         } catch (e) {
             console.error("Tracking error", e);
         }
@@ -340,10 +345,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             let rankCounter = 1;
 
-            for (const slug of topSlugs) {
+            for (const key of topSlugs) {
                 if (rankCounter > 10) break;
 
-                const channel = allStreams.find(s => createSlug(s.name) === slug);
+                const channel = allStreams.find(s => s.id === key || createSlug(s.name) === key);
                 
                 if (channel) {
                     const item = document.createElement('div');
@@ -420,7 +425,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        currentActiveChannelSlug = createSlug(publicStreamInfo.name);
+        currentActiveChannelSlug = getChannelKey(publicStreamInfo);
 
         if (playerView) {
             playerView.classList.add('active');
@@ -461,7 +466,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         videoElement.load();
 
         try {
-            const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(publicStreamInfo.name)}`);
+            const fetchParam = publicStreamInfo.id || publicStreamInfo.name;
+            const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(fetchParam)}`);
             
             if (res.status === 404 || res.status === 403) {
                 window.location.href = '/404.html';
@@ -568,7 +574,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const item = document.createElement('div');
             item.className = 'channel-list-item';
             const logo = stream.logo || '/assets/favicon.svg';
-            const slug = createSlug(stream.name);
+            const slug = getChannelKey(stream);
             
             if (stream.status === 'offline' || stream.active === false) {
                 offlineChannels.add(slug);
@@ -626,10 +632,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             const batch = allStreams.slice(i, i + BATCH_SIZE);
             
             await Promise.all(batch.map(async (stream) => {
-                const slug = createSlug(stream.name);
+                const slug = getChannelKey(stream);
+                const fetchParam = stream.id || stream.name;
                 
                 try {
-                    const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(stream.name)}`);
+                    const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(fetchParam)}`);
                     if (!res.ok) throw new Error("API Data failed");
                     
                     const secureData = await res.json();
@@ -744,11 +751,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     startBackgroundStatusCheck();
 
     const urlParams = new URLSearchParams(window.location.search);
-    const channelSlug = urlParams.get('channel');
+    const channelQuery = urlParams.get('channel');
     let hasPlayedLink = false;
 
-    if (channelSlug) {
-        const foundChannel = allStreams.find(s => createSlug(s.name) === channelSlug);
+    if (channelQuery) {
+        const foundChannel = allStreams.find(s => s.id === channelQuery || createSlug(s.name) === channelQuery);
         if (foundChannel) {
             openPlayer(foundChannel);
             hasPlayedLink = true;
