@@ -733,6 +733,7 @@ header nav {
     font-size: 0.9rem;
     font-weight: 600;
     padding-left: 20px;
+    padding: 3px 3.5px;
     gap: 2px;
     transition: all 0.2s ease-in-out;
 }
