@@ -244,7 +244,7 @@ header nav {
     border-radius: var(--border-radius);
     border: var(--glass-border);
     position: relative;
-    overflow: visible; 
+    overflow: hidden;
 }
 
 .slide {
@@ -256,9 +256,10 @@ header nav {
     left: 0;
     opacity: 0;
     z-index: 1;
-    transition: opacity 0.5s ease 1s;
     border-radius: var(--border-radius);
     --slide-bg: url('');
+    transition: opacity 0.3s ease 0.8s, z-index 0s linear 0.8s;
+    will-change: opacity;
 }
 
 .slide::before {
@@ -268,12 +269,13 @@ header nav {
     background-image: var(--slide-bg);
     background-size: cover;
     background-position: center;
-    filter: blur(25px) saturate(1.5) brightness(0.8);
+    filter: blur(15px) brightness(0.8);
     opacity: 0;
     z-index: -1;
     border-radius: var(--border-radius);
-    transition: opacity 1.5s ease;
-    display: none;
+    transition: opacity 0.6s ease;
+    display: block;
+    transform: translate3d(0, 0, 0);
 }
 
 .slide-wipe-wrapper {
@@ -284,24 +286,25 @@ header nav {
     height: 100%;
     border-radius: var(--border-radius);
     overflow: hidden;
-    clip-path: inset(0 0 0 100% round var(--border-radius));
-    transition: clip-path 0.1s ease 1s;
+    clip-path: inset(0 0 0 100%);
+    transition: clip-path 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: clip-path;
+    transform: translate3d(0, 0, 0);
 }
 
 .slide.active {
     opacity: 1;
     z-index: 5;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.1s linear;
 }
 
 .slide.active::before {
     opacity: 0.6;
-    transition-delay: 0.2s;
 }
 
 .slide.active .slide-wipe-wrapper {
-    clip-path: inset(0 0 0 0 round var(--border-radius));
-    transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 0.9s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .slide-bg {
@@ -326,15 +329,16 @@ header nav {
     position: absolute;
     z-index: 2;
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
+    transform: translateY(15px);
+    transition: all 0.4s ease;
+    will-change: opacity, transform;
 }
 
 .slide.active .slide-content {
     opacity: 1;
     transform: translateY(0);
-    transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-    transition-delay: 0.6s;
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: 0.3s;
 }
 
 .slide-title {
