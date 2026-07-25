@@ -491,6 +491,113 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             offlineChannels.delete(currentActiveChannelSlug);
             updateOfflineState(false);
+const openPlayer = async (publicStreamInfo) => {
+        trackChannelView(publicStreamInfo);
+
+        if (currentActiveChannelSlug && !offlineChannels.has(currentActiveChannelSlug)) {
+            const prevIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
+            if (prevIcon) {
+                prevIcon.textContent = 'sensors';
+                prevIcon.classList.remove('status-offline');
+            }
+        }
+
+        currentActiveChannelSlug = getChannelKey(publicStreamInfo);
+
+        if (playerView) {
+            playerView.classList.add('active');
+            document.body.classList.add('no-scroll');
+            if (minimizedPlayer) minimizedPlayer.classList.remove('active');
+        }
+
+        updateOfflineState(offlineChannels.has(currentActiveChannelSlug));
+        
+        mainPlayerName.textContent = publicStreamInfo.name;
+        const groupTitle = publicStreamInfo.group || "Live Stream";
+        
+        if (miniPlayerName) miniPlayerName.textContent = publicStreamInfo.name;
+        if (miniPlayerStatus) miniPlayerStatus.textContent = groupTitle;
+        
+        if (miniPlayerLogo) {
+            miniPlayerLogo.src = publicStreamInfo.logo || '/assets/favicon.svg';
+            miniPlayerLogo.style.display = 'block';
+        }
+
+        if (mainPlayerStatus) {
+            mainPlayerStatus.textContent = "Loading Stream...";
+            mainPlayerStatus.style.color = "var(--theme-color)";
+        }
+
+        const newUrl = `${window.location.pathname}?channel=${currentActiveChannelSlug}`;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+        document.title = `${publicStreamInfo.name} - Liveplay`;
+
+        if (!playerView.classList.contains('active')) return;
+
+        videoElement.removeAttribute('src');
+        videoElement.load();
+
+        try {
+            const fetchParam = publicStreamInfo.id || publicStreamInfo.name;
+            const res = await fetch(`${API_GET_DATA}?channel=${encodeURIComponent(fetchParam)}`);
+            
+            if (res.status === 404 || res.status === 403) {
+                window.location.href = '/404.html';
+                return;
+            }
+
+            if (!res.ok) throw new Error("Channel data not found.");
+            const secureData = await res.json();
+
+            if (!player) {
+                const success = await initPlayer();
+                if (!success) return;
+            }
+
+            const config = { drm: { servers: {}, clearKeys: {} } };
+            if (secureData.ClearKey && secureData.ClearKey.k1 && secureData.ClearKey.k2) {
+                config.drm.clearKeys[secureData.ClearKey.k1] = secureData.ClearKey.k2;
+            }
+            player.configure(config);
+
+            player.configure({
+                manifest: {
+                    dash: {
+                        ignoreMinBufferTime: true,
+                        autoCorrectDrift: true
+                    }
+                },
+                streaming: {
+                    safeSeekOffset: 5
+                }
+            });
+
+            player.getNetworkingEngine().clearRequestFilters();
+            if (secureData.manifestUri.includes('manifest.mpd')) {
+                try {
+                    const urlObj = new URL(secureData.manifestUri);
+                    const queryString = urlObj.search;
+                    if (queryString) {
+                        player.getNetworkingEngine().registerRequestFilter((type, request) => {
+                            if (type === shaka.net.NetworkingEngine.RequestType.SEGMENT) {
+                                request.uris = request.uris.map(uri => {
+                                    return uri.includes('?') ? uri + '&' + queryString.substring(1) : uri + queryString;
+                                });
+                            }
+                        });
+                    }
+                } catch (err) {
+                    console.error("Error parsing manifest query parameters:", err);
+                }
+            }
+
+            if (ui) ui.setEnabled(true);
+
+            await player.load(secureData.manifestUri);
+            videoElement.play().catch(() => console.log("Stream Auto-play blocked"));
+            
+            offlineChannels.delete(currentActiveChannelSlug);
+            updateOfflineState(false);
             
             if (mainPlayerStatus) {
                 mainPlayerStatus.textContent = groupTitle;
