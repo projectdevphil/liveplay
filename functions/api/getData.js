@@ -9,8 +9,8 @@ export async function onRequest(context) {
         });
     }
 
-    const PROXY = 'https://getconverge.YOUR-SUBDOMAIN.workers.dev/';
-
+    const PROXY = 'https://liveplayph.pages.dev/proxy/';
+    
     const channels = [
         // General
         { id: 'e4d18f92-3c8a-4b71-920f-5a6b7c8d9e01', name: 'Kapamilya Channel', logo: '/assets/logos/abs_kapcha_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/manifest.mpd', clearKey: { '292dee4236d04054910e9706ee22626b': 'b7c5d3220f6eb6e042a2bcb367b5c09b' }, group: 'General' },
