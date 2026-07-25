@@ -1,4 +1,6 @@
 export async function onRequest(context) {
+    const PROXY = 'https://liveplayph.pages.dev/proxy/';
+
     const channels = [
         // General
         //{ id: 'e4d18f92-3c8a-4b71-920f-5a6b7c8d9e01', name: 'Kapamilya Channel', logo: '/assets/logos/abs_kapcha_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/manifest.mpd', clearKey: { '292dee4236d04054910e9706ee22626b': 'b7c5d3220f6eb6e042a2bcb367b5c09b' }, group: 'General' },
@@ -19,7 +21,7 @@ export async function onRequest(context) {
         //{ id: '2a9c4d18-7e3f-4a0b-8c1d-6e5f2a3b4c11', name: 'Bilyonaryo News Channel', logo: '/assets/logos/bnc_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/bilyonaryoch/default/index.mpd', clearKey: { '2e7f9c518a424d30b2165c3e7a9d6041': '8c8c0ef924c982bc1dd92348e024cd4c' }, group: 'News' },
         { id: '2a9c4d18-7e3f-4a0b-8c1d-6e5f2a3b4c11', name: 'Bilyonaryo News Channel', logo: '/assets/logos/bnc_logo.png', manifestUri: 'https://amg19223-amg19223c11-amgplt0352.playout.now3.amagi.tv/playlist/amg19223-amg19223c11-amgplt0352/playlist.m3u8', group: 'News' },
         { id: '8b3d1e27-5c9a-4f0e-8b1c-3d4e7f9a0b22', name: 'DZMM Teleradyo', logo: '/assets/logos/dzmm_teleradyo_logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-teleradyo-dash-abscbnono/index.mpd', clearKey: { '47c093e0c9fd4f80839a0337da3dd876': '603248b858276f533a13e17f2f48c711' }, group: 'News' },
-        //{ id: '3f7a9b14-8c2d-4e0a-9f1b-5e6d2c8a7b33', name: 'DZRH TV', logo: '/assets/logos/dzrh_tv_logo.svg', manifestUri: 'https://getconverge.YOUR-SUBDOMAIN.workers.dev/http://136.158.97.2:6610/001/2/ch00000090990000001100/manifest.mpd?version=v1.0&virtualDomain=001.live_hls.zte.com', group: 'News' },
+        //{ id: '3f7a9b14-8c2d-4e0a-9f1b-5e6d2c8a7b33', name: 'DZRH TV', logo: '/assets/logos/dzrh_tv_logo.svg', manifestUri: PROXY + 'http://136.158.97.2:6610/001/2/ch00000090990000001100/manifest.mpd?version=v1.0&virtualDomain=001.live_hls.zte.com', group: 'News' },
         { id: '1c4e8b29-6d3f-4a0e-9a1b-7c5d2e8f9a44', name: 'One News', logo: '/assets/logos/one_news_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/onenews_hd1/default/index.mpd', clearKey: { 'd5c8a2914e734b609f127a3d6c5e8048': '11368a3b001407d65a85b4edb410ecdd' }, group: 'News' },
         { id: '9a2b7c15-4d8e-4f0a-8c1b-3d5e6f2a7b55', name: 'One PH', logo: '/assets/logos/one_ph_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/oneph_sd/default/index.mpd', clearKey: { '5e9a3c718d464f20b9157a6c2e4d8031': '7bf8a7666a2d572fe111b5f829c99266' }, group: 'News' },
 
@@ -30,10 +32,10 @@ export async function onRequest(context) {
 
         // Movies
         { id: '4d7a1b28-9c3e-4f0b-8a1c-6e5f2a9b0c99', name: 'Cinema One', logo: '/assets/logos/cinema_one_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/c1ph/manifest.mpd', clearKey: { '55eddd1e157e4c3b830866e4679e7032': '525030e984567ba8df0af80660952368' }, group: 'Movies' },
-        //{ id: '8a2b9c14-7d3f-4e0a-9f1b-3e5d6a8b7c00', name: 'Cinemo!', logo: '/assets/logos/cinemo_logo.png', manifestUri: 'https://getconverge.YOUR-SUBDOMAIN.workers.dev/http://136.239.158.30:6610/001/2/ch00000090990000001102/manifest.mpd?version=v1.0&virtualDomain=001.live_hls.zte.com', group: 'Movies' },
+        //{ id: '8a2b9c14-7d3f-4e0a-9f1b-3e5d6a8b7c00', name: 'Cinemo!', logo: '/assets/logos/cinemo_logo.png', manifestUri: PROXY + 'http://136.239.158.30:6610/001/2/ch00000090990000001102/manifest.mpd?version=v1.0&virtualDomain=001.live_hls.zte.com', group: 'Movies' },
         { id: '8a2b9c14-7d3f-4e0a-9f1b-3e5d6a8b7c00', name: 'Cinemo!', logo: '/assets/logos/cinemo_logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemo-dash-abscbnono/index.mpd', clearKey: { 'aa8aebe35ccc4541b7ce6292efcb1bfb': 'f06b6031a3604cc6708c14d83f1a1b27' }, group: 'Movies' },
-        //{ id: '1f8e2a39-5c4d-4b0e-9a1c-7d2e3f8a9b11', name: 'PBO', logo: '/assets/logos/pbo_logo.svg', manifestUri: 'https://getconverge.YOUR-SUBDOMAIN.workers.dev/http://136.239.159.21:6610/001/2/ch00000090990000001106/manifest.mpd?version=v1.0&virtualDomain=001.live_hls.zte.com', group: 'Movies' },
-        //{ id: '3c7a9b28-1d4e-4f0a-8b1c-5e2d6f8a9b22', name: 'Viva Cinema', logo: '/assets/logos/viva_cinema_logo.svg', manifestUri: 'https://getconverge.YOUR-SUBDOMAIN.workers.dev/http://136.239.159.20:6610/001/2/ch00000090990000001105/manifest.mpd?version=v1.0&virtualDomain=001.live_hls.zte.com', group: 'Movies' },
+        //{ id: '1f8e2a39-5c4d-4b0e-9a1c-7d2e3f8a9b11', name: 'PBO', logo: '/assets/logos/pbo_logo.svg', manifestUri: PROXY + 'http://136.239.159.21:6610/001/2/ch00000090990000001106/manifest.mpd?version=v1.0&virtualDomain=001.live_hls.zte.com', group: 'Movies' },
+        //{ id: '3c7a9b28-1d4e-4f0a-8b1c-5e2d6f8a9b22', name: 'Viva Cinema', logo: '/assets/logos/viva_cinema_logo.svg', manifestUri: PROXY + 'http://136.239.159.20:6610/001/2/ch00000090990000001105/manifest.mpd?version=v1.0&virtualDomain=001.live_hls.zte.com', group: 'Movies' },
         { id: '7e1a2b39-4c8d-4f0e-9a1b-6c5d2e3f4a33', name: 'HBO', logo: '/assets/logos/hbo_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_hbohd/default/index.mpd', clearKey: { 'd7f3c8215a944e068b176c9d2a5f3048': '93c0a798243d6443864d1a7ff3e42c05' }, group: 'Movies' },
 
         // Sports
