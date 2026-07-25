@@ -84,7 +84,7 @@ export async function onRequest(context) {
             description: "",
             image: "https://i8.amplience.net/i/naras/ATEEZ-k-pop-summer-tours-2024",
             badge: "Watch Now • Music",
-            link: "/?channel=new-k-pop",
+            link: "?channel=8c2d7e14-9f3a-4b0e-8a1c-6e5f2a3b4c00",
             overlay: "show"
         },
         {
@@ -92,7 +92,7 @@ export async function onRequest(context) {
             description: "",
             image: "https://occ-0-1763-395.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcFuldBLfH2n_0Wiqx4rnmEyjCmJQdy7hbdu7D3ymqfYkqrDcBbgJt9iNU5EbhBzPmU97xqDUYDip3ZSb1y2AFfJdalF4fmaqnP4.webp",
             badge: "Watch Now • Sports",
-            link: "/?channel=nba-tv-philippines",
+            link: "?channel=9c1b2a38-5d4e-4f0a-8b1c-6e3f7a8b9c55",
             overlay: "show"
         }
     ];
