@@ -224,15 +224,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     function updateOfflineState(isOffline) {
         const iconName = isOffline ? 'sensors_off' : 'sensors';
         const colorClass = 'status-offline';
+        const textColor = isOffline ? 'red' : '#ffffff';
         const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
 
         if (mainPlayerIcon) {
             mainPlayerIcon.textContent = iconName;
+            if (isOffline) mainPlayerIcon.classList.add(colorClass);
+            else mainPlayerIcon.classList.remove(colorClass);
 
             const liveIndicator = mainPlayerIcon.parentElement;
             if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
-                liveIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
-                liveIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
+                liveIndicator.style.backgroundColor = 'transparent';
+                liveIndicator.style.color = textColor;
                 
                 let textUpdated = false;
                 for (let i = 0; i < liveIndicator.childNodes.length; i++) {
@@ -255,8 +258,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const miniIndicator = miniPlayerIcon.parentElement;
             if (miniIndicator && miniIndicator.classList.contains('live-indicator')) {
-                miniIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
-                miniIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
+                miniIndicator.style.backgroundColor = 'transparent';
+                miniIndicator.style.color = textColor;
                 
                 for (let i = 0; i < miniIndicator.childNodes.length; i++) {
                     const node = miniIndicator.childNodes[i];
@@ -453,6 +456,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
         if (!playerView.classList.contains('active')) return;
+        
+        if (mainPlayerStatus) {
+            mainPlayerStatus.textContent = "Loading Stream...";
+            mainPlayerStatus.style.color = "var(--theme-color)";
+        }
 
         videoElement.removeAttribute('src');
         videoElement.load();
@@ -479,38 +487,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 config.drm.clearKeys[secureData.ClearKey.k1] = secureData.ClearKey.k2;
             }
             player.configure(config);
-
-            player.configure({
-                manifest: {
-                    dash: {
-                        ignoreMinBufferTime: true,
-                        autoCorrectDrift: true
-                    }
-                },
-                streaming: {
-                    safeSeekOffset: 5
-                }
-            });
-
-            player.getNetworkingEngine().clearRequestFilters();
-            if (secureData.manifestUri.includes('manifest.mpd')) {
-                try {
-                    const urlObj = new URL(secureData.manifestUri);
-                    const queryString = urlObj.search;
-                    if (queryString) {
-                        player.getNetworkingEngine().registerRequestFilter((type, request) => {
-                            if (type === shaka.net.NetworkingEngine.RequestType.SEGMENT) {
-                                request.uris = request.uris.map(uri => {
-                                    return uri.includes('?') ? uri + '&' + queryString.substring(1) : uri + queryString;
-                                });
-                            }
-                        });
-                    }
-                } catch (err) {
-                    console.error("Error parsing manifest query parameters:", err);
-                }
-            }
-
             if (ui) ui.setEnabled(true);
 
             await player.load(secureData.manifestUri);
