@@ -727,10 +727,10 @@ header nav {
 .live-indicator {
     display: inline-flex;                    
     align-items: center;
-    gap: 4px;                                 
+    gap: 2px;                                 
     background-color: var(--theme-color, #ff0000);
     color: var(--background-color, #ffffff);
-    padding: 4px 4.5px;    
+    padding: 4px 5px;    
     border-radius: 50px;
     font-size: 0.8rem;
     font-weight: 600;
@@ -743,10 +743,6 @@ header nav {
     color: inherit !important;
     background: transparent;
 }
-
-/*.live-indicator .material-symbols-rounded {
-    color: inherit !important;    
-}*/
 
 .minimized-player-main {
     -webkit-backdrop-filter: blur(20px);
