@@ -352,12 +352,12 @@ header nav {
 
 .slide-badge {
     background-color: var(--theme-color);
-    border-radius: 50px;
+    border-radius: 4px;
     color: #000;
     display: inline-block;
     font-size: 0.5rem;
     font-weight: 700;
-    padding: 3px 3.5px;
+    padding: 3px 3px;
 }
 
 .slider-nav {
