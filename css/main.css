@@ -256,7 +256,7 @@ header nav {
     left: 0;
     opacity: 0;
     z-index: 1;
-    transition: opacity 0.5s ease 1s;
+    transition: opacity 0.5s ease;
     border-radius: var(--border-radius);
     --slide-bg: url('');
 }
@@ -272,8 +272,7 @@ header nav {
     opacity: 0;
     z-index: -1;
     border-radius: var(--border-radius);
-    transition: opacity 1.5s ease;
-    display: none;
+    transition: opacity 0.8s ease;
 }
 
 .slide-wipe-wrapper {
@@ -285,7 +284,7 @@ header nav {
     border-radius: var(--border-radius);
     overflow: hidden;
     clip-path: inset(0 0 0 100% round var(--border-radius));
-    transition: clip-path 0.1s ease 1s;
+    transition: clip-path 0.3s ease;
 }
 
 .slide.active {
@@ -310,7 +309,9 @@ header nav {
     object-fit: cover;
     pointer-events: none;
     position: absolute;
-    background: #111;
+    background-image: var(--slide-bg);
+    background-size: cover;
+    background-position: center;
 }
 
 .slide-overlay {
@@ -327,14 +328,14 @@ header nav {
     z-index: 2;
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.5s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .slide.active .slide-content {
     opacity: 1;
     transform: translateY(0);
     transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-    transition-delay: 0.6s;
+    transition-delay: 0.5s;
 }
 
 .slide-title {
