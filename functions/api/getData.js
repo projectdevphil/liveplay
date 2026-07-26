@@ -10,8 +10,9 @@ export async function onRequest(context) {
     }
 
     const channels = [
-        // General
-        { id: 'e4d18f92-3c8a-4b71-920f-5a6b7c8d9e01', name: 'Kapamilya Channel', logo: '/assets/logos/abs_kapcha_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/manifest.mpd', clearKey: { '292dee4236d04054910e9706ee22626b': 'b7c5d3220f6eb6e042a2bcb367b5c09b' }, group: 'General' },
+        // General 
+        //{ id: 'e4d18f92-3c8a-4b71-920f-5a6b7c8d9e01', name: 'Kapamilya Channel', logo: '/assets/logos/abs_kapcha_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/manifest.mpd', clearKey: { '292dee4236d04054910e9706ee22626b': 'b7c5d3220f6eb6e042a2bcb367b5c09b' }, group: 'General' },
+        { id: 'e4d18f92-3c8a-4b71-920f-5a6b7c8d9e01', name: 'Kapamilya Channel', logo: '/assets/logos/abs_kapcha_logo.svg', manifestUri: 'https://streams.comclark.com/pknhd/kapamilya_hd/playlist.m3u8', group: 'General' },
         { id: '8f3a19b2-7c4d-4e2a-9f1b-5e6d7c8a9b01', name: 'ALLTV2', logo: '/assets/logos/abs_alltv2_logo.svg', manifestUri: 'https://streams.comclark.com/pknsd/alltv/playlist.m3u8', group: 'General' },
         { id: '3e7a12b4-9c5d-4f1e-8a2b-6c7d8e9f0a12', name: 'TV5', logo: '/assets/logos/tv5_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/tv5_hd/default1/index.mpd', clearKey: { '9c3e7a516d824f04a9175b8c2e3d7040': '524a9c2cec98272f71c347345a3fd12e' }, group: 'General' },
         { id: '9d2b8a13-4c7e-4f0a-8b1c-3d5e7f9a1b23', name: 'One Sports', logo: '/assets/logos/one_sports_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_onesports_hd/default/index.mpd', clearKey: { '69f5a2318d744c609b125e3a7d8f2046': '182523c0bae912e17e916dd4283280e9' }, group: 'Sports' },
