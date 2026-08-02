@@ -219,7 +219,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!videoElement) return;
         const isDesktop = window.innerWidth > 1024;
         videoElement.poster = isDesktop ? POSTER_DESKTOP : POSTER_MOBILE;
+
+        if (!isDesktop && !currentActiveChannelSlug) {
+            if (playerView) playerView.classList.remove('active');
+            if (minimizedPlayer) minimizedPlayer.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }
     };
+
     
     function updateOfflineState(isOffline) {
         const iconName = isOffline ? 'sensors_off' : 'sensors';
