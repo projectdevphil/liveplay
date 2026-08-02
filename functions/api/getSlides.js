@@ -48,7 +48,7 @@ export async function onRequest(context) {
             overlay: "show"
         },
         {
-            title: "My Bespren Emman:<br><span style='font-size: 10px;'>Ang Totoong Laban</span>",
+            title: "My Bespren Emman:<div style='line-height: 1; margin-top: 5px; font-size: 14px;'>Ang Totoong Laban</div>",
             description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2, and A2Z",
             image: "https://pql-static.abs-cbn.com/images/live/MBEATL_LIVEHEROBG-TV_3840X2160_V1_20260724090014.jpg",
             badge: "PG | Inspirational • Family • Drama",
