@@ -42,7 +42,7 @@ export async function onRequest(context) {
         {
             title: "It's Showtime",
             description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and It's Showtime Livestream",
-            image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg?im_policy=landscapeHero_tv_fhd",
+            image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg",
             badge: "PG | Variety • Comedy",
             link: null,
             overlay: "show"
