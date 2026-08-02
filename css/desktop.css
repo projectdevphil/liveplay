@@ -126,14 +126,18 @@
         margin-top: auto;
         flex-shrink: 0;
     }
-
+    
     .live-indicator {
         align-items: center;
         color: var(--theme-color);
-        display: flex;
+        display: none;
         font-size: 0.9rem;
         font-weight: 600;
         gap: 3.5px;
+    }
+    
+    .live-indicator.active {
+        display: flex;
     }
 
     .content-container {
