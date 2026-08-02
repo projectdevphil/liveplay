@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchInput = document.getElementById("search-input");
     
     let searchClear = document.getElementById("search-clear");
-    if (searchClear) {
+    if (searchClear && searchInput) {
         searchClear.addEventListener("click", (e) => {
             e.stopPropagation();
             searchInput.value = "";
@@ -227,7 +227,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    
     function updateOfflineState(isOffline) {
         const iconName = isOffline ? 'sensors_off' : 'sensors';
         const colorClass = 'status-offline';
@@ -395,7 +394,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                }); 
             } catch (e) {
                console.warn(e);
-               videoElement.controls = true;
+               if (videoElement) videoElement.controls = true;
             }
 
             player.addEventListener('error', (event) => {
@@ -443,7 +442,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         updateOfflineState(offlineChannels.has(currentActiveChannelSlug));
         
-        mainPlayerName.textContent = publicStreamInfo.name;
+        if (mainPlayerName) mainPlayerName.textContent = publicStreamInfo.name;
         const groupTitle = publicStreamInfo.group || "Live Stream";
         
         if (miniPlayerName) miniPlayerName.textContent = publicStreamInfo.name;
@@ -463,15 +462,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         document.title = `${publicStreamInfo.name} - Liveplay`;
 
-        if (!playerView.classList.contains('active')) return;
-        
-        if (mainPlayerStatus) {
-            mainPlayerStatus.textContent = "Loading Stream...";
-            mainPlayerStatus.style.color = "var(--theme-color)";
-        }
+        if (playerView && !playerView.classList.contains('active')) return;
 
-        videoElement.removeAttribute('src');
-        videoElement.load();
+        if (videoElement) {
+            videoElement.removeAttribute('src');
+            videoElement.load();
+        }
 
         try {
             const fetchParam = publicStreamInfo.id || publicStreamInfo.name;
@@ -498,7 +494,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (ui) ui.setEnabled(true);
 
             await player.load(secureData.manifestUri);
-            videoElement.play().catch(() => console.log("Stream Auto-play blocked"));
+            if (videoElement) videoElement.play().catch(() => console.log("Stream Auto-play blocked"));
             
             offlineChannels.delete(currentActiveChannelSlug);
             updateOfflineState(false);
@@ -526,7 +522,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const minimizePlayer = () => {
-        if (playerView.classList.contains('active')) {
+        if (playerView && playerView.classList.contains('active')) {
             playerView.classList.remove('active');
             document.body.classList.remove('no-scroll');
             
@@ -535,9 +531,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     minimizedPlayer.classList.add('active');
                 }, 300);
             }
-        };
+        }
     };
-
 
     const restorePlayer = (e) => {
         if (e.target.closest('#exit-player-btn')) return;
@@ -578,6 +573,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const renderChannels = (reset = false) => {
+        if (!channelListingsContainer) return;
+
         if (reset) {
             channelListingsContainer.innerHTML = '';
             currentlyDisplayedCount = 0;
@@ -614,10 +611,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         currentlyDisplayedCount += slice.length;
-        if (currentlyDisplayedCount >= currentFilteredStreams.length) {
-            loadMoreContainer.style.display = 'none';
-        } else {
-            loadMoreContainer.style.display = 'block';
+        if (loadMoreContainer) {
+            loadMoreContainer.style.display = currentlyDisplayedCount >= currentFilteredStreams.length ? 'none' : 'block';
         }
         protectIcons();
     };
@@ -670,10 +665,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         throw new Error("MPD ping returned error status");
                     }
 
-                    if (mpdRes && mpdRes.ok) {
-                        controller.abort();
-                    }
-
                     if (offlineChannels.has(slug)) {
                         offlineChannels.delete(slug);
                         updateChannelSensor(slug, false);
@@ -697,57 +688,66 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('resize', setResponsivePoster);
     renderMenu();
     
-    menuBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (searchContainer.classList.contains("active")) {
-            searchContainer.classList.remove("active");
-            searchInput.blur();
-        }
-        floatingMenu.classList.toggle("active");
-    });
+    if (menuBtn) {
+        menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (searchContainer && searchContainer.classList.contains("active")) {
+                searchContainer.classList.remove("active");
+                if (searchInput) searchInput.blur();
+            }
+            if (floatingMenu) floatingMenu.classList.toggle("active");
+        });
+    }
 
-    searchToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        floatingMenu.classList.remove("active");
-        
-        searchContainer.classList.toggle("active");
-        if (searchContainer.classList.contains("active")) {
-            searchInput.focus();
-        }
-    });
+    if (searchToggle) {
+        searchToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (floatingMenu) floatingMenu.classList.remove("active");
+            if (searchContainer) {
+                searchContainer.classList.toggle("active");
+                if (searchContainer.classList.contains("active") && searchInput) {
+                    searchInput.focus();
+                }
+            }
+        });
+    }
 
     document.addEventListener("click", (e) => {
-        floatingMenu.classList.remove("active");
+        if (floatingMenu) floatingMenu.classList.remove("active");
 
-        if (searchContainer.classList.contains("active") && !searchContainer.contains(e.target)) {
+        if (searchContainer && searchContainer.classList.contains("active") && !searchContainer.contains(e.target)) {
             searchContainer.classList.remove("active");
-            searchInput.blur();
+            if (searchInput) searchInput.blur();
         }
     });
 
-    searchInput.addEventListener("input", (e) => {
-        const query = e.target.value.toLowerCase();
-        currentFilteredStreams = allStreams.filter(s => {
-            const nameMatch = s.name.toLowerCase().includes(query);
-            const groupMatch = s.group ? s.group.toLowerCase().includes(query) : false;
-            return nameMatch || groupMatch;
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            currentFilteredStreams = allStreams.filter(s => {
+                const nameMatch = s.name.toLowerCase().includes(query);
+                const groupMatch = s.group ? s.group.toLowerCase().includes(query) : false;
+                return nameMatch || groupMatch;
+            });
+
+            if (channelHeader) {
+                channelHeader.textContent = query === '' ? 
+                    "All Channels" : `Search Results (${currentFilteredStreams.length})`;
+            }
+            renderChannels(true);
         });
-
-        if (channelHeader) {
-            channelHeader.textContent = query === '' ? 
-                "All Channels" : `Search Results (${currentFilteredStreams.length})`;
-        }
-        renderChannels(true);
-    });
+    }
 
     if (minimizeBtn) minimizeBtn.addEventListener('click', minimizePlayer);
     if (minimizedPlayer) minimizedPlayer.addEventListener('click', restorePlayer);
     if (exitBtn) exitBtn.addEventListener('click', closePlayer);
     if (loadMoreBtn) loadMoreBtn.addEventListener('click', () => renderChannels(false));
 
-    window.addEventListener("scroll", () => {
-        header.classList.toggle("scrolled", window.scrollY > 10);
-    });
+    if (header) {
+        window.addEventListener("scroll", () => {
+            header.classList.toggle("scrolled", window.scrollY > 10);
+        });
+    }
 
     const slidesData = await fetchSlides();
     renderSlider(slidesData);
@@ -756,7 +756,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     currentFilteredStreams = [...allStreams];
     
     if (channelSkeleton) channelSkeleton.style.display = 'none';
-    channelListingsContainer.style.display = 'flex';
+    if (channelListingsContainer) channelListingsContainer.style.display = 'flex';
     
     renderChannels(true);
 
