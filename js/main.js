@@ -692,14 +692,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         if (miniPlayerIcon) {
             miniPlayerIcon.textContent = iconName;
-            if (isOffline) miniPlayerIcon.classList.add(colorClass);
-            else miniPlayerIcon.classList.remove(colorClass);
+            
+            if (isOffline) {
+                miniPlayerIcon.style.color = '#ff3b30';
+            } else {
+                miniPlayerIcon.style.color = 'var(--theme-color)';
+            }
             
             const miniIndicator = miniPlayerIcon.closest('.live-indicator') || miniPlayerIcon.parentElement;
             if (miniIndicator) {
-                miniIndicator.style.display = 'inline-flex'; // Show badge only when channel active
-                miniIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
-                miniIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
+                miniIndicator.style.backgroundColor = 'transparent';
+                miniIndicator.style.color = 'inherit';
                 
                 for (let i = 0; i < miniIndicator.childNodes.length; i++) {
                     const node = miniIndicator.childNodes[i];
