@@ -227,6 +227,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    const resetPlayerUI = () => {
+        if (mainPlayerName) mainPlayerName.textContent = "Select a Channel";
+        if (mainPlayerStatus) {
+            mainPlayerStatus.textContent = "";
+            mainPlayerStatus.style.display = 'none';
+        }
+        if (mainPlayerIcon && mainPlayerIcon.parentElement) {
+            mainPlayerIcon.parentElement.style.display = 'none';
+        }
+        if (miniPlayerIcon && miniPlayerIcon.parentElement) {
+            miniPlayerIcon.parentElement.style.display = 'none';
+        }
+    };
+
     function updateOfflineState(isOffline) {
         const iconName = isOffline ? 'sensors_off' : 'sensors';
         const colorClass = 'status-offline';
@@ -436,8 +450,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (minimizedPlayer) minimizedPlayer.classList.remove('active');
         }
         
-        if (mainPlayerIcon && mainPlayerIcon.parentElement) {
+                if (mainPlayerIcon && mainPlayerIcon.parentElement) {
             mainPlayerIcon.parentElement.style.display = 'inline-flex';
+        }
+        if (miniPlayerIcon && miniPlayerIcon.parentElement) {
+            miniPlayerIcon.parentElement.style.display = 'inline-flex';
         }
         
         updateOfflineState(offlineChannels.has(currentActiveChannelSlug));
@@ -454,6 +471,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (mainPlayerStatus) {
+            mainPlayerStatus.style.display = 'block';
             mainPlayerStatus.textContent = "Loading Stream...";
             mainPlayerStatus.style.color = "var(--theme-color)";
         }
@@ -541,7 +559,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.body.classList.add('no-scroll');
     };
 
-    const closePlayer = async () => {
+        const closePlayer = async () => {
         if (player) await player.unload();
         
         if (playerView) playerView.classList.remove('active');
@@ -556,6 +574,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             currentActiveChannelSlug = null;
         }
+
+        resetPlayerUI();
 
         window.history.pushState({}, '', window.location.pathname);
         document.title = defaultPageTitle;
@@ -784,15 +804,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.body.classList.add('no-scroll');
         }
         
-        if (mainPlayerName) mainPlayerName.textContent = "Select a Channel";
-        if (mainPlayerStatus) mainPlayerStatus.textContent = "";
-        
-        if (mainPlayerIcon && mainPlayerIcon.parentElement) {
-            mainPlayerIcon.parentElement.style.display = 'none';
-        }
+        resetPlayerUI();
         
         if (videoElement) videoElement.poster = POSTER_DESKTOP;
     }
+
 
     const headerLogo = document.querySelector('.header-left .logo');
     if (headerLogo) {
