@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.body.classList.add('no-scroll');
             if (minimizedPlayer) minimizedPlayer.classList.remove('active');
         }
-
+        
         if (mainPlayerIcon && mainPlayerIcon.parentElement) {
             mainPlayerIcon.parentElement.style.display = 'inline-flex';
         }
@@ -783,12 +783,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             playerView.classList.add('active');
             document.body.classList.add('no-scroll');
         }
+        
         if (mainPlayerName) mainPlayerName.textContent = "Select a Channel";
         if (mainPlayerStatus) mainPlayerStatus.textContent = "";
         
-        const liveIndicator = mainPlayerIcon ? mainPlayerIcon.parentElement : null;
-        if (liveIndicator) liveIndicator.style.display = 'none';
-
+        if (mainPlayerIcon && mainPlayerIcon.parentElement) {
+            mainPlayerIcon.parentElement.style.display = 'none';
+        }
+        
         if (videoElement) videoElement.poster = POSTER_DESKTOP;
     }
 
