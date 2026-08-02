@@ -637,19 +637,73 @@ document.addEventListener('DOMContentLoaded', async () => {
         protectIcons();
     };
 
-    function updateChannelSensor(slug, isOffline) {
-        const listIcon = document.getElementById(`sensor-${slug}`);
-        if (listIcon) {
-            listIcon.textContent = isOffline ? 'sensors_off' : 'sensors';
-            if (isOffline) {
-                listIcon.classList.add('status-offline');
-            } else {
-                listIcon.classList.remove('status-offline');
+    function updateOfflineState(isOffline) {
+        if (!currentActiveChannelSlug) {
+            if (mainPlayerIcon) {
+                const liveIndicator = mainPlayerIcon.closest('.live-indicator') || mainPlayerIcon.parentElement;
+                if (liveIndicator) liveIndicator.style.display = 'none';
+            }
+            if (miniPlayerIcon) {
+                const miniIndicator = miniPlayerIcon.closest('.live-indicator') || miniPlayerIcon.parentElement;
+                if (miniIndicator) miniIndicator.style.display = 'none';
+            }
+            return;
+        }
+        
+        const iconName = isOffline ? 'sensors_off' : 'sensors';
+        const colorClass = 'status-offline';
+        const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
+        
+        if (mainPlayerIcon) {
+            mainPlayerIcon.textContent = iconName;
+            
+            const liveIndicator = mainPlayerIcon.closest('.live-indicator') || mainPlayerIcon.parentElement;
+            if (liveIndicator) {
+                liveIndicator.style.display = 'inline-flex';
+                liveIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
+                liveIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
+                
+                let textUpdated = false;
+                for (let i = 0; i < liveIndicator.childNodes.length; i++) {
+                    const node = liveIndicator.childNodes[i];
+                    if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
+                        node.nodeValue = textStatus;
+                        textUpdated = true;
+                    }
+                }
+                if (!textUpdated) {
+                    liveIndicator.appendChild(document.createTextNode(textStatus));
+                }
             }
         }
-        if (currentActiveChannelSlug === slug) {
-            updateOfflineState(isOffline);
+        
+        if (miniPlayerIcon) {
+            miniPlayerIcon.textContent = iconName;
+            if (isOffline) miniPlayerIcon.classList.add(colorClass);
+            else miniPlayerIcon.classList.remove(colorClass);
+            
+            const miniIndicator = miniPlayerIcon.closest('.live-indicator') || miniPlayerIcon.parentElement;
+            if (miniIndicator) {
+                miniIndicator.style.display = 'inline-flex'; // Show badge only when channel active
+                miniIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
+                miniIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
+                
+                for (let i = 0; i < miniIndicator.childNodes.length; i++) {
+                    const node = miniIndicator.childNodes[i];
+                    if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
+                        node.nodeValue = textStatus;
+                    }
+                }
+            }
         }
+        
+        const listIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
+        if (listIcon) {
+            listIcon.textContent = iconName;
+            if (isOffline) listIcon.classList.add(colorClass);
+            else listIcon.classList.remove(colorClass);
+        }
+        
         protectIcons();
     }
 
