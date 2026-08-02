@@ -437,6 +437,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (minimizedPlayer) minimizedPlayer.classList.remove('active');
         }
 
+        if (mainPlayerIcon && mainPlayerIcon.parentElement) {
+            mainPlayerIcon.parentElement.style.display = 'inline-flex';
+        }
+        
         updateOfflineState(offlineChannels.has(currentActiveChannelSlug));
         
         mainPlayerName.textContent = publicStreamInfo.name;
@@ -781,7 +785,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         if (mainPlayerName) mainPlayerName.textContent = "Select a Channel";
         if (mainPlayerStatus) mainPlayerStatus.textContent = "";
-        updateOfflineState(false);
+        
+        const liveIndicator = mainPlayerIcon ? mainPlayerIcon.parentElement : null;
+        if (liveIndicator) liveIndicator.style.display = 'none';
+
         if (videoElement) videoElement.poster = POSTER_DESKTOP;
     }
 
