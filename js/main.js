@@ -518,9 +518,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (playerView.classList.contains('active')) {
             playerView.classList.remove('active');
             document.body.classList.remove('no-scroll');
-            setTimeout(() => { if (minimizedPlayer) minimizedPlayer.classList.add('active'); }, 300);
-        }
+            
+            if (currentActiveChannelSlug && minimizedPlayer) {
+                setTimeout(() => {
+                    minimizedPlayer.classList.add('active');
+                }, 300);
+            }
+        };
     };
+
 
     const restorePlayer = (e) => {
         if (e.target.closest('#exit-player-btn')) return;
