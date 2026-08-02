@@ -242,15 +242,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     function updateOfflineState(isOffline) {
+        if (!currentActiveChannelSlug) {
+            if (mainPlayerIcon) {
+                const liveIndicator = mainPlayerIcon.closest('.live-indicator') || mainPlayerIcon.parentElement;
+                if (liveIndicator) liveIndicator.classList.remove('active');
+            }
+            if (miniPlayerIcon) {
+                const miniIndicator = miniPlayerIcon.closest('.live-indicator') || miniPlayerIcon.parentElement;
+                if (miniIndicator) miniIndicator.classList.remove('active');
+            }
+            return;
+        }
+        
         const iconName = isOffline ? 'sensors_off' : 'sensors';
         const colorClass = 'status-offline';
         const textStatus = isOffline ? ' OFFLINE' : ' LIVE';
-
+        
         if (mainPlayerIcon) {
             mainPlayerIcon.textContent = iconName;
-
-            const liveIndicator = mainPlayerIcon.parentElement;
-            if (liveIndicator && liveIndicator.classList.contains('live-indicator')) {
+            
+            const liveIndicator = mainPlayerIcon.closest('.live-indicator') || mainPlayerIcon.parentElement;
+            if (liveIndicator) {
+                liveIndicator.classList.add('active');
                 liveIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
                 liveIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
                 
@@ -267,14 +280,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         }
-
+        
         if (miniPlayerIcon) {
             miniPlayerIcon.textContent = iconName;
             if (isOffline) miniPlayerIcon.classList.add(colorClass);
             else miniPlayerIcon.classList.remove(colorClass);
-
-            const miniIndicator = miniPlayerIcon.parentElement;
-            if (miniIndicator && miniIndicator.classList.contains('live-indicator')) {
+            
+            const miniIndicator = miniPlayerIcon.closest('.live-indicator') || miniPlayerIcon.parentElement;
+            if (miniIndicator) {
+                miniIndicator.classList.add('active');
                 miniIndicator.style.backgroundColor = isOffline ? '#ff3b30' : 'var(--theme-color)';
                 miniIndicator.style.color = isOffline ? '#ffffff' : 'var(--background-color)';
                 
@@ -286,15 +300,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         }
-
-        if (currentActiveChannelSlug) {
-            const listIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
-            if (listIcon) {
-                listIcon.textContent = iconName;
-                if (isOffline) listIcon.classList.add(colorClass);
-                else listIcon.classList.remove(colorClass);
-            }
+        
+        const listIcon = document.getElementById(`sensor-${currentActiveChannelSlug}`);
+        if (listIcon) {
+            listIcon.textContent = iconName;
+            if (isOffline) listIcon.classList.add(colorClass);
+            else listIcon.classList.remove(colorClass);
         }
+        
         protectIcons();
     }
 
