@@ -46,7 +46,7 @@ export async function onRequest(context) {
         { id: '8a2b9c14-7d3f-4e0a-9f1b-3e5d6a8b7c00', name: 'Cinemo!', logo: '/assets/logos/cinemo_logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemo-dash-abscbnono/index.mpd', clearKey: { 'aa8aebe35ccc4541b7ce6292efcb1bfb': 'f06b6031a3604cc6708c14d83f1a1b27' }, group: 'Movies' },
         //{ id: '1f8e2a39-5c4d-4b0e-9a1c-7d2e3f8a9b11', name: 'PBO', logo: '/assets/logos/pbo_logo.svg', manifestUri: 'https://streams.comclark.com/pknsd/pbo/playlist.m3u8', group: 'Movies' },
         //{ id: '3c7a9b28-1d4e-4f0a-8b1c-5e2d6f8a9b22', name: 'Viva Cinema', logo: '/assets/logos/viva_cinema_logo.svg', manifestUri: 'https://streams.comclark.com/pknsd/viva/playlist.m3u8', group: 'Movies' },
-        { id: '7e1a2b39-4c8d-4f0e-9a1b-6c5d2e3f4a33', name: 'Studio Universal', logo: '/assets/logos/studio_universal_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_studio_universal_hd/default/index.mpd', clearKey: { 'd7f3c8215a944e068b176c9d2a5f3048': '93c0a798243d6443864d1a7ff3e42c05' }, group: 'Movies' },
+        { id: '7e1a2b39-4c8d-4f0e-9a1b-6c5d2e3f4a33', name: 'Studio Universal', logo: '/assets/logos/studio_universal_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_studio_universal_hd/default/index.mpd', clearKey: { 'f8391e9130634854b4614f02ec028ea7': '9b9640f873cf906b91dd03c02612d5ce' }, group: 'Movies' },
 
         // Sports
         { id: '2d8e9a14-6c3f-4b0e-8a1c-7e5f3a2b1c44', name: 'PBA Rush', logo: '/assets/logos/pba_rush_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_pbarush_hd1/default/index.mpd', clearKey: { '91a5e6327c844f09b2186d3a5e7c2041': '984beb3aeff3554c1a5acc04d6044e55' }, group: 'Sports' },
