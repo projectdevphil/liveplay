@@ -1142,8 +1142,8 @@ input:disabled + .switch-slider {
 .promo-banner-container {
     width: 100%;
     max-width: 900px;
-    margin: 24px auto;
-    padding: 0 16px;
+    margin: 20px auto;
+    padding: 0 20px;
     box-sizing: border-box;
 }
 
