@@ -17,7 +17,7 @@ export async function onRequest(context) {
     const slidesData =[       
         {
             title: "Sigabo",
-            description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
+            description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/sigabo.herobg-tv.JPG",
             badge: "SPG | Action • Comedy • Romance",
             link: null,
@@ -25,7 +25,7 @@ export async function onRequest(context) {
         },
         {
             title: "Someone, Someday",
-            description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
+            description: "<strong>MON-FRI | 8:45PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/someonesomeday.herobg-tv.v2.JPG",
             badge: "PG | Romance • Mystery",
             link: null,
@@ -33,7 +33,7 @@ export async function onRequest(context) {
         },
         {
             title: "A Secret In Prague",
-            description: "<strong>MON-FRI | 9:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2, and A2Z",
+            description: "<strong>MON-FRI | 9:30PM</strong><br>TV5, Kapamilya Channel and A2Z",
             image: "https://pql-static.abs-cbn.com/images/live/ASIP_LIVEHEROBG-TV_3840X2160_V1_20260726233910.jpg",
             badge: "PG | Action • Romance",
             link: null,
@@ -41,7 +41,7 @@ export async function onRequest(context) {
         },
         {
             title: "It's Showtime",
-            description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, ALLTV2, A2Z,<br>GMA7 and It's Showtime Livestream",
+            description: "<strong>MON-SAT | 12NN</strong><br>Kapamilya Channel, A2Z and<br>It's Showtime Livestream",
             image: "https://pql-static.abs-cbn.com/images/itsshowtime.herobg-tv.jpg",
             badge: "PG | Variety • Comedy",
             link: null,
@@ -49,7 +49,7 @@ export async function onRequest(context) {
         },
         {
             title: "<div style='line-height: 1;'>My Bespren Emman:<br><span style='font-size: 14.5px;'>Ang Totoong Laban</span></div>",
-            description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel, ALLTV2, and A2Z",
+            description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel and A2Z",
             image: "https://pql-static.abs-cbn.com/images/live/MBEATL_LIVEHEROBG-TV_3840X2160_V1_20260724090014.jpg",
             badge: "PG | Inspirational • Family • Drama",
             link: null,
@@ -57,7 +57,7 @@ export async function onRequest(context) {
         },        
         {
             title: "Rated Korina",
-            description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel, ALLTV2 and A2Z",
+            description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel and A2Z",
             image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
             badge: "PG | News Magazine • Lifestyle",
             link: null,
@@ -65,7 +65,7 @@ export async function onRequest(context) {
         },
         {
             title: "Kapamilya<br>Deal or No Deal",
-            description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
+            description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/kapamilyadealornodeal.herobg-tv.JPG",
             badge: "PG | Gameshow",
             link: null,
@@ -73,18 +73,18 @@ export async function onRequest(context) {
         },
         {
             title: "Everybody, Sing!",
-            description: "<strong>SAT-SUN | 8:30PM</strong><br>Kapamilya Channel, ALLTV2, TV5 and A2Z",
+            description: "<strong>SAT-SUN | 8:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/everybodysing.herobg-tv.v3.JPG",
             badge: "PG | Gameshow",
             link: null,
             overlay: "show"
         },
         {
-            title: "New K-Pop",
+            title: "Studio Universal",
             description: "",
-            image: "https://i8.amplience.net/i/naras/ATEEZ-k-pop-summer-tours-2024",
-            badge: "Watch Now • Music",
-            link: "?channel=8c2d7e14-9f3a-4b0e-8a1c-6e5f2a3b4c00",
+            image: "https://beam-images.warnermediacdn.com/BEAM_LWM_DELIVERABLES/f24a4ece-2f3d-4919-a934-700d1ef8f7a2/397ad388-776f-4ce0-8650-f8a9a6b2d833?host=wbd-images.prod-vod.h264.io&partner=beamcom&w=2000",
+            badge: "Watch Now • Movies",
+            link: "?channel=7e1a2b39-4c8d-4f0e-9a1b-6c5d2e3f4a33",
             overlay: "show"
         },
         {
