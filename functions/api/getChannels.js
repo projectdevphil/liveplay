@@ -52,12 +52,10 @@ export async function onRequest(context) {
 
         // Music
         { id: '5a3f8b19-2c4d-4e0f-8b1c-7e6d2f3a9b99', name: 'MYX', logo: '/assets/logos/myx_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-myxnola-dash-abscbnono/index.mpd', clearKey: { 'f40a52a3ac9b4702bdd5b735d910fd2f': '35e4893c6e76546085941be3010932d4' }, group: 'Music' },
-        { id: '8c2d7e14-9f3a-4b0e-8a1c-6e5f2a3b4c00', name: 'New K-Pop', logo: '/assets/logos/new_kpop_logo.png', manifestUri: 'https://newidco-newkid-1-eu.xiaomi.wurl.tv/playlist.m3u8', group: 'Music' }, 
 
         // Livestream
         { id: '3e1f8a29-4c7d-4b0e-9a1c-6d2e5f3a8b11', name: 'ASAP XP Livestream', logo: '/assets/logos/asap_xp_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/asap/manifest.mpd', clearKey: { '6379f85c61d84b5db3be564bf59f4e13': 'd9a1f47f7a58f5a9598a452081155df4' }, group: 'Livestream' },
         { id: '7d2e9a18-5c3f-4a0e-8b1c-6e3f2a4b8c22', name: "It's Showtime Livestream", logo: '/assets/logos/its_showtime_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/itsshowtime/manifest.mpd', clearKey: { '3cdb78338a104ed594175a49532c823d': '9c7810c46873053be29d26bf6f753664' }, group: 'Livestream' },
-        { id: '2f8a1c39-6d4e-4b0e-9a1c-7e3d5f2a8b33', name: 'The Healing Eucharist Livestream', logo: '/assets/logos/the_healing_eucharist_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/healingeucharist3/manifest.mpd', clearKey: { 'b84ec93eb33c48e58718e99cd4096c15': '9e3a9aee29cbd0375e02c55e0b7b5945' }, group: 'Livestream' },
         { id: '9e3f2a18-4c7d-4b0e-8a1c-6d5e2f3a1b44', name: 'TV Patrol Livestream', logo: '/assets/logos/tv_patrol_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/tvp-ph/manifest.mpd', clearKey: { 'a14583678b4d40b4a267c5845f673263': '98252f8318d84c55b10dd7a112622bd4' }, group: 'Livestream' }
     ];
 
