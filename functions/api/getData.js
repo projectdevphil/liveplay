@@ -50,9 +50,9 @@ export async function onRequest(context) {
 
         // Sports
         { id: '2d8e9a14-6c3f-4b0e-8a1c-7e5f3a2b1c44', name: 'PBA Rush', logo: '/assets/logos/pba_rush_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_pbarush_hd1/default/index.mpd', clearKey: { '91a5e6327c844f09b2186d3a5e7c2041': '984beb3aeff3554c1a5acc04d6044e55' }, group: 'Sports' },
-        { id: '9c1b2a38-5d4e-4f0a-8b1c-6e3f7a8b9c55', name: 'NBA TV Philippines', logo: '/assets/logos/nba_tv_ph_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cgnl_nba/default/index.mpd', clearKey: { '2f7c9a615d834e40b2188a6d3c7f9042': '41d2ade5ff1798859420e925d5d2080d' }, group: 'Sports' },
         { id: '3f8b1c42-7e9a-4c1d-8f2e-1a3b5c7d9e02', name: 'NCAA NXT', logo: '/assets/logos/ncaa_nxt_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_ncaa/default/index.mpd', clearKey: { 'd84f2a917c364e58b10963a7f2c8d451': 'e75d40a44350a148b32ad27081eadacb' }, group: 'Sports' },
         { id: '8c4a1e92-3f7b-4d6e-9a1c-5f2b8a7c1e33', name: 'UAAP Varsity Channel', logo: '/assets/logos/uaap_varsity_ch_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_uaap_cplay_sd/default/index.mpd', clearKey: { 'b6c9f4218d734a059e165c3d7a2f8049': '948aa5c0d0c15c70efb9257f5b75c379' }, group: 'Sports' },
+        { id: '9c1b2a38-5d4e-4f0a-8b1c-6e3f7a8b9c55', name: 'NBA TV Philippines', logo: '/assets/logos/nba_tv_ph_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cgnl_nba/default/index.mpd', clearKey: { '2f7c9a615d834e40b2188a6d3c7f9042': '41d2ade5ff1798859420e925d5d2080d' }, group: 'Sports' },
         
         // Kids
         { id: '4a7b8c29-1e3f-4d0a-9c1b-5d2e6f3a8b66', name: 'Cartoon Network', logo: '/assets/logos/cartoon_net_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cartoonnetworkhd/default/index.mpd', clearKey: { '53c8e6914d724f30a9168b5e2c7d1043': '1e17afbdfff786533796780f3f04aa67' }, group: 'Kids' },
