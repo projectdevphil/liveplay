@@ -32,10 +32,10 @@ export async function onRequest(context) {
             overlay: "show"
         },
         {
-            title: "A Secret In Prague",
+            title: "The Loyalty Game:<br>Level Up",
             description: "<strong>MON-FRI | 9:30PM</strong><br>TV5, Kapamilya Channel and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/live/ASIP_LIVEHEROBG-TV_3840X2160_V1_20260726233910.jpg",
-            badge: "PG | Action • Romance",
+            image: "https://img.iwanttfc.com/images/theloyaltygamelevelup.herobg-tv.v2.JPG",
+            badge: "PG | Suspense Thriller • Mystery • Drama",
             link: null,
             overlay: "show"
         },
@@ -46,18 +46,10 @@ export async function onRequest(context) {
             badge: "PG | Variety • Comedy",
             link: null,
             overlay: "show"
-        },
-        {
-            title: "<div style='line-height: 1;'>My Bespren Emman:<br><span style='font-size: 14.5px;'>Ang Totoong Laban</span></div>",
-            description: "<strong>MON-SAT | 2:30PM</strong><br>TV5, Kapamilya Channel and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/live/MBEATL_LIVEHEROBG-TV_3840X2160_V1_20260724090014.jpg",
-            badge: "PG | Inspirational • Family • Drama",
-            link: null,
-            overlay: "show"
-        },        
+        },      
         {
             title: "Rated Korina",
-            description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel and A2Z",
+            description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
             badge: "PG | News Magazine • Lifestyle",
             link: null,
@@ -67,14 +59,6 @@ export async function onRequest(context) {
             title: "Kapamilya<br>Deal or No Deal",
             description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/kapamilyadealornodeal.herobg-tv.JPG",
-            badge: "PG | Gameshow",
-            link: null,
-            overlay: "show"
-        },
-        {
-            title: "Everybody, Sing!",
-            description: "<strong>SAT-SUN | 8:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/everybodysing.herobg-tv.v3.JPG",
             badge: "PG | Gameshow",
             link: null,
             overlay: "show"
