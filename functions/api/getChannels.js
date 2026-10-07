@@ -54,6 +54,7 @@ export async function onRequest(context) {
 
         // Music
         { id: '5a3f8b19-2c4d-4e0f-8b1c-7e6d2f3a9b99', name: 'MYX', logo: '/assets/logos/myx_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-myxnola-dash-abscbnono/index.mpd', clearKey: { 'f40a52a3ac9b4702bdd5b735d910fd2f': '35e4893c6e76546085941be3010932d4' }, group: 'Music' },
+        { id: '3c7a9b28-1d4e-4f0a-8b1c-5e2d6f8a9b22', name: 'Vevo Pop', logo: '/assets/logos/vevo_logo.svg', manifestUri: 'https://amg00056-amg00056c6-rakuten-uk-3235.playouts.now.amagi.tv/playlist.m3u8', group: 'Music' },
 
         // Livestream
         { id: '3e1f8a29-4c7d-4b0e-9a1c-6d2e5f3a8b11', name: 'ASAP XP Livestream', logo: '/assets/logos/asap_xp_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/asap/manifest.mpd', clearKey: { '6379f85c61d84b5db3be564bf59f4e13': 'd9a1f47f7a58f5a9598a452081155df4' }, group: 'Livestream' },
