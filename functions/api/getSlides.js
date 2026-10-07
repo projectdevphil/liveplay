@@ -14,12 +14,12 @@ export async function onRequest(context) {
         }
     }
 
-    const slidesData =[       
+    const slidesData =[
         {
-            title: "Sigabo",
-            description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, TV5 and A2Z",
-            image: "https://pql-static.abs-cbn.com/images/sigabo.herobg-tv.JPG",
-            badge: "SPG | Action • Comedy • Romance",
+            title: "The Loyalty Game:<br>Level Up",
+            description: "<strong>MON-FRI | 9:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
+            image: "https://img.iwanttfc.com/images/theloyaltygamelevelup.herobg-tv.v2.JPG",
+            badge: "PG | Suspense Thriller • Mystery • Drama",
             link: null,
             overlay: "show"
         },
@@ -32,10 +32,10 @@ export async function onRequest(context) {
             overlay: "show"
         },
         {
-            title: "The Loyalty Game:<br>Level Up",
-            description: "<strong>MON-FRI | 9:30PM</strong><br>TV5, Kapamilya Channel and A2Z",
-            image: "https://img.iwanttfc.com/images/theloyaltygamelevelup.herobg-tv.v2.JPG",
-            badge: "PG | Suspense Thriller • Mystery • Drama",
+            title: "Sigabo",
+            description: "<strong>MON-FRI | 8PM</strong><br>Kapamilya Channel, TV5 and A2Z",
+            image: "https://pql-static.abs-cbn.com/images/sigabo.herobg-tv.JPG",
+            badge: "SPG | Action • Comedy • Romance",
             link: null,
             overlay: "show"
         },
