@@ -16,6 +16,14 @@ export async function onRequest(context) {
 
     const slidesData =[
         {
+            title: "Mommy Guard",
+            description: "<strong>MON-FRI | 2:30PM</strong><br>TV5, Kapamilya Channel, and A2Z",
+            image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABQloEwMJZMyD2N-KV-EuRVhL__czkzSbYjJX1PA_-6Rm6OWzTVcGXhZzKt2baMSzpu12n9wurr7n327PL-w4Gqie90zs00G5fUAa.webp",
+            badge: "PG | Comedy • Romance • Drama • Family",
+            link: null,
+            overlay: "show"
+        },
+        {
             title: "The Loyalty Game:<br>Level Up",
             description: "<strong>MON-FRI | 9:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://img.iwanttfc.com/images/theloyaltygamelevelup.herobg-tv.v2.JPG",
@@ -46,10 +54,10 @@ export async function onRequest(context) {
             badge: "PG | Variety • Comedy",
             link: null,
             overlay: "show"
-        },      
+        },
         {
             title: "Rated Korina",
-            description: "<strong>SUN | 3:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
+            description: "<strong>SUN 4PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/ratedkorina.herobg-tv.jpg",
             badge: "PG | News Magazine • Lifestyle",
             link: null,
@@ -57,7 +65,7 @@ export async function onRequest(context) {
         },
         {
             title: "Kapamilya<br>Deal or No Deal",
-            description: "<strong>SAT-SUN | 7:30PM</strong><br>Kapamilya Channel, TV5 and A2Z",
+            description: "<strong>SAT | 7:30PM<br>SUN | 8:45PM</strong><br>Kapamilya Channel, TV5 and A2Z",
             image: "https://pql-static.abs-cbn.com/images/kapamilyadealornodeal.herobg-tv.JPG",
             badge: "PG | Gameshow",
             link: null,
