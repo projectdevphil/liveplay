@@ -46,7 +46,7 @@ export async function onRequest(context) {
         { id: '8a2b9c14-7d3f-4e0a-9f1b-3e5d6a8b7c00', name: 'Cinemo!', logo: '/assets/logos/cinemo_logo.png', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemo-dash-abscbnono/index.mpd', clearKey: { 'aa8aebe35ccc4541b7ce6292efcb1bfb': 'f06b6031a3604cc6708c14d83f1a1b27' }, group: 'Movies' },
         //{ id: '1f8e2a39-5c4d-4b0e-9a1c-7d2e3f8a9b11', name: 'PBO', logo: '/assets/logos/pbo_logo.svg', manifestUri: 'https://streams.comclark.com/pknsd/pbo/playlist.m3u8', group: 'Movies' },
         //{ id: '3c7a9b28-1d4e-4f0a-8b1c-5e2d6f8a9b22', name: 'Viva Cinema', logo: '/assets/logos/viva_cinema_logo.svg', manifestUri: 'https://streams.comclark.com/pknsd/viva/playlist.m3u8', group: 'Movies' },
-        { id: '7e1a2b39-4c8d-4f0e-9a1b-6c5d2e3f4a33', name: 'Studio Universal', logo: '/assets/logos/studio_universal_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_studio_universal_hd/default/index.mpd', clearKey: { 'f8391e9130634854b4614f02ec028ea7': '9b9640f873cf906b91dd03c02612d5ce' }, group: 'Movies' },
+        { id: '7e1a2b39-4c8d-4f0e-9a1b-6c5d2e3f4a33', name: 'Studio Universal', logo: '/assets/logos/studio_universal_logo.svg', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_studio_univrsal_hd/default/index.mpd', clearKey: { 'f8391e9130634854b4614f02ec028ea7': '9b9640f873cf906b91dd03c02612d5ce' }, group: 'Movies' },
 
         // Sports
         { id: '2d8e9a14-6c3f-4b0e-8a1c-7e5f3a2b1c44', name: 'PBA Rush', logo: '/assets/logos/pba_rush_logo.png', manifestUri: 'https://ucdn.mediaquest.com.ph/bpk-tv/cg_pbarush_hd1/default/index.mpd', clearKey: { '91a5e6327c844f09b2186d3a5e7c2041': '984beb3aeff3554c1a5acc04d6044e55' }, group: 'Sports' },
@@ -64,12 +64,16 @@ export async function onRequest(context) {
 
         // Music
         { id: '5a3f8b19-2c4d-4e0f-8b1c-7e6d2f3a9b99', name: 'MYX', logo: '/assets/logos/myx_logo.svg', manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-myxnola-dash-abscbnono/index.mpd', clearKey: { 'f40a52a3ac9b4702bdd5b735d910fd2f': '35e4893c6e76546085941be3010932d4' }, group: 'Music' },
-        { id: '3c7a9b28-1d4e-4f0a-8b1c-5e2d6f8a9b22', name: 'Vevo Pop', logo: '/assets/logos/vevo_logo.svg', manifestUri: 'https://amg00056-amg00056c6-rakuten-uk-3235.playouts.now.amagi.tv/playlist.m3u8', group: 'Music' },
+        { id: '7f3a2e91-6c4d-4b0e-9a1c-3f2d5a8b7e12', name: 'Vevo Pop', logo: '/assets/logos/vevo_logo.svg', manifestUri: 'https://amg00056-amg00056c6-rakuten-uk-3235.playouts.now.amagi.tv/playlist.m3u8', group: 'Music' },
         
         // Livestream
         { id: '3e1f8a29-4c7d-4b0e-9a1c-6d2e5f3a8b11', name: 'ASAP XP Livestream', logo: '/assets/logos/asap_xp_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/asap/manifest.mpd', clearKey: { '6379f85c61d84b5db3be564bf59f4e13': 'd9a1f47f7a58f5a9598a452081155df4' }, group: 'Livestream' },
         { id: '7d2e9a18-5c3f-4a0e-8b1c-6e3f2a4b8c22', name: "It's Showtime Livestream", logo: '/assets/logos/its_showtime_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/itsshowtime/manifest.mpd', clearKey: { '3cdb78338a104ed594175a49532c823d': '9c7810c46873053be29d26bf6f753664' }, group: 'Livestream' },
-        { id: '9e3f2a18-4c7d-4b0e-8a1c-6d5e2f3a1b44', name: 'TV Patrol Livestream', logo: '/assets/logos/tv_patrol_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/tvp-ph/manifest.mpd', clearKey: { 'a14583678b4d40b4a267c5845f673263': '98252f8318d84c55b10dd7a112622bd4' }, group: 'Livestream' }
+        { id: '2c4a1e93-5f7b-4d6e-9a1c-8b2f7a3c1e55', name: 'PBB Episode Livestream', logo: '/assets/logos/pbb_collab_3_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/pinoybigbrothercollabedition30live/manifest.mpd', clearKey: { '02b0d6aa78d547af890c9e27113e81af': '890160f8ece56b8cd232889acb74e276' }, group: 'Livestream' },
+        { id: '4f8b2c15-7d9a-4e3b-8c0d-1e3f6a5b9c22', name: 'PBB Main Livestream', logo: '/assets/logos/pbb_collab_3_main_logo.png', manifestUri: 'https://absp-live.akamaized.net/dash/live/2099522/pbbcollab30allaccesslivestream/manifest.mpd', clearKey: { '5208606a1a5e4750bc7aaafa3bbad84c': '246d9c7efc6d96d8d596aa294313e17b' }, group: 'Livestream' },
+        { id: '6a1e3f89-2c4d-4b0e-9a1c-5d7e8f3a2b44', name: 'PBB Dining Area', logo: '/assets/logos/pbb_collab_3_dining_logo.png', manifestUri: 'https://absp-live.akamaized.net/dash/live/2099522/pbbcollab30allaccesslivestream-diningarea/manifest.mpd', clearKey: { 'ac87b335cfd44a8589f96a4f8534c674': '4b9066c7778e74b899c2f57d977149b1' }, group: 'Livestream' },
+        { id: '8d2f7c34-1e5f-4a0e-8b1c-6a3e9f2d5b11', name: 'PBB External Den', logo: '/assets/logos/pbb_collab_3_external_logo.png', manifestUri: 'https://absp-live.akamaized.net/dash/live/2099522/pbbcollab30allaccesslivestream-externalden/manifest.mpd', clearKey: { '01f5f16338aa4302b5fc5e3e2c50cd3d': '0dbd0f05009fa64614de990f56b3f322' }, group: 'Livestream' },
+        { id: '9e3f2a18-4c7d-4b0e-8a1c-6d5e2f3a1b44', name: 'TV Patrol Livestream', logo: '/assets/logos/tv_patrol_logo.png', manifestUri: 'https://abslive.akamaized.net/dash/live/2027618/tvp-ph/manifest.mpd', clearKey: { 'a14583678b4d40b4a267c5845f673263': '98252f8318d84c55b10dd7a112622bd4' }, group: 'Livestream' },
     ];
 
     const createSlug = (name) => name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');
@@ -82,7 +86,7 @@ export async function onRequest(context) {
 
     if (foundChannel) {
         let type = 'mpd';
-        if (foundChannel.manifestUri.includes('.m3u8')) {
+        if (foundChannel.manifestUri && foundChannel.manifestUri.includes('.m3u8')) {
             type = 'm3u8';
         }
 
