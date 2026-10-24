@@ -16,6 +16,14 @@ export async function onRequest(context) {
 
     const slidesData =[
         {
+            title: "Pinoy Big Brother<br>Collab 3.0",
+            description: "<strong>MON-FRI | 9:35PM<br>SAT | 6:15PM<br>SUN | 4:55PM</strong><br>PBB Episode Livestream<br>Also, watch our <strong>All-Access Livestream</strong><br>from the <strong>Main, Dining, and<br>External Den</strong> areas for FREE.",
+            image: "https://img.iwanttfc.com/images/master/PBBCOLLAB3_HEROBG-TV_3840X2160_V1_20261023003858.jpg",
+            badge: "PG | Reality",
+            link: null,
+            overlay: "show"
+        },
+        {
             title: "Mommy Guard",
             description: "<strong>MON-FRI | 2:30PM</strong><br>TV5, Kapamilya Channel, and A2Z",
             image: "https://occ-0-1763-64.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABQloEwMJZMyD2N-KV-EuRVhL__czkzSbYjJX1PA_-6Rm6OWzTVcGXhZzKt2baMSzpu12n9wurr7n327PL-w4Gqie90zs00G5fUAa.webp",
