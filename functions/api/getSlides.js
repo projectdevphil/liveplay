@@ -16,7 +16,7 @@ export async function onRequest(context) {
 
     const slidesData =[
         {
-            title: "Pinoy Big Brother Collab 3.0<br>All-Access Livestreams",
+            title: "Pinoy Big Brother<br>Collab 3.0<br>All-Access<br>Livestreams",
             description: "Watch <strong>All-Access Livestream</strong><br>from the <strong>Main, Dining, and<br>External Den</strong> areas for FREE.",
             image: "assets/poster/liveplay_x_pbb_poster.png",
             badge: "Watch Now | Reality",
