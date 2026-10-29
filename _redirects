@@ -1,17 +1,12 @@
-/functions/api/*           /api/:splat                    301
-
 /home/about                /about-us.html                 200
 /home/changelog            /changelog.html                200
 /home/cookies              /cookie-policy.html            200
 /home/faq                  /faq.html                      200
 /home/not-supported        /not-supported.html            200
-/home/privacy              /privacy-policy.html           200
+/home/privacy              /privacy-policy.html            200
 /home/speed                /speed-test.html               200
 /home/terms                /terms-of-service.html         200
 
 /home                      /index.html                    200
 
-/503                       /404                           302
-
-/*                         /index.html                    200
-/*                         /404.html                      404
+/503                       /503.html                      302
